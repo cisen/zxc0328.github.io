@@ -30,13 +30,11 @@
 
 
 
-  <title> Zindex's blog </title>
+  <title> 标签: NLP // Zindex's blog </title>
 </head>
 
 <body>
-  <div class="container one-column 
-   page-home 
-">
+  <div class="container one-column ">
     <div class="headband"></div>
 
     <div id="header" class="header">
@@ -90,8 +88,12 @@
             
           
 
-          <div id="posts" class="posts-expand">
+          <div id="posts" class="posts-collapse">
             
+  <div class="collection-title">
+    <h2 >NLP</h2>
+  </div>
+
   
     
 
@@ -115,7 +117,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2015-03-13
+              03-13
             
           </span>
         
@@ -125,43 +127,7 @@
     </div>
 
     
-      <div class="post-body">
 
-        
-        
-
-        
-          
-            <p>作为一个在语言学专业读书，又想做NLP的学生，我最担心的，也是最关心的一个问题自然是统计与规则之争。<br>这个问题当然不是一个老问题，近几年来似乎也有了答案————做NLP的清一色的都是计算机出身。<br>但我还是抱着一线希望。谷歌的机器翻译只用统计的方法，根据我的使用经验来看结果其实不太理想，大意能表达，可是语法全是错的。我自然是支持语言学的成果————形式化的规则是在NLP中有一席之地的。<br>
-            <div class="post-more-link text-center">
-              <a class="btn" href="/2015/03/13/统计vs规则/#more">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/NLP/">
-                #NLP
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
     
   </div>
 
@@ -310,17 +276,6 @@
   <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
 
   
-  <script type="text/javascript" id="motion.page.home">
-    $(document).ready(function () {
-      $.Velocity.RunSequence([
-        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
-        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
-        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
-      ]);
-      $('.menu-item').velocity('transition.slideDownIn', {display: null});
-    });
-  </script>
-
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
