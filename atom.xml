@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-05-12T11:01:35.000Z</updated>
+  <updated>2015-05-12T11:39:38.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,11 +19,26 @@
     <link href="http://yoursite.com/2015/05/12/css%E5%83%8F%E7%B4%A0%E4%B8%8E%E7%90%86%E6%83%B3viewport%E5%AE%BD%E5%BA%A6/"/>
     <id>http://yoursite.com/2015/05/12/css像素与理想viewport宽度/</id>
     <published>2015-05-12T11:57:37.000Z</published>
-    <updated>2015-05-12T11:01:35.000Z</updated>
-    <content type="html"><![CDATA[<p>占位符<br><a id="more"></a><br>hello</p>
+    <updated>2015-05-12T11:39:38.000Z</updated>
+    <content type="html"><![CDATA[<p>最近在开发移动端网页时遇到了两大问题，一是移动端的触摸事件的实现；二是移动端页面的宽度设置问题。今天先来说一说移动端的页面宽度问题。  </p>
+<p>首先要说的是css的像素，一个css像素，一个px，和设备的物理像素不是一回事。<br>拿苹果的iphone来说，iphone3的分辨率是320<em>480，而retina屏的iphone4是640\</em>960,  但如果在浏览器里输出视窗的宽度，两者都是320px宽。这说明Retina屏的iPhone用4个物理像素来渲染了一个css像素。iPad上的情况是相似的，新老ipad的css分辨率都是1024*768。安卓上的情况也是类似的，比如nexus 5的物理分辨率是1920*1080，而css分辨率是640*360。  关于这个可以参考一下<a href="http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html" target="_blank" rel="external">quirksmode上的博文《此像素非彼像素》</a></p>
+<p>接下来是关于viewport的问题，我在阅读了<a href="http://www.cnblogs.com/2050/p/3877280.html" target="_blank" rel="external">这篇博文</a>之后对viewport的尺寸问题清楚了不少。<br>其中我们需要加以重点关注的主要是ideal viewport size（下称理想视窗宽度）。</p>
+<pre><code>&lt;meta <span class="variable">name=</span><span class="string">"viewport"</span> <span class="variable">content=</span><span class="string">"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"</span>&gt;
+</code></pre><p>以上代码中的width=device-width可以设置视窗宽度为设备宽度，也就是理想的宽度。而上文说到的css分辨率，便是默认情况下viewport按理想宽度来显示时css的像素值。</p>
+<p>因此对于移动端的网页，一般设html和body的宽为100%即可，但是由此带来的思考便是移动端网页图片尺寸的设置问题。</p>
+<p><img src="http://muxistudio.qiniudn.com/blog-5-12.png" alt="一加手机微信页面"></p>
+<p>这个微信页面的图片的宽度是640px，虽然手机的理想视窗宽度是320px左右，但是图片的像素还是应该和物理像素相近，不然就会出现一个物理像素渲染多个图片像素的情况。<br>而640px正是大部分iphone手机的物理像素值。如果图片尺寸按最高的设备物理像素值来设置，便会使图片过大，使网页性能下降，而iPhone的640px便达到了一个平衡，让大部分设备都有一个良好的使用体验。（当然也不排除工程师偷懒，就拿市占50%的iPhone当最佳实践了）</p>
+<a id="more"></a>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>占位符<br>]]>
+    <![CDATA[<p>最近在开发移动端网页时遇到了两大问题，一是移动端的触摸事件的实现；二是移动端页面的宽度设置问题。今天先来说一说移动端的页面宽度问题。  </p>
+<p>首先要说的是css的像素，一个css像素，一个px，和设备的物理像素不是一回事。<br>拿苹果的iphone来说，iphone3的分辨率是320<em>480，而retina屏的iphone4是640\</em>960,  但如果在浏览器里输出视窗的宽度，两者都是320px宽。这说明Retina屏的iPhone用4个物理像素来渲染了一个css像素。iPad上的情况是相似的，新老ipad的css分辨率都是1024*768。安卓上的情况也是类似的，比如nexus 5的物理分辨率是1920*1080，而css分辨率是640*360。  关于这个可以参考一下<a href="http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html">quirksmode上的博文《此像素非彼像素》</a></p>
+<p>接下来是关于viewport的问题，我在阅读了<a href="http://www.cnblogs.com/2050/p/3877280.html">这篇博文</a>之后对viewport的尺寸问题清楚了不少。<br>其中我们需要加以重点关注的主要是ideal viewport size（下称理想视窗宽度）。</p>
+<pre><code>&lt;meta <span class="variable">name=</span><span class="string">"viewport"</span> <span class="variable">content=</span><span class="string">"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"</span>&gt;
+</code></pre><p>以上代码中的width=device-width可以设置视窗宽度为设备宽度，也就是理想的宽度。而上文说到的css分辨率，便是默认情况下viewport按理想宽度来显示时css的像素值。</p>
+<p>因此对于移动端的网页，一般设html和body的宽为100%即可，但是由此带来的思考便是移动端网页图片尺寸的设置问题。</p>
+<p><img src="http://muxistudio.qiniudn.com/blog-5-12.png" alt="一加手机微信页面"></p>
+<p>这个微信页面的图片的宽度是640px，虽然手机的理想视窗宽度是320px左右，但是图片的像素还是应该和物理像素相近，不然就会出现一个物理像素渲染多个图片像素的情况。<br>而640px正是大部分iphone手机的物理像素值。如果图片尺寸按最高的设备物理像素值来设置，便会使图片过大，使网页性能下降，而iPhone的640px便达到了一个平衡，让大部分设备都有一个良好的使用体验。（当然也不排除工程师偷懒，就拿市占50%的iPhone当最佳实践了）</p>]]>
     
     </summary>
     
@@ -38,7 +53,7 @@
     <link href="http://yoursite.com/2015/03/27/%E8%81%94%E5%88%9B%E4%BA%A4%E6%B5%81%E8%A1%8C/"/>
     <id>http://yoursite.com/2015/03/27/联创交流行/</id>
     <published>2015-03-27T13:29:18.000Z</published>
-    <updated>2015-03-27T13:54:21.938Z</updated>
+    <updated>2015-03-27T13:54:20.000Z</updated>
     <content type="html"><![CDATA[<p>今天托房子学姐的福，我们一行8个人去了联创交流。收获如下：<br>1.招新之道。<br>联创的招新可谓是九九八十一难。几轮面试笔试压力测试加上实习期的四轮新手任务。这也是没办法的事情，报名的人多，而且据他们说也都不怎么有基础，那就需要不断的测试来筛选有潜力的。<br>新手任务我认为是可取的一个点。在不断的自我学习中获得成长，也得到了初步的知识与技能，不失为一个启动的好办法。<br>2.待客之道。<br>联创的人给人的印象是热情坦诚，愿意分享，但不失专业。<br><a id="more"></a><br>3.团队之道。<br>如果让大家都相互熟识？如何让这个团队的气氛活跃？这个在我看来是个难题。在接下去的项目合作中大家会相互熟悉，但这样是不够的。<br>比较好的办法除了一些聚会（主动的或者被动的接触）之外，大概还有参加各种社交性的活动，比如组队去参加hackday之类的。<br>写代码不是人生的全部，在饭桌上，今夜我们不关心技术，只关心你。</p>
 ]]></content>
     <summary type="html">
@@ -57,7 +72,7 @@
     <link href="http://yoursite.com/2015/03/13/%E7%BB%9F%E8%AE%A1vs%E8%A7%84%E5%88%99/"/>
     <id>http://yoursite.com/2015/03/13/统计vs规则/</id>
     <published>2015-03-13T04:57:37.000Z</published>
-    <updated>2015-03-13T06:24:23.984Z</updated>
+    <updated>2015-03-13T06:24:22.000Z</updated>
     <content type="html"><![CDATA[<p>作为一个在语言学专业读书，又想做NLP的学生，我最担心的，也是最关心的一个问题自然是统计与规则之争。<br>这个问题当然不是一个老问题，近几年来似乎也有了答案————做NLP的清一色的都是计算机出身。<br>但我还是抱着一线希望。谷歌的机器翻译只用统计的方法，根据我的使用经验来看结果其实不太理想，大意能表达，可是语法全是错的。我自然是支持语言学的成果————形式化的规则是在NLP中有一席之地的。<br><a id="more"></a><br>最近看吴军的《数学之美》，却大受打击。吴军在这本书里认为90年代之前的按规则来做的NLP全是无用功，这点我无法反驳。不过他的论调大意就是，NLP走了很久的弯路，之前的按规则来（试图让计算机模拟人类的大脑）是完全不可取的，而统计方法（数学方法）才是正道。他认为语言的本质就是信息的交流、编码与解码。最后他说现在的NLP只需要统计学知识，我看得很无奈，但也无法反驳。<br>我对于NLP的信心，除了来自自己会接受计算机科班教育，主要来自于汉语言界的一些声音。陆俭明老师的《研究教程》里说，汉语语法的研究的目的就是要应用到中文信息处理中去。中文信息处理现在也有一些规则加统计合作的例子。</p>
 <p>做计算语言学的，就是应该精通两边的知识，这个道理毫无疑问是正确的。冯志伟老师、詹卫东老师、以及北大应用语言学系的培养方案，都向我传递出这种信号。<br>求学路上难免有迷茫之时，因为我选了一条不同寻常的路。未来肯定还会有无数的摇摆，加油罢。</p>
 ]]></content>
