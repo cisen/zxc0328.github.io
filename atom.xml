@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-03-27T13:51:01.526Z</updated>
+  <updated>2015-05-12T11:01:35.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,12 +15,31 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[css像素与理想viewport宽度]]></title>
+    <link href="http://yoursite.com/2015/05/12/css%E5%83%8F%E7%B4%A0%E4%B8%8E%E7%90%86%E6%83%B3viewport%E5%AE%BD%E5%BA%A6/"/>
+    <id>http://yoursite.com/2015/05/12/css像素与理想viewport宽度/</id>
+    <published>2015-05-12T11:57:37.000Z</published>
+    <updated>2015-05-12T11:01:35.000Z</updated>
+    <content type="html"><![CDATA[<p>占位符<br><a id="more"></a><br>hello</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>占位符<br>]]>
+    
+    </summary>
+    
+      <category term="css" scheme="http://yoursite.com/tags/css/"/>
+    
+      <category term="css" scheme="http://yoursite.com/categories/css/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[联创交流行]]></title>
     <link href="http://yoursite.com/2015/03/27/%E8%81%94%E5%88%9B%E4%BA%A4%E6%B5%81%E8%A1%8C/"/>
     <id>http://yoursite.com/2015/03/27/联创交流行/</id>
     <published>2015-03-27T13:29:18.000Z</published>
-    <updated>2015-03-27T13:51:01.526Z</updated>
-    <content type="html"><![CDATA[<p>今天托房子学姐的福，我们一行8个人去了联创交流。收获如下：<br>1.招新之道。<br>联创的招新可谓是九九八十一难。几轮面试笔试压力测试加上实习期的四轮新手任务。这也是没办法的事情，报名的人多，而且据他们说也都不怎么有基础，那就需要不断的测试来筛选有潜力的。<br>新手任务我认为是可取的一个点。在不断的自我学习中获得成长，也得到了初步的知识与技能，不失为一个启动的好办法。<br>2.待客之道。<br>联创的人给人的印象是热情坦诚，愿意分享，但不失专业。<br><a id="more"></a><br>3.团队之道。<br>如果让大家都相互熟识？如何让这个团队的气氛活跃？这个在我看来是个难题。在接下去的项目合作中大家会相互熟悉，但这样是不够的。<br>比较好的办法除了一些聚会（主动的或者被动的接触）之外，大概还有参加各种社交性的活动，比如组队去参加hackday之类的。<br>写代码不是人生的全部，在饭桌上，今夜不提技术，只关心你。</p>
+    <updated>2015-03-27T13:54:21.938Z</updated>
+    <content type="html"><![CDATA[<p>今天托房子学姐的福，我们一行8个人去了联创交流。收获如下：<br>1.招新之道。<br>联创的招新可谓是九九八十一难。几轮面试笔试压力测试加上实习期的四轮新手任务。这也是没办法的事情，报名的人多，而且据他们说也都不怎么有基础，那就需要不断的测试来筛选有潜力的。<br>新手任务我认为是可取的一个点。在不断的自我学习中获得成长，也得到了初步的知识与技能，不失为一个启动的好办法。<br>2.待客之道。<br>联创的人给人的印象是热情坦诚，愿意分享，但不失专业。<br><a id="more"></a><br>3.团队之道。<br>如果让大家都相互熟识？如何让这个团队的气氛活跃？这个在我看来是个难题。在接下去的项目合作中大家会相互熟悉，但这样是不够的。<br>比较好的办法除了一些聚会（主动的或者被动的接触）之外，大概还有参加各种社交性的活动，比如组队去参加hackday之类的。<br>写代码不是人生的全部，在饭桌上，今夜我们不关心技术，只关心你。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>今天托房子学姐的福，我们一行8个人去了联创交流。收获如下：<br>1.招新之道。<br>联创的招新可谓是九九八十一难。几轮面试笔试压力测试加上实习期的四轮新手任务。这也是没办法的事情，报名的人多，而且据他们说也都不怎么有基础，那就需要不断的测试来筛选有潜力的。<br>新手任务我认为是可取的一个点。在不断的自我学习中获得成长，也得到了初步的知识与技能，不失为一个启动的好办法。<br>2.待客之道。<br>联创的人给人的印象是热情坦诚，愿意分享，但不失专业。<br>]]>
