@@ -127,7 +127,7 @@
         delta,
         element,
         //arguments here refer to all the arguments this method
-        //receive(as an array). So we should drop th first two
+        //receive(as an array). So we should drop the first two
         //paramaters(start and deleteCount).
         insertCount = max(arguments.length - 2, 0),
         k = 0,
@@ -184,7 +184,7 @@
     for (k = 0; k < insertCount; k += 1) {
         this[start + k] = arguments[k + 2];
     }
-    //just return result,nail it! 
+    //just return the result,nail it! 
     return result;
     });
    </pre>
