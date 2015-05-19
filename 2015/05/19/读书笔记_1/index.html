@@ -145,14 +145,14 @@
     }
     //make sure that start is no bigger than len nor smaller than 0.
     start = max(min(start, len), 0);
-    //if deleteCount is not given, set it to the end. And make sure 
-    //it is is no bigger than len nor smaller than 0.
+    //if deleteCount is not given, delete all the elments after start.
+    //And make sure it is is no bigger than len nor smaller than 0.
     deleteCount = max(min(typeof deleteCount === 'number' ?
             deleteCount : len, len − start), 0);
     delta = insertCount − deleteCount;
     new_len = len + delta;
     //push this[start,start + deleteCount -1] into result, namely just 
-    //set the returned array that being deleted.
+    //set the deleted array that will be returned.
     while (k < deleteCount) {
         element = this[start + k];
         if (element !== undefined) {
@@ -160,10 +160,10 @@
         }
         k += 1;
     }
-    //shift_count is the count of elements in this[start,] after being
-    //deleted.
+    //shift_count is the count of elements in this[start,] which  
+    //are not deleted.
     shift_count = len - start - deleteCount;
-    //set the index of the elements left in this[start,].
+    //set the new index of the elements left in this[start,].
     if (delta < 0) {
         k = start + insertCount;
         while (shift_count) {
@@ -180,10 +180,10 @@
             shift_count −= 1;
         }
     }
-    //push the added items in this array.
+    //push the added items in the new index-aranged array.
     for (k = 0; k < insertCount; k += 1) {
         this[start + k] = arguments[k + 2];
-    }
+
     //just return the result,nail it! 
     return result;
     });
