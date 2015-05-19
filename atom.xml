@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-05-19T15:05:09.000Z</updated>
+  <updated>2015-05-19T15:10:42.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,10 +19,13 @@
     <link href="http://yoursite.com/2015/05/19/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0_1/"/>
     <id>http://yoursite.com/2015/05/19/读书笔记_1/</id>
     <published>2015-05-19T13:44:14.000Z</published>
-    <updated>2015-05-19T15:05:09.000Z</updated>
-    <content type="html"><![CDATA[<p>读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。<br><a id="more"></a></p>
+    <updated>2015-05-19T15:10:42.000Z</updated>
+    <content type="html"><![CDATA[<p>读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。  </p>
+<a id="more"></a>
 <pre class="prettyprint">
-
+    //array.splice() is a method that delete some items in an array, 
+    //and add new items to the place where the deleted items used 
+    //to be, finally, it returns the deleted items as an array.
     Array.method('splice', function (start, deleteCount) {
     var max = Math.max,
         min = Math.min,
@@ -62,8 +65,7 @@
         }
         k += 1;
     }
-    //shift_count is the count of elements in this[start,] which  
-    //are not deleted.
+    //shift_count is the count of remained elements in this[start,] 
     shift_count = len - start - deleteCount;
     //set the new index of the elements left in this[start,].
     if (delta < 0) {
@@ -93,7 +95,7 @@
 
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。<br>]]>
+    <![CDATA[<p>读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。  </p>]]>
     
     </summary>
     
