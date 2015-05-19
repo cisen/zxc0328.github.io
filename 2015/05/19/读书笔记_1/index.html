@@ -143,10 +143,10 @@
     if (start < 0) {
         start += len;
     }
-    //make sure that start is no bigger than len and smaller than 0.
+    //make sure that start is no bigger than len nor smaller than 0.
     start = max(min(start, len), 0);
     //if deleteCount is not given, set it to the end. And make sure 
-    //it is is no bigger than len and smaller than 0.
+    //it is is no bigger than len nor smaller than 0.
     deleteCount = max(min(typeof deleteCount === 'number' ?
             deleteCount : len, len − start), 0);
     delta = insertCount − deleteCount;
