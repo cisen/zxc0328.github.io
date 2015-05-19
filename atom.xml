@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-05-19T14:47:49.000Z</updated>
+  <updated>2015-05-19T14:49:56.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,10 +19,9 @@
     <link href="http://yoursite.com/2015/05/19/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0_1/"/>
     <id>http://yoursite.com/2015/05/19/读书笔记_1/</id>
     <published>2015-05-19T13:44:14.000Z</published>
-    <updated>2015-05-19T14:47:49.000Z</updated>
+    <updated>2015-05-19T14:49:56.000Z</updated>
     <content type="html"><![CDATA[<p>读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。<br><a id="more"></a></p>
-<p>&lt;?prettify?&gt;</p>
-<pre class="prettyprint linenums lang-javascript">
+<pre class="prettyprint">
 
     Array.method('splice', function (start, deleteCount) {
     var max = Math.max,
