@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-05-19T14:06:37.000Z</updated>
+  <updated>2015-05-19T14:11:01.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,73 +19,73 @@
     <link href="http://yoursite.com/2015/05/19/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0_1/"/>
     <id>http://yoursite.com/2015/05/19/读书笔记_1/</id>
     <published>2015-05-19T13:44:14.000Z</published>
-    <updated>2015-05-19T14:06:37.000Z</updated>
+    <updated>2015-05-19T14:11:01.000Z</updated>
     <content type="html"><![CDATA[<p>读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。<br><a id="more"></a></p>
-<pre><code><span class="type">Array</span>.<span class="keyword">method</span>('splice', function (start, deleteCount) {
-<span class="keyword">var</span> max = <span class="type">Math</span>.max,
-    min = <span class="type">Math</span>.min,
+<pre><code>Array.method(&#39;splice&#39;, function (start, deleteCount) {
+var max = Math.max,
+    min = Math.min,
     delta,
     element,
-    //arguments here refer to all the arguments this <span class="keyword">method</span>
-    //receive(<span class="keyword">as</span> an <span class="type">array</span>). <span class="type">So</span> we should drop th first two
-    //paramaters(start <span class="keyword">and</span> deleteCount).
-    insertCount = max(arguments.length - <span class="number">2</span>, <span class="number">0</span>),
-    k = <span class="number">0</span>,
+    //arguments here refer to all the arguments this method
+    //receive(as an array). So we should drop th first two
+    //paramaters(start and deleteCount).
+    insertCount = max(arguments.length - 2, 0),
+    k = 0,
     len = this.length,
     new_len,
-    <span class="literal">result</span> = [],
+    result = [],
     shift_count;
 
-//<span class="keyword">if</span> start <span class="keyword">is</span> null, start = <span class="number">0</span>.
-start = start || <span class="number">0</span>;
-//<span class="keyword">if</span> start <span class="keyword">is</span> a negtive number, add start <span class="keyword">and</span> len to get the 
-//index <span class="keyword">of</span> the start element.
-<span class="keyword">if</span> (start &lt; <span class="number">0</span>) {
+//if start is null, start = 0.
+start = start || 0;
+//if start is a negtive number, add start and len to get the 
+//index of the start element.
+if (start &lt; 0) {
     start += len;
 }
-//make sure that start <span class="keyword">is</span> no bigger than len <span class="keyword">and</span> smaller than <span class="number">0</span>.
-start = max(min(start, len), <span class="number">0</span>);
-//<span class="keyword">if</span> deleteCount <span class="keyword">is</span> <span class="keyword">not</span> given, <span class="type">set</span> it to the <span class="keyword">end</span>. <span class="type">And</span> make sure 
-//it <span class="keyword">is</span> <span class="keyword">is</span> no bigger than len <span class="keyword">and</span> smaller than <span class="number">0</span>.
-deleteCount = max(min(typeof deleteCount === 'number' ?
-        deleteCount : len, len − start), <span class="number">0</span>);
+//make sure that start is no bigger than len and smaller than 0.
+start = max(min(start, len), 0);
+//if deleteCount is not given, set it to the end. And make sure 
+//it is is no bigger than len and smaller than 0.
+deleteCount = max(min(typeof deleteCount === &#39;number&#39; ?
+        deleteCount : len, len − start), 0);
 delta = insertCount − deleteCount;
 new_len = len + delta;
-//push this[start,start + deleteCount -<span class="number">1</span>] into <span class="literal">result</span>, namely just 
-//<span class="type">set</span> the returned <span class="type">array</span> that being deleted.
-<span class="keyword">while</span> (k &lt; deleteCount) {
+//push this[start,start + deleteCount -1] into result, namely just 
+//set the returned array that being deleted.
+while (k &lt; deleteCount) {
     element = this[start + k];
-    <span class="keyword">if</span> (element !== undefined) {
-        <span class="literal">result</span>[k] = element;
+    if (element !== undefined) {
+        result[k] = element;
     }
-    k += <span class="number">1</span>;
+    k += 1;
 }
-//shift_count <span class="keyword">is</span> the count <span class="keyword">of</span> elements <span class="keyword">in</span> this[start,] after being
+//shift_count is the count of elements in this[start,] after being
 //deleted.
 shift_count = len - start - deleteCount;
-//<span class="type">set</span> the index <span class="keyword">of</span> the elements left <span class="keyword">in</span> this[start,].
-<span class="keyword">if</span> (delta &lt; <span class="number">0</span>) {
+//set the index of the elements left in this[start,].
+if (delta &lt; 0) {
     k = start + insertCount;
-    <span class="keyword">while</span> (shift_count) {
+    while (shift_count) {
         this[k] = this[k − delta];
-        k += <span class="number">1</span>;
-        shift_count −= <span class="number">1</span>;
+        k += 1;
+        shift_count −= 1;
     }
     this.length = new_len;
-} <span class="keyword">else</span> <span class="keyword">if</span> (delta &gt; <span class="number">0</span>) {
-    k = <span class="number">1</span>;
-    <span class="keyword">while</span> (shift_count) {
+} else if (delta &gt; 0) {
+    k = 1;
+    while (shift_count) {
         this[new_len − k] = this[len − k];
-        k += <span class="number">1</span>;
-        shift_count −= <span class="number">1</span>;
+        k += 1;
+        shift_count −= 1;
     }
 }
-//push the added items <span class="keyword">in</span> this <span class="type">array</span>.
-<span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; insertCount; k += <span class="number">1</span>) {
-    this[start + k] = arguments[k + <span class="number">2</span>];
+//push the added items in this array.
+for (k = 0; k &lt; insertCount; k += 1) {
+    this[start + k] = arguments[k + 2];
 }
-//just <span class="keyword">return</span> <span class="literal">result</span>,nail it! 
-<span class="keyword">return</span> <span class="literal">result</span>;
+//just return result,nail it! 
+return result;
 });
 </code></pre>]]></content>
     <summary type="html">
@@ -107,7 +107,7 @@ shift_count = len - start - deleteCount;
     <updated>2015-05-12T13:35:24.000Z</updated>
     <content type="html"><![CDATA[<p>最近在开发移动端网页时遇到了两大问题，一是移动端的触摸事件的实现；二是移动端页面的宽度设置问题。今天先来说一说移动端的页面宽度问题。  </p>
 <p>首先要说的是css的像素，一个css像素，一个px，和设备的物理像素不是一回事。<br>拿苹果的iphone来说，iphone3的分辨率是320*480，而retina屏的iphone4是640*960,  但如果在浏览器里输出视窗的宽度，两者都是320px宽。这说明Retina屏的iPhone用4个物理像素来渲染了一个css像素。iPad上的情况是相似的，新老ipad的css分辨率都是1024*768。安卓上的情况也是类似的，比如nexus 5的物理分辨率是1920*1080，而css分辨率是640*360。  关于这个可以参考一下<a href="http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html" target="_blank" rel="external">quirksmode上的博文《此像素非彼像素》</a><br><a id="more"></a><br>接下来是关于viewport的问题，我在阅读了<a href="http://www.cnblogs.com/2050/p/3877280.html" target="_blank" rel="external">这篇博文</a>之后对viewport的尺寸问题清楚了不少。<br>其中我们需要加以重点关注的主要是ideal viewport size（下称理想视窗宽度）。</p>
-<pre><code>&lt;meta <span class="variable">name=</span><span class="string">"viewport"</span> <span class="variable">content=</span><span class="string">"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"</span>&gt;
+<pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0&quot;&gt;
 </code></pre><p>以上代码中的width=device-width可以设置视窗宽度为设备宽度，也就是理想的宽度。而上文说到的css分辨率，便是默认情况下viewport按理想宽度来显示时css的像素值。</p>
 <p>因此对于移动端的网页，一般设html和body的宽为100%即可，但是由此带来的思考便是移动端网页图片尺寸的设置问题。</p>
 <p><img src="http://muxistudio.qiniudn.com/blog-5-12.png" alt="一加手机微信页面"></p>
