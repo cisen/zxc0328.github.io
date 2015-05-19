@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-05-12T11:42:14.000Z</updated>
+  <updated>2015-05-19T14:06:37.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,11 +15,96 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[读书笔记(一)]]></title>
+    <link href="http://yoursite.com/2015/05/19/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0_1/"/>
+    <id>http://yoursite.com/2015/05/19/读书笔记_1/</id>
+    <published>2015-05-19T13:44:14.000Z</published>
+    <updated>2015-05-19T14:06:37.000Z</updated>
+    <content type="html"><![CDATA[<p>读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。<br><a id="more"></a></p>
+<pre><code><span class="type">Array</span>.<span class="keyword">method</span>('splice', function (start, deleteCount) {
+<span class="keyword">var</span> max = <span class="type">Math</span>.max,
+    min = <span class="type">Math</span>.min,
+    delta,
+    element,
+    //arguments here refer to all the arguments this <span class="keyword">method</span>
+    //receive(<span class="keyword">as</span> an <span class="type">array</span>). <span class="type">So</span> we should drop th first two
+    //paramaters(start <span class="keyword">and</span> deleteCount).
+    insertCount = max(arguments.length - <span class="number">2</span>, <span class="number">0</span>),
+    k = <span class="number">0</span>,
+    len = this.length,
+    new_len,
+    <span class="literal">result</span> = [],
+    shift_count;
+
+//<span class="keyword">if</span> start <span class="keyword">is</span> null, start = <span class="number">0</span>.
+start = start || <span class="number">0</span>;
+//<span class="keyword">if</span> start <span class="keyword">is</span> a negtive number, add start <span class="keyword">and</span> len to get the 
+//index <span class="keyword">of</span> the start element.
+<span class="keyword">if</span> (start &lt; <span class="number">0</span>) {
+    start += len;
+}
+//make sure that start <span class="keyword">is</span> no bigger than len <span class="keyword">and</span> smaller than <span class="number">0</span>.
+start = max(min(start, len), <span class="number">0</span>);
+//<span class="keyword">if</span> deleteCount <span class="keyword">is</span> <span class="keyword">not</span> given, <span class="type">set</span> it to the <span class="keyword">end</span>. <span class="type">And</span> make sure 
+//it <span class="keyword">is</span> <span class="keyword">is</span> no bigger than len <span class="keyword">and</span> smaller than <span class="number">0</span>.
+deleteCount = max(min(typeof deleteCount === 'number' ?
+        deleteCount : len, len − start), <span class="number">0</span>);
+delta = insertCount − deleteCount;
+new_len = len + delta;
+//push this[start,start + deleteCount -<span class="number">1</span>] into <span class="literal">result</span>, namely just 
+//<span class="type">set</span> the returned <span class="type">array</span> that being deleted.
+<span class="keyword">while</span> (k &lt; deleteCount) {
+    element = this[start + k];
+    <span class="keyword">if</span> (element !== undefined) {
+        <span class="literal">result</span>[k] = element;
+    }
+    k += <span class="number">1</span>;
+}
+//shift_count <span class="keyword">is</span> the count <span class="keyword">of</span> elements <span class="keyword">in</span> this[start,] after being
+//deleted.
+shift_count = len - start - deleteCount;
+//<span class="type">set</span> the index <span class="keyword">of</span> the elements left <span class="keyword">in</span> this[start,].
+<span class="keyword">if</span> (delta &lt; <span class="number">0</span>) {
+    k = start + insertCount;
+    <span class="keyword">while</span> (shift_count) {
+        this[k] = this[k − delta];
+        k += <span class="number">1</span>;
+        shift_count −= <span class="number">1</span>;
+    }
+    this.length = new_len;
+} <span class="keyword">else</span> <span class="keyword">if</span> (delta &gt; <span class="number">0</span>) {
+    k = <span class="number">1</span>;
+    <span class="keyword">while</span> (shift_count) {
+        this[new_len − k] = this[len − k];
+        k += <span class="number">1</span>;
+        shift_count −= <span class="number">1</span>;
+    }
+}
+//push the added items <span class="keyword">in</span> this <span class="type">array</span>.
+<span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; insertCount; k += <span class="number">1</span>) {
+    this[start + k] = arguments[k + <span class="number">2</span>];
+}
+//just <span class="keyword">return</span> <span class="literal">result</span>,nail it! 
+<span class="keyword">return</span> <span class="literal">result</span>;
+});
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<p>读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。<br>]]>
+    
+    </summary>
+    
+      <category term="Javascript 读书笔记" scheme="http://yoursite.com/tags/Javascript-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="Javascript 读书笔记" scheme="http://yoursite.com/categories/Javascript-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[css像素与理想viewport宽度]]></title>
     <link href="http://yoursite.com/2015/05/12/css%E5%83%8F%E7%B4%A0%E4%B8%8E%E7%90%86%E6%83%B3viewport%E5%AE%BD%E5%BA%A6/"/>
     <id>http://yoursite.com/2015/05/12/css像素与理想viewport宽度/</id>
     <published>2015-05-12T11:57:37.000Z</published>
-    <updated>2015-05-12T11:42:14.000Z</updated>
+    <updated>2015-05-12T13:35:24.000Z</updated>
     <content type="html"><![CDATA[<p>最近在开发移动端网页时遇到了两大问题，一是移动端的触摸事件的实现；二是移动端页面的宽度设置问题。今天先来说一说移动端的页面宽度问题。  </p>
 <p>首先要说的是css的像素，一个css像素，一个px，和设备的物理像素不是一回事。<br>拿苹果的iphone来说，iphone3的分辨率是320*480，而retina屏的iphone4是640*960,  但如果在浏览器里输出视窗的宽度，两者都是320px宽。这说明Retina屏的iPhone用4个物理像素来渲染了一个css像素。iPad上的情况是相似的，新老ipad的css分辨率都是1024*768。安卓上的情况也是类似的，比如nexus 5的物理分辨率是1920*1080，而css分辨率是640*360。  关于这个可以参考一下<a href="http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html" target="_blank" rel="external">quirksmode上的博文《此像素非彼像素》</a><br><a id="more"></a><br>接下来是关于viewport的问题，我在阅读了<a href="http://www.cnblogs.com/2050/p/3877280.html" target="_blank" rel="external">这篇博文</a>之后对viewport的尺寸问题清楚了不少。<br>其中我们需要加以重点关注的主要是ideal viewport size（下称理想视窗宽度）。</p>
 <pre><code>&lt;meta <span class="variable">name=</span><span class="string">"viewport"</span> <span class="variable">content=</span><span class="string">"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"</span>&gt;
@@ -27,6 +112,7 @@
 <p>因此对于移动端的网页，一般设html和body的宽为100%即可，但是由此带来的思考便是移动端网页图片尺寸的设置问题。</p>
 <p><img src="http://muxistudio.qiniudn.com/blog-5-12.png" alt="一加手机微信页面"></p>
 <p>这个微信页面的图片的宽度是640px，虽然手机的理想视窗宽度是320px左右，但是图片的像素还是应该和物理像素相近，不然就会出现一个物理像素渲染多个图片像素的情况。<br>而640px正是大部分iphone手机的物理像素值。如果图片尺寸按最高的设备物理像素值来设置，便会使图片过大，使网页性能下降，而iPhone的640px便达到了一个平衡，让大部分设备都有一个良好的使用体验。（当然也不排除工程师偷懒，就拿市占50%的iPhone当最佳实践了）</p>
+<p>找到同样关于这个主题的<a href="http://colachan.com/post/3435" target="_blank" rel="external">一篇不错的博文</a>我自愧不如···</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>最近在开发移动端网页时遇到了两大问题，一是移动端的触摸事件的实现；二是移动端页面的宽度设置问题。今天先来说一说移动端的页面宽度问题。  </p>
