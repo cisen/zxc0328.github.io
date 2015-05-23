@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-05-23T14:21:39.000Z</updated>
+  <updated>2015-05-23T14:32:44.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,15 +15,18 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[居中一切(centering all the directions)]]></title>
+    <title><![CDATA[居中一切(centering all the directions)by KYLE SIMPSON]]></title>
     <link href="http://yoursite.com/2015/05/21/centering-all-the-directions/"/>
     <id>http://yoursite.com/2015/05/21/centering-all-the-directions/</id>
     <published>2015-05-21T14:53:26.000Z</published>
-    <updated>2015-05-23T14:21:39.000Z</updated>
-    <content type="html"><![CDATA[<p>自从文明的曙光降临以来，人类一直在斗争,对抗一切不可能之事，来达到人类进化的下一个阶段；去在这个伟大的星球上，以及环绕我们的宇宙中圈出自己的地盘；勇敢的进军任何地点…噢，原谅我这么夸张。</p>
+    <updated>2015-05-23T14:32:44.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://muxistudio.qiniudn.com/ccs_center_660_380px.jpg" alt="css centering"></p>
+<p>自从文明的曙光降临以来，人类一直在斗争,对抗一切不可能之事，来达到人类进化的下一个阶段；去在这个伟大的星球上，以及环绕我们的宇宙中圈出自己的地盘；勇敢的进军任何地点…噢，原谅我这么夸张。</p>
+<a id="more"></a>
+<p><img src="http://muxistudio.qiniudn.com/e594bf4bef370534e5b4470b8fd2c4d5.png" alt="twitter"></p>
 <p>我想说，“如果你曾与用css居中内容(尤其是垂直居中)苦战，请举手。”其实说“如果你从没有挣扎过…请举手。”可能更快些。CSS是一种强大到让人震惊的工具，但是还是有一些事情，比如垂直居中，甚至在今天仍处于“太TM难了”的状态。我将研究居中的多种方法，不过我认为我们仍将需要更好的东西。</p>
-<h3 id="\">\<center\></center\></h3><p>首先，如果你还在使用<code>\<center\></center\></code>标签来居中，那么1999年喊你回家吃饭。正经地说，你把你的“现代web开发者”会员卡交出来吧。直到你改掉你如此丑陋的代码为止。</p>
-<p><em>译者注：谷歌首页的logo就使用了\<center\>标签😰</center\></em></p>
+<h3 id="&lt;center&gt;"><code>&lt;center&gt;</code></h3><p>首先，如果你还在使用<code>&lt;center&gt;</code>标签来居中，那么1999年喊你回家吃饭。正经地说，你把你的“现代web开发者”会员卡交出来吧。直到你改掉你如此丑陋的代码为止。</p>
+<p><em>译者注：谷歌首页的logo就使用了<code>&lt;center&gt;</code>标签😰</em></p>
 <h3 id="text-align:center">text-align:center</h3><p>每当说到居中文本的时候，你显然无法放弃<code>text-align:center</code>。它的功能正如它的字面意义。它将父容器中的行内文本水平居中。</p>
 <p>例：</p>
 <pre><code>&lt;style&gt;
@@ -110,8 +113,9 @@ background-color:gray; color:white; }
 <p>你怎么看？告诉我们吧！</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<p>自从文明的曙光降临以来，人类一直在斗争,对抗一切不可能之事，来达到人类进化的下一个阶段；去在这个伟大的星球上，以及环绕我们的宇宙中圈出自己的地盘；勇敢的进军任何地点…噢，原谅我这么夸张。</p>
-<p>我想说，“如果你曾与用css居中内容(尤其是垂直居中)苦战，请举手。”其]]>
+    <![CDATA[<p><img src="http://muxistudio.qiniudn.com/ccs_center_660_380px.jpg" alt="css centering"></p>
+<p>自从文明的曙光降临以来，人类一直在斗争,对抗一切不可能之事，来达到人类进化的下一个阶段；去在这个伟大的星球上，以及环绕我们的宇宙中圈出自己的地盘；勇敢的进军任何地点…噢，原谅我这么夸张。</p>]]>
+    
     </summary>
     
       <category term="html5 翻译" scheme="http://yoursite.com/tags/html5-%E7%BF%BB%E8%AF%91/"/>
