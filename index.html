@@ -108,6 +108,186 @@
           
           
             
+              <a class="post-title-link" href="/2015/05/23/Web-Animation-Using-Javascript-part-one/">
+                Web Animation Using Javascript part one
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2015-05-23
+            
+          </span>
+        
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            <h2 id="第二章：Velocity-js动画(1)">第二章：Velocity.js动画(1)</h2><p>在这一章，你将学到由Velocity.js提供的特性，指令，和选项。如果你熟悉基于jQuery的动画，那么你已经知道如何使用Velocity.js了；它的功能几乎和jQuery的$.animate()函数一模一样。</p>
+<p>不过抛开你现有的知识，本章中对特性的井井有条的分类将会向你介绍动画引擎行为的细微差别。掌握这些细微差别将会帮助你从新手成为专业人士。即使你已经对jQuery动画和Velocity.js相当熟悉了，也给自己一个机会，快速浏览本章。你必定会发现一些你没想到能这么做的事情。</p>
+<h3 id="JavaScript动画库类型">JavaScript动画库类型</h3><p>JavaScript动画库有很多类型。有些在浏览器中重现物理接触效果。有些使WebGL和Canvas动画更容易维护。有些专注于SVG动画。有些则改善了UI动画————最后这种类型正是本书的重点。</p>
+<p>两种广受欢迎的UI动画库是GSAP和Velocity。你将在本书中使用Velocity，因为它在MIT许可下是免费的，外加它拥有极其强大的功能以供编写整洁且富有表现力的动画代码。它被很多知名站点使用，包括Tumblr，Gap，还有Scribd。</p>
+<p>噢，而且它是由本书的作者创造的！</p>
+<h3 id="安装jQuery和Velocity">安装jQuery和Velocity</h3><p>你可以在jQuery.com下载jQuery，从VelosityJS.org下载Velosity。在你的页面上使用它们————和任何JavaScript库一样————只要把指向对应库文件的<code>&lt;script&gt; &lt;/script&gt;</code>标签放在你页面的<code>&lt;/body&gt;</code>标签之前。如果你想链接到预部署的库文件（与使用你电脑的本地拷贝相反），你的代码看起来可能是这样：</p>
+<pre><code>&lt;html&gt;
+      &lt;head&gt;My Page&lt;/head&gt;
+   &lt;body&gt;
+         My content.
+         &lt;script src=”//code.jquery.com/jquery-2.1.1.min.js”&gt;
+       &lt;/script&gt;
+       &lt;script src=”//cdn.jsdelivr.net/velocity/1.1.0/
+       velocity.min.js”&gt;
+       &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>这就对了！现在你已经准备好了。</p>
+<h2 id="使用Velocity:基础">使用Velocity:基础</h2><p>为了熟悉Velocity，我们将从基本的组件开始：参数，属性，值，和链式调用。因为jQuery几乎无所不在，看看Velocity和jQuery的关系也是有必要的。</p>
+<h3 id="Velocity和jQuery">Velocity和jQuery</h3><p>Velocity可以独立于jQuery运行，但是二者可以一起使用。一般我们推荐这么做来获得jQuery的链式调用能力：当你已经使用jQuery预选择了一个元素，你可以调用.velocity()来拓展它从而使它拥有动画效果：</p>
+<pre><code>// Assign a variable to a jQuery element object
+var $div = $(“div”);
+// Animate the element using Velocity
+$div.velocity({ opacity: 0 });
+This syntax is identical to jQuery’s own animate function:
+$div.animate({ opacity: 0 });
+</code></pre><p>本书所有的例子都使用Velocity和jQuery的结合，因此可以使用这种语法。</p>
+<h3 id="参数">参数</h3><p>Velocity接收多个参数。第一个参数是一个映射了最终想要达到的CSS属性值的对象。属性和接收的值的类型直接和CSS中使用的对应（如果你不熟悉基础的CSS属性，在读这段代码之前找一本介绍性的HTML和CSS书）</p>
+<pre><code> // Animate an element to a width of “500px” and to an opacity of 1.
+ $element.velocity({ width: “500px”, opacity: 1 });
+</code></pre><p> <em>Tip</em><br> 在JavaScript中，如果你正在提供一个包含字母（不只有整数）的属性值，把属性值放在引号中。</p>
+<p>你可以传递一个规定了动画选项的对象作为第二个参数。</p>
+<pre><code>$element.velocity({ width: “500px”, opacity: 1 }, { duration: 400, 
+easing: “swing” });
+</code></pre><p>这里也有一个简写的参数语法：你可以使用逗号分隔语法，而不是传递一个包含选项的对象作为第二个参数。这要求以任何逗号分隔的顺序呢列出动画时长的数值（接收一个整数），缓动模式（一个字符串），以及回调函数（一个函数）。（你一会将会学到这些选项的作用）</p>
+<pre><code> // 1000ms时长的动画 (使用默认缓动模式swing)
+  $element.velocity({ top: 50 }, 1000);
+  //1000ms时长的动画，并且使用缓动模式“ease-in-out”
+  $element.velocity({ top: 50 }, 1000, “ease-in-out”);
+ //使用缓动模式“ease-out”，使用默认时长值400ms)
+ $element.velocity({ top: 50 }, “ease-out”);
+ // 1000ms时长的动画,并且在动画完成时触发一个回调函数        
+ $element.velocity({ top: 50 }, 1000, function() 
+ { alert(“Complete.”) });
+</code></pre><p>当你只需要规定基本选项(时长，缓动模式，回调函数)的时候，这个简写语法是一种传递动画选项的快捷方法。如果你在这三个选项之外传递一个动画选项，你必须把所有选项调回对象语法。</p>
+<pre><code>$element.velocity({ top: 50 }, 1000, “ease-in-out”);
+</code></pre><p>到这种语法</p>
+<pre><code>// Re-specify the animation options used above, but include a delay 
+value of 500ms
+$element.velocity({ top: 50 }, { duration: 1000, easing: “ease-in-
+out”, delay: 500 });
+</code></pre><p>你不能这么做：</p>
+<pre><code>// Incorrect: Divides animation options between the comma-separated 
+syntax and the object syntax
+$element.velocity({ top: 50 }, 1000, { easing: “ease-in-out”, 
+delay: 500 });
+</code></pre><h3 id="属性">属性</h3><p>基于CSS的属性动画和基于JavaScript的有两处不同。</p>
+<p>首先，不像CSS那样，Velocity对于每个CSS属性只接收单个数值。所以，你可以传入：</p>
+<pre><code>$element.velocity({ padding: 10 });
+</code></pre><p>或者：</p>
+<pre><code>$element.velocity({ paddingLeft: 10, paddingRight: 10 });
+</code></pre><p>但是你不能传递:</p>
+<pre><code>// Incorrect: The CSS property is being passed more than one numeric 
+value.
+$element.velocity({ padding: “10 10 10 10” });
+</code></pre><p>如果你想要把四个padding值(top, right, bottom, and left)加入动画，将它们列为分离的属性。</p>
+<pre><code>// Correct
+$element.velocity({
+  paddingTop: 10,
+  paddingRight: 10,
+  paddingBottom: 10,
+  paddingLeft: 10
+});
+</code></pre><p>其他可以接收多个数值的CSS属性包括marin，transform， text-shadow，还有box-shadow。</p>
+<p>为了动画将组合属性分离到它们的子属性给了你对缓动值的进一步的控制。在CSS中，举个例子，当对父padding属性下的多个子属性进行动画时，你只可以规定一种属性范围的缓动类型。在JavaScript中，你可以为每个子属性规定独立的缓动值——这个特性的优势会在之后这章关于CSS transform属性的讨论中变得明确。</p>
+<p>列出我们的独立子属性也可以使你的动画代码更易阅读和维护。</p>
+<p>基于CSS的属性动画和基于JavaScript的属性动画的第二处不同是JavaScript属性没有词之间的横杠，所有第一个词之后的词必须大写。例如，padding-left变成了paddingLeft，而background-color变成了backgroundColor。还有一点，JavaScript属性名不应该加引号：</p>
+<pre><code>// Correct
+$element.velocity({ paddingLeft: 10 });
+// Incorrect: Uses a dash and doesn’t capitalize
+$element.velocity({ padding-left: 10 });
+// Incorrect: Uses quotes around the JavaScript-formatted property 
+name 
+$element.velocity({ “paddingLeft”: 10 });
+</code></pre><h3 id="值">值</h3><p>Velocity支持px,em,rem,%,deg,vw和vh单位。如果你没有为数值提供一个单位，一个基于CSS属性类型的合适的单位会被自动添加。对于大多数属性，px是默认单位，不过一个需要旋转角度的属性，比如rotateZ,会被自动添加deg单位：</p>
+<pre><code>$element.velocity({
+  top: 50, // Defaults to the px unit type
+  left: “50%”, // We manually specify the % unit type
+  rotateZ: 25 // Defaults to the deg unit type
+});
+</code></pre><p>为你所有的属性值显式声明单位类型，通过使px单位和它的替代选择之间的对比更加明显来增加代码在快速浏览时的清晰程度。</p>
+<p>另一个Velocity相对于CSS的优势是它支持可以被选择性添加在属性值之前的四种数值操作符：+，—，*，和/。它们和JavaScript中的数学操作符一一对应。你可以把这些数值操作符与一个等号组合来进行相应的数学运算。请参考例子的行内代码注释：</p>
+<pre><code>$element.velocity({
+  top: “50px”, // No operator. Animate toward 50 as expected.
+  left: “-50”, // Negative operator. Animate toward -50 as expected.
+  width: “+=5rem”, // Convert the current width value into its 
+  rem equivalent and add 5 more units.
+  height: “-10rem”, // Convert the current height value into its 
+  rem equivalent and subtract 10 units.
+  paddingLeft: “*=2” // Double the current paddingLeft value.
+  paddingRight: “/=2” // Divide the current paddingLeft value into 
+  two.
+});
+</code></pre><p>Velocity的简写特性，像数值操作符，把动画逻辑保留在动画引擎中。这不仅仅因排除手动数值计算而使代码更简洁，也通过告诉Velocity更多你计划如何使元素发生动画来提升了性能。Velocity处理的逻辑越多，它优化你的代码来达到更高的帧数的能力就越强。</p>
+<h3 id="链式调用">链式调用</h3><p>当多个Velocity调用被连续链接在一个元素（或一系列元素）上的时候，它们会自动形成队列。这说明每个动画在前一个动画完成时开始：</p>
+<pre><code>$element
+  // Animate the width and height properties
+  .velocity({ width: “100px”, height: “100px” })
+  // When width and height are done animating, animate the top
+   property
+  .velocity({ top: “50px” });
+</code></pre>
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/翻译-Javascript/">
+                #翻译,Javascript
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/05/21/centering-all-the-directions/">
                 居中一切(centering all the directions)by KYLE SIMPSON
               </a>
@@ -497,11 +677,11 @@
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">5</span>
+            <span class="site-state-item-count">6</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
