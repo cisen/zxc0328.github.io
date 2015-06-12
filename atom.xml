@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-06-10T13:31:36.000Z</updated>
+  <updated>2015-06-12T11:52:53.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yoursite.com/2015/05/23/Web-Animation-Using-Javascript-part-one/"/>
     <id>http://yoursite.com/2015/05/23/Web-Animation-Using-Javascript-part-one/</id>
     <published>2015-05-23T14:47:00.000Z</published>
-    <updated>2015-06-10T13:31:36.000Z</updated>
+    <updated>2015-06-12T11:52:53.000Z</updated>
     <content type="html"><![CDATA[<h2 id="第二章：Velocity-js动画">第二章：Velocity.js动画</h2><p>在这一章，你将学到由Velocity.js提供的特性，指令，和选项。如果你熟悉基于jQuery的动画，那么你已经知道如何使用Velocity.js了；它的功能几乎和jQuery的$.animate()函数一模一样。</p>
 <p>不过抛开你现有的知识，本章中对特性的井井有条的分类将会向你介绍动画引擎行为的细微差别。掌握这些细微差别将会帮助你从新手成为专业人士。即使你已经对jQuery动画和Velocity.js相当熟悉了，也给自己一个机会，快速浏览本章。<strong>你必定会发现一些你没意识到的可行之事。</strong><br><a id="more"></a></p>
 <h3 id="JavaScript动画库类型">JavaScript动画库类型</h3><p>JavaScript动画库有很多类型。有些在浏览器中重现物理接触效果。有些使WebGL和Canvas动画更容易维护。有些专注于SVG动画。有些改善了UI动画————最后这种类型正是本书的重点。</p>
@@ -195,26 +195,26 @@ $element.velocity({ opacity: 0 }, { loop: true });
   // ... 所以你可以对元素施加一个新动画，
   // 你可以施加它来使元素变回不可见。
   .velocity({ opacity: 0 });
-</code></pre><h3 id="延时">延时</h3><p>以毫秒指定延时选项来在动画开始之前插入一个暂停。延时选项的目标是把动画的计时逻辑完整保留在Velocity中-与在一个Velocity动画开始时依赖使用jQuery的$.delay()函数来相反：</p>
-<pre><code>// Wait 100ms before animating opacity toward 0
+</code></pre><h3 id="延时">延时</h3><p>以毫秒指定延时选项,来在动画开始之前插入一个暂停。延时选项的目标是把动画的计时逻辑完整保留在Velocity中-与在一个Velocity动画开始时依赖使用jQuery的$.delay()函数来改变相反：</p>
+<pre><code>//在进行动画使透明度变为0之前等待100ms
 $element.velocity({ opacity: 0 }, { delay: 100 });
-</code></pre><p>你可以和loop选项一起设定delay选项来创建一个循环交替间的暂停：</p>
-<pre><code>// Loop four times, waiting 100ms between each loop
+</code></pre><p>你可以把loop选项和delay选项一起设定来创建一个循环交替间的暂停：</p>
+<pre><code>// 循环四次，在每次循环前等待100ms
 $element.velocity({ height: “+=50px” }, { loop: 4, delay: 
 100 });
-</code></pre><h3 id="显示与可见度">显示与可见度</h3><p>Velocity的显示与可见度选项与它们的CSS同仁直接对应，并且接收同样的值，包括：“none”，“inline”，“inline-block”，“block”，“flex”，等等。另外，Velocity允许“auto”值，这指定<code>display</code>属性为元素的默认值。（作为参考，a和span标签默认为“inline”，而div和大部分其他元素默认为“block“）。Velocity的可见度选项，就像它的CSS同仁一样，接收”hidden“，”visible“，和”collapse“值。</p>
-<p>在Velocity中，当<code>display</code>选项被设为”none“(或可见度被设为”hidden“)，一旦动画完成，元素的CSS属性即被相应地设置。这有效地使元素在动画完成时被隐藏，并且与将元素的透明度变为0的动画联合使用时很有用（这里的意图是将一个元素淡出至页面外）：</p>
-<pre><code>// Fade an element to opacity:0 then remove it from the page’s flow
+</code></pre><h3 id="显示与可见度">显示与可见度</h3><p>Velocity的显示与可见度选项与它们的CSS同仁直接对应，并且接收同样的值，包括：“none”，“inline”，“inline-block”，“block”，“flex”，等等。另外，Velocity允许“auto”值，这指定<code>display</code>属性为元素的默认值。（作为参考，a和span标签默认为“inline”，而div和大部分其他元素默认为“block“）。Velocity的可见度选项，像它的CSS同仁一样，接收”hidden“，”visible“，和”collapse“值。</p>
+<p>在Velocity中，当<code>display</code>选项被设为”none“(或可见度被设为”hidden“)，一旦动画完成，元素的CSS属性即被相应地设置。这有效地使元素在动画完成时被隐藏，并且在与将元素的透明度变为0的动画联合使用时很有用（这里的意图是将一个元素淡出至页面外）：</p>
+<pre><code>// 使一个元素的透明度渐变为0，然后把它移出页面文档流
 $element.velocity({ opacity: 0 }, { display: “none” });
 </code></pre><p><em>注意</em></p>
 <p>上面的代码有效地替换了jQuery中的等效代码：</p>
 <pre><code>$element
         .animate({ opacity:0 })
         .hide();
-</code></pre><p><em>快速回顾</em></p>
-<p>占位</p>
+</code></pre><p><em>快速回顾：可见度与显示</em></p>
+<p>以供参考，CSS<code>display</code>属性指定了一个元素如何影响它周围的元素以及被它包含的元素的定位。对比之下，CSS<code>visibility</code>属性仅仅影响一个元素是否能被看见。如果一个元素被设为”visibility:hidden”,它将继续在页面中占据空间，但是这个空间将简单地表现为一个空间隔-这个元素的每一部分都是不可见的。作为替代，如果一个元素被设为“display:none”，这个元素将完全从页面文档流中被移除，并且所有在其中或环绕它的元素将填补被移除元素的空间，好像这个元素从未存在过。</p>
 <p>注意，你可以设置元素的visibility为”hidden“来简单地把元素同时标记为不可见和无法交互，而不是把这个元素移出页面文档流。当你想隐藏一个继续在页面上占位的元素时这很有用：</p>
-<pre><code>// Fade an element to opacity:0 then make it non-interactive
+<pre><code>// 将一个元素淡入到opacity:0，然后让它变得无法交互
 $element.velocity({ opacity: 0 }, { visibility: “hidden” });
 </code></pre><p>现在，让我们考虑相反方向的动画（显示元素而不是隐藏元素）：当<code>diaplay</code>或<code>visibility</code>被设为”none“或”hidden“之外的值，这个值会在动画开始前被设置，因此元素在即将到来的动画过程中是可见的。换句话说，你正在取消之前元素被移出视图时发生的隐藏过程。</p>
 <p>以下，<code>display</code>在元素开始淡入之前被设为”block“：</p>
@@ -226,16 +226,17 @@ $element.velocity({ opacity: 0 }, { visibility: “hidden” });
 </code></pre><p><em>提示</em></p>
 <p>查看Velocity动画选项的完整概述，请查阅Velocity.org的文档。</p>
 <p><em>包含动画逻辑</em></p>
-<p>占位</p>
-<h2 id="使用Velocity：附加特性">使用Velocity：附加特性</h2><p>附加的Velocity.js特性中值得注意的包括：回退命令，滚动，颜色，和变形（平移，旋转，和缩放）。</p>
+<p>加上Velocity的<code>delay</code>选项，Velocity对CSS<code>display</code>和<code>visibility</code>设定的包含允许动画逻辑被完全保留在Velocity中。在生产环境代码中，每当一个元素被淡入或淡出视图时，几乎总伴随着<code>display</code>和<code>visibility</code>上的改变。借助像这样的Velocity简写帮助你保持你的代码干净且易于维护，因为这样对外部jQuery函数的依赖更少，并且避免了重复使用通常会使动画逻辑臃肿的辅助函数。</p>
+<p>注意Velocity包括了以上演示的切换透明度动画的简写方式。它们的功能和jQuery的<code>fadeIn</code>及<code>fadeOut</code>函数一模一样。你仅需传递相应地传递命令给Velocity作为第一个参数，并且，如果想要的话，你可以传入一个选项对象，像往常一样。</p>
+<pre><code>$element.velocity(“fadeIn”, { duration: 1000 });
+$element.velocity(“fadeOut”, { duration: 1000 });
+</code></pre><h2 id="使用Velocity：附加特性">使用Velocity：附加特性</h2><p>附加的Velocity.js特性中值得注意的包括：回退命令，滚动，颜色，和变形（平移，旋转，和缩放）。</p>
 <h3 id="回退命令">回退命令</h3><p>传递“reverse”作为Velocity的第一个参数，来使元素发生动画返回至上一个Velocity调用前的值。<code>reverse</code>命令和一个标准的Velocity命令表现一样；它可以带有参数并且会和其他链式Velocity调用一起被加入队列。</p>
 <p>回退默认设置了元素的上一个Velocity的调用中使用的选项（时长，缓动，等等）。然而，你可以传递一个新选项对象来覆写这些选项：</p>
-<pre><code>// Animate back to the original values using the prior Velocity 
-call’s options
+<pre><code>// 使用上一个Velocity调用的选项来施加动画返回初始值
 $element.velocity(“reverse”);
 </code></pre><p>或</p>
-<pre><code>// Do the same as above, but replace the prior call’s duration with 
-a value of 2000ms
+<pre><code>// 做和上面一样的事，不过把上一个Velocity调用的时长值替换为2000ms
 $element.velocity(“reverse”, { duration: 2000 });
 </code></pre><p><em>注意</em></p>
 <p>前一个调用的<code>begin</code>和<code>complete</code>选项被<code>reverse</code>命令忽视了；<code>reverse</code>从不重复调用回调函数。</p>
@@ -244,28 +245,26 @@ $element.velocity(“reverse”, { duration: 2000 });
   .velocity(“scroll”, { duration: 1000, easing: “spring” })
   .velocity({ opacity: 1 });
 </code></pre><p>这使用1000ms的时长和“spring”缓动将浏览器滚动到元素的顶部。然后，一旦元素被滚动进入视窗，它会完全淡入。</p>
-<p>为了向一个在有滚动条的父元素内的元素滚动，你可以使用<code>container</code>选项，它接收一个jQuery对象或者一个原始的元素。注意CSS<code>position</code>属性必须被设为<code>relative</code>,<code>absolute</code>,或者<code>fixed</code>中的一个-<code>static</code>不会起作用。</p>
-<pre><code>// Scroll $element into view of $(“#container”)
+<p>为了向一个父元素有滚动条的元素滚动，你可以使用<code>container</code>选项，它接收一个jQuery对象或者一个原始的元素。注意CSS<code>position</code>属性必须被设为<code>relative</code>,<code>absolute</code>,或者<code>fixed</code>中的一个-<code>static</code>不会起作用。</p>
+<pre><code>// 滚动元素进入$(“#container”)元素的视图中
 $element.velocity(“scroll”, { container: $(“#container”) });
 </code></pre><p>在两种情况中-不管滚动是相对于浏览器窗口还是相对于一个父元素-滚动命令总是被调用在<em>正被滚动进入视窗</em>的元素上。</p>
 <p>默认情况下，滚动发生在y轴。传入<code>axis：x</code>选项来水平滚动来取代垂直滚动：</p>
-<pre><code>// Scroll the browser to the *left* edge of the targeted div.
+<pre><code>// 滚动浏览器到目标div的左边缘
 $element.velocity(“scroll”, { axis: “x” });
 </code></pre><p>最后，滚动命令还独特地接收一个以px设定的<code>offset</code>选项，它偏移了目标滚动位置：</p>
-<pre><code>// Scroll to a position 50px *above* the element’s top edge.
+<pre><code>// 滚动到距离元素上边缘上方50px的位置
 $element.velocity(“scroll”, { duration: 1000, offset: “-50px” });
-// Scroll to a position 250px *beyond* the element’s top edge.
+// 滚动到距离元素上边缘下方250px的位置
 $element.velocity(“scroll”, { duration: 1000, offset: “250px” });
 </code></pre><h3 id="颜色">颜色</h3><p>Velocity支持这些CSS属性：<code>color</code>,<code>backgroundColor</code>, <code>borderColor</code>,和<code>outlineColor</code>的颜色动画。在Velocity中，颜色属性只接收16进制，举个例子，#000000（黑色）或#e2e2e2（浅灰）。为了达到颗粒度更小的颜色控制，你可以对颜色属性的单个红，绿，和蓝分量进行动画，也包括alpha通道分量。红，绿和蓝的数值范围在0到255之间，alpha通道（等同于透明度）的范围在0到1之间。</p>
 <p>参考以下例子中的行内注释：</p>
 <pre><code>$element.velocity({
-  // Animate backgroundColor to the hex value for black
+  // 施加动画使背景颜色变到以十六进制表示的黑色
   backgroundColor: “#000000”,
-  // Simultaneously animate the alpha (opacity) of the background
-   to 50% 
+  // 同步地施加动画使背景的alpha分量（透明度）变到50%
   backgroundColorAlpha: 0.5,
-  // Also animate the red component of the element’s text color to 
-  half its total value
+  // 也对元素的文本颜色的red分量施加动画使其变为总量的一半
   colorRed: 125
 });
 </code></pre><h3 id="变形">变形</h3><p>CSS变形属性对在2D和3D空间的元素施加平移，缩放，和旋转操作。它包括很多子组件，其中Velocity支持以下几种：</p>
@@ -275,33 +274,30 @@ $element.velocity(“scroll”, { duration: 1000, offset: “250px” });
   translateZ: “200px”,
   rotateZ: “45deg”
 });
-</code></pre><h2 id="使用Velocity：不使用jQuery（中级）">使用Velocity：不使用jQuery（中级）</h2><p>如果你是一个宁愿不借助jQuery的帮助来使用JavaScript工作的中级开发者，你将会高兴地得知Velocity也可以在jQuery不在页面上出现的时候工作。相应地，目标元素被直接传递入动画调用作为第一个参数，而不是把一个动画调用链接到一个jQuery元素对象上-就像本章之前的示例：</p>
+</code></pre><h2 id="使用Velocity：不使用jQuery（中级）">使用Velocity：不使用jQuery（中级）</h2><p>如果你是一个宁愿不借助jQuery的帮助来使用JavaScript工作的中级开发者，你将会高兴地得知Velocity也可以在jQuery不出现在页面上的时候工作。相应地，目标元素被直接传递入动画调用作为第一个参数，而不是把一个动画调用链接到一个jQuery元素对象上-就像本章之前的示例：</p>
 <pre><code>Velocity(element, { opacity: 0.5 }, 1000); // Velocity
 </code></pre><p>就算Velocity脱离jQuery被使用，它也保持和jQuery的$.animate()一样的语法；区别在于所有的参数都被向右移动来腾出位置以便在首位传入目标元素。另外，全局Velocity对象而不是具体的jQuery元素对象被用于调用动画。</p>
 <p>当你脱离jQuery使用Velocity时，你不再对jQuery对象施加动画，而是原生文档对象模型（DOM）元素。原生DOM元素可以通过以下函数获取：</p>
 <p>+<code>document.getElementByID()</code>：用ID属性获取一个元素<br>+<code>document.getElementsByTagName()</code>获取带有特定标签名的所有元素<br>+<code>document.getElementsByClassName()</code>获取带有特定CSS类的所有元素<br>+<code>document.querySelectorAll()</code>这个函数和jQuery的选择引擎的作用一模一样</p>
-<p>让我们进一步探索<code>document.querySelectorAll()</code>，因为它可能将会成为你在不借助jQuery帮助时选择元素的利器。（这是一个性能强大的且被众浏览器广泛支持的函数。）使用jQuery的元素选择器语法，你可以简单地传递给<code>querySelectorAll</code>一个CSS选择器（和你在样式表中用来选择目标元素的一样），并且它将以一个数组的形式返回所有符合的元素：</p>
-<pre><code>document.querySelectorAll(“body”); // Get the body element
-document.querySelectorAll(“.squares”); // Get all elements with the 
-“square” class
-document.querySelectorAll(“div”); // Get all divs
-document.querySelectorAll(“#main”); // Get the element with an id 
-of “main”
-document.querySelectorAll(“#main div”); // Get all divs within 
-“main”
+<p>让我们进一步探索<code>document.querySelectorAll()</code>，因为它可能将成为你在不借助jQuery帮助时选择元素的利器。（这是一个性能强大的且被众浏览器广泛支持的函数。）使用jQuery的元素选择器语法，你可以简单地传递给<code>querySelectorAll</code>一个CSS选择器（和你在样式表中用来选择目标元素的选择器一样），并且它将以一个数组的形式返回所有符合的元素：</p>
+<pre><code>document.querySelectorAll(“body”); // 获取body元素
+document.querySelectorAll(“.squares”); // 获取所有带“square”类的元素     
+document.querySelectorAll(“div”); // 获取所有div
+document.querySelectorAll(“#main”); //  获取所有id为“main”的元素 
+document.querySelectorAll(“#main div”); // 获取所有id为“main”的元素中的
+div
 </code></pre><p>如果你把这些查找之一的结果赋值给一个变量，随后你可以重复使用这个变量来对目标元素施加动画：</p>
-<pre><code>// Get all div elements
+<pre><code>// 获取所有元素
 var divs = document.querySelectorAll(“div”);
-// Animate all the divs
+// 对所有div施加动画
 Velocity(divs, { opacity: 0 }, 1000);
 </code></pre><p>因为你不再拓展jQuery元素对象，你可能在想如何把元素一个个链接起来，像这样：</p>
-<pre><code>// These chain onto one another
+<pre><code>// 它们彼此链接
 $element
    .velocity({ opacity: 0.5 }, 1000)
    .velocity({ opacity: 1 }, 1000);
 </code></pre><p>为了不借助jQuery来再现这个模式，简单地把一个函数接着另一个函数调用：</p>
-<pre><code>// Animations on the same element automatically chain onto one
- another.
+<pre><code>// 对同样地元素施加的动画彼此自动链接起来
 Velocity(element, { opacity: 0 }, 1000);
 Velocity(element, { opacity: 1 }, 1000);
 </code></pre><h3 id="结语">结语</h3><p>现在你已经有了对使用JavaScript进行web动画的好处的认识，加上对Velocity基础的一些掌握，你已经准备好去探索专业动画设计之下的迷人理论基础。</p>
