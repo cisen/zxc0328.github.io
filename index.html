@@ -182,7 +182,7 @@ color:blue&quot;&gt;
     我是二号div
     &lt;/div&gt;
 &lt;/div&gt;
-</code></pre><div style="display:inline-block;line-height:100px;background-color:blue;font-size:150px"><br>        <div style="display:inline-block;background-color:red;font-size:15px">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><br>        <div style="display:inline-block;background-color:white;font-size:15px">我是二号div</div><br>        X<br></div>
+</code></pre><div style="display:inline-block;line-height:100px;background-color:blue;font-size:150px"><div style="display:inline-block;background-color:red;font-size:15px">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white;font-size:15px">我是二号div</div>X</div>
 
 <p>这里我将父级div设为inline-block并且把line-height设为100px，因此其子元素的基线就和父元素的基线对齐了。我特意放了一个特大号的字，X的底部便是baseline了。</p>
 <p>了解到这一点之后，我们便清楚了，父元素是块级元素的情况下，vertical-align只和同级元素有关。vertical-align:middle便是同级元素的中线相互对齐。</p>

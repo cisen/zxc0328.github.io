@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-07-24T15:49:45.000Z</updated>
+  <updated>2015-07-24T15:51:49.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yoursite.com/2015/07/23/vertical-align-middle/"/>
     <id>http://yoursite.com/2015/07/23/vertical-align-middle/</id>
     <published>2015-07-23T14:35:05.000Z</published>
-    <updated>2015-07-24T15:49:45.000Z</updated>
+    <updated>2015-07-24T15:51:49.000Z</updated>
     <content type="html"><![CDATA[<p>如何快速并且健壮地实现高度不一定的实体的居中呢？  </p>
 <p>vertical-align显然是一种办法。这个元素从语义上来看就是用来实现垂直对齐的。要理解vertical-align，首先我们得了解几个概念，inline boxes, line box, 以及baseline。  </p>
 <p>inline boxes是行内元素构成的行内box，而line box则是由一行内所有的inline boxes构成的box，比如：</p>
@@ -66,7 +66,7 @@ color:blue&quot;&gt;
     我是二号div
     &lt;/div&gt;
 &lt;/div&gt;
-</code></pre><div style="display:inline-block;line-height:100px;background-color:blue;font-size:150px"><br>        <div style="display:inline-block;background-color:red;font-size:15px">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><br>        <div style="display:inline-block;background-color:white;font-size:15px">我是二号div</div><br>        X<br></div>
+</code></pre><div style="display:inline-block;line-height:100px;background-color:blue;font-size:150px"><div style="display:inline-block;background-color:red;font-size:15px">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white;font-size:15px">我是二号div</div>X</div>
 
 <p>这里我将父级div设为inline-block并且把line-height设为100px，因此其子元素的基线就和父元素的基线对齐了。我特意放了一个特大号的字，X的底部便是baseline了。</p>
 <p>了解到这一点之后，我们便清楚了，父元素是块级元素的情况下，vertical-align只和同级元素有关。vertical-align:middle便是同级元素的中线相互对齐。</p>
