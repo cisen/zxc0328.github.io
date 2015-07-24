@@ -148,60 +148,11 @@
 <p>而关于baseline，则是文字在排版时顶部与底部中间的基线，如果是行内文本，具体位置随字体不同而不同，一般都在中线以下的位置。具体的需要参考西文字体学（Typography）(Jobs在大学旁听的课程之一，你值得拥有)  </p>
 <p>而line—height其实就是两条基线之间的距离。  </p>
 <p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/blog_7_24_1.png" alt="baseline"></p>
-<!-- more!-->
-<p>对于inline-block级元素来说，基线的定义是这样的：</p>
-<pre><code>The baseline of an &#39;inline-block&#39; is the baseline of its last line
-box in the normal flow, unless it has either no in-flow line boxes
-or if its &#39;overflow&#39; property has a computed value other than
-&#39;visible&#39;, in which case the baseline is the bottom margin edge.
-（CSS2.1 W3C）
-</code></pre><p> 一般是正常文档流中的最后一个line box的基线。</p>
-<p>我们面对的场景是这样的，一个高度固定的div，中间有数个高度不固定的div需要被垂直居中。让我们来看看vertical-align:middle的定义：</p>
-<pre><code>Align the vertical midpoint of the box with the baseline of the
-parent box plus half the x-height of the parent.（CSS2.1 W3C）
-</code></pre><p> （元素）的垂直中点与父元素的基线加上x轴高度的一半对齐。</p>
-<p> 听起来有点奇怪，什么是x-height呢，x-height其实就是上图中小写字母x占据的高度，西文字体中小写字母x占据了mean line和baseline直接的这段空间，也就是所谓的字面所在。</p>
-<p> x这个字母恰好是镜面对称的，所以我们可以清楚的看到，vertical-align:middle就是将元素的中点对准x字母的中线，所以就形成了垂直居中的效果。</p>
-<p> 好，现在我们来看实际的情况，我们有一个高度固定的div，然后内部有两个inline-block级的div，需要水平居中，这两个div的高度随机。</p>
-<p> 代码：</p>
-<pre><code>&lt;div style=&quot;height:300px;&quot;&gt;
-    &lt;div style=&quot;display:inline-block&quot;&gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊啊啊啊啊啊啊&lt;/div&gt;
-    &lt;div style=&quot;display:inline-block&quot;&gt;我是二号div&lt;&lt;/div&gt;
-&lt;/div&gt;
-</code></pre><div style="height:100px;background-color:blue"><br>        <div style="display:inline-block;background-color:red">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><br>        <div style="display:inline-block;background-color:white">我是二号div</div><br></div>
-
-<p>这是默认情况，两个div的vertical-align被设置为baseline,可以看出两个div的baseline在一条线上。第一个div的baseline是最后一个line box的baseline。</p>
-<p>那么父级元素div，一个块级元素，是否存在baseline呢？答案是否定的，在inline-block元素处于块极元素内部的情况下，vertical-align更多与同级inline-block元素的相互对齐有关，而和父级元素无关。</p>
-<p>可以实验一下，我们把父级div设为inline-block，看看会发生什么事情。</p>
-<pre><code>&lt;div style=&quot;display:inline-block;line-height:100px;background-
-color:blue&quot;&gt;
-    &lt;div style=&quot;display:inline-block;background-color:red&quot;&gt;
-    我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊啊啊啊啊啊啊
-    &lt;/div&gt;
-    &lt;div style=&quot;display:inline-block;background-color:white&quot;&gt;
-    我是二号div
-    &lt;/div&gt;
-&lt;/div&gt;
-</code></pre><div style="display:inline-block;line-height:100px;background-color:blue;font-size:150px"><div style="display:inline-block;background-color:red;font-size:15px">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white;font-size:15px">我是二号div</div>X</div>
-
-<p>这里我将父级div设为inline-block并且把line-height设为100px，因此其子元素的基线就和父元素的基线对齐了。我特意放了一个特大号的字，X的底部便是baseline了。</p>
-<p>了解到这一点之后，我们便清楚了，父元素是块级元素的情况下，vertical-align只和同级元素有关。vertical-align:middle便是同级元素的中线相互对齐。</p>
-<p>我们只需要一个空的div，它只起占位的作用，高度是100%，宽度是0，于是，其他高度小于父元素的子元素便会与这个占位元素的中线对齐，也就达到了垂直对齐。</p>
-<pre><code>&lt;div style=&quot;height:100px;background-color:blue;font-size:0&quot;&gt;
-    &lt;div style=&quot;height:100%;width:0;display:inline-block;vertical-
-    align:middle&quot;&gt;&lt;/div&gt;
-    &lt;div style=&quot;display:inline-block;background-color:red;font-size:
-    15px;vertical-align:middle&quot;&gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊
-    啊啊啊啊啊啊&lt;/div&gt;
-    &lt;div style=&quot;display:inline-block;background-color:white;font-
-    size:15px;vertical-align:middle&quot;&gt;我是二号div&lt;/div&gt;
-   &lt;/div&gt;
-</code></pre><div style="height:100px;background-color:blue;font-size:0"><br>        <div style="height:100%;width:0;display:inline-block;vertical-align:middle"></div><br>        <div style="display:inline-block;background-color:red;font-size:15px;vertical-align:middle">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><br>        <div style="display:inline-block;background-color:white;font-size:15px;vertical-align:middle">我是二号div</div>
-
-<p></p></div><p></p>
-<p>垂直居中的效果就达成了！</p>
-<p>ok，用:before伪元素来实现也是一个很不错的做法，相比空div要更简洁一些。</p>
-
+            <div class="post-more-link text-center">
+              <a class="btn" href="/2015/07/23/vertical-align-middle/#more">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
         
       </div>

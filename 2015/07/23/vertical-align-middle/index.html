@@ -130,7 +130,7 @@
 <p>而关于baseline，则是文字在排版时顶部与底部中间的基线，如果是行内文本，具体位置随字体不同而不同，一般都在中线以下的位置。具体的需要参考西文字体学（Typography）(Jobs在大学旁听的课程之一，你值得拥有)  </p>
 <p>而line—height其实就是两条基线之间的距离。  </p>
 <p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/blog_7_24_1.png" alt="baseline"></p>
-<!-- more!-->
+<a id="more"></a>
 <p>对于inline-block级元素来说，基线的定义是这样的：</p>
 <pre><code>The baseline of an &#39;inline-block&#39; is the baseline of its last line
 box in the normal flow, unless it has either no in-flow line boxes
@@ -150,7 +150,7 @@ parent box plus half the x-height of the parent.（CSS2.1 W3C）
     &lt;div style=&quot;display:inline-block&quot;&gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊啊啊啊啊啊啊&lt;/div&gt;
     &lt;div style=&quot;display:inline-block&quot;&gt;我是二号div&lt;&lt;/div&gt;
 &lt;/div&gt;
-</code></pre><div style="height:100px;background-color:blue"><br>        <div style="display:inline-block;background-color:red">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><br>        <div style="display:inline-block;background-color:white">我是二号div</div><br></div>
+</code></pre><div style="height:100px;background-color:blue"><div style="display:inline-block;background-color:red">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white">我是二号div</div></div>
 
 <p>这是默认情况，两个div的vertical-align被设置为baseline,可以看出两个div的baseline在一条线上。第一个div的baseline是最后一个line box的baseline。</p>
 <p>那么父级元素div，一个块级元素，是否存在baseline呢？答案是否定的，在inline-block元素处于块极元素内部的情况下，vertical-align更多与同级inline-block元素的相互对齐有关，而和父级元素无关。</p>
@@ -178,9 +178,8 @@ color:blue&quot;&gt;
     &lt;div style=&quot;display:inline-block;background-color:white;font-
     size:15px;vertical-align:middle&quot;&gt;我是二号div&lt;/div&gt;
    &lt;/div&gt;
-</code></pre><div style="height:100px;background-color:blue;font-size:0"><br>        <div style="height:100%;width:0;display:inline-block;vertical-align:middle"></div><br>        <div style="display:inline-block;background-color:red;font-size:15px;vertical-align:middle">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><br>        <div style="display:inline-block;background-color:white;font-size:15px;vertical-align:middle">我是二号div</div>
+</code></pre><div style="height:100px;background-color:blue;font-size:0"><div style="height:100%;width:0;display:inline-block;vertical-align:middle"></div><div style="display:inline-block;background-color:red;font-size:15px;vertical-align:middle">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white;font-size:15px;vertical-align:middle">我是二号div</div></div>
 
-<p></p></div><p></p>
 <p>垂直居中的效果就达成了！</p>
 <p>ok，用:before伪元素来实现也是一个很不错的做法，相比空div要更简洁一些。</p>
 
