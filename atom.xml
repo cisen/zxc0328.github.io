@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-07-25T12:11:43.000Z</updated>
+  <updated>2015-07-25T12:12:55.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,9 +19,9 @@
     <link href="http://yoursite.com/2015/07/25/ie-fix/"/>
     <id>http://yoursite.com/2015/07/25/ie-fix/</id>
     <published>2015-07-25T03:40:10.000Z</published>
-    <updated>2015-07-25T12:11:43.000Z</updated>
+    <updated>2015-07-25T12:12:55.000Z</updated>
     <content type="html"><![CDATA[<p>最近因为在实习，所以做的东西要测试，做了IE8的兼容，对IE8的常见CSS兼容问题有了一点认识，在这里总结一下。</p>
-<h3 id="Html5标签问题">Html5标签问题</h3><p>IE8不支持Html5的语义化新标签，\<header>,\<nav>,\<footer>之类。对此Google出了一个html5shiv.js，来实现这些标签。</footer></nav></header></p>
+<h3 id="Html5标签问题">Html5标签问题</h3><p>IE8不支持Html5的语义化新标签，<code>&lt;header&gt;,&lt;nav&gt;,&lt;footer&gt;</code>之类。对此Google出了一个html5shiv.js，来实现这些标签。</p>
 <p> 这个html5shiv.js的原理就是使用document.createElement()这个dom方法来动态创建一个html元素对象。html5shiv.js中处理了IE在这个方法上的一些问题（某些元素动态加入的属性不管用），还提供了api，以及基础的CSS，使得元素在默认的display属性为block。</p>
 <a id="more"></a>
 <h3 id="RGBA支持问题">RGBA支持问题</h3><p>IE8不支持rgba这种颜色的表示方式，但我们如果在背景色使用rgba的话，还是有替代方案的：</p>
@@ -89,7 +89,7 @@ filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#19fff
 <h3 id="To_Be_Contiued···">To Be Contiued···</h3>]]></content>
     <summary type="html">
     <![CDATA[<p>最近因为在实习，所以做的东西要测试，做了IE8的兼容，对IE8的常见CSS兼容问题有了一点认识，在这里总结一下。</p>
-<h3 id="Html5标签问题">Html5标签问题</h3><p>IE8不支持Html5的语义化新标签，\<header>,\<nav>,\<footer>之类。对此Google出了一个html5shiv.js，来实现这些标签。</p>
+<h3 id="Html5标签问题">Html5标签问题</h3><p>IE8不支持Html5的语义化新标签，<code>&lt;header&gt;,&lt;nav&gt;,&lt;footer&gt;</code>之类。对此Google出了一个html5shiv.js，来实现这些标签。</p>
 <p> 这个html5shiv.js的原理就是使用document.createElement()这个dom方法来动态创建一个html元素对象。html5shiv.js中处理了IE在这个方法上的一些问题（某些元素动态加入的属性不管用），还提供了api，以及基础的CSS，使得元素在默认的display属性为block。</p>]]>
     
     </summary>

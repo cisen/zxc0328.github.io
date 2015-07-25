@@ -137,7 +137,7 @@
         
           
             <p>最近因为在实习，所以做的东西要测试，做了IE8的兼容，对IE8的常见CSS兼容问题有了一点认识，在这里总结一下。</p>
-<h3 id="Html5标签问题">Html5标签问题</h3><p>IE8不支持Html5的语义化新标签，\<header>,\<nav>,\<footer>之类。对此Google出了一个html5shiv.js，来实现这些标签。</p>
+<h3 id="Html5标签问题">Html5标签问题</h3><p>IE8不支持Html5的语义化新标签，<code>&lt;header&gt;,&lt;nav&gt;,&lt;footer&gt;</code>之类。对此Google出了一个html5shiv.js，来实现这些标签。</p>
 <p> 这个html5shiv.js的原理就是使用document.createElement()这个dom方法来动态创建一个html元素对象。html5shiv.js中处理了IE在这个方法上的一些问题（某些元素动态加入的属性不管用），还提供了api，以及基础的CSS，使得元素在默认的display属性为block。</p>
             <div class="post-more-link text-center">
               <a class="btn" href="/2015/07/25/ie-fix/#more">
