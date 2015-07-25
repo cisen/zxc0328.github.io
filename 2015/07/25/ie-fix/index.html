@@ -18,9 +18,9 @@
 
 
 
-	<meta name="keywords" content="CSS," />
+	<meta name="keywords" content="兼容 实战," />
 
-  <title> 最佳实践之多个高度不定水平实体垂直居中 // Zindex's blog </title>
+  <title> 实战之IE兼容常见问题 // Zindex's blog </title>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
 
 </head>
@@ -93,7 +93,7 @@
           
           
             
-              最佳实践之多个高度不定水平实体垂直居中
+              实战之IE兼容常见问题
             
           
         </h1>
@@ -102,7 +102,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2015-07-23
+              发表于 2015-07-25
             
           </span>
         
@@ -118,71 +118,73 @@
         
 
         
-          <p>如何快速并且健壮地实现高度不一定的实体的居中呢？  </p>
-<p>vertical-align显然是一种办法。这个元素从语义上来看就是用来实现垂直对齐的。要理解vertical-align，首先我们得了解几个概念，inline boxes, line box, 以及baseline。  </p>
-<p>inline boxes是行内元素构成的行内box，而line box则是由一行内所有的inline boxes构成的box，比如：</p>
-<pre><code>&lt;div&gt;
-    &lt;span&gt;我是inline box&lt;/span&gt;
-    我是匿名inline box
-&lt;/div&gt;
-</code></pre><p>除了display为inline或者inline-block的标签会形成inline box，行内文本也会形成匿名的inline box。</p>
-<p>一行所有的inline boxes构成匿名的line box，其中inline box中高度最高的那个的高度便是line box的高度，由此撑起了整行的高度。（这涉及到line-height方面的知识）</p>
-<p>而关于baseline，则是文字在排版时顶部与底部中间的基线，如果是行内文本，具体位置随字体不同而不同，一般都在中线以下的位置。具体的需要参考西文字体学（Typography）(Jobs在大学旁听的课程之一，你值得拥有)  </p>
-<p>而line—height其实就是两条基线之间的距离。</p>
-<p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/blog_7_24_1.png" alt="baseline"></p>
+          <p>最近因为在实习，所以做的东西要测试，做了IE8的兼容，对IE8的常见CSS兼容问题有了一点认识，在这里总结一下。</p>
+<h3 id="Html5标签问题">Html5标签问题</h3><p>IE8不支持Html5的语义化新标签，\<header>,\<nav>,\<footer>之类。对此Google出了一个html5shiv.js，来实现这些标签。</footer></nav></header></p>
+<p> 这个html5shiv.js的原理就是使用document.createElement()这个dom方法来动态创建一个html元素对象。html5shiv.js中处理了IE在这个方法上的一些问题（某些元素动态加入的属性不管用），还提供了api，以及基础的CSS，使得元素在默认的display属性为block。</p>
 <a id="more"></a>
-<p>对于inline-block级元素来说，基线的定义是这样的：</p>
-<pre><code>The baseline of an &#39;inline-block&#39; is the baseline of its last line
-box in the normal flow, unless it has either no in-flow line boxes
-or if its &#39;overflow&#39; property has a computed value other than
-&#39;visible&#39;, in which case the baseline is the bottom margin edge.
-（CSS2.1 W3C）
-</code></pre><p> 一般是正常文档流中的最后一个line box的基线。</p>
-<p>我们面对的场景是这样的，一个高度固定的div，中间有数个高度不固定的div需要被垂直居中。让我们来看看vertical-align:middle的定义：</p>
-<pre><code>Align the vertical midpoint of the box with the baseline of the
-parent box plus half the x-height of the parent.（CSS2.1 W3C）
-</code></pre><p> （元素）的垂直中点与父元素的基线加上x轴高度的一半对齐。</p>
-<p> 听起来有点奇怪，什么是x-height呢，x-height其实就是上图中小写字母x占据的高度，西文字体中小写字母x占据了mean line和baseline直接的这段空间，也就是所谓的字面所在。</p>
-<p> x这个字母恰好是镜面对称的，所以我们可以清楚的看到，vertical-align:middle就是将元素的中点对准x字母的中线，所以就形成了垂直居中的效果。</p>
-<p> 好，现在我们来看实际的情况，我们有一个高度固定的div，然后内部有两个inline-block级的div，需要水平居中，这两个div的高度随机。</p>
-<p> 代码：</p>
-<pre><code>&lt;div style=&quot;height:300px;&quot;&gt;
-    &lt;div style=&quot;display:inline-block&quot;&gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊啊啊啊啊啊啊&lt;/div&gt;
-    &lt;div style=&quot;display:inline-block&quot;&gt;我是二号div&lt;&lt;/div&gt;
-&lt;/div&gt;
-</code></pre><div style="height:100px;background-color:blue"><div style="display:inline-block;background-color:red">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white">我是二号div</div></div>
-
-<p>这是默认情况，两个div的vertical-align被设置为baseline,可以看出两个div的baseline在一条线上。第一个div的baseline是最后一个line box的baseline。</p>
-<p>那么父级元素div，一个块级元素，是否存在baseline呢？答案是否定的，在inline-block元素处于块极元素内部的情况下，vertical-align更多与同级inline-block元素的相互对齐有关，而和父级元素无关。</p>
-<p>可以实验一下，我们把父级div设为inline-block，看看会发生什么事情。</p>
-<pre><code>&lt;div style=&quot;display:inline-block;line-height:100px;background-
-color:blue&quot;&gt;
-    &lt;div style=&quot;display:inline-block;background-color:red&quot;&gt;
-    我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊啊啊啊啊啊啊
-    &lt;/div&gt;
-    &lt;div style=&quot;display:inline-block;background-color:white&quot;&gt;
-    我是二号div
-    &lt;/div&gt;
-&lt;/div&gt;
-</code></pre><div style="display:inline-block;line-height:100px;background-color:blue;font-size:150px"><div style="display:inline-block;background-color:red;font-size:15px">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white;font-size:15px">我是二号div</div>X</div>
-
-<p>这里我将父级div设为inline-block并且把line-height设为100px，因此其子元素的基线就和父元素的基线对齐了。我特意放了一个特大号的字，X的底部便是baseline了。</p>
-<p>了解到这一点之后，我们便清楚了，父元素是块级元素的情况下，vertical-align只和同级元素有关。vertical-align:middle便是同级元素的中线相互对齐。</p>
-<p>我们只需要一个空的div，它只起占位的作用，高度是100%，宽度是0，于是，其他高度小于父元素的子元素便会与这个占位元素的中线对齐，也就达到了垂直对齐。</p>
-<pre><code>&lt;div style=&quot;height:100px;background-color:blue;font-size:0&quot;&gt;
-    &lt;div style=&quot;height:100%;width:0;display:inline-block;vertical-
-    align:middle&quot;&gt;&lt;/div&gt;
-    &lt;div style=&quot;display:inline-block;background-color:red;font-size:
-    15px;vertical-align:middle&quot;&gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊
-    啊啊啊啊啊啊&lt;/div&gt;
-    &lt;div style=&quot;display:inline-block;background-color:white;font-
-    size:15px;vertical-align:middle&quot;&gt;我是二号div&lt;/div&gt;
-   &lt;/div&gt;
-</code></pre><div style="height:100px;background-color:blue;font-size:0"><div style="height:100%;width:0;display:inline-block;vertical-align:middle"></div><div style="display:inline-block;background-color:red;font-size:15px;vertical-align:middle">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white;font-size:15px;vertical-align:middle">我是二号div</div></div>
-
-<p>垂直居中的效果就达成了！</p>
-<p>ok，用:before伪元素来实现也是一个很不错的做法，相比空div要更简洁一些。</p>
-
+<h3 id="RGBA支持问题">RGBA支持问题</h3><p>IE8不支持rgba这种颜色的表示方式，但我们如果在背景色使用rgba的话，还是有替代方案的：</p>
+<pre><code>//IE8下
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#19fff
+ fff,endColorstr=#19ffffff);
+</code></pre><p>这句代码其实是用来实现渐变的，不过我们把startColor和endColor设成一样的便可以用来设置纯色背景了。</p>
+<p>startColor的后六位便是正常的十六进制颜色代码，而前两位是alpha通道，对应关系如下：</p>
+<table>
+<thead>
+<tr>
+<th>透明度</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.1</td>
+<td>19</td>
+<td></td>
+</tr>
+<tr>
+<td>0.2</td>
+<td>33</td>
+<td></td>
+</tr>
+<tr>
+<td>0.3</td>
+<td>4C</td>
+<td></td>
+</tr>
+<tr>
+<td>0.4</td>
+<td>66</td>
+<td></td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>7F</td>
+<td></td>
+</tr>
+<tr>
+<td>0.6</td>
+<td>99</td>
+<td></td>
+</tr>
+<tr>
+<td>0.7</td>
+<td>B2</td>
+<td></td>
+</tr>
+<tr>
+<td>0.8</td>
+<td>C8</td>
+<td></td>
+</tr>
+<tr>
+<td>0.9</td>
+<td>E5</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="CSS3支持">CSS3支持</h3><p>这部分是硬伤，media query有成熟的方案支持，但是像border-radius这种虽也有办法可以实现，但是太过于麻烦。我们毕竟得move on，不能太过拘泥，有些时候平稳退化，优雅降级就可以了。</p>
+<h3 id="To_Be_Contiued···">To Be Contiued···</h3>
         
       </div>
     
@@ -192,8 +194,8 @@ color:blue&quot;&gt;
         
           <div class="post-tags">
             
-              <a href="/tags/CSS/">
-                #CSS
+              <a href="/tags/兼容-实战/">
+                #兼容 实战
               </a>
             
           </div>
@@ -203,13 +205,11 @@ color:blue&quot;&gt;
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2015/07/25/ie-fix/">实战之IE兼容常见问题</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2015/05/23/Web-Animation-Using-Javascript-part-one/">Web Animation Using Javascript part one</a>
+                <a href="/2015/07/23/vertical-align-middle/">最佳实践之多个高度不定水平实体垂直居中</a>
               
             </div>
           </div>
@@ -309,7 +309,7 @@ color:blue&quot;&gt;
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Html5标签问题"><span class="nav-number">1.</span> <span class="nav-text">Html5标签问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RGBA支持问题"><span class="nav-number">2.</span> <span class="nav-text">RGBA支持问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS3支持"><span class="nav-number">3.</span> <span class="nav-text">CSS3支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#To_Be_Contiued···"><span class="nav-number">4.</span> <span class="nav-text">To Be Contiued···</span></a></li></ol>
       </div>
     
   </div>
