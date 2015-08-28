@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-07-25T12:12:55.000Z</updated>
+  <updated>2015-08-28T08:10:03.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,197 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Angular源码分析:$q]]></title>
+    <link href="http://yoursite.com/2015/08/24/angulr-q-js/"/>
+    <id>http://yoursite.com/2015/08/24/angulr-q-js/</id>
+    <published>2015-08-24T07:27:51.000Z</published>
+    <updated>2015-08-28T08:10:03.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="概述">概述</h3><p>augular中的$q服务提供了promise的实现，这个服务叫做“q”是因为它是<a href="https://github.com/kriskowal/q" target="_blank" rel="external">Kris Kowal’s Q</a>的一种植入。  </p>
+<p>从augular中$q服务的文档中可以了解到，这个服务有两种用法，一种在某种程度上和ES6的promise规范相似，而另一种则和Q以及jQuery的Deferred接口类似。</p>
+<p>因此在angular中$q的具体代码实现有两种，一种是将$q作为一个构造函数，并且接收一个resolver函数作为唯一参数。这和ES6的原生实现相似：</p>
+<pre><code>// for the purpose of this example let&#39;s assume that variables `$q` and `okToGreet`
+// are available in the current lexical scope (they could have been injected or passed in).
+
+function asyncGreet(name) {
+  // perform some asynchronous operation, resolve or reject the promise when appropriate.
+  return $q(function(resolve, reject) {
+    setTimeout(function() {
+      if (okToGreet(name)) {
+        resolve(&#39;Hello, &#39; + name + &#39;!&#39;);
+      } else {
+        reject(&#39;Greeting &#39; + name + &#39; is not allowed.&#39;);
+      }
+    }, 1000);
+  });
+}
+
+var promise = asyncGreet(&#39;Robin Hood&#39;);
+promise.then(function(greeting) {
+  alert(&#39;Success: &#39; + greeting);
+}, function(reason) {
+  alert(&#39;Failed: &#39; + reason);
+});
+</code></pre><p>而另一种实现则是更为传统的CommonJS风格的实现，将promise描述成一个接口，来和一个代表了未来结果的异步请求发生交互。<br>代码如下：  </p>
+<pre><code>// for the purpose of this example let&#39;s assume that variables `$q` and `okToGreet`
+// are available in the current lexical scope (they could have been injected or passed in).
+
+function asyncGreet(name) {
+  var deferred = $q.defer();
+
+  setTimeout(function() {
+    deferred.notify(&#39;About to greet &#39; + name + &#39;.&#39;);
+
+    if (okToGreet(name)) {
+      deferred.resolve(&#39;Hello, &#39; + name + &#39;!&#39;);
+    } else {
+      deferred.reject(&#39;Greeting &#39; + name + &#39; is not allowed.&#39;);
+    }
+  }, 1000);
+
+  return deferred.promise;
+}
+
+var promise = asyncGreet(&#39;Robin Hood&#39;);
+promise.then(function(greeting) {
+  alert(&#39;Success: &#39; + greeting);
+}, function(reason) {
+  alert(&#39;Failed: &#39; + reason);
+}, function(update) {
+  alert(&#39;Got notification: &#39; + update);
+});
+</code></pre><h3 id="源码分析：deferred_API">源码分析：deferred API</h3><p>因为$q服务中的ES6形式实现实际上是在deferred api的基础上的一种封装实现，所以我们先来看看deferred API的源代码。<br>这部分代码的结构看起来是这样的：</p>
+<pre><code>//deferred method: return a instance of Deferred object
+var deferred = function() {
+    return new Deferred();
+};
+
+//construct function of Promise object
+function Promise() {
+    this.$$state = { status: 0 };
+}
+
+//then, catch, and finally method of Promise object
+extend(Promise.prototype, {
+    then: function(onFulfilled, onRejected, progressBack) {
+      //...
+    },
+
+    &quot;catch&quot;: function(callback) {
+      //...
+    },
+
+    &quot;finally&quot;: function(callback, progressBack) {
+      //...
+    }
+});
+
+
+//construct function of Deferred object, the promise object is a method 
+//of Deferred object. And resolve, reject, notify apis are binded here.
+function Deferred() {
+    this.promise = new Promise();
+    //Necessary to support unbound execution :/
+    this.resolve = simpleBind(this, this.resolve);
+    this.reject = simpleBind(this, this.reject);
+    this.notify = simpleBind(this, this.notify);
+}
+
+
+
+extend(Deferred.prototype, {
+    resolve: function(val) {
+        //...
+    },
+
+    $$resolve: function(val) {
+        //...
+    },
+
+    reject: function(reason) {
+        //...
+    },
+
+    $$reject: function(reason) {
+        //...
+    },
+
+    notify: function(progress) {
+           //...
+    }
+  });
+</code></pre><h3 id="具体分析：Deferred-promise-then()">具体分析：Deferred.promise.then()</h3><pre><code>then: function(onFulfilled, onRejected, progressBack) {
+       //check if at least one para was passed in, otherwise return.
+      if (isUndefined(onFulfilled) &amp;&amp; isUndefined(onRejected) &amp;&amp; isUndefined(progressBack)) {
+        return this;
+      }
+      //instantiate a new Deferred object as result
+      var result = new Deferred();
+
+       //instantiate $$state.pending
+      this.$$state.pending = this.$$state.pending || [];
+      //push paras of this into $$state.pending array
+      this.$$state.pending.push([result, onFulfilled, onRejected, progressBack]);
+      //if $$state.status changed, add this.$$state to the process 
+      queue
+      if (this.$$state.status &gt; 0) scheduleProcessQueue(this.$$state);
+
+      //return the new Deferred object instance&#39;s promise object
+      return result.promise;
+}
+</code></pre><p>then()方法接收三个参数，promise条件满足时执行的函数onFulfilled，被拒绝时的回调函数onRejected，以及一个通知用回调函数progressBack。<br>这里的逻辑是then方法接收参数之后，实例化一个新Deferred对象，并将参数推入pending数组中。<br>关于then,有趣的一点在于then的链式调用的实现，在分析这点之前，我们把目光移到这个api的大局上来，看看promise的状态变化以及状态转移是如何实现的。</p>
+<h3 id="具体分析：Deferred-resolve()">具体分析：Deferred.resolve()</h3><p>在promise对象内部，收到请求后具体执行状态转移的便是resolve()和reject()函数了，我们还可以向其中传递一个唯一的参数，来作为resolve()的value或是reject()的reason。因为这两个方法原理大致类似（在源码中这两个方法的相关代码有较大的不同，应该和这个两种行为不同的结果有关），所以我们就以resolve()方法为例来说明。</p>
+<pre><code>resolve: function(val) {
+        //if $$state not equals 0, which means the state had already 
+        changed, return.
+      if (this.promise.$$state.status) return;
+      //reject if val is this.promise its self.
+      if (val === this.promise) {
+        this.$$reject($qMinErr(
+          &#39;qcycle&#39;,
+          &quot;Expected promise to be resolved with value other than itself &#39;{0}&#39;&quot;,
+          val));
+      } else {
+      //resolve val with inner method $$resolve
+        this.$$resolve(val);
+      }
+
+    },
+
+$$resolve: function(val) {
+      var then, fns;
+      //warp the functions in order to be called only once
+      fns = callOnce(this, this.$$resolve, this.$$reject);
+      try {
+        if ((isObject(val) || isFunction(val))) then = val &amp;&amp; val.then;
+        if (isFunction(then)) {
+          this.promise.$$state.status = -1;
+          then.call(val, fns[0], fns[1], this.notify);
+        } else {
+          this.promise.$$state.value = val;
+          this.promise.$$state.status = 1;
+          scheduleProcessQueue(this.promise.$$state);
+        }
+      } catch (e) {
+        fns[1](e);
+        exceptionHandler(e);
+      }
+}
+</code></pre><p>resolve方法接收一个值val，这个值可能是对象/函数，也有可能是普通的数值或是字符串。resolve方法首先判断Deferred.promise.$$state.status的值是否非0，如果非0则说明状态已经转移了，那么就不再继续执行。如果一切正常，在执行resolve方法时，Deferred.promise.$$state.status的值为初始的0，然后val被传入一个内部函数$$resolve,来进行真正的处理。$$resolve函数首先调用callOnce函数来确保自己只被调用一次，然后判断val的数据类型，如果是对象或者是函数，则将val赋值给then，其中then = val &amp;&amp; val.then;这个语句用来将可能传入的promise对象的then方法赋值给then。下一步，如果then是函数，也就是说传入的val是一个promise对象的话，则将Deferred.promise.$$state.status的值设为-1，之后then.call(val, fns[0], fns[1], this.notify);这是将fns[0], fns[1], this.notify三个函数作为参数传入了这个promise对象的then方法中，其中前两者便是进过了callOnce函数处理的this.$$resolve和this.$$reject函数，这一步是用来设置被传入的promise对象的pending list。<br>如果val不是函数，那么接下去得逻辑便很容易理解了，this.promise.$$state.value被赋值为val，this.promise.$$state.status的值被设置为1，1这个状态码便代表了promise对象目前处于fulfilled状态。<br>接下去调用scheduleProcessQueue函数，传入this.promise.$$state。这个函数实际是调用了ProcessQueue函数，不过加入了一些angular内部的检查机制，来保证函数调用和angular内部运行的同步。而ProcessQueue函数则真正执行then方法推入到pending list中的回调函数。  </p>
+<p>下面我们简单的来看看ProcessQueue函数:</p>
+<p><code>
+</code></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="概述">概述</h3><p>augular中的$q服务提供了promise的实现，这个服务叫做“q”是因为它是<a href="https://github.com/kriskowal/q" target="_blank" rel="external">Kris ]]>
+    </summary>
+    
+      <category term="angular javascript" scheme="http://yoursite.com/tags/angular-javascript/"/>
+    
+      <category term="angular javascript" scheme="http://yoursite.com/categories/angular-javascript/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[实战之IE兼容常见问题]]></title>
