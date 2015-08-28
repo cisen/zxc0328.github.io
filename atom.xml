@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-08-28T08:52:17.000Z</updated>
+  <updated>2015-08-28T09:28:36.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yoursite.com/2015/08/24/angulr-q-js/"/>
     <id>http://yoursite.com/2015/08/24/angulr-q-js/</id>
     <published>2015-08-24T07:27:51.000Z</published>
-    <updated>2015-08-28T08:52:17.000Z</updated>
+    <updated>2015-08-28T09:28:36.000Z</updated>
     <content type="html"><![CDATA[<h3 id="概述">概述</h3><p>Augular中的$q服务提供了Promise的实现，这个服务叫做“q”是因为它是<a href="https://github.com/kriskowal/q" target="_blank" rel="external">Kris Kowal’s Q</a>的一种植入。  </p>
 <p>从Augular中$q服务的文档中可以了解到，这个服务有两种用法，一种在某种程度上和ES6的Promise规范相似，而另一种则和Q以及jQuery的Deferred接口类似。</p>
 <a id="more"></a>
@@ -240,7 +240,25 @@ function processQueue(state) {
 </pre>
 
 <p><code>processQueue()</code>函数简单地将当前promise对象的pending list按传入的状态码进行处理。<code>fn = pending[i][state.status];</code>中，status为1，那么就调用pending list的第二项，也就是onFulfilled情况下的回调函数。之后<br><code>deferred.resolve(fn(state.value));</code>中，实际上执行了一次<code>eval(fn(state.value))</code>,回调函数就是在这里被执行的，之后<code>deferred.resolve(val)</code>便将回调函数处理之后的值传给了新创建的deferred对象。</p>
-<h3 id="实例分析：Deferred-promise-then()的链式调用机制">实例分析：Deferred.promise.then()的链式调用机制</h3>]]></content>
+<h3 id="实例分析：Deferred-promise-then()的链式调用机制">实例分析：Deferred.promise.then()的链式调用机制</h3><pre class="prettyprint">
+          var Deferred = $q.defer();
+          var promise1 = Deferred.promise;
+          var promise2 = promise1.then(function (data) {
+                 return data  + 1;
+          });
+          promise2.then(function (val) {
+               console.log(val);
+          }); 
+          Deferred.resolve(10);
+</pre>
+
+<p>这段代码的预期结果是promise2的回调函数会输出11。让我们来看看这是怎样实现的。</p>
+<p>首先，promise1的<code>then()</code>方法被执行,回调函数被推入pending list中，一个新的<code>deferred</code>对象被创建,<code>deferred.promise</code>对象被返回，我们将这个新创建的promise对象赋值给promise2。同样的，promise2的<code>then()</code>方法也被执行。所以我们把promise1的pending list称谓list1，promise2的pending list称为list2。</p>
+<p>之后，<code>Deferred.resolve(10);</code>被执行，在这里这是同步的，但一般来说这是异步执行的。此时执行resolve()方法，后数据被传入内部的<code>$$resolve()</code>方法，因为val是数值，因此<code>$$state</code>对象的value被设置为10，而状态码也被设置为相应的1，代表解析成功。  </p>
+<p>之后的任务交给了<code>processQueue()</code>函数，因为list1中的第二个参数是我们通过<code>then()</code>方法传入的回调函数，这个函数执行<code>deferred.resolve(fn(state.value));</code>，回调函数执行，并返回值11，这里的deferred对象便是promise1的<code>then()</code>方法创建的新deferred对象，也就是list1中的deferred对象，是promise2的宿主对象。  </p>
+<p>所以<code>deferred.resolve(fn(state.value));</code>的执行，执行了又一次<code>resolve()</code>函数，只是这次的上下文换成了promise2所在的上下文，那么接下去的流程便和promise1发生的一致了。最后list2中的回调执行，输出值11。</p>
+<p>让我们总结一下，<code>then()</code>方法实际上是负责在运行时挂载回调函数列表，而<code>resolve()</code>函数则负责异步触发函数执行。链式调用是通过返回新promise对象，并配合<code>then()</code>方法的同步加载回调来实现的。</p>
+]]></content>
     <summary type="html">
     <![CDATA[<h3 id="概述">概述</h3><p>Augular中的$q服务提供了Promise的实现，这个服务叫做“q”是因为它是<a href="https://github.com/kriskowal/q">Kris Kowal’s Q</a>的一种植入。  </p>
 <p>从Augular中$q服务的文档中可以了解到，这个服务有两种用法，一种在某种程度上和ES6的Promise规范相似，而另一种则和Q以及jQuery的Deferred接口类似。</p>]]>
