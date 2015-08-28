@@ -136,10 +136,10 @@
 
         
           
-            <h3 id="概述">概述</h3><p>augular中的$q服务提供了promise的实现，这个服务叫做“q”是因为它是<a href="https://github.com/kriskowal/q" target="_blank" rel="external">Kris Kowal’s Q</a>的一种植入。  </p>
-<p>从augular中$q服务的文档中可以了解到，这个服务有两种用法，一种在某种程度上和ES6的promise规范相似，而另一种则和Q以及jQuery的Deferred接口类似。</p>
+            <h3 id="概述">概述</h3><p>Augular中的$q服务提供了Promise的实现，这个服务叫做“q”是因为它是<a href="https://github.com/kriskowal/q" target="_blank" rel="external">Kris Kowal’s Q</a>的一种植入。  </p>
+<p>从Augular中$q服务的文档中可以了解到，这个服务有两种用法，一种在某种程度上和ES6的Promise规范相似，而另一种则和Q以及jQuery的Deferred接口类似。</p>
 <!-- more !-->
-<p>因此在angular中$q的具体代码实现有两种，一种是将$q作为一个构造函数，并且接收一个resolver函数作为唯一参数。这和ES6的原生实现相似：</p>
+<p>因此在Angular中$q的具体代码实现有两种，一种是将$q作为一个构造函数，并且接收一个<code>resolver()</code>函数作为唯一参数。这和ES6的原生实现相似：</p>
 <pre class="prettyprint">
 // for the purpose of this example let's assume that variables `$q` and `okToGreet`
 // are available in the current lexical scope (they could have been injected or passed in).
@@ -165,7 +165,8 @@ promise.then(function(greeting) {
 });
 </pre>
 
-<p>而另一种实现则是更为传统的CommonJS风格的实现，将promise描述成一个接口，来和一个代表了未来结果的异步请求发生交互。<br>代码如下：  </p>
+<p>而另一种实现则是更为传统的CommonJS风格的实现，将Promise描述成一个接口，来和一个代表了未来结果的异步请求发生交互。</p>
+<p>代码如下：  </p>
 <pre class="prettyprint">
 // for the purpose of this example let's assume that variables `$q` and `okToGreet`
 // are available in the current lexical scope (they could have been injected or passed in).
@@ -198,7 +199,7 @@ promise.then(function(greeting) {
 </pre>
 
 
-<h3 id="源码分析：deferred_API">源码分析：deferred API</h3><p>因为$q服务中的ES6形式实现实际上是在deferred api的基础上的一种封装实现，所以我们先来看看deferred API的源代码。<br>这部分代码的结构看起来是这样的：</p>
+<h2 id="源码分析：deferred_API">源码分析：deferred API</h2><p>因为$q服务中的ES6形式实现实际上是在deferred api的基础上的一种封装实现，所以我们先来看看deferred API的源代码。<br>这部分代码的结构看起来是这样的：</p>
 <pre class="prettyprint">
 //deferred method: return a instance of Deferred object
 var deferred = function() {
@@ -284,13 +285,9 @@ then: function(onFulfilled, onRejected, progressBack) {
       return result.promise;
 }
 </pre>
-then()方法接收三个参数，promise条件满足时执行的函数onFulfilled，被拒绝时的回调函数onRejected，以及一个通知用回调函数progressBack。  
-这里的逻辑是then方法接收参数之后，实例化一个新Deferred对象，并将参数推入pending数组中。
-关于then,有趣的一点在于then的链式调用的实现，在分析这点之前，我们把目光移到这个api的大局上来，看看promise的状态变化以及状态转移是如何实现的。
 
-###具体分析：Deferred.resolve()
-在promise对象内部，收到请求后具体执行状态转移的便是`resolve()`和`reject()`函数了，我们还可以向其中传递一个唯一的参数，来作为`resolve()`的value或是`reject()`的reason。因为这两个方法原理大致类似（在源码中这两个方法的相关代码有较大的不同，应该和这个两种行为不同的结果有关），所以我们就以`resolve()`方法为例来说明。
-
+<p>then()方法接收三个参数，promise条件满足时执行的函数<code>onFulfilled</code>，被拒绝时的回调函数<code>onRejected</code>，以及一个通知用回调函数<code>progressBack</code>。<br>这里的逻辑是<code>then()</code>方法接收参数之后，实例化一个新<code>Deferred</code>对象，并将参数推入pending数组中。<br>关于then,有趣的一点在于then的链式调用的实现，在分析这点之前，我们把目光移到这个api的大局上来，看看promise的状态变化以及状态转移是如何实现的。</p>
+<h3 id="具体分析：Deferred-resolve()">具体分析：Deferred.resolve()</h3><p>在promise对象内部，收到请求后具体执行状态转移的便是<code>resolve()</code>和<code>reject()</code>函数了，我们还可以向其中传递一个唯一的参数，来作为<code>resolve()</code>的value或是<code>reject()</code>的reason。因为这两个方法原理大致类似（在源码中这两个方法的相关代码有较大的不同，应该和这个两种行为不同的结果有关），所以我们就以<code>resolve()</code>方法为例来说明。</p>
 <pre class="prettyprint">
 resolve: function(val) {
         //if $$state not equals 0, which means the state had already 
@@ -330,7 +327,8 @@ $$resolve: function(val) {
 }
 </pre>
 
-<p><code>resolve()</code>方法接收一个值val，这个值可能是对象/函数，也有可能是普通的数值或是字符串。<code>resolve()</code>方法首先判断<code>Deferred.promise.$$state.status</code>的值是否不为0，如果不为0则说明状态已经转移了，那么就不再继续执行。如果一切正常，在执行<code>resolve()</code>方法时，<code>Deferred.promise.$$state.status</code>的值为初始的0，然后val被传入一个内部函数<code>$$resolve()</code>,来进行真正的处理。<code>$$resolve()</code>函数首先调用<code>callOnce()</code>函数来确保自己只被调用一次，然后判断val的数据类型，如果是对象或者是函数，则将val赋值给then，其中<code>then = val &amp;&amp; val.then;</code>这个语句用来将<code>resolve()</code>中可能传入的promise对象的<code>then()</code>方法赋值给then。下一步，如果then是函数，也就是说传入的val是一个promise对象的话，则将<code>Deferred.promise.$$state.status</code>的值设为-1，之后<code>then.call(val, fns[0], fns[1], this.notify);</code>这是将fns[0], fns[1], this.notify三个函数作为参数传入了这个promise对象的then方法中，其中前两者便是经过了<code>callOnce()</code>函数处理的<code>this.$$resolve</code>和<code>this.$$reject</code>函数，这一步是设置了被传入的promise对象的pending list。<br>如果val不是函数，那么接下去得逻辑便很容易理解了，<code>this.promise.$$state.value</code>被赋值为val的值，<code>this.promise.$$state.status</code>的值被设置为1，1这个状态码便代表了promise对象目前处于<strong>fulfilled</strong>状态。<br>接下去调用<code>scheduleProcessQueue()</code>函数，并传入<code>this.promise.$$state</code>对象。这个函数实际是调用了<code>ProcessQueue()</code>函数，不过加入了一些angular内部的检查机制，来保证函数调用和angular内部运行的同步。而<code>ProcessQueue()</code>函数则真正执行<code>then()</code>方法推入到pending list中的回调函数。<br>下面我们简单的来看看ProcessQueue函数:</p>
+<p><code>resolve()</code>方法接收一个值val，这个值可能是对象/函数，也有可能是普通的数值或是字符串。<code>resolve()</code>方法首先判断<code>Deferred.promise.$$state.status</code>的值是否不为0，如果不为0则说明状态已经转移了，那么就不再继续执行。如果一切正常，在执行<code>resolve()</code>方法时，<code>Deferred.promise.$$state.status</code>的值为初始的0，然后val被传入一个内部函数<code>$$resolve()</code>,来进行真正的处理。<code>$$resolve()</code>函数首先调用<code>callOnce()</code>函数来确保自己只被调用一次，然后判断val的数据类型，如果是对象或者是函数，则将val赋值给then，其中<code>then = val &amp;&amp; val.then;</code>这个语句用来将<code>resolve()</code>中可能传入的promise对象的<code>then()</code>方法赋值给then。下一步，如果then是函数，也就是说传入的val是一个promise对象的话，则将<code>Deferred.promise.$$state.status</code>的值设为-1，之后<code>then.call(val, fns[0], fns[1], this.notify);</code>这是将fns[0], fns[1], this.notify三个函数作为参数传入了这个promise对象的then方法中，其中前两者便是经过了<code>callOnce()</code>函数处理的<code>this.$$resolve</code>和<code>this.$$reject</code>函数，这一步设置了被传入的promise对象的pending list。<br>如果val不是函数，那么接下去的逻辑便很容易理解了，<code>this.promise.$$state.value</code>被赋值为val的值，<code>this.promise.$$state.status</code>的值被设置为1，1这个状态码便代表了promise对象目前处于<strong>fulfilled</strong>状态。<br>接下去调用<code>scheduleProcessQueue()</code>函数，并传入<code>this.promise.$$state</code>对象。这个函数实际是调用了<code>ProcessQueue()</code>函数，不过加入了一些angular内部的检查机制，来保证函数调用和angular内部运行的同步。而<code>ProcessQueue()</code>函数则真正执行<code>then()</code>方法推入到pending list中的回调函数。  </p>
+<p>下面我们简单的来看看ProcessQueue函数:</p>
 <pre class="prettyprint">
 function processQueue(state) {
     var fn, deferred, pending;
@@ -356,6 +354,9 @@ function processQueue(state) {
     }
   }
 </pre>
+
+<p><code>processQueue()</code>函数简单地将当前promise对象的pending list按传入的状态码进行处理。<code>fn = pending[i][state.status];</code>中，status为1，那么就调用pending list的第二项，也就是onFulfilled情况下的回调函数。之后<br><code>deferred.resolve(fn(state.value));</code>中，实际上执行了一次<code>eval(fn(state.value))</code>,回调函数就是在这里被执行的，之后<code>deferred.resolve(val)</code>便将回调函数处理之后的值传给了新创建的deferred对象。</p>
+<h3 id="实例分析：Deferred-promise-then()的链式调用机制">实例分析：Deferred.promise.then()的链式调用机制</h3>
           
         
       </div>
@@ -366,8 +367,8 @@ function processQueue(state) {
         
           <div class="post-tags">
             
-              <a href="/tags/angular/">
-                #angular
+              <a href="/tags/Angular/">
+                #Angular
               </a>
             
           </div>
