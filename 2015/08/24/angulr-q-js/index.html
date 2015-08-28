@@ -120,8 +120,10 @@
         
           <h3 id="概述">概述</h3><p>augular中的$q服务提供了promise的实现，这个服务叫做“q”是因为它是<a href="https://github.com/kriskowal/q" target="_blank" rel="external">Kris Kowal’s Q</a>的一种植入。  </p>
 <p>从augular中$q服务的文档中可以了解到，这个服务有两种用法，一种在某种程度上和ES6的promise规范相似，而另一种则和Q以及jQuery的Deferred接口类似。</p>
+<!-- more !-->
 <p>因此在angular中$q的具体代码实现有两种，一种是将$q作为一个构造函数，并且接收一个resolver函数作为唯一参数。这和ES6的原生实现相似：</p>
-<pre><code>// for the purpose of this example let&#39;s assume that variables `$q` and `okToGreet`
+<pre class="prettyprint">
+// for the purpose of this example let's assume that variables `$q` and `okToGreet`
 // are available in the current lexical scope (they could have been injected or passed in).
 
 function asyncGreet(name) {
@@ -129,21 +131,23 @@ function asyncGreet(name) {
   return $q(function(resolve, reject) {
     setTimeout(function() {
       if (okToGreet(name)) {
-        resolve(&#39;Hello, &#39; + name + &#39;!&#39;);
+        resolve('Hello, ' + name + '!');
       } else {
-        reject(&#39;Greeting &#39; + name + &#39; is not allowed.&#39;);
+        reject('Greeting ' + name + ' is not allowed.');
       }
     }, 1000);
   });
 }
 
-var promise = asyncGreet(&#39;Robin Hood&#39;);
+var promise = asyncGreet('Robin Hood');
 promise.then(function(greeting) {
-  alert(&#39;Success: &#39; + greeting);
+  alert('Success: ' + greeting);
 }, function(reason) {
-  alert(&#39;Failed: &#39; + reason);
+  alert('Failed: ' + reason);
 });
-</code></pre><p>而另一种实现则是更为传统的CommonJS风格的实现，将promise描述成一个接口，来和一个代表了未来结果的异步请求发生交互。<br>代码如下：  </p>
+</pre>
+
+<p>而另一种实现则是更为传统的CommonJS风格的实现，将promise描述成一个接口，来和一个代表了未来结果的异步请求发生交互。<br>代码如下：  </p>
 <pre><code>// for the purpose of this example let&#39;s assume that variables `$q` and `okToGreet`
 // are available in the current lexical scope (they could have been injected or passed in).
 
