@@ -329,11 +329,8 @@ $$resolve: function(val) {
       }
 }
 </pre>
-`resolve()`方法接收一个值val，这个值可能是对象/函数，也有可能是普通的数值或是字符串。`resolve()`方法首先判断`Deferred.promise.$$state.status`的值是否不为0，如果不为0则说明状态已经转移了，那么就不再继续执行。如果一切正常，在执行`resolve()`方法时，`Deferred.promise.$$state.status`的值为初始的0，然后val被传入一个内部函数`$$resolve()`,来进行真正的处理。`$$resolve()`函数首先调用`callOnce()`函数来确保自己只被调用一次，然后判断val的数据类型，如果是对象或者是函数，则将val赋值给then，其中`then = val && val.then;`这个语句用来将`resolve()`中可能传入的promise对象的`then()`方法赋值给then。下一步，如果then是函数，也就是说传入的val是一个promise对象的话，则将`Deferred.promise.$$state.status`的值设为-1，之后`then.call(val, fns[0], fns[1], this.notify);`这是将fns[0], fns[1], this.notify三个函数作为参数传入了这个promise对象的then方法中，其中前两者便是经过了`callOnce()`函数处理的`this.$$resolve`和`this.$$reject`函数，这一步是设置了被传入的promise对象的pending list。  
-如果val不是函数，那么接下去得逻辑便很容易理解了，`this.promise.$$state.value`被赋值为val的值，`this.promise.$$state.status`的值被设置为1，1这个状态码便代表了promise对象目前处于**fulfilled**状态。  
-接下去调用`scheduleProcessQueue()`函数，并传入`this.promise.$$state`对象。这个函数实际是调用了`ProcessQueue()`函数，不过加入了一些angular内部的检查机制，来保证函数调用和angular内部运行的同步。而`ProcessQueue()`函数则真正执行`then()`方法推入到pending list中的回调函数。  
-下面我们简单的来看看ProcessQueue函数:
 
+<p><code>resolve()</code>方法接收一个值val，这个值可能是对象/函数，也有可能是普通的数值或是字符串。<code>resolve()</code>方法首先判断<code>Deferred.promise.$$state.status</code>的值是否不为0，如果不为0则说明状态已经转移了，那么就不再继续执行。如果一切正常，在执行<code>resolve()</code>方法时，<code>Deferred.promise.$$state.status</code>的值为初始的0，然后val被传入一个内部函数<code>$$resolve()</code>,来进行真正的处理。<code>$$resolve()</code>函数首先调用<code>callOnce()</code>函数来确保自己只被调用一次，然后判断val的数据类型，如果是对象或者是函数，则将val赋值给then，其中<code>then = val &amp;&amp; val.then;</code>这个语句用来将<code>resolve()</code>中可能传入的promise对象的<code>then()</code>方法赋值给then。下一步，如果then是函数，也就是说传入的val是一个promise对象的话，则将<code>Deferred.promise.$$state.status</code>的值设为-1，之后<code>then.call(val, fns[0], fns[1], this.notify);</code>这是将fns[0], fns[1], this.notify三个函数作为参数传入了这个promise对象的then方法中，其中前两者便是经过了<code>callOnce()</code>函数处理的<code>this.$$resolve</code>和<code>this.$$reject</code>函数，这一步是设置了被传入的promise对象的pending list。<br>如果val不是函数，那么接下去得逻辑便很容易理解了，<code>this.promise.$$state.value</code>被赋值为val的值，<code>this.promise.$$state.status</code>的值被设置为1，1这个状态码便代表了promise对象目前处于<strong>fulfilled</strong>状态。<br>接下去调用<code>scheduleProcessQueue()</code>函数，并传入<code>this.promise.$$state</code>对象。这个函数实际是调用了<code>ProcessQueue()</code>函数，不过加入了一些angular内部的检查机制，来保证函数调用和angular内部运行的同步。而<code>ProcessQueue()</code>函数则真正执行<code>then()</code>方法推入到pending list中的回调函数。<br>下面我们简单的来看看ProcessQueue函数:</p>
 <pre class="prettyprint">
 function processQueue(state) {
     var fn, deferred, pending;
@@ -369,8 +366,8 @@ function processQueue(state) {
         
           <div class="post-tags">
             
-              <a href="/tags/angular-javascript/">
-                #angular,javascript
+              <a href="/tags/angular/">
+                #angular
               </a>
             
           </div>
