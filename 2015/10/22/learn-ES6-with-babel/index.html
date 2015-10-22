@@ -152,7 +152,7 @@ class LogView extends View {
 <p>然而我在用这段代码时，又有些犹豫。这还是我熟悉的js原型继承吗，这真的是同一种继承模式的一个语法糖吗？  </p>
 <p>真相究竟是如何呢？我们就拿babel编译之后的代码作为切入口，来看看ES6 class语法的本质。</p>
 <p>下面是上述ES6代码用babel编译之后的结果：</p>
-<pre class="prettyprint">
+<pre class="prettyprint" style="height:300px;overflow-y:scroll">
 'use strict';
 var _get = function get(_x, _x2, _x3) {
     var _again = true;
@@ -257,6 +257,81 @@ var LogView = (function(_View) {
 
 })(View);
 </pre>
+
+<p>这段代码很长，我们只关注里面的函数，可以得到它的结构如下:</p>
+<pre class="prettyprint">
+//用于得到原型链上属性的方法的函数
+var _get = function get(_x, _x2, _x3) {
+    //······
+}
+
+//用于创建对象的函数
+var _createClass = (function() {
+     //内部函数，定义对象的属性
+    function defineProperties(target, props) {
+        //······
+    }
+    return function(Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+    };
+})();
+
+//用于实现继承的函数
+function _inherits(subClass, superClass) {
+        //······
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+            value: subClass,
+            enumerable: false,
+            writable: true,
+            configurable: true
+        }
+});
+
+var View = (function() {
+    //······
+    return View;
+})();
+
+var LogView = (function(_View) {
+    //······
+})(View);
+</pre>
+
+<p>我们从一个View类的创建开始分析</p>
+<pre class="prettyprint">
+class View {
+  constructor(options) {
+    this.model = options.model;
+    this.template = options.template;
+  }
+  render() {
+    return _.template(this.template, this.model.toObject());
+  }
+}
+
+//ES5代码
+var View = (function() {
+    function View(options) {
+        _classCallCheck(this, View);
+            this.model = options.model;
+        this.template = options.template;
+    }
+    _createClass(View, [{
+        key: 'render',
+        value: function render() {
+            return _.template(this.template, this.model.toObject());
+        }
+    }]);
+    return View;
+})();
+
+</pre>
+
+
+
         
       </div>
     
