@@ -152,7 +152,7 @@ class LogView extends View {
 <p>然而我在用这段代码时，又有些犹豫。这还是我熟悉的js原型继承吗，这真的是同一种继承模式的一个语法糖吗？  </p>
 <p>真相究竟是如何呢？我们就拿babel编译之后的代码作为切入口，来看看ES6 class语法的本质。</p>
 <p>下面是上述ES6代码用babel编译之后的结果：</p>
-<pre class="prettyprint" style="height:300px;overflow-y:scroll">
+<pre class="prettyprint" style="height:400px;overflow-y:scroll">
 'use strict';
 var _get = function get(_x, _x2, _x3) {
     var _again = true;
@@ -259,7 +259,7 @@ var LogView = (function(_View) {
 </pre>
 
 <p>这段代码很长，我们只关注里面的函数，可以得到它的结构如下:</p>
-<pre class="prettyprint">
+<pre class="prettyprint" style="height:400px;overflow-y:scroll">
 //用于得到原型链上属性的方法的函数
 var _get = function get(_x, _x2, _x3) {
     //······
@@ -329,8 +329,50 @@ var View = (function() {
 })();
 
 </pre>
+我们从编译之后的代码中可以看出，View是一个IIFE，里面是一个同名的函数View，这个函数经过  `_createClass()`函数的处理之后，被返回了。所以我们得出的第一点结论就是，**ES6中的class实际就是函数**。当然这点在各种文档中已经明确了，所以让我们继续分析。 
 
+IIFE中的同名的View实际上就是我们在ES5的原型继承中使用的构造函数，所以ES6中的class是对ES5中的构造函数的一种包装。我们发现，在class中设定的属性被放在ES5的构造函数中，而方法则以键值对的形式传入一个`_createClass()`函数中。那么这个`_createClass()`函数又制造了什么魔法呢？  
 
+<pre class="prettyprint">
+var _createClass = (function() {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ('value' in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }
+    return function(Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) defineProperties(Constructor, staticProps);
+        return Constructor;
+    };
+})();
+</pre> 
+
+<p><code>_createClass</code>也是一个IIFE，有一个内部的函数<code>defineProperties</code>，这个函数遍历属性的描述符，进行描述符的默认设置，最后使用<code>Object.defineProperty()</code>方法来写入对象的属性。IIFE的renturn部分有两个分支，一个是针对一个类的原型链方法，一个是静态方法，我们看到原型链方法被写入构造函数的原型对象里，<strong>而静态方法则被直接写入构造函数里，因此我们不用实例化对象就可以直接调用一个类的静态方法了</strong>。</p>
+<blockquote>
+<p>js中的函数是对象，Function构造函数的prototype指向Object.prototype，因此可以写入属性</p>
+</blockquote>
+<p>OK，到目前我们已经搞清了ES6的class关键字是如何工作的，那么ES6中的继承有是如何实现的呢？下面让我们看看<code>_inherits()</code>函数。</p>
+<pre class="prettyprint">
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== 'function' && superClass !== null) {
+        throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+            value: subClass,
+            enumerable: false,
+            writable: true,
+            configurable: true
+        }
+    });
+    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
+</pre>
 
         
       </div>
