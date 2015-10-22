@@ -300,7 +300,8 @@ var LogView = (function(_View) {
 })(View);
 </pre>
 
-<p>我们从一个View类的创建开始分析</p>
+
+<h3 id="View类的实现">View类的实现</h3><p>我们从一个View类的创建开始分析</p>
 <pre class="prettyprint">
 class View {
   constructor(options) {
@@ -356,7 +357,7 @@ var _createClass = (function() {
 <blockquote>
 <p>js中的函数是对象，Function构造函数的prototype指向Object.prototype，因此可以写入属性</p>
 </blockquote>
-<p>OK，到目前我们已经搞清了ES6的class关键字是如何工作的，那么ES6中的继承有是如何实现的呢？下面让我们看看<code>_inherits()</code>函数。</p>
+<h3 id="类继承的实现">类继承的实现</h3><p>OK，到目前我们已经搞清了ES6的class关键字是如何工作的，那么ES6中的继承有是如何实现的呢？下面让我们看看<code>_inherits()</code>函数。</p>
 <pre class="prettyprint">
 function _inherits(subClass, superClass) {
     if (typeof superClass !== 'function' && superClass !== null) {
@@ -373,6 +374,37 @@ function _inherits(subClass, superClass) {
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 </pre>
+
+<p><code>_inherits()</code>函数的关键部分便是<code>subClass.prototype = Object.create(···)</code>。通过<code>Object.create()</code>方法来指定新创建对象的原型，由此省去了对父类构造函数的处理，达到了简单的原型继承效果。</p>
+<p>然后我们来看看创建<code>LogView</code>类的代码：</p>
+<pre class="prettyprint">
+//ES6
+class LogView extends View {
+  render() {
+    var compiled = super.render();
+    console.log(compiled);
+  }
+}
+//ES5
+var LogView = (function(_View) {
+    _inherits(LogView, _View);
+    function LogView() {
+        _classCallCheck(this, LogView);
+        _get(Object.getPrototypeOf(LogView.prototype), 'constructor', this).apply(this, arguments);
+    }
+    _createClass(LogView, [{
+        key: 'render',
+        value: function render() {
+            var compiled = _get(Object.getPrototypeOf(LogView.prototype), 'render', this).call(this);
+            console.log(compiled);
+        }
+    }]);
+    return LogView;
+})(View);
+</pre>
+
+<p><code>LogView</code>类和<code>View</code>类的最大不同便是增加了一个<code>_get()</code>函数的调用，我们仔细看这个<code>_get()</code>函数会发现它接收几个参数，子类的原型，”constructor”标识符，还有<code>this</code>。再看下面对<code>super.render()</code>的处理，同样是用<code>_get()</code>函数来处理的。再看<code>_get()</code>函数的源码，就可以发现<code>_get()</code>函数的作用便是遍历对象的原型链，找出传入的标识符对应的属性，把它用<code>apply</code>绑定在当前上下文上执行。</p>
+<p>大家是不是对这种继承模式似曾相识呢？对了，这就是所谓的“构造函数窃取”。当我们需要继承父类的属性时，在子类的构造函数内部调用父类构造函数，在加上<code>Object.create()</code>大法，然后就可以继承父类的所有属性和方法了。</p>
 
         
       </div>
@@ -498,7 +530,7 @@ function _inherits(subClass, superClass) {
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6_Classes"><span class="nav-number">1.</span> <span class="nav-text">ES6 Classes</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6_Classes"><span class="nav-number">1.</span> <span class="nav-text">ES6 Classes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View类的实现"><span class="nav-number">2.</span> <span class="nav-text">View类的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类继承的实现"><span class="nav-number">3.</span> <span class="nav-text">类继承的实现</span></a></li></ol>
       </div>
     
   </div>
