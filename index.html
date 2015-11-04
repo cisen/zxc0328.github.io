@@ -108,6 +108,85 @@
           
           
             
+              <a class="post-title-link" href="/2015/11/04/http-basic-auth/">
+                Http Basic Authorization的使用
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2015-11-04
+            
+          </span>
+        
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            <h3 id="1-Http_Basic_Authorization的请求格式">1.Http Basic Authorization的请求格式</h3><p>关于发起请求的http头格式，大家可以搜到很多相关资料。这里我们采用的方式比较特别，我们用mitmproxy这款http代理软件来拦截我们在终端的通过httpie发出的请求，分析其内容，从而得出Http Basic Authorization的请求格式。</p>
+<p>首先我们发送一个http POST请求：</p>
+<pre class="prettyprint">
+http --auth neo1218@yeah.net POST http://121.43.230.104:5000/api/v1.0/token
+</pre>
+
+<p>拦截到的http header如下：<br><img src="http://7oxh2b.com1.z0.glb.clouddn.com/blog-http-header.png" alt="http-header"></p>
+<p>我们看到在http请求的header里有一个<code>Authorization</code>字段，内容有<code>Basic</code>标识符和一串编码组成。这串编程在经过解析之后，发现是<code>username:password</code>的base64编码。</p>
+<p>这样就得到了我们Http Basic Authorization的请求格式，在http的请求头中加入字段格式是<code>Authorization : Basic base64(username:password)</code></p>
+<h3 id="2-Http_Basic_Authorization客户端使用，以ajax为例">2.Http Basic Authorization客户端使用，以ajax为例</h3><p>下面以web端的ajax技术发起请求，来作为Http Basic Authorization客户端使用方法的实例。</p>
+
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/Network/">
+                #Network
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/10/22/learn-ES6-with-babel/">
                 ES6探秘-Classes
               </a>
@@ -774,81 +853,6 @@
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/05/12/css像素与理想viewport宽度/">
-                css像素与理想viewport宽度
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2015-05-12
-            
-          </span>
-        
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>最近在开发移动端网页时遇到了两大问题，一是移动端的触摸事件的实现；二是移动端页面的宽度设置问题。今天先来说一说移动端的页面宽度问题。  </p>
-<p>首先要说的是css的像素，一个css像素，一个px，和设备的物理像素不是一回事。<br>拿苹果的iphone来说，iphone3的分辨率是320*480，而retina屏的iphone4是640*960,  但如果在浏览器里输出视窗的宽度，两者都是320px宽。这说明Retina屏的iPhone用4个物理像素来渲染了一个css像素。iPad上的情况是相似的，新老ipad的css分辨率都是1024*768。安卓上的情况也是类似的，比如nexus 5的物理分辨率是1920*1080，而css分辨率是640*360。  关于这个可以参考一下<a href="http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html">quirksmode上的博文《此像素非彼像素》</a><br>
-            <div class="post-more-link text-center">
-              <a class="btn" href="/2015/05/12/css像素与理想viewport宽度/#more">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/css/">
-                #css
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -881,11 +885,11 @@
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
-            <span class="site-state-item-count">11</span>
+            <span class="site-state-item-count">12</span>
             <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
