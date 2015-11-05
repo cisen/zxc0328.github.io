@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2015-11-04T05:29:22.000Z</updated>
+  <updated>2015-11-05T12:12:01.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,21 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Thoughts on Reset.css]]></title>
+    <link href="http://yoursite.com/2015/11/05/reset-css/"/>
+    <id>http://yoursite.com/2015/11/05/reset-css/</id>
+    <published>2015-11-05T11:53:19.000Z</published>
+    <updated>2015-11-05T12:12:01.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="导语">导语</h3><p>CSS reset的作用主要就是清楚浏览器的默认样式，比如我们在Chrome里看到的<code>User Agent Stylesheet</code>就是Chrome浏览器的默认样式。不同的浏览器会有不同的默认样式，因此我们需要清除一些默认样式，<strong>以达到在所有浏览器里显示效果的一致</strong>。</p>
+<p>不过这里面的学问还是很大的。首先我们只需要reset我们在项目中会使用的元素，这就涉及reset的模块化使用。第二我们只需要reset必要的属性。因为reset会加重浏览器渲染的性能开销，因此我们在css reset时必须要慎之又慎，保证最少的代码量和最佳的效果之间的平衡。</p>
+<h3 id="如何确定需要reset的元素">如何确定需要reset的元素</h3><h3 id="如何确定需要reset的属性">如何确定需要reset的属性</h3><h3 id="实例分析">实例分析</h3><h4 id="font-famliy">font-famliy</h4>]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="导语">导语</h3><p>CSS reset的作用主要就是清楚浏览器的默认样式，比如我们在Chrome里看到的<code>User Agent Stylesheet</code>就是Chrome浏览器的默认样式。不同的浏览器会有不同的默认样式，因此我们需要清除一]]>
+    </summary>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Http Basic Authorization的使用]]></title>
