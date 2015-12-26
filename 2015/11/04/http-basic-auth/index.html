@@ -119,6 +119,7 @@
 
         
           <h3 id="1-Http_Basic_Authorization的请求格式">1.Http Basic Authorization的请求格式</h3><p>关于发起请求的http头格式，大家可以搜到很多相关资料。这里我们采用的方式比较特别，我们用mitmproxy这款http代理软件来拦截我们在终端的通过httpie发出的请求，分析其内容，从而得出Http Basic Authorization的请求格式。</p>
+<a id="more"></a>
 <p>首先我们发送一个http POST请求：</p>
 <pre class="prettyprint">
 http --auth neo1218@yeah.net POST http://121.43.230.104:5000/api/v1.0/token
