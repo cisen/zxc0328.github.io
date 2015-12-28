@@ -1,0 +1,932 @@
+<!doctype html>
+<html class="theme-next use-motion">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.3.0rc5"/>
+
+
+
+
+
+    <meta name="keywords" content="Hexo,next" />
+
+
+
+    <link rel="alternate" href="/atom.xml" title="Zindex's blog" type="application/atom+xml" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc5" />
+
+
+
+
+  <title> 2015 javascript tools // Zindex's blog </title>
+  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
+
+</head>
+
+<body>
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+    <a href="/" class="brand">
+        <span class="logo">
+          <i class="icon-logo"></i>
+        </span>
+        <span class="site-title">Zindex's blog</span>
+    </a>
+</h1>
+
+
+  <ul id="menu" class="menu">
+    
+      
+      <li class="menu-item menu-item-home">
+        <a href="/">
+          <i class="menu-item-icon icon-home"></i> <br />
+          首页
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-archives">
+        <a href="/archives">
+          <i class="menu-item-icon icon-archives"></i> <br />
+          归档
+        </a>
+      </li>
+    
+      
+      <li class="menu-item menu-item-tags">
+        <a href="/tags">
+          <i class="menu-item-icon icon-tags"></i> <br />
+          标签
+        </a>
+      </li>
+    
+  </ul>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+            
+          
+
+          <div id="posts" class="posts-expand">
+            
+  
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              2015 javascript tools
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2015-12-28
+            
+          </span>
+        
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          <blockquote>
+<ul>
+<li>原文链接: <a href="https://medium.com/javascript-scene/must-see-javascript-dev-tools-that-put-other-dev-tools-to-shame-aca6d3e3d925#.wm0lbpiko" target="_blank" rel="external">Must See JavaScript Dev Tools That Put Other Dev Tools to Shame</a></li>
+<li>原文作者 : <a href="https://medium.com/@_ericelliott" target="_blank" rel="external">Eric Elliott</a></li>
+<li>译文出自 : <a href="https://github.com/xitu/gold-miner" target="_blank" rel="external">掘金翻译计划</a></li>
+<li>译者 : </li>
+<li>校对者 :</li>
+<li>状态 : 待定</li>
+</ul>
+<p>“JavaScript sucks for large apps because it can’t even identify the type of a variable, and it sucks for refactoring.” ~ lots of very confused people</p>
+<p>“Javascript没法胜任大型应用，因为它甚至不能确定一个变量的类型，而且很难重构”~一大堆困惑的人</p>
+</blockquote>
+<p>When I got into JavaScript, there was only one browser that mattered: NetScape. It dominated completely until Microsoft started shipping IE with the OS. In those days, the argument that JavaScript’s developer tools were weak was actually true.</p>
+<p>当我初识Javascript的时候，只有一种浏览器需要关心：NetScape。它在微软开始捆绑销售IE和操作系统之前完全统治了世界。在那些日子里，Javascript的开发者工具很弱这种观点的确是对的。</p>
+<p>But it hasn’t been true for a really long time, and today, JavaScript has the best dev tool ecosystem I’ve ever seen for any language.</p>
+<p>不过这个观点已经被推翻很久了，今天，Javascript已经拥有了在我见过的所有语言中最好的开发工具生态系统。</p>
+<p>Note that I didn’t say “the best IDE”. If you’re looking for a central IDE that unifies your entire dev tool experience, check out Microsoft’s Visual Studio for C#. Pair it with Unity for a good time. I don’t use it myself, but I have heard from people I trust that it’s pretty solid.</p>
+<p>请注意，我没有说“最好的IDE”。如果你正在寻找一款统一了不同开发工具使用体验的集成式IDE，请试试为C#打造的微软Visual Studio。和Unity一起使用风味更佳。虽然我本人并没有使用过，但是听我信任的人说这很靠谱。</p>
+<p>I have used C++ and the Unreal Game Engine. The first time I tried that, I realized that the web platform dev tools still had a long way to go.</p>
+<p>我用过C++和虚幻引擎。当我第一次试用的时候，我意识到web平台的开发工具仍然有很长的路要走。</p>
+<p>But we’ve come a long way since then, and the tools we use now in JS make fancy IDE autocomplete look like a baby chew toy. In particular, JavaScript’s runtime tooling has no match that I’m aware of in any other language.</p>
+<p>不过我们已经走过了很长一段路，现在我们在JS中使用的工具让IDE神奇的自动补全看起来就像小孩的玩具。特别的，JavaScript的运行时工具在我见过的所有其他语言中都没有对手。</p>
+<blockquote>
+<p>“JavaScript has the best dev tool ecosystem I’ve ever seen for any language.”</p>
+<p>“Javascript拥有了在我见过的所有语言中最好的开发工具生态系统。”</p>
+</blockquote>
+<h4 id="What_Are_Dev_Tools?">What Are Dev Tools?</h4><h4 id="什么是开发者工具？">什么是开发者工具？</h4><p>Developer tools are a collection of software that makes life easier for developers. Traditionally, we’ve thought of them primarily as the IDE, linter, compiler, debugger, and profiler.</p>
+<p>开发者工具是一套让开发者更轻松的软件集合。传统上，我们主要将IDE，linter，编译器，调试器，和性能分析器认为是开发者工具。</p>
+<p>But JavaScript is a dynamic language, and along with its dynamic nature comes a need for more runtime developer tooling. JavaScript has this in spades.</p>
+<p>不过JavaScript是一种动态语言，伴随它的动态特性而来的是对运行时开发者工具的需求。JavaScript对此的需求程度很高。</p>
+<p>For the purposes of this article, I’m going to include runtime tooling, and even a couple libraries that enhance runtime developer visibility and debugging. The line between dev tools and libraries is starting to blur. With mind-blowing results.</p>
+<p>为了实现的我写这篇文章的初衷，我将包括对运行时工具的介绍，甚至包括一些能提升运行时开发者工具可视化和调试体验的库。开发工具与库之间的界线将开始模糊。与之而来的将是令人震惊的结果。</p>
+<h4 id="TL;DR_quick_list:">TL;DR quick list:</h4><h4 id="开发者工具一览表">开发者工具一览表</h4><ul>
+<li><a href="https://atom.io/" target="_blank" rel="external">Atom</a> &amp; <a href="https://atom.io/packages/atom-ternjs" target="_blank" rel="external">atom-ternjs</a></li>
+<li><a href="https://developer.chrome.com/devtools" target="_blank" rel="external">Chrome Dev Tools</a></li>
+<li><a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="external">PageSpeed Insights</a></li>
+<li><a href="https://www.mozilla.org/en-US/firefox/developer/" target="_blank" rel="external">FireFox Developer Edition</a></li>
+<li><a href="http://www.browsersync.io/" target="_blank" rel="external">BrowserSync</a></li>
+<li><a href="https://github.com/traceglMPL/tracegl" target="_blank" rel="external">TraceGL</a></li>
+<li><a href="http://s-a.github.io/iron-node/" target="_blank" rel="external">ironNode</a></li>
+<li><a href="http://eslint.org/" target="_blank" rel="external">ESLint</a></li>
+<li><a href="https://github.com/ericelliott/rtype" target="_blank" rel="external">rtype</a> (规范) &amp; <a href="https://github.com/ericelliott/rfx" target="_blank" rel="external">rfx</a> (库) <strong>提示:</strong> 这些是未完成的开发预览版</li>
+<li><a href="http://babeljs.io" target="_blank" rel="external">Babel</a></li>
+<li><a href="http://greenkeeper.io/" target="_blank" rel="external">Greenkeeper.io</a> &amp; <a href="https://github.com/peerigon/updtr" target="_blank" rel="external">updtr</a></li>
+<li><a href="https://facebook.github.io/react/" target="_blank" rel="external">React</a></li>
+<li><a href="https://webpack.github.io/" target="_blank" rel="external">Webpack</a> + <a href="https://github.com/webpack/docs/wiki/list-of-plugins" target="_blank" rel="external">Hot module replacement</a></li>
+<li><a href="http://redux.js.org/" target="_blank" rel="external">Redux</a> + <a href="https://github.com/gaearon/redux-devtools" target="_blank" rel="external">Redux DevTools</a></li>
+</ul>
+<h4 id="About_the_Tools">About the Tools</h4><h4 id="关于这些工具">关于这些工具</h4><p>Your dev life is going to center around two things: The <strong>editor</strong>, and your <strong>runtime environment</strong> (e.g., the browsers, platforms, and devices you’re coding for).</p>
+<p>你的开发者生涯将围绕在这两个东西展开：<strong>编辑器</strong>，和你的<strong>运行环境</strong>（比如，浏览器，平台，和你代码的目标设备）</p>
+<p><strong>The Editor:</strong> I started my dev career using big, massively integrated IDEs like Borland IDE, Microsoft Visual Studio, Eclipse, and WebStorm. In my opinion, the best of these are <strong>WebStorm</strong> and <strong>Visual Studio</strong>.</p>
+<p><strong>编辑器：</strong>我是用着像Borland IDE，微软Visual Studio，Eclipse和WebStorm这样的大型，重量级，高度集成的IDE开始我的职业生涯的。我认为这些IDE中最好的是<strong>WebStorm</strong> 和 <strong>Visual Studio</strong>。</p>
+<p>But I got tired of the bloat that comes with many of those IDEs, so for the last several years, I’ve done most of my coding in more stripped-down editors. Primarily Sublime Text, but I recently switched to <a href="https://atom.io/" target="_blank" rel="external"><strong>Atom</strong><sup>[1]</sup></a>. You’ll also want <a href="https://atom.io/packages/atom-ternjs" target="_blank" rel="external">atom-ternjs<sup>[2]</sup></a> to enable JavaScript intellisense features. You may also want to look at Visual Studio Code. A slimmer Visual Studio for people who like minimal pluggable editors like Sublime Text and Atom.</p>
+<p>但是我对这些IDE体积的膨胀感到厌倦，所以在最近几年里，我的代码都是在更精简的编辑器中写成的。主要是Sublime Text，不过我最近切换到了<a href="https://atom.io/" target="_blank" rel="external"><strong>Atom</strong><sup>[1]</sup></a>。你一定会喜欢<a href="https://atom.io/" target="_blank" rel="external"><strong>Atom</strong><sup>[1]</sup></a>的JavaScript智能感知特性。你可能也会对Visual Studio Code感兴趣。这是一个简约版Visual Studio，专为喜欢像Sublime Text和Atom这样的小型可拓展编辑器的人打造。</p>
+<p>I also use vim for quickie edits from the terminal.</p>
+<p>我还使用vim在终端里进行快速编辑。</p>
+<p><strong>Debuggers:</strong> I missed the integrated debugger when I started programming for the web, but the Chrome and FireFox teams have elevated runtime debugging to a whole new level. Everybody today seems to know about Chrome’s DevTools and how to step through code, but did you know it has great features for advanced performance &amp; memory profiling and auditing? Have you used the flame charts or the dominators view?</p>
+<p><strong>调试器：</strong>在我开始web编程之旅时，我想念那些集成的调试器。不过Chrome和FireFox团队讲运行时调试提升到了一个全新的水准。今天似乎每个人都听说过Chrome的开发工具，并且知道如何逐步调试代码。不过你知道它有对性能及内存进行记录和审查的高级特性吗？你用过flame charts或者the dominators view吗？</p>
+<p>Speaking of performance auditing, you also need to get to know <a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="external">PageSpeed Insights<sup>[3]</sup></a>:</p>
+<p>说到性能审查，你需要了解<a href="https://developers.google.com/speed/pagespeed/insights/" target="_blank" rel="external">PageSpeed Insights<sup>[3]</sup></a>:</p>
+<iframe width="854" height="480" src="https://www.youtube.com/embed/bDUDuQy3R7Y?list=PLOU2XLYxmsILKwwASNS0xgfcmakbK_8JZ" frameborder="0" allowfullscreen></iframe>
+
+<p>On top of all that goodness, there are also some cool features for live editing CSS, &amp; very cool features to help you edit animations. Get to know your Chrome DevTools. You won’t regret it.</p>
+<p>在这些好东西之上，Chrome DevTools也有一些酷炫的特性，比如像CSS实时编辑，以及很多可以帮助你编辑动画的超酷特性。去了解Chrome DevTools吧，你不会后悔的。</p>
+<iframe width="700" height="393" src="https://www.youtube.com/embed/hJdqtBeAUNI" frameborder="0" allowfullscreen></iframe>
+
+<p>Not to be outdone, FireFox has a dedicated browser just for developers. <a href="https://www.mozilla.org/en-US/firefox/developer/" target="_blank" rel="external">FireFox Developer Edition<sup>[4]</sup></a>:</p>
+<p>为了不被超过，FireFox有一个专为开发者打造的浏览器<a href="https://www.mozilla.org/en-US/firefox/developer/" target="_blank" rel="external">FireFox Developer Edition<sup>[4]</sup></a>:</p>
+<iframe width="700" height="393" src="https://www.youtube.com/embed/g9k4IrtaPMs?list=PLo3w8EB99pqLRJBWRCoyGTIrkctoUgB9W" frameborder="0" allowfullscreen></iframe>
+
+<p><strong>BrowserSync:</strong> <a href="http://www.browsersync.io/" target="_blank" rel="external">BrowserSync<sup>[5]</sup></a> is a great way to test your responsive layouts by controlling several browsers at once. In other words, you can use the BrowserSync CLI to open your app on your desktop, tablet, and phone.</p>
+<p><strong>BrowserSync:</strong> <a href="http://www.browsersync.io/" target="_blank" rel="external">BrowserSync<sup>[5]</sup></a>可以一次同时控制几个浏览器，这是检测你的响应式布局的一种好办法。换句话说，你可以使用BrowserSync CLI来在桌面，平板和手机上打开你的app。</p>
+<p>You can tell it to watch files and automatically reload the synchronized browsers on file changes. Actions such as scrolling, clicks, and form interactions will also be synchronized across devices so you can easily test your app workflows and be sure that everything appears correctly everywhere.</p>
+<p>你可以设定文件监视（watch files），然后当文件改动时，几个同步的浏览器会自动刷新。滚动，点击，以及表单互动这些动作都将会被同步到所有设备，所有你可以简单的测试你的app的工作流，确保事情在任何设备上看起来都对劲。</p>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/heNWfzc7ufQ" frameborder="0" allowfullscreen></iframe>
+
+<p><strong>TraceGL:</strong> <a href="https://github.com/traceglMPL/tracegl" target="_blank" rel="external">TraceGL<sup>[6]</sup></a> is a runtime debugging tool that lets you observe all of the function calls in your software as they’re happening in realtime, rather than stepping through your code manually, one step at a time. It’s super powerful and extremely useful.</p>
+<p><strong>TraceGL:</strong> <a href="https://github.com/traceglMPL/tracegl" target="_blank" rel="external">TraceGL<sup>[6]</sup></a> 是一个运行时调试工具，它让你可以观察你软件中实时发生的所有函数调用，而不是逐步手动调试你的代码，一次一步。这个是一个超级强大和有用的功能。</p>
+<iframe width="700" height="393" src="https://www.youtube.com/embed/TW6uMJtbVrk" frameborder="0" allowfullscreen></iframe>
+
+<p><strong>ironNode:</strong> <a href="http://s-a.github.io/iron-node/" target="_blank" rel="external">ironNode<sup>[7]</sup></a> is a desktop debugging app for Node built on Electron, the same cross-platform desktop runtime that powers the Atom editor. Like node-inspector, it allows you to trace through your code using features similar to Chrome’s DevTools.</p>
+<p><strong>ironNode:</strong> <a href="http://s-a.github.io/iron-node/" target="_blank" rel="external">ironNode<sup>[7]</sup></a> 是一个用于调试Node的桌面app，由Electron，一个桌面跨平台运行时驱动，Electron也驱动了Atom编辑器。</p>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/pxq6zdfJeNI" frameborder="0" allowfullscreen></iframe>
+
+<p>To use it with Babel, I use the following <em><code>debug.js</code></em> script:</p>
+<p>将ironNode和Babel一起使用，我使用如下的<em><code>debug.js</code></em> 脚本：</p>
+<pre>require('babel-core/register');  
+require('./index');
+</pre>
+
+<p>To launch the debugger:</p>
+<p>加载调试器：</p>
+<pre>iron-node source/debug.js
+</pre>
+
+<p>Works like a charm.</p>
+<p>这就像魔法一样，不是吗？</p>
+<p><strong>Linting:</strong> <a href="http://eslint.org/" target="_blank" rel="external">ESLint<sup>[8]</sup></a> is by far the best linter I’ve used for any language. I like it better than JSHint, and much better than JSLint. If you’re not sure what to use, stop worrying and use ESLint. Why is it so cool?</p>
+<p><strong>Linting:</strong> <a href="http://eslint.org/" target="_blank" rel="external">ESLint<sup>[8]</sup></a> 是目前为止我用过的各种语言的linter中最好的。我喜欢ESLint甚于JSHint，ESLint比JSHint好太多了。如果你不确定使用什么，别担心，使用ESLint。为什么它这么酷呢？</p>
+<ul>
+<li>Very configurable — every option can be enabled and disabled. They can even take parameters.</li>
+<li>可配置性高 - 每一个选项都可以被开启或关闭。这些选项甚至可以接收参数。</li>
+<li>Create your own rules. Do you have your own style conventions you want to enforce on your teams? There’s probably a rule for that, but if there isn’t, you can write your own.</li>
+<li>创造你自己的规则。你有你想要在你的团队中强制执行的代码规范吗？在linter中可能已经有了这样的规则，不过如果没有，你可以写你自己的规则。</li>
+<li>Supports plugins — Using some special syntax? ES6+ or experimental features for future versions of JavaScript? No problem. React’s JSX syntax for compact UI components? No problem. Your own experimental JavaScript syntax extensions? No problem.</li>
+<li>支持插件 - 使用了某些特殊语法？ES6+或者未来版本JavaScript的实验性特性？没问题。React的JSX语法打造简洁的UI组件？没问题。你自己的实验性Javascript语法拓展？没问题。</li>
+</ul>
+<p><strong>Type support:</strong> JavaScript has loose types, which means that you don’t have to annotate all your types. After annotating everything for years in languages like C++ and Java, I immediately felt a cognitive load weight lifted off my shoulders when I started using JavaScript. Type annotation creates noise in your source files. Functions are often easier to understand without them.</p>
+<p><strong>类型支持：</strong> Javascript具有松散的类型，这意味着你不必注解所有的类型。过去数年我在C++和Java这样的语言中注解所有东西。当我开始使用Javascript之后，我感到如释重负。类型注解在你的源文件中制造了杂音。函数往往在没有类型注解时更易用。</p>
+<p>Contrary to common belief, <strong>JavaScript does have types</strong>, but instead of typing variables, JavaScript types <strong>values</strong>. Variable types can be identified and predicted using type inference (that’s what that Atom TernJS plugin is for).</p>
+<p>和大众认知相反，<strong>JavaScript是有类型的</strong>，但是JavaScript的在<strong>值</strong>层面区别类型而不是变量层面。变量类型可以被类型推断识别并预测出来（这就是Atom TernJS插件的作用）。</p>
+<p>That said, type annotation and signature declarations do serve a purpose: They make great documentation for developers. They can also enable some important perf optimizations for JavaScript engine and compiler creators. As a JavaScript programmer building apps, you shouldn’t worry about the perf gains. Leave that to the engine and spec teams.</p>
+<p>这就是说，类型注解和签名（signature）声明是为了一个目的：它们对于开发者来说是不错的文档。它们也可以使JavaScript引擎以及编译器作者的一些重要性能优化成为可能。作为一个构建app的Javascript程序员，你不应该担心性能问题。把这些留给引擎和规范制定团队吧。</p>
+<p>But the thing I like best about type annotations is runtime type reflection, and the runtime developer tools that can be enabled using it. For an idea of what those tools could be like, read <a href="http://www.sitepoint.com/future-programming-webassembly-life-after-javascript/" target="_blank" rel="external">“The Future of Programming: WebAssembly and Life After JavaScript”<sup>[9]</sup></a>.</p>
+<p>不过关于类型注解，我最喜欢的一点是运行时类型反射。使用类型反射可以开启运行时开发者工具。想知道这样的工具是什么样的，请阅读<a href="http://www.sitepoint.com/future-programming-webassembly-life-after-javascript/" target="_blank" rel="external">“The Future of Programming: WebAssembly and Life After JavaScript”<sup>[9]</sup></a>。</p>
+<p>For years, I used JSDoc for annotation, documentation, and type inferrence. But I got sick of its awkward limitations. It feels like it was written for a different language and squeezed into JavaScript later (which is true).</p>
+<p>数年来，我使用JSDoc来注解类型，编写文档以及推断类型。不过我对其麻烦的限制感到厌倦。这感觉就像你使用一种不同的语言编写代码，之后将它挤成Javascript（这是真的）。</p>
+<p>I was also really impressed by TypeScript’s structural type solution.</p>
+<p>我也对TypeScript的结构化类型方案感到印象深刻。</p>
+<p>不过TypeScript存在一些问题：</p>
+<p>TypeScript has issues though:</p>
+<ul>
+<li>It’s not standard JavaScript — opting into TypeScript means opting into the TypeScript compiler and tool ecosystem — often opting out of solutions made to work with the JavaScript standard.</li>
+<li>TypeScript不是标准的JavaScript - 选择TypeScript意味着选择TypeScript编译器以及工具生态 - 这通常导致无法选择为JavaScript标准设计的方案。</li>
+<li>It’s heavily class-based. An awkward fit for JavaScript’s prototypes and object composition.</li>
+<li>TypeScript大量基于class。这与JavaScript的原型和对象构成八字不合。</li>
+<li>It doesn’t provide a runtime solution… yet — they’re working on it using experimental features of the new JavaScript <strong>Reflect</strong> API, but then you’re depending on very experimental spec features that may or may not land in the spec.</li>
+<li>目前为止，TypeScript不提供运行时解决方案… - 他们正在使用实验性的新JavaScript <strong>Reflect</strong> API构建。不过接下来你可能会依靠这些实验性极高的规范特性，这些特性也许会成为最终标准，也许不会。</li>
+</ul>
+<p>For those reasons, I started the (currently unfinished) <a href="https://github.com/ericelliott/rtype" target="_blank" rel="external">rtype<sup>[10]</sup></a> and <a href="https://github.com/ericelliott/rfx" target="_blank" rel="external">rfx<sup>[11]</sup></a> projects. <strong>rtype</strong> is a specification for function and interface signatures designed to be self documenting for readers who already know JavaScript. <strong>rfx</strong> is a library built to wrap your live JS functions and objects in order to add type metadata. It optionally adds automated runtime type checking, as well. I’m actively collaborating with people to improve both rtype and rfx. Your contributions are welcome.</p>
+<p>因为这些，我启动了（目前还未完成）<a href="https://github.com/ericelliott/rtype" target="_blank" rel="external">rtype<sup>[10]</sup></a>和<a href="https://github.com/ericelliott/rfx" target="_blank" rel="external">rfx<sup>[11]</sup></a>项目。<strong>rtype</strong> 是一个函数和接口反射规范，对于了解JavaScript的读者来说，这一规范形成了不言自明的文档。<strong>rfx</strong> 是一个用于封装已经存在的JS函数及对象来添加类型元数据的库。同时，它也可以加入自动运行时类型检查。我正在积极的与人们合作以改进rtype和rfx。也欢迎你们的贡献。</p>
+<p>Keep in mind that they’re very young, and there will almost certainly be breaking changes in the short-term.</p>
+<p>你要记得rtype和rfx还非常年轻，并且在短期之内几乎必定将会有革命性的变化。</p>
+<p><strong>Babel:</strong> <a href="http://babeljs.io/" target="_blank" rel="external">Babel<sup>[12]</sup></a> is a compiler that lets you use not-yet-supported features of ES6+, JSX and more in your JavaScript code today. It works by transpiling your code into equivalent ES5. Once you start using it, I predict you’ll get addicted to the new syntax quickly, because ES6 offers some truly valuable syntax additions to the language, such as destructuring assignment, default parameter values, rest parameters and spread, concise object literals, and so on… Check out <a href="https://medium.com/javascript-scene/how-to-use-es6-for-isomorphic-javascript-apps-2a9c3abe5ea2" target="_blank" rel="external">“How to Use ES6 for Universal JavaScript Apps”<sup>[13]</sup></a> for details.</p>
+<p><strong>Babel:</strong> <a href="http://babeljs.io/" target="_blank" rel="external">Babel<sup>[12]</sup></a> 是一个让你立即在JavaScript代码使用还不被支持的ES6+, JSX以及其他特性的编译器。它的原理是将你的代码翻译成等价的ES5。一旦你开始使用它，我敢说你将很快对新语法上瘾，因为ES6为这门语言提供了一些真正有价值的语法拓展，像解构赋值（destructuring assignment），默认参数值，剩余和展开参数（rest parameters and spread），简洁对象字面量（concise object literals），以及更多… 阅读<a href="https://medium.com/javascript-scene/how-to-use-es6-for-isomorphic-javascript-apps-2a9c3abe5ea2" target="_blank" rel="external">“How to Use ES6 for Universal JavaScript Apps”<sup>[13]</sup></a>来了解细节。</p>
+<p><strong>Greenkeeper.io:</strong> <a href="http://greenkeeper.io/" target="_blank" rel="external">Greenkeeper<sup>[14]</sup></a> monitors your project dependencies and automatically opens a pull request on your project. Make sure you’ve hooked up a CI solution to automatically test pull requests. If the tests pass, just click “merge”, and you’re done. If they fail, you can dig in manually and figure out what needs fixing, or just close the PR.</p>
+<p><strong>Greenkeeper.io:</strong> <a href="http://greenkeeper.io/" target="_blank" rel="external">Greenkeeper<sup>[14]</sup></a> 监控你的项目依赖并且自动向你的项目提交一个pull request。你要确保你已经设定了CI解决方案来自动测试pull requests。如果测试通过，只要点击“merge”，就完工了。如果测试失败，你可以手动跟进并且找出哪里需要修复，或者直接关闭PR。</p>
+<p>If you prefer a hands-on approach, check out <a href="https://github.com/peerigon/updtr" target="_blank" rel="external"><strong>updtr</strong><sup>[15]</sup></a>. I recommend that you run updtr on your repo before you enable Greenkeeper for the first time.</p>
+<p>如果你偏爱手动的方法，看看<a href="https://github.com/peerigon/updtr" target="_blank" rel="external"><strong>updtr</strong><sup>[15]</sup></a>。在你第一次开启Greenkeeper之前，我推荐你先在你的项目上运行updtr。</p>
+<p><strong>Webpack:</strong> <a href="https://webpack.github.io/" target="_blank" rel="external">Webpack<sup>[16]</sup></a> bundles modules and dependencies into static assets for browsers. It enables a lot of really interesting features such as hot module replacement, which lets your live code in the browser update automatically as you change files without a page reload. Hot module replacement is the first step towards a truly continuous realtime developer feedback loop. If you’re not using it, you should be. To get started fast, check out the webpack config in the <a href="https://github.com/cloverfield-tools/universal-react-boilerplate" target="_blank" rel="external"><strong>Universal React Boilerplate</strong><sup>[17]</sup></a> project.</p>
+<p><strong>Webpack:</strong> <a href="https://webpack.github.io/" target="_blank" rel="external">Webpack<sup>[16]</sup></a> 将模块和依赖打包成浏览器可用的静态资源。它支持大量有趣的特性，比如模块热替换，这让你正在为浏览器编写的代码在文件更改时自动更新，而不用刷新页面。模块热替换是迈向真正持续实时开发反馈循环的第一步。如果你还没有使用webpack，你应该使用它。为了更快入门，看看<a href="https://github.com/cloverfield-tools/universal-react-boilerplate" target="_blank" rel="external"><strong>Universal React Boilerplate</strong><sup>[17]</sup></a>这个项目里的webpack配置。</p>
+<p><strong>React:</strong> This one is a bit of a stretch, because <a href="https://facebook.github.io/react/" target="_blank" rel="external">React<sup>[18]</sup></a> isn’t strictly a developer tool. It has more in common with a UI library. Think of React as the modern jQuery: A simple way to address the DOM. But React is more than that. It is really a UI abstraction layer that abstracts you away from the DOM. In fact, you can target a lot more than the DOM with React, including native mobile UI APIs (iOS &amp; Android), WebGL, canvas, and so on. Netflix uses it to target their own Gibbon rendering API for TV devices.</p>
+<p><strong>React:</strong> 这一个有一点跑题，因为<a href="https://facebook.github.io/react/" target="_blank" rel="external">React<sup>[18]</sup></a> 严格意义上来说不是一个开发者工具。它和一个UI库有着更多的共同点。请把React想象成现代的jQuery：一种更简单的处理DOM的办法。但React比这更强大。事实上，你可以把React用于一大堆DOM之外的平台，包括原生移动UI APIs(iOS &amp; Android)，WebGL, canvas以及更多。Netflix将React的目标平台设为了他们自己的Gibbon TV设备渲染API。</p>
+<p>So why am I listing it among developer tools? Because React’s abstraction layer is used by some great developer tools to enable the amazing developer tools of the future, featuring hot loading (updates to your live running code without page refreshes), time travel, and more… read on!</p>
+<p>所以为什么<br><strong>Redux + Redux DevTools:</strong> Redux is an application state management library inspired by the React/Flux architecture and the concept of pure functions from functional programming. Another library in a list of developer tools? Yep. Here’s why:</p>
+<iframe width="700" height="393" src="https://www.youtube.com/embed/xsSnOQynTHs" frameborder="0" allowfullscreen></iframe>
+
+<p>Redux and Redux DevTools enable some truly next-level debugging interactions against your live running code. It allows you to get really great, understandable insights about the actions that have been performed in your app:</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*lAp8ZAk5uNFTuxjhx4GTdw.gif" alt=""></p>
+<p>It even allows you to shuttle back and forth in time using the time travel debugging features. Here’s what it looks like with the slider view:</p>
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*BTRxlHu8WuCF4Iep4R44lA.gif" alt=""></p>
+<h4 id="Conclusion">Conclusion</h4><p>JavaScript has the richest array of developer tools I’ve ever seen for any language. As you can see, it’s more of a patchwork than a cohesive IDE environment, but we’re in a cambrian explosion period of JavaScript development. In the future, we may see more cohesive integrated developer tool offerings. In the meantime, we’re getting a peek at the future of programming.</p>
+<p>I predict we’ll see more live programming features come online as the JavaScript moves deeper into unified application state and immutability (which are the features that enable time travel debugging in Redux DevTools).</p>
+<p>I also believe that the line between the application we’re building, and the development environments we use to build it will blur over time. For example, the Unreal game engine integrates blueprint editing into the game engine itself, allowing developers and designers to build complex behaviors from inside the running game. I think over time, we’ll start to see those features in web and native mobile applications as well.</p>
+<p>JavaScript’s linting, runtime monitoring and time travel debugging features have no equal that I’m aware of in any language, but there is more we can do to bring us into parity with tools such as the Blueprint system from Unreal Engine 4. I can’t wait to see what’s coming next.</p>
+<iframe width="700" height="393" src="https://www.youtube.com/embed/9hwhH7upYFE" frameborder="0" allowfullscreen></iframe>
+
+<h3 id="Learn_JavaScript_with_Eric_Elliott"><a href="https://ericelliottjs.com/" target="_blank" rel="external">Learn JavaScript with Eric Elliott</a></h3><ul>
+<li>Online courses + regular webcasts</li>
+<li>Software testing</li>
+<li>The Two Pillars of JavaScript (prototypal OO + functional programming)</li>
+<li>Universal JavaScript</li>
+<li>Node</li>
+<li>React</li>
+</ul>
+<p><strong><em>Eric Elliott</em></strong> <em>is the author of</em> <a href="http://pjabook.com" target="_blank" rel="external"><em>“Programming JavaScript Applications”</em></a> <em>(O’Reilly), and</em> <a href="https://leanpub.com/learn-javascript-react-nodejs-es6/" target="_blank" rel="external"><em>“Learn JavaScript Universal App Development with Node, ES6, &amp; React”</em></a><em>. He has contributed to software experiences for</em> <strong><em>Adobe Systems</em></strong><em>,</em> <strong><em>Zumba Fitness</em></strong><em>,</em> <strong><em>The Wall Street Journal</em></strong><em>,</em> <strong><em>ESPN</em></strong><em>,</em> <strong><em>BBC</em></strong><em>, and top recording artists including</em> <strong><em>Usher</em></strong><em>,</em> <strong><em>Frank Ocean</em></strong><em>,</em> <strong><em>Metallica</em></strong><em>, and many more.</em></p>
+<p><em>He spends most of his time in the San Francisco Bay Area with the most beautiful woman in the world.</em></p>
+
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+
+        
+          <div class="post-nav">
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2015/11/30/litejs-event/">litejs-event</a>
+              
+            </div>
+          </div>
+        
+
+        
+        
+      </div>
+    
+  </div>
+
+
+
+  
+    <div class="comments" id="comments">
+      
+    </div>
+  
+
+          </div>
+
+          
+        </div>
+
+        
+<div class="sidebar-toggle">
+  <div class="sidebar-toggle-line-wrap">
+    <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+    <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  </div>
+</div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-inner">
+
+    
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview" data-target="site-overview">
+          站点概览
+        </li>
+      </ul>
+    
+
+    <div class="site-overview">
+      <div class="site-author motion-element">
+        <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zindex" />
+        <p class="site-author-name">Zindex</p>
+      </div>
+      <p class="site-description motion-element"></p>
+      <div class="site-state motion-element">
+        <div class="site-state-item site-state-posts">
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </div>
+        <div class="site-state-item site-state-tags">
+            <span class="site-state-item-count">12</span>
+            <span class="site-state-item-name">标签</span>
+        </div>
+        <div class="site-state-item site-state-pages">
+            <span class="site-state-item-count">1</span>
+            <span class="site-state-item-name">页面</span>
+        </div>
+      </div>
+
+      
+        <div class="feed-link motion-element">
+          <a href="/atom.xml">
+            <i class="menu-item-icon icon-feed"></i>
+            RSS
+          </a>
+        </div>
+      
+
+      <div class="social-info motion-element">
+        
+          
+            <span class="social-item">
+              <a href="https://github.com/zxc0328">github</a>
+            </span>
+          
+            <span class="social-item">
+              <a href="http://weibo.com/zindex">weibo</a>
+            </span>
+          
+            <span class="social-item">
+              <a href="http://www.douban.com/people/51764245/">douban</a>
+            </span>
+          
+        
+      </div>
+
+    </div>
+
+    
+      <div class="post-toc sidebar-panel-active">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#What_Are_Dev_Tools?"><span class="nav-number">1.</span> <span class="nav-text">What Are Dev Tools?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是开发者工具？"><span class="nav-number">2.</span> <span class="nav-text">什么是开发者工具？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TL;DR_quick_list:"><span class="nav-number">3.</span> <span class="nav-text">TL;DR quick list:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开发者工具一览表"><span class="nav-number">4.</span> <span class="nav-text">开发者工具一览表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#About_the_Tools"><span class="nav-number">5.</span> <span class="nav-text">About the Tools</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于这些工具"><span class="nav-number">6.</span> <span class="nav-text">关于这些工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Conclusion"><span class="nav-number">7.</span> <span class="nav-text">Conclusion</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Learn_JavaScript_with_Eric_Elliott"><span class="nav-number"></span> <span class="nav-text">Learn JavaScript with Eric Elliott</span></a>
+      </div>
+    
+  </div>
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">Zindex</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+</div>
+
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".fancybox").fancybox();
+    });
+  </script>
+
+  <script type="text/javascript">
+  function hasMobileUA () {
+    var nav = window.navigator;
+    var ua = nav.userAgent;
+    var pa = /iPad|iPhone|Android|Opera Mini|BlackBerry|webOS|UCWEB|Blazer|PSP|IEMobile|Symbian/g;
+
+    return pa.test(ua);
+  }
+
+  function isDesktop () {
+    return screen.width > 991 && !hasMobileUA();
+  }
+
+  function isTablet () {
+    return screen.width < 992 && screen.width > 767 && hasMobileUA();
+  }
+
+  function isMobile () {
+    return screen.width < 767 && hasMobileUA();
+  }
+
+  function escapeSelector (selector) {
+    return selector.replace(/[!"$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&")
+  }
+</script>
+
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  
+
+  <script type="text/javascript" id="motion.global">
+  $(document).ready(function () {
+    var body = $('body');
+    var isSidebarVisible = false;
+    var sidebarToggle = $('.sidebar-toggle');
+    var sidebarToggleLine1st = $('.sidebar-toggle-line-first')
+    var sidebarToggleLine2nd = $('.sidebar-toggle-line-middle');
+    var sidebarToggleLine3rd = $('.sidebar-toggle-line-last');
+    var sidebar = $('.sidebar');
+
+    var SIDEBAR_WIDTH = '320px';
+    var SIDEBAR_DISPLAY_DURATION = 300;
+
+    var sidebarToogleLineStatusInit = {width: '100%', opacity: 1, left: 0, rotateZ: 0, top: 0};
+
+    var sidebarToggleLine1stStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine1stStatusArrow = {width: '50%', rotateZ: '-45deg', top: '2px'};
+    var sidebarToogleLine1stStatusClose = {width: '100%', rotateZ: '-45deg', top: '5px'};
+
+    var sidebarToggleLine2ndStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine2ndStatusArrow = {width: '90%'};
+    var sidebarToogleLine2ndStatusClose = {opacity: 0};
+
+    var sidebarToggleLine3rdStatusInit = sidebarToogleLineStatusInit;
+    var sidebarToggleLine3rdStatusArrow = {width: '50%', rotateZ: '45deg', top: '-2px'};
+    var sidebarToogleLine3rdStatusClose = {width: '100%', rotateZ: '45deg', top: '-5px'};
+
+    sidebatToggleMotion();
+    postsListMotion();
+    backToTopMotion();
+
+
+    $(document)
+      .on('sidebar.isShowing', function () {
+        isDesktop() && body.velocity(
+          {paddingRight: SIDEBAR_WIDTH},
+          SIDEBAR_DISPLAY_DURATION
+        );
+        sidebarContentMotion();
+      })
+      .on('sidebar.isHiding', function () {});
+
+
+    function backToTopMotion () {
+      var b2top = $('.back-to-top');
+      b2top.on('click', function () {
+        body.velocity('scroll');
+      });
+    }
+
+    function sidebarShowMotion () {
+
+      sidebarToggleLine1st.velocity(sidebarToogleLine1stStatusClose);
+      sidebarToggleLine2nd.velocity(sidebarToogleLine2ndStatusClose);
+      sidebarToggleLine3rd.velocity(sidebarToogleLine3rdStatusClose);
+
+      sidebar.velocity({width: SIDEBAR_WIDTH}, {
+        display: 'block',
+        duration: SIDEBAR_DISPLAY_DURATION,
+        complete: function () {
+          sidebar.addClass('sidebar-active');
+          sidebar.trigger('sidebar.didShow');
+        }
+      });
+      sidebar.trigger('sidebar.isShowing');
+    }
+
+    function sidebarHideMotion () {
+      isDesktop() && body.velocity({paddingRight: 0});
+      sidebar.velocity('reverse');
+
+      sidebarToggleLine1st.velocity(sidebarToggleLine1stStatusInit);
+      sidebarToggleLine2nd.velocity(sidebarToggleLine2ndStatusInit);
+      sidebarToggleLine3rd.velocity(sidebarToggleLine3rdStatusInit);
+
+      sidebar.removeClass('sidebar-active');
+      sidebar.trigger('sidebar.isHiding');
+    };
+
+    function sidebarContentMotion () {
+      $('.sidebar .motion-element').velocity(
+        'transition.slideRightIn',
+        {stagger: 50, drag: true}
+      );
+    }
+
+    function postsListMotion () {
+      $('.post').velocity('transition.slideDownIn', {stagger: 300, drag: true});
+    }
+
+    function sidebatToggleMotion () {
+      sidebarToggle.on('click', function () {
+        isSidebarVisible ? sidebarHideMotion() : sidebarShowMotion();
+        isSidebarVisible = !isSidebarVisible;
+      });
+
+      sidebarToggle.hover(function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusArrow);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusArrow);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusArrow);
+      }, function () {
+        if (isSidebarVisible) {return}
+        sidebarToggleLine1st.velocity('stop').velocity(sidebarToggleLine1stStatusInit);
+        sidebarToggleLine2nd.velocity('stop').velocity(sidebarToggleLine2ndStatusInit);
+        sidebarToggleLine3rd.velocity('stop').velocity(sidebarToggleLine3rdStatusInit);
+      });
+    }
+  });
+
+</script>
+
+
+
+
+
+  
+  
+<script type="text/javascript" id="bootstrap.scrollspy.custom">
+  /* ========================================================================
+  * Bootstrap: scrollspy.js v3.3.2
+  * http://getbootstrap.com/javascript/#scrollspy
+  * ========================================================================
+  * Copyright 2011-2015 Twitter, Inc.
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  * ======================================================================== */
+
+  /**
+   * Custom by iissnan
+   *
+   * - Add a `clear.bs.scrollspy` event.
+   * - Esacpe targets selector.
+   */
+
+
+  +function ($) {
+    'use strict';
+
+    // SCROLLSPY CLASS DEFINITION
+    // ==========================
+
+    function ScrollSpy(element, options) {
+      this.$body          = $(document.body)
+      this.$scrollElement = $(element).is(document.body) ? $(window) : $(element)
+      this.options        = $.extend({}, ScrollSpy.DEFAULTS, options)
+      this.selector       = (this.options.target || '') + ' .nav li > a'
+      this.offsets        = []
+      this.targets        = []
+      this.activeTarget   = null
+      this.scrollHeight   = 0
+
+      this.$scrollElement.on('scroll.bs.scrollspy', $.proxy(this.process, this))
+      this.refresh()
+      this.process()
+    }
+
+    ScrollSpy.VERSION  = '3.3.2'
+
+    ScrollSpy.DEFAULTS = {
+      offset: 10
+    }
+
+    ScrollSpy.prototype.getScrollHeight = function () {
+      return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
+    }
+
+    ScrollSpy.prototype.refresh = function () {
+      var that          = this
+      var offsetMethod  = 'offset'
+      var offsetBase    = 0
+
+      this.offsets      = []
+      this.targets      = []
+      this.scrollHeight = this.getScrollHeight()
+
+      if (!$.isWindow(this.$scrollElement[0])) {
+        offsetMethod = 'position'
+        offsetBase   = this.$scrollElement.scrollTop()
+      }
+
+      this.$body
+        .find(this.selector)
+        .map(function () {
+          var $el   = $(this)
+          var href  = $el.data('target') || $el.attr('href')
+          var $href = /^#./.test(href) && $(escapeSelector(href)) // Need to escape selector.
+
+          return ($href
+            && $href.length
+            && $href.is(':visible')
+            && [[$href[offsetMethod]().top + offsetBase, href]]) || null
+        })
+        .sort(function (a, b) { return a[0] - b[0] })
+        .each(function () {
+          that.offsets.push(this[0])
+          that.targets.push(this[1])
+        })
+
+
+    }
+
+    ScrollSpy.prototype.process = function () {
+      var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
+      var scrollHeight = this.getScrollHeight()
+      var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
+      var offsets      = this.offsets
+      var targets      = this.targets
+      var activeTarget = this.activeTarget
+      var i
+
+      if (this.scrollHeight != scrollHeight) {
+        this.refresh()
+      }
+
+      if (scrollTop >= maxScroll) {
+        return activeTarget != (i = targets[targets.length - 1]) && this.activate(i)
+      }
+
+      if (activeTarget && scrollTop < offsets[0]) {
+        $(this.selector).trigger('clear.bs.scrollspy')  // Add a custom event.
+        this.activeTarget = null
+        return this.clear()
+      }
+
+      for (i = offsets.length; i--;) {
+        activeTarget != targets[i]
+          && scrollTop >= offsets[i]
+          && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
+          && this.activate(targets[i])
+      }
+    }
+
+    ScrollSpy.prototype.activate = function (target) {
+      this.activeTarget = target
+
+      this.clear()
+
+      var selector = this.selector +
+        '[data-target="' + target + '"],' +
+        this.selector + '[href="' + target + '"]'
+
+      var active = $(selector)
+        .parents('li')
+        .addClass('active')
+
+      if (active.parent('.dropdown-menu').length) {
+        active = active
+          .closest('li.dropdown')
+          .addClass('active')
+      }
+
+      active.trigger('activate.bs.scrollspy')
+    }
+
+    ScrollSpy.prototype.clear = function () {
+      $(this.selector)
+        .parentsUntil(this.options.target, '.active')
+        .removeClass('active')
+    }
+
+
+    // SCROLLSPY PLUGIN DEFINITION
+    // ===========================
+
+    function Plugin(option) {
+      return this.each(function () {
+        var $this   = $(this)
+        var data    = $this.data('bs.scrollspy')
+        var options = typeof option == 'object' && option
+
+        if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
+        if (typeof option == 'string') data[option]()
+      })
+    }
+
+    var old = $.fn.scrollspy
+
+    $.fn.scrollspy             = Plugin
+    $.fn.scrollspy.Constructor = ScrollSpy
+
+
+    // SCROLLSPY NO CONFLICT
+    // =====================
+
+    $.fn.scrollspy.noConflict = function () {
+      $.fn.scrollspy = old
+      return this
+    }
+
+
+    // SCROLLSPY DATA-API
+    // ==================
+
+    $(window).on('load.bs.scrollspy.data-api', function () {
+      $('[data-spy="scroll"]').each(function () {
+        var $spy = $(this)
+        Plugin.call($spy, $spy.data())
+      })
+    })
+
+  }(jQuery);
+</script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+    }
+
+    function getTOCMaxHeight () {
+      // TODO: Make it beautiful
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+        parseInt($sidebarInner.css('padding-top'), 10) -
+        parseInt($sidebarInner.css('padding-bottom'), 10) -
+        $('.sidebar-nav').height() -
+        parseInt($tocSelector.css('margin-top'), 10) -
+        parseInt($tocSelector.css('margin-bottom'), 10);
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+      });
+    }
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      if ($('.post-toc').html().trim().length > 0 && isDesktop()) {
+        setTimeout(function () {
+          $('.sidebar-toggle').trigger('click');
+        }, 800);
+      }
+    });
+  </script>
+
+
+
+
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+</body>
+</html>
