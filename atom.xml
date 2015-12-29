@@ -155,19 +155,6 @@ require('./index');
   </entry>
   
   <entry>
-    <title><![CDATA[litejs-event]]></title>
-    <link href="http://yoursite.com/2015/11/30/litejs-event/"/>
-    <id>http://yoursite.com/2015/11/30/litejs-event/</id>
-    <published>2015-11-30T07:42:47.000Z</published>
-    <updated>2015-11-30T07:42:47.000Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    
-    </summary>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[Thoughts on Reset.css]]></title>
     <link href="http://yoursite.com/2015/11/05/reset-css/"/>
     <id>http://yoursite.com/2015/11/05/reset-css/</id>
@@ -1225,21 +1212,6 @@ var LogView = (function(_View) {
     </summary>
     
       <category term="ES6" scheme="http://yoursite.com/tags/ES6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Litejs开发手记：不老事件]]></title>
-    <link href="http://yoursite.com/2015/10/08/litejs-dev-storys-event/"/>
-    <id>http://yoursite.com/2015/10/08/litejs-dev-storys-event/</id>
-    <published>2015-10-08T08:55:28.000Z</published>
-    <updated>2015-11-30T07:44:07.000Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="Litejs" scheme="http://yoursite.com/tags/Litejs/"/>
     
   </entry>
   
