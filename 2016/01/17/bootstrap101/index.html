@@ -18,9 +18,21 @@
 
 
 
-	<meta name="keywords" content="Network," />
 
-  <title> Http Basic Authorization的使用 // Zindex's blog </title>
+    <meta name="keywords" content="Hexo,next" />
+
+
+
+    <link rel="alternate" href="/atom.xml" title="Zindex's blog" type="application/atom+xml" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc5" />
+
+
+
+
+  <title> 写给后端程序员的Bootstrap入门教程 // Zindex's blog </title>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
 
 </head>
@@ -93,7 +105,7 @@
           
           
             
-              Http Basic Authorization的使用
+              写给后端程序员的Bootstrap入门教程
             
           
         </h1>
@@ -102,7 +114,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2015-11-04
+              发表于 2016-01-17
             
           </span>
         
@@ -118,29 +130,7 @@
         
 
         
-          <h3 id="1-Http_Basic_Authorization的请求格式">1.Http Basic Authorization的请求格式</h3><p>关于发起请求的http头格式，大家可以搜到很多相关资料。这里我们采用的方式比较特别，我们用mitmproxy这款http代理软件来拦截我们在终端的通过httpie发出的请求，分析其内容，从而得出Http Basic Authorization的请求格式。</p>
-<a id="more"></a>
-<p>首先我们发送一个http POST请求：</p>
-<pre class="prettyprint">
-http --auth neo1218@yeah.net POST http://121.43.230.104:5000/api/v1.0/token
-</pre>
-
-<p>拦截到的http header如下：<br><img src="http://7oxh2b.com1.z0.glb.clouddn.com/blog-http-header.png" alt="http-header"></p>
-<p>我们看到在http请求的header里有一个<code>Authorization</code>字段，内容有<code>Basic</code>标识符和一串编码组成。这串编程在经过解析之后，发现是<code>username:password</code>的base64编码。</p>
-<p>这样就得到了我们Http Basic Authorization的请求格式，在http的请求头中加入字段格式是<code>Authorization : Basic base64(username:password)</code></p>
-<h3 id="2-Http_Basic_Authorization客户端使用，以ajax为例">2.Http Basic Authorization客户端使用，以ajax为例</h3><p>下面以web端的ajax技术发起请求，来作为Http Basic Authorization客户端使用方法的实例。</p>
-<pre><code>var auth = btoa($(&quot;.username&quot;).val()+&quot;:&quot;+$(&quot;.password&quot;).val());
-this.options.userModel.fetch({
-        headers:{
-            &quot;Authorization&quot;:&quot;Basic &quot;+ auth
-        }
-    })
-</code></pre><p>这是backbone中使用model的fetch api进行ajax请求的例子。在请求之前，我们配置headers字段，设置为base64编码后的auth信息。最后发送请求。</p>
-<p>这个http请求头是这样的：</p>
-<p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/屏幕快照%202015-12-21%20上午3.29.51.png" alt="http请求头"></p>
-<p>ok，到这里我们就成功使用了http basic authorization来向服务器发送请求。</p>
-<h3 id="3-拓展阅读">3.拓展阅读</h3><p>《Http权威指南》中有关验证的章节</p>
-
+          <h3 id="什么是Bootstrap？">什么是Bootstrap？</h3><h3 id="如何入门Bootstrap？">如何入门Bootstrap？</h3><h3 id="Bootstrap常用模块解读">Bootstrap常用模块解读</h3>
         
       </div>
     
@@ -148,26 +138,16 @@ this.options.userModel.fetch({
     
       <div class="post-footer">
         
-          <div class="post-tags">
-            
-              <a href="/tags/Network/">
-                #Network
-              </a>
-            
-          </div>
-        
 
         
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2015/11/05/reset-css/">Thoughts on Reset.css</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2015/10/22/learn-ES6-with-babel/">ES6探秘-Classes</a>
+                <a href="/2015/12/28/2015-javascript-tools/">2015年末必备前端工具集</a>
               
             </div>
           </div>
@@ -267,7 +247,7 @@ this.options.userModel.fetch({
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Http_Basic_Authorization的请求格式"><span class="nav-number">1.</span> <span class="nav-text">1.Http Basic Authorization的请求格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Http_Basic_Authorization客户端使用，以ajax为例"><span class="nav-number">2.</span> <span class="nav-text">2.Http Basic Authorization客户端使用，以ajax为例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-拓展阅读"><span class="nav-number">3.</span> <span class="nav-text">3.拓展阅读</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Bootstrap？"><span class="nav-number">1.</span> <span class="nav-text">什么是Bootstrap？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何入门Bootstrap？"><span class="nav-number">2.</span> <span class="nav-text">如何入门Bootstrap？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bootstrap常用模块解读"><span class="nav-number">3.</span> <span class="nav-text">Bootstrap常用模块解读</span></a></li></ol>
       </div>
     
   </div>
