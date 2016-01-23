@@ -32,7 +32,7 @@
 
 
 
-  <title> 写给后端程序员的Bootstrap入门教程 // Zindex's blog </title>
+  <title> DOM API详解（一） // Zindex's blog </title>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
 
 </head>
@@ -105,7 +105,7 @@
           
           
             
-              写给后端程序员的Bootstrap入门教程
+              DOM API详解（一）
             
           
         </h1>
@@ -114,7 +114,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2016-01-17
+              发表于 2016-01-23
             
           </span>
         
@@ -130,7 +130,12 @@
         
 
         
-          <h3 id="什么是Bootstrap？">什么是Bootstrap？</h3><h3 id="如何入门Bootstrap？">如何入门Bootstrap？</h3><h3 id="Bootstrap常用模块解读">Bootstrap常用模块解读</h3>
+          <h3 id="一、什么是DOM">一、什么是DOM</h3><p>Document Object Model(DOM)是用编程语言对HTML，XML以及SVG文档进行操作的接口。我们经常使用JavaScript来操纵DOM，不过DOM其实的语言无关的。它并不是JavaScript的一部分。</p>
+<p>虽然如此，DOM在前端开发中经常和JS一起讨论，并且对JS造成了极大的负面影响。这个原因就在于早年间各大浏览器厂商（主要是老版本IE），对DOM的实现并没有按W3C的标准来做，而是自己制定了一套接口，由此给前端开发造成了极大的麻烦。我们需要使用jQuery这样的基础库，使用封装好的跨平台兼容API，才能使代码兼容主要浏览器。</p>
+<p>直到今天，jQuery这样的基础库依然是不可或缺的。好消息是，随着时代的进步，DOM API的兼容性在主流浏览器中已经不是问题。在没有低版本IE的移动端web中，我们就可以不用为这个问题劳神了。</p>
+<p>然而相比于CSS和JS所拥有的明确版本迭代和丰富的文档，DOM无论是在版本的碎片化程度还是文档的数量上来说都很难和前两者相比。</p>
+<p>打开MDN的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model" target="_blank" rel="external">DOM文档首页</a>，我们可以看到密密麻麻的API列表，点开其中的一个，可以看到更多的子API。其中除了DOM Core，有CSS DOM，还有HTMl5相关的DOM，更有Worker这样的浏览器相关的接口。可谓是一个大杂烩，CSS，JS，浏览器各种功能的API都在其中。因此本文就是一个DOM API的分类梳理，带大家看清DOM众多API的组成和层级。</p>
+<h3 id="二、DOM的分类">二、DOM的分类</h3>
         
       </div>
     
@@ -247,7 +252,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Bootstrap？"><span class="nav-number">1.</span> <span class="nav-text">什么是Bootstrap？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何入门Bootstrap？"><span class="nav-number">2.</span> <span class="nav-text">如何入门Bootstrap？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bootstrap常用模块解读"><span class="nav-number">3.</span> <span class="nav-text">Bootstrap常用模块解读</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、什么是DOM"><span class="nav-number">1.</span> <span class="nav-text">一、什么是DOM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、DOM的分类"><span class="nav-number">2.</span> <span class="nav-text">二、DOM的分类</span></a></li></ol>
       </div>
     
   </div>
