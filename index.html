@@ -108,6 +108,72 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/26/learning-dom-part2/">
+                DOM API详解（二）
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2016-01-26
+            
+          </span>
+        
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            <h3 id="四、API详解-DOM_CORE_Level_2">四、API详解-DOM CORE Level 2</h3>
+            <div class="post-more-link text-center">
+              <a class="btn" href="/2016/01/26/learning-dom-part2/#more">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2016/01/23/learning-dom-part1/">
                 DOM API详解（一）
               </a>
@@ -137,43 +203,11 @@
         
           
             <h3 id="一、什么是DOM">一、什么是DOM</h3><p>Document Object Model(DOM)是用编程语言对HTML，XML以及SVG文档进行操作的接口。我们经常使用JavaScript来操纵DOM，不过DOM其实的语言无关的。它并不是JavaScript的一部分。</p>
-<p>虽然如此，DOM在前端开发中经常和JS一起讨论，并且对JS造成了极大的负面影响。这个原因就在于早年间各大浏览器厂商（主要是老版本IE），对DOM的实现并没有按W3C的标准来做，而是自己制定了一套接口，由此给前端开发造成了极大的麻烦。我们需要使用jQuery这样的基础库，使用封装好的跨平台兼容API，才能使代码兼容主要浏览器。</p>
-<p>直到今天，jQuery这样的基础库依然是不可或缺的。好消息是，随着时代的进步，DOM API的兼容性在主流浏览器中已经不是问题。在没有低版本IE的移动端web中，我们就可以不用为这个问题劳神了。</p>
-<p>然而相比于CSS和JS所拥有的明确版本迭代和丰富的文档，DOM无论是在版本的碎片化程度还是文档的数量上来说都很难和前两者相比。</p>
-<p>打开MDN的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model" target="_blank" rel="external">DOM文档首页</a>，我们可以看到密密麻麻的API列表，点开其中的一个，可以看到更多的子API。其中除了DOM Core，有CSS DOM，还有HTMl5相关的DOM，更有Worker这样的浏览器相关的接口。可谓是一个大杂烩，CSS，JS，浏览器各种功能的API都在其中。因此本文就是一个DOM API的分类梳理，带大家看清DOM众多API的组成和层级。</p>
-<h3 id="二、DOM标准">二、DOM标准</h3><p>我们从W3C的Recommendation标准来看，Document Object Model (DOM)目前有Level 2，Level 3，以及Level4三个标准。每一个Level的标准下又分为多个模块，其中DOM2 Core Specification的发布时间为2000-11-13，而DOM3 Core Specification的发布时间为2004-04-07，最新的DOM4发布于2015-11-19。</p>
-<p>让我们来看看DOM2的组成模块是怎样的。</p>
-<p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/DOM2%20modules.png" alt="DOM2模块"></p>
-<p>然后我们来看看DOM3。DOM3构建在DOM2的基础上，一些模块由于各种原因（下文将讲到），没有出Level3标准，因此数量上少于DOM2的模块。DOM3中的XPath Specification等等标准还没有正式成为推荐标准，因此没有加入图表。</p>
-<p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/DOM3%20modules%20v3.png" alt="DOM3模块"></p>
-<h3 id="三、DOM2与DOM3，以及非核心API">三、DOM2与DOM3，以及非核心API</h3><p>和CSS标准的模块一样，DOM标准模块的版本也是各自独立的。我们所说的DOM2，DOM3其实主要指DOM Core Specification的版本。在DOM Core Specification中会写明这个版本的DOM Core和哪些版本的模块一起组成新一代DOM标准。</p>
-<p>因此我们也就可以解释为什么DOM3的组成模块要大大少于DOM2了。DOM2中的<a href="https://www.w3.org/TR/DOM-Level-2-Style/" target="_blank" rel="external">Style Specification</a>后来发展为了一个新的<a href="https://drafts.csswg.org/cssom/" target="_blank" rel="external">CSSOM Specification</a>，事实上这个标准已经不属于DOM的范畴，而被划入CSS标准。而<a href="http://www.w3.org/TR/DOM-Level-2-Events/" target="_blank" rel="external">Events Specification</a>的Level 3最后发展为了新的<a href="https://www.w3.org/TR/uievents/" target="_blank" rel="external">UI Events Specification</a>以及<a href="https://www.w3.org/TR/2013/REC-touch-events-20131010/" target="_blank" rel="external">Touch Events Specification</a>等等独立的Event Specification，补充了DOM2 Events Specification中缺失的事件。<a href="https://www.w3.org/TR/DOM-Level-2-Traversal-Range/" target="_blank" rel="external">Traversal and Range Specification</a>中的Traversal部分发展为了新的<a href="https://www.w3.org/TR/ElementTraversal/" target="_blank" rel="external">Element Traversal Specification</a>。</p>
-<p>具体模块之间的继承关系可以看下表:</p>
-<table>
-<thead>
-<tr>
-<th><strong>DOM2模块</strong></th>
-<th style="text-align:left"><strong>新模块</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://www.w3.org/TR/DOM-Level-2-Style/" target="_blank" rel="external">Style Specification Level 2</a></td>
-<td style="text-align:left"><a href="https://drafts.csswg.org/cssom/" target="_blank" rel="external">CSSOM Specification（Not a part of DOM now）</a></td>
-</tr>
-<tr>
-<td><a href="https://www.w3.org/TR/DOM-Level-2-Traversal-Range/" target="_blank" rel="external">Traversal and Range Specification Level 2</a></td>
-<td style="text-align:left"><a href="https://www.w3.org/TR/ElementTraversal/" target="_blank" rel="external">Element Traversal Specification（Part of DOM4）</a></td>
-</tr>
-<tr>
-<td><a href="http://www.w3.org/TR/DOM-Level-2-Events/" target="_blank" rel="external">Events Specification Level 2</a></td>
-<td style="text-align:left"><a href="https://www.w3.org/TR/uievents/" target="_blank" rel="external">UI Events Specification</a><br>   <a href="https://www.w3.org/TR/2013/REC-touch-events-20131010/" target="_blank" rel="external">Touch Events Specification</a><br>   <a href="https://www.w3.org/TR/2015/REC-pointerevents-20150224/" target="_blank" rel="external">Pointer Events Specification</a><br>   <a href="https://www.w3.org/TR/2014/REC-progress-events-20140211/" target="_blank" rel="external">Progress Events Specification</a></td>
-</tr>
-</tbody>
-</table>
-<p>然后我们来看看所谓的非核心API。所谓的非核心API就是那些在W3C标准中不属于DOM的API，但是这些API和DOM的核心部分有着或多或少的关系。如CSS相关的<a href="https://drafts.csswg.org/cssom/" target="_blank" rel="external">CSSOM Specification</a>，<a href="https://www.w3.org/TR/2013/REC-selectors-api-20130221/" target="_blank" rel="external">Selectors API</a>等等。以及与HTML5相关的众多JavaScript API，比如<a href="https://www.w3.org/TR/2015/PR-webstorage-20151126/" target="_blank" rel="external">Web Storage</a>，<a href="https://www.w3.org/TR/2015/WD-workers-20150924/" target="_blank" rel="external">Web Workers</a>等等</p>
-<p>本文关注的主要的DOM2以及部分新模块的API，解读它们的构成，以及在浏览器的兼容情况。</p>
-
+            <div class="post-more-link text-center">
+              <a class="btn" href="/2016/01/23/learning-dom-part1/#more">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
         
       </div>
@@ -803,81 +837,6 @@
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/05/23/Web-Animation-Using-Javascript-part-one/">
-                Web Animation Using Javascript part one
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2015-05-23
-            
-          </span>
-        
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <h2 id="第二章：Velocity-js动画">第二章：Velocity.js动画</h2><p>在这一章，你将学到由Velocity.js提供的特性，指令，和选项。如果你熟悉基于jQuery的动画，那么你已经知道如何使用Velocity.js了；它的功能几乎和jQuery的$.animate()函数一模一样。</p>
-<p>不过抛开你现有的知识，本章中对特性的井井有条的分类将会向你介绍动画引擎行为的细微差别。掌握这些细微差别将会帮助你从新手成为专业人士。即使你已经对jQuery动画和Velocity.js相当熟悉了，也给自己一个机会，快速浏览本章。<strong>你必定会发现一些你没意识到的可行之事。</strong><br>
-            <div class="post-more-link text-center">
-              <a class="btn" href="/2015/05/23/Web-Animation-Using-Javascript-part-one/#more">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/翻译-Javascript/">
-                #翻译,Javascript
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -910,7 +869,7 @@
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
