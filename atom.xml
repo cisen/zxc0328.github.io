@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-03-11T08:01:40.000Z</updated>
+  <updated>2016-03-11T08:38:51.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yoursite.com/2016/01/26/learning-dom-part2/"/>
     <id>http://yoursite.com/2016/01/26/learning-dom-part2/</id>
     <published>2016-01-26T07:58:34.000Z</published>
-    <updated>2016-03-11T08:01:40.000Z</updated>
+    <updated>2016-03-11T08:38:51.000Z</updated>
     <content type="html"><![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><p>DOM2标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>
 <a id="more"></a>
 <p>具体的层级结构如下图所示：<br><img src="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/images/dom-architecture.png" alt="dom-architecture"><br><em>image credit: w3.org</em></p>
@@ -35,8 +35,93 @@
   NodeList           getElementsByTagName(in DOMString name);
 };
 </code></pre><p><em>IDL中主要描述了一个接口的继承关系，以及接口的方法和属性，及相应的参数和返回值</em></p>
-<p>下面我们首先来看DOM Core模块。从“Core”这个名词就可以看出这个模块在整个DOM标准中处于中心地位。DOM Core模块主要定义了DOM最关键的一组接口和对象。其中最顶层的一个接口就是<code>Node</code>。直接继承<code>Node</code>的接口有<code>Element</code>、<code>DocumentType</code>、<code>Attr</code>、<code>ProcessingInstruction</code>、<code>Comment</code>、<code>Text</code>、<code>CDATASection</code>和<code>Notation</code>。</p>
-<h4 id="Node接口">Node接口</h4><h4 id="Element接口">Element接口</h4><h4 id="Document接口">Document接口</h4>]]></content>
+<p>下面我们首先来看DOM Core模块。从“Core”这个名词就可以看出这个模块在整个DOM标准中处于中心地位。DOM Core模块主要定义了DOM最关键的一组接口和对象。其中最顶层的一个接口就是<code>Node</code>。直接继承<code>Node</code>的接口有<code>Element</code>、<code>DocumentType</code>、<br><code>Attr</code>、<code>ProcessingInstruction</code>、<code>Comment</code>、<br><code>Text</code>、<code>CDATASection</code>和<code>Notation</code>。</p>
+<h4 id="Node接口">Node接口</h4><p><code>Node</code>接口是整个DOM中最顶层的接口，DOM中的每一个节点都是一个<code>Node</code>。从<code>Node</code>接口分化出其他的更具体的接口。</p>
+<p><code>Node</code>接口的属性：</p>
+<table>
+<thead>
+<tr>
+<th><strong>属性名</strong></th>
+<th style="text-align:left"><strong>返回值</strong></th>
+<th style="text-align:left"><strong>备注</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>nodeName</td>
+<td style="text-align:left">DOMString</td>
+<td style="text-align:left">只读</td>
+</tr>
+<tr>
+<td>nodeValue</td>
+<td style="text-align:left">DOMString</td>
+<td style="text-align:left">只读</td>
+</tr>
+<tr>
+<td>nodeType</td>
+<td style="text-align:left">unsigned short</td>
+<td style="text-align:left">只读</td>
+</tr>
+<tr>
+<td>parentNode</td>
+<td style="text-align:left">Node</td>
+<td style="text-align:left">只读</td>
+</tr>
+<tr>
+<td>childNodes</td>
+<td style="text-align:left">NodeList</td>
+<td style="text-align:left">只读</td>
+</tr>
+<tr>
+<td>firstChild</td>
+<td style="text-align:left">Node</td>
+<td style="text-align:left">只读</td>
+</tr>
+<tr>
+<td>lastChild</td>
+<td style="text-align:left">Node</td>
+<td style="text-align:left">只读</td>
+</tr>
+<tr>
+<td>previousSibling</td>
+<td style="text-align:left">Node</td>
+<td style="text-align:left">只读</td>
+</tr>
+<tr>
+<td>nextSibling</td>
+<td style="text-align:left">Node</td>
+<td style="text-align:left">只读</td>
+</tr>
+<tr>
+<td>attributes</td>
+<td style="text-align:left">NamedNodeMap</td>
+<td style="text-align:left">只读</td>
+</tr>
+<tr>
+<td>ownerDocument</td>
+<td style="text-align:left">Document</td>
+<td style="text-align:left">只读</td>
+</tr>
+</tbody>
+</table>
+<p>值得注意的是，虽然这些属性都定义在Node接口上，但是不是所有的底层接口实现都有对应的值。如<code>Text</code>和<code>Comment</code>节点都没有子元素，因此它们的<code>childNodes</code>为<code>null</code>。同理，<code>Element</code>接口的<code>nodeValue</code>值就为<code>null</code>。</p>
+<p><code>nodeType</code>属性的值被定义为一组常量：</p>
+<pre><code>// NodeType
+  const unsigned short      ELEMENT_NODE                   = 1;
+  const unsigned short      ATTRIBUTE_NODE                 = 2;
+  const unsigned short      TEXT_NODE                      = 3;
+  const unsigned short      CDATA_SECTION_NODE             = 4;
+  const unsigned short      ENTITY_REFERENCE_NODE          = 5;
+  const unsigned short      ENTITY_NODE                    = 6;
+  const unsigned short      PROCESSING_INSTRUCTION_NODE    = 7;
+  const unsigned short      COMMENT_NODE                   = 8;
+  const unsigned short      DOCUMENT_NODE                  = 9;
+  const unsigned short      DOCUMENT_TYPE_NODE             = 10;
+  const unsigned short      DOCUMENT_FRAGMENT_NODE         = 11;
+  const unsigned short      NOTATION_NODE                  = 12;
+</code></pre><p>这就是我们平时用来检测节点类型时使用的数值了。</p>
+<p>下面从<code>nodeType</code>的方法中选几个进行简单的介绍。</p>
+<h4 id="Element接口">Element接口</h4><h4 id="Document接口">Document接口</h4>]]></content>
     <summary type="html">
     <![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><p>DOM2标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>]]>
     
