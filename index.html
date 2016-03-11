@@ -108,6 +108,131 @@
           
           
             
+              <a class="post-title-link" href="/2016/03/11/front-end-interview/">
+                前端面试题总结（持续更新）
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2016-03-11
+            
+          </span>
+        
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            <p>接下来要参与大大小小的暑期实习笔试和面试。在这篇博客里我将总结一些常见的面试题。其中有一部分是我去年暑假找实习的时候总结的。现在看来，不免有些幼稚。慢慢完善吧！</p>
+<h2 id="JavaScript">JavaScript</h2><p>Q：<strong>JS中的闭包</strong></p>
+<p>A：闭包从本身在函数式编程中的概念来说，说的是在定义函数时的两部分-函数体和函数的<code>context</code>，也就是函数定义时的上下文。里面保存着作用域中的变量，函数的定义和赋值。</p>
+<p>而我们平时说的闭包，其实是创建对于这个上下文的引用，从而在外部作用域中通过这个引用来访问这个上下文。</p>
+<p>所以从概念上来说，你声明了一个函数，就声明了一个闭包。</p>
+<p>然后从实际的使用来说，当你通过某种代码对在外部作用域中保存了对当前闭包的引用时，我们说你就“创建”了一个闭包，其实是“创建”了一个<strong>闭包的引用</strong>。我们通常用IIFE来达到这一效果，以至于有人认为IIFE就是“闭包”，这其实是不正确的认识。</p>
+<p>这就是闭包的实质，至于如何去使用闭包，那就五花八门了。你可以用来保存被外部作用域访问的临时变量，也可以用来封装函数，也可以用来做访问权限控制（类似Java中的私有变量）。</p>
+<hr>
+<p>Q：<strong>JS模块化</strong></p>
+<p>A：</p>
+<ul>
+<li>为什么我们需要JS模块化</li>
+<li>JS模块化的发展过程（从function，IIFE到Commonjs）</li>
+<li>JS模块化的几种方案介绍（Commonjs，AMD，ES6 Module）</li>
+</ul>
+<h2 id="CSS">CSS</h2><p>Q：<strong>CSS position的不同取值以及差异？</strong>  </p>
+<p>A：取值：static（默认），relative，absolute，fixed。差异，relative：相对于其自身进行定位，不脱离文档流。absolute：相对于父元素链上的第一个已定位元素，如果不存在则相对于body。脱离文档流。fixed，相对于浏览器窗口进行定位，脱离文档流。static：正常的文档流定位。</p>
+<hr>
+<p>Q：<strong>CSS 盒模型</strong></p>
+<p>A：</p>
+<ul>
+<li>W3C 默认<code>content-box</code>，ie5-、ie6 Quirks mode <code>border-box</code></li>
+<li><code>content-box</code>：csswidth = content width</li>
+<li><code>border-box</code>: csswidth = content width + padding +border</li>
+</ul>
+<hr>
+<p>Q：<strong>CSS选择器</strong></p>
+<p>A：元素，类，id，属性，伪类，伪元素。···</p>
+<hr>
+<p>Q：<strong>CSS hack</strong></p>
+<p>A：选择器hack（-webkit-,-moz-）,属性hack，IE条件注释</p>
+<h2 id="HTML">HTML</h2><p>Q：<strong>web语义化</strong></p>
+<p>A：<br>html5新标签：<code>&lt;header&gt;&lt;footer&gt;&lt;nav&gt;&lt;aside&gt;</code><br>Microformat：标准化的css类名，方便搜索引擎对页面内容进行索引。</p>
+<hr>
+<p>Q：<strong>Doctype</strong></p>
+<p>A：通过检查doctype决定使用兼容模式还是标准模式对文档进行渲染。html中为&lt;!doctype html&gt;</p>
+<h2 id="数据结构与算法">数据结构与算法</h2><h2 id="前端性能">前端性能</h2><p>Q：<strong>页面加载速度优化？</strong>  </p>
+<p>A：从http请求上来说，减少http请求数（合并css，js，sprite图）。减小文件的大小（压缩css，js，图片）。cdn加速等。从浏览器渲染的角度来说，把js放在之前，在dom加载完成后加载js。</p>
+<h2 id="网络">网络</h2><p>Q：<strong>HTTP GET POST的不同？</strong>  </p>
+<p>A：</p>
+<ul>
+<li>GET是把参数加到URL中，在URL中可以看到。POST将表单内容放置在HTTP request body中。</li>
+<li>在RESTful的api设计中，GET一般用于获取/查询资源信息，而POST一般用于更新资源信息。</li>
+</ul>
+<hr>
+<p>Q：<strong>HTTP状态码</strong></p>
+<p>A：200 ok，304 not modified，404 not found，403 forbidden，500 internal server error， 503 Service Unavailable等。</p>
+<h2 id="浏览器">浏览器</h2><p>Q：<strong>描述在浏览器中输入url到网页加载完成的过程</strong></p>
+<p>A：  </p>
+<ul>
+<li>浏览器查看缓存，如果有为过期的资源则直接返回该资源。</li>
+<li>若缓存没有所需的资源，浏览器解析url，组装一个http请求。</li>
+<li>浏览器获取主机ip地址，查询链从浏览器缓存，本机缓存，路由器缓存，到dns服务器缓存，进入dns查询链</li>
+<li>获得主机的ip地址后，与目标ip建立tcp连接，发送http请求</li>
+<li>tcp/ip 7层模型</li>
+<li>服务器端处理，web服务器，web端处理程序，返回http response</li>
+<li>浏览器接收http reponse 并根据状态码不同做出不同的处理</li>
+<li>根据资源类型决定处理方式，如果是html文档，则构建DOM树，下载资源，构造CSS om树，执行js脚本。</li>
+<li>DOM树：<br>Tokenizing：根据HTML规范将字符流解析为标记<br>Lexing：词法分析将标记转换为对象并定义属性和规则<br>DOM construction：根据HTML标记关系将对象组成DOM树</li>
+<li>CSS OM（object model）树：<br>Tokenizing：字符流转换为标记流<br>Node：根据标记创建节点<br>CSSOM：节点创建CSSOM树</li>
+<li>根据DOM树和CSS om树构建渲染树 render object<br>从DOM树的根节点遍历所有可见节点，不可见节点包括：1）script,meta这样本身不可见的标签。<br>2)被css隐藏的节点，如display: none<br>对每一个可见节点，找到恰当的CSSOM规则并应用<br>发布可视节点的内容和计算样式</li>
+<li>js解析<br>浏览器创建Document对象并解析HTML，将解析到的元素和文本节点添加到文档中，此时document.readystate为loading<br>此时HTML解析器遇到同步script时，将他们添加到文档中，然后执行行内或外部脚本。这些脚本会同步执行，并且在脚本下载和执行时解析器会暂停。<br>浏览器在Document对象上触发DOMContentLoaded事件<br>此时文档完全解析完成，浏览器可能还在等待如图片等内容加载，等这些内容完成载入并且所有异步脚本完成载入和执行，document.readState变为complete,window触发load事件</li>
+<li>页面显示<br>（关于这个问题的浏览器渲染方面，看webkit技术内幕比较好，我觉得这本书也算是高阶前端必看的一本）</li>
+</ul>
+
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2016/01/26/learning-dom-part2/">
                 DOM API详解（二）
               </a>
@@ -752,91 +877,6 @@
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/07/23/vertical-align-middle/">
-                最佳实践之多个高度不定水平实体垂直居中
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2015-07-23
-            
-          </span>
-        
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>如何快速并且健壮地实现高度不一定的实体的居中呢？  </p>
-<p>vertical-align显然是一种办法。这个元素从语义上来看就是用来实现垂直对齐的。要理解vertical-align，首先我们得了解几个概念，inline boxes, line box, 以及baseline。  </p>
-<p>inline boxes是行内元素构成的行内box，而line box则是由一行内所有的inline boxes构成的box，比如：</p>
-<pre><code>&lt;div&gt;
-    &lt;span&gt;我是inline box&lt;/span&gt;
-    我是匿名inline box
-&lt;/div&gt;
-</code></pre><p>除了display为inline或者inline-block的标签会形成inline box，行内文本也会形成匿名的inline box。</p>
-<p>一行所有的inline boxes构成匿名的line box，其中inline box中高度最高的那个的高度便是line box的高度，由此撑起了整行的高度。（这涉及到line-height方面的知识）</p>
-<p>而关于baseline，则是文字在排版时顶部与底部中间的基线，如果是行内文本，具体位置随字体不同而不同，一般都在中线以下的位置。具体的需要参考西文字体学（Typography）(Jobs在大学旁听的课程之一，你值得拥有)  </p>
-<p>而line—height其实就是两条基线之间的距离。</p>
-<p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/blog_7_24_1.png" alt="baseline"></p>
-            <div class="post-more-link text-center">
-              <a class="btn" href="/2015/07/23/vertical-align-middle/#more">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/CSS/">
-                #CSS
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -869,7 +909,7 @@
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
