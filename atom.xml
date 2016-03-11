@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-03-11T09:17:28.000Z</updated>
+  <updated>2016-03-11T09:39:28.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,11 +15,49 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[Let's build a jQuery!-Part 1(early release)]]></title>
+    <link href="http://yoursite.com/2016/03/11/let-s-build-a-jQuery/"/>
+    <id>http://yoursite.com/2016/03/11/let-s-build-a-jQuery/</id>
+    <published>2016-03-11T09:24:00.000Z</published>
+    <updated>2016-03-11T09:39:28.000Z</updated>
+    <content type="html"><![CDATA[<p>这个系列博客的灵感来源于<a href="https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html" target="_blank" rel="external">这篇博客</a>和一次失败的<a href="https://github.com/zxc0328/litejs" target="_blank" rel="external">造轮子</a>经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery like的基础库，并且配上相应的源码，也就是我们的Litejs。</p>
+<p>我们要做的工作有以下这些：</p>
+<ul>
+<li>选择器和元素封装</li>
+<li>DOM操作</li>
+<li>Ajax请求</li>
+<li>事件系统</li>
+<li>触摸事件</li>
+</ul>
+<p>分别对应这系列文章的四个部分。</p>
+<p>好，让我们开启这段神奇(误)的重复造轮子之旅吧！</p>
+<a id="more"></a>
+<h3 id="选择器和元素封装">选择器和元素封装</h3>]]></content>
+    <summary type="html">
+    <![CDATA[<p>这个系列博客的灵感来源于<a href="https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html">这篇博客</a>和一次失败的<a href="https://github.com/zxc0328/litejs">造轮子</a>经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery like的基础库，并且配上相应的源码，也就是我们的Litejs。</p>
+<p>我们要做的工作有以下这些：</p>
+<ul>
+<li>选择器和元素封装</li>
+<li>DOM操作</li>
+<li>Ajax请求</li>
+<li>事件系统</li>
+<li>触摸事件</li>
+</ul>
+<p>分别对应这系列文章的四个部分。</p>
+<p>好，让我们开启这段神奇(误)的重复造轮子之旅吧！</p>]]>
+    
+    </summary>
+    
+      <category term="jQuery JavaScript" scheme="http://yoursite.com/tags/jQuery-JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[前端面试题总结（持续更新）]]></title>
     <link href="http://yoursite.com/2016/03/11/front-end-interview/"/>
     <id>http://yoursite.com/2016/03/11/front-end-interview/</id>
     <published>2016-03-11T08:51:36.000Z</published>
-    <updated>2016-03-11T09:17:28.000Z</updated>
+    <updated>2016-03-11T09:25:41.000Z</updated>
     <content type="html"><![CDATA[<p>接下来要参与大大小小的暑期实习笔试和面试。在这篇博客里我将总结一些常见的面试题。其中有一部分是我去年暑假找实习的时候总结的。现在看来，不免有些幼稚。慢慢完善吧！</p>
 <a id="more"></a>
 <h2 id="JavaScript">JavaScript</h2><p>Q：<strong>JS中的闭包</strong></p>
@@ -91,6 +129,8 @@
     
     </summary>
     
+      <category term="Interview Front-end" scheme="http://yoursite.com/tags/Interview-Front-end/"/>
+    
   </entry>
   
   <entry>
@@ -98,7 +138,7 @@
     <link href="http://yoursite.com/2016/01/26/learning-dom-part2/"/>
     <id>http://yoursite.com/2016/01/26/learning-dom-part2/</id>
     <published>2016-01-26T07:58:34.000Z</published>
-    <updated>2016-03-11T08:49:13.000Z</updated>
+    <updated>2016-03-11T09:25:24.000Z</updated>
     <content type="html"><![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><h4 id="DOM标准的层级">DOM标准的层级</h4><p>DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>
 <a id="more"></a>
 <p>具体的层级结构如下图所示：<br><img src="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/images/dom-architecture.png" alt="dom-architecture"><br><em>image credit: w3.org</em></p>
@@ -206,6 +246,8 @@
     
     </summary>
     
+      <category term="DOM" scheme="http://yoursite.com/tags/DOM/"/>
+    
   </entry>
   
   <entry>
@@ -213,7 +255,7 @@
     <link href="http://yoursite.com/2016/01/23/learning-dom-part1/"/>
     <id>http://yoursite.com/2016/01/23/learning-dom-part1/</id>
     <published>2016-01-23T12:49:30.000Z</published>
-    <updated>2016-03-11T08:49:03.000Z</updated>
+    <updated>2016-03-11T09:25:16.000Z</updated>
     <content type="html"><![CDATA[<h3 id="一、什么是DOM">一、什么是DOM</h3><p>Document Object Model(DOM)是用编程语言对HTML，XML以及SVG文档进行操作的接口。我们经常使用JavaScript来操纵DOM，不过DOM其实的语言无关的。它并不是JavaScript的一部分。</p>
 <a id="more"></a>
 <p>虽然如此，DOM在前端开发中经常和JS一起讨论，并且对JS造成了极大的负面影响。这个原因就在于早年间各大浏览器厂商（主要是老版本IE），对DOM的实现并没有按W3C的标准来做，而是自己制定了一套接口，由此给前端开发造成了极大的麻烦。我们需要使用jQuery这样的基础库，使用封装好的跨平台兼容API，才能使代码兼容主要浏览器。</p>
@@ -257,6 +299,8 @@
     <![CDATA[<h3 id="一、什么是DOM">一、什么是DOM</h3><p>Document Object Model(DOM)是用编程语言对HTML，XML以及SVG文档进行操作的接口。我们经常使用JavaScript来操纵DOM，不过DOM其实的语言无关的。它并不是JavaScript的一部分。</p>]]>
     
     </summary>
+    
+      <category term="DOM" scheme="http://yoursite.com/tags/DOM/"/>
     
   </entry>
   
