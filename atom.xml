@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-03-11T08:38:51.000Z</updated>
+  <updated>2016-03-11T08:49:13.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,11 +19,11 @@
     <link href="http://yoursite.com/2016/01/26/learning-dom-part2/"/>
     <id>http://yoursite.com/2016/01/26/learning-dom-part2/</id>
     <published>2016-01-26T07:58:34.000Z</published>
-    <updated>2016-03-11T08:38:51.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><p>DOM2标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>
+    <updated>2016-03-11T08:49:13.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><h4 id="DOM标准的层级">DOM标准的层级</h4><p>DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>
 <a id="more"></a>
 <p>具体的层级结构如下图所示：<br><img src="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/images/dom-architecture.png" alt="dom-architecture"><br><em>image credit: w3.org</em></p>
-<p>在我们把目光转向DOM Core模块之前，我想先讲讲如何阅读DOM的W3C Specification。首先我们可以阅读官方的导语-<a href="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/introduction.html" target="_blank" rel="external">What is the Document Object Model?</a>。</p>
+<h4 id="DOM_Core-导语">DOM Core-导语</h4><p>在我们把目光转向DOM Core模块之前，我想先讲讲如何阅读DOM的W3C Specification。首先我们可以阅读官方的导语-<a href="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/introduction.html" target="_blank" rel="external">What is the Document Object Model?</a>。</p>
 <p>这一节中介绍了DOM的相关概念。比如关于DOM的结构，我们通常认为是一颗树，但实际上用森林来形容更为贴切，因为虽然以<code>Document</code>为根节点的文档树最多只能有一颗，但我们还有一颗可选的<code>doctype</code>节点树，以及<code>comments</code>节点等等。</p>
 <p>更重要的是，导语中还介绍了接下来文档中的一些惯例。比如因为DOM是独立于编程语言的，所以在文档中使用了IDL（Interactive Data Language）来描述接口。然后我们需要注意的一点就是，DOM可以用于HTML和XML，因此在前端同学看来，DOM中会有一些不太熟悉的概念，比如<code>Namespace</code>和<code>DOM URIs</code>，这些正是为了兼容XML而加入到DOM中的特性。不用过分在意。</p>
 <p>下面是一个简化的IDL示例：</p>
@@ -121,9 +121,9 @@
   const unsigned short      NOTATION_NODE                  = 12;
 </code></pre><p>这就是我们平时用来检测节点类型时使用的数值了。</p>
 <p>下面从<code>nodeType</code>的方法中选几个进行简单的介绍。</p>
-<h4 id="Element接口">Element接口</h4><h4 id="Document接口">Document接口</h4>]]></content>
+<h4 id="Element接口">Element接口</h4><h4 id="Document接口">Document接口</h4><h4 id="Attr接口">Attr接口</h4><h4 id="Text，Comment和CharacterData接口">Text，Comment和CharacterData接口</h4><h4 id="DOM中的基础数据类型">DOM中的基础数据类型</h4>]]></content>
     <summary type="html">
-    <![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><p>DOM2标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>]]>
+    <![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><h4 id="DOM标准的层级">DOM标准的层级</h4><p>DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>]]>
     
     </summary>
     
@@ -134,7 +134,7 @@
     <link href="http://yoursite.com/2016/01/23/learning-dom-part1/"/>
     <id>http://yoursite.com/2016/01/23/learning-dom-part1/</id>
     <published>2016-01-23T12:49:30.000Z</published>
-    <updated>2016-01-26T08:24:27.000Z</updated>
+    <updated>2016-03-11T08:49:03.000Z</updated>
     <content type="html"><![CDATA[<h3 id="一、什么是DOM">一、什么是DOM</h3><p>Document Object Model(DOM)是用编程语言对HTML，XML以及SVG文档进行操作的接口。我们经常使用JavaScript来操纵DOM，不过DOM其实的语言无关的。它并不是JavaScript的一部分。</p>
 <a id="more"></a>
 <p>虽然如此，DOM在前端开发中经常和JS一起讨论，并且对JS造成了极大的负面影响。这个原因就在于早年间各大浏览器厂商（主要是老版本IE），对DOM的实现并没有按W3C的标准来做，而是自己制定了一套接口，由此给前端开发造成了极大的麻烦。我们需要使用jQuery这样的基础库，使用封装好的跨平台兼容API，才能使代码兼容主要浏览器。</p>
@@ -172,7 +172,7 @@
 </tbody>
 </table>
 <p>然后我们来看看所谓的非核心API。所谓的非核心API就是那些在W3C标准中不属于DOM的API，但是这些API和DOM的核心部分有着或多或少的关系。如CSS相关的<a href="https://drafts.csswg.org/cssom/" target="_blank" rel="external">CSSOM Specification</a>，<a href="https://www.w3.org/TR/2013/REC-selectors-api-20130221/" target="_blank" rel="external">Selectors API</a>等等。以及与HTML5相关的众多JavaScript API，比如<a href="https://www.w3.org/TR/2015/PR-webstorage-20151126/" target="_blank" rel="external">Web Storage</a>，<a href="https://www.w3.org/TR/2015/WD-workers-20150924/" target="_blank" rel="external">Web Workers</a>等等</p>
-<p>本文关注的主要的DOM2以及部分新模块的API，解读它们的构成，以及在浏览器的兼容情况。</p>
+<p>本文关注的主要是DOM2，DOM3以及部分新模块的API，解读它们的构成，以及在浏览器的兼容情况。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h3 id="一、什么是DOM">一、什么是DOM</h3><p>Document Object Model(DOM)是用编程语言对HTML，XML以及SVG文档进行操作的接口。我们经常使用JavaScript来操纵DOM，不过DOM其实的语言无关的。它并不是JavaScript的一部分。</p>]]>
