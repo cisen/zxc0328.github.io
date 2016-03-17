@@ -156,7 +156,13 @@
 <p>Q：<strong>Doctype</strong></p>
 <p>A：通过检查doctype决定使用兼容模式还是标准模式对文档进行渲染。html中为&lt;!doctype html&gt;</p>
 <h2 id="数据结构与算法">数据结构与算法</h2><h2 id="前端性能">前端性能</h2><p>Q：<strong>页面加载速度优化？</strong>  </p>
-<p>A：从http请求上来说，减少http请求数（合并css，js，sprite图）。减小文件的大小（压缩css，js，图片）。cdn加速等。从浏览器渲染的角度来说，把js放在之前，在dom加载完成后加载js。</p>
+<p>A：</p>
+<ul>
+<li>从http请求上来说，减少http请求数（合并css，js，sprite图，或者使用阿里的一个请求多个文件技术），但是合并请求不利于浏览器缓存。适当的请求数可以充分利用并发连接（瀑布图）并利用好缓存。减小文件的大小（压缩css，js，图片）。CDN加速等。</li>
+<li>从浏览器渲染的角度来说，把js放在<code>&lt;/body&gt;</code>之前，在DOM加载完成后加载js。CSS动画用<code>transform</code>而不是js和绝对定位。</li>
+<li>服务器端，充分利用缓存。使用hash更新文件。Gzip压缩。</li>
+<li>性能检测工具。WebPagetest。Chrome DevTools。</li>
+</ul>
 <h2 id="网络">网络</h2><p>Q：<strong>HTTP GET POST的不同？</strong>  </p>
 <p>A：</p>
 <ul>
@@ -166,6 +172,8 @@
 <hr>
 <p>Q：<strong>HTTP状态码</strong></p>
 <p>A：200 ok，304 not modified，404 not found，403 forbidden，500 internal server error， 503 Service Unavailable等。</p>
+<h2 id="网络-1">网络</h2><p>Q：<strong>Web安全</strong></p>
+<p>A：XSS，CSRF，SQL注入等。</p>
 <h2 id="浏览器">浏览器</h2><p>Q：<strong>描述在浏览器中输入url到网页加载完成的过程</strong></p>
 <p>A：  </p>
 <ul>
@@ -182,6 +190,16 @@
 <li>根据DOM树和CSS om树构建渲染树 render object<br>从DOM树的根节点遍历所有可见节点，不可见节点包括：1）script,meta这样本身不可见的标签。<br>2)被css隐藏的节点，如display: none<br>对每一个可见节点，找到恰当的CSSOM规则并应用<br>发布可视节点的内容和计算样式</li>
 <li>js解析<br>浏览器创建Document对象并解析HTML，将解析到的元素和文本节点添加到文档中，此时document.readystate为loading<br>此时HTML解析器遇到同步script时，将他们添加到文档中，然后执行行内或外部脚本。这些脚本会同步执行，并且在脚本下载和执行时解析器会暂停。<br>浏览器在Document对象上触发DOMContentLoaded事件<br>此时文档完全解析完成，浏览器可能还在等待如图片等内容加载，等这些内容完成载入并且所有异步脚本完成载入和执行，document.readState变为complete,window触发load事件</li>
 <li>页面显示<br>（关于这个问题的浏览器渲染方面，看webkit技术内幕比较好，我觉得这本书也算是高阶前端必看的一本）</li>
+</ul>
+<h2 id="其他">其他</h2><p>Q：平时如何学习前端？</p>
+<p>A：<br>答案因人而异</p>
+<ul>
+<li>技术书籍。英文为主，中文为辅。</li>
+<li>信息流-微博，推特等上面的技术博客和文章。</li>
+<li>学框架使用-看官方文档。</li>
+<li>学框架原理-看源码，仿照轮子。</li>
+<li>专题分析，写博客总结或者写demo总结。</li>
+<li>技术会议。</li>
 </ul>
 
         
@@ -310,7 +328,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript"><span class="nav-number">1.</span> <span class="nav-text">JavaScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS"><span class="nav-number">2.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML"><span class="nav-number">3.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构与算法"><span class="nav-number">4.</span> <span class="nav-text">数据结构与算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端性能"><span class="nav-number">5.</span> <span class="nav-text">前端性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络"><span class="nav-number">6.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器"><span class="nav-number">7.</span> <span class="nav-text">浏览器</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript"><span class="nav-number">1.</span> <span class="nav-text">JavaScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS"><span class="nav-number">2.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML"><span class="nav-number">3.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构与算法"><span class="nav-number">4.</span> <span class="nav-text">数据结构与算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端性能"><span class="nav-number">5.</span> <span class="nav-text">前端性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络"><span class="nav-number">6.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络-1"><span class="nav-number">7.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器"><span class="nav-number">8.</span> <span class="nav-text">浏览器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">9.</span> <span class="nav-text">其他</span></a></li></ol>
       </div>
     
   </div>
