@@ -138,7 +138,7 @@
     <link href="http://yoursite.com/2016/01/26/learning-dom-part2/"/>
     <id>http://yoursite.com/2016/01/26/learning-dom-part2/</id>
     <published>2016-01-26T07:58:34.000Z</published>
-    <updated>2016-03-11T09:25:24.000Z</updated>
+    <updated>2016-03-14T06:25:25.000Z</updated>
     <content type="html"><![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><h4 id="DOM标准的层级">DOM标准的层级</h4><p>DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>
 <a id="more"></a>
 <p>具体的层级结构如下图所示：<br><img src="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/images/dom-architecture.png" alt="dom-architecture"><br><em>image credit: w3.org</em></p>
@@ -239,8 +239,36 @@
   const unsigned short      DOCUMENT_FRAGMENT_NODE         = 11;
   const unsigned short      NOTATION_NODE                  = 12;
 </code></pre><p>这就是我们平时用来检测节点类型时使用的数值了。</p>
-<p>下面从<code>nodeType</code>的方法中选几个进行简单的介绍。</p>
-<h4 id="Element接口">Element接口</h4><h4 id="Document接口">Document接口</h4><h4 id="Attr接口">Attr接口</h4><h4 id="Text，Comment和CharacterData接口">Text，Comment和CharacterData接口</h4><h4 id="DOM中的基础数据类型">DOM中的基础数据类型</h4>]]></content>
+<p>下面从<code>Node</code>接口的方法中选几个主流的API进行简单的介绍，对于W3C中为标准但在WHATWG中被废弃的，这里不进行介绍（在主流的浏览器中也没有相应的实现）。对于一些在继承Node的接口中有更具体实现的API，这里也不进行介绍（如<code>hasAttributes</code>在Element接口中有更具体的实现）。</p>
+<ul>
+<li><p><code>compareDocumentPosition</code></p>
+<p>这是DOM3中引入的一个很有意思的API。这个API将两个Node的位置进行比较，然后返回<code>DocumentPosition</code>这组常量中的一种。这组常量是：</p>
+<pre><code>// 节点被另一个节点包含。被包含的节点是父节点的后继
+DOCUMENT_POSITION_CONTAINED_BY
+// 节点包含另一个节点。父节点是子节点的前驱
+  DOCUMENT_POSITION_CONTAINS
+DOCUMENT_POSITION_DISCONNECTED
+// 后继关系
+DOCUMENT_POSITION_FOLLOWING
+DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC
+// 前驱关系
+DOCUMENT_POSITION_PRECEDING
+</code></pre></li>
+<li><p><code>appendChild</code>&amp;&amp;<code>removeChild</code>  </p>
+<p>这两个API是比较常用的，<code>appendChild</code>在DOM子元素列表的最后插入元素，如果这个元素已经存在了，就先移除这个元素再插入。<code>removeChild</code>则从DOM子元素列表中移除元素。</p>
+</li>
+<li><code>insertBefore</code></li>
+<li><code>isEqualNode</code></li>
+</ul>
+<h4 id="Element接口">Element接口</h4><h4 id="Document接口">Document接口</h4><h4 id="Attr接口">Attr接口</h4><h4 id="Text，Comment和CharacterData接口">Text，Comment和CharacterData接口</h4><h4 id="DOM中的基础数据类型">DOM中的基础数据类型</h4><ul>
+<li><code>DOMString</code>  </li>
+</ul>
+<ul>
+<li><code>DOMTimeStamp</code></li>
+<li><code>DOMUserData</code></li>
+<li><code>DOMObject</code></li>
+</ul>
+]]></content>
     <summary type="html">
     <![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><h4 id="DOM标准的层级">DOM标准的层级</h4><p>DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>]]>
     
