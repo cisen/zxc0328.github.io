@@ -4,7 +4,7 @@
   <subtitle><![CDATA[zindex of muxistudio]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2016-03-11T09:39:28.000Z</updated>
+  <updated>2016-03-20T12:21:14.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -13,6 +13,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[2016 FEDay见闻录]]></title>
+    <link href="http://yoursite.com/2016/03/19/2016-feday/"/>
+    <id>http://yoursite.com/2016/03/19/2016-feday/</id>
+    <published>2016-03-19T14:27:24.000Z</published>
+    <updated>2016-03-20T12:21:14.000Z</updated>
+    <content type="html"><![CDATA[<p>这次FEDay是我第一次参加开发者大会，也是第一次去广州。当初主要是冲着两个Facebook的工程师去的，因为我对React好感度很高。总的来说这次的收获还是很多的，也算是值回票价了。</p>
+<a id="more"></a>
+<h3 id="Universal_Applications_by_Stephan">Universal Applications by Stephan</h3><p>首先是FB的Stephan分享Universal Applications。Stephan会说中文，应该是他在台湾待过一段时间的原因。这里有个小插曲就是会场安排了一名翻译，Stephan说一句翻译就翻译一下，这样真的非常的多余。本来是想来听一下原汁原味的国外工程师分享的，结果还是打了折扣。</p>
+<p>Stephan说的Universal Applications我之前在开发Readme的时候使用过一部分。就是在服务器端用react-dom的<code>renderToString</code>方法生成字符串。同时也运行了Redux的代码，根据客户端传来的state生成了相应的UI。</p>
+<p>不过Universal Applications并没有这么简单。这种开发模式总的来说就是写一套代码，在客户端和服务端同时可用。服务端UI的渲染我们已经通过<code>renderToString</code>解决了。服务端的路由可以通过react-router的<code>match</code>函数来运行相应的UI组件渲染逻辑。而数据获取API的差异可以通过<code>isomorphic-fetch</code>这个库来抹平。</p>
+<h3 id="微信WebApp最佳实践_by_江剑锋">微信WebApp最佳实践 by 江剑锋</h3><p>我们在开发微信App的过程中会遇到一些问题，这些多数和微信内嵌的X5内核有关。</p>
+<h3 id="下一代Web技术运用_by_陈子舜">下一代Web技术运用 by 陈子舜</h3><h3 id="前端能力的培养_by_Winter">前端能力的培养 by Winter</h3><h3 id="HTTP/2时代的Web性能_by_Holger_Bartel">HTTP/2时代的Web性能 by Holger Bartel</h3>]]></content>
+    <summary type="html">
+    <![CDATA[<p>这次FEDay是我第一次参加开发者大会，也是第一次去广州。当初主要是冲着两个Facebook的工程师去的，因为我对React好感度很高。总的来说这次的收获还是很多的，也算是值回票价了。</p>]]>
+    
+    </summary>
+    
+      <category term="FEDay" scheme="http://yoursite.com/tags/FEDay/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Let's build a jQuery!-Part 1(early release)]]></title>

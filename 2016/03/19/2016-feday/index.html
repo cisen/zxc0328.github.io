@@ -18,9 +18,9 @@
 
 
 
-	<meta name="keywords" content="jQuery JavaScript," />
+	<meta name="keywords" content="FEDay," />
 
-  <title> Let's build a jQuery!-Part 1(early release) // Zindex's blog </title>
+  <title> 2016 FEDay见闻录 // Zindex's blog </title>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
 
 </head>
@@ -93,7 +93,7 @@
           
           
             
-              Let's build a jQuery!-Part 1(early release)
+              2016 FEDay见闻录
             
           
         </h1>
@@ -102,7 +102,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posté le 2016-03-11
+              Posté le 2016-03-19
             
           </span>
         
@@ -118,19 +118,13 @@
         
 
         
-          <p>这个系列博客的灵感来源于<a href="https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html" target="_blank" rel="external">这篇博客</a>和一次失败的<a href="https://github.com/zxc0328/litejs" target="_blank" rel="external">造轮子</a>经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery like的基础库，并且配上相应的源码，也就是我们的Litejs。</p>
-<p>我们要做的工作有以下这些：</p>
-<ul>
-<li>选择器和元素封装</li>
-<li>DOM操作</li>
-<li>Ajax请求</li>
-<li>事件系统</li>
-<li>触摸事件</li>
-</ul>
-<p>分别对应这系列文章的四个部分。</p>
-<p>好，让我们开启这段神奇(误)的重复造轮子之旅吧！</p>
+          <p>这次FEDay是我第一次参加开发者大会，也是第一次去广州。当初主要是冲着两个Facebook的工程师去的，因为我对React好感度很高。总的来说这次的收获还是很多的，也算是值回票价了。</p>
 <a id="more"></a>
-<h3 id="选择器和元素封装">选择器和元素封装</h3>
+<h3 id="Universal_Applications_by_Stephan">Universal Applications by Stephan</h3><p>首先是FB的Stephan分享Universal Applications。Stephan会说中文，应该是他在台湾待过一段时间的原因。这里有个小插曲就是会场安排了一名翻译，Stephan说一句翻译就翻译一下，这样真的非常的多余。本来是想来听一下原汁原味的国外工程师分享的，结果还是打了折扣。</p>
+<p>Stephan说的Universal Applications我之前在开发Readme的时候使用过一部分。就是在服务器端用react-dom的<code>renderToString</code>方法生成字符串。同时也运行了Redux的代码，根据客户端传来的state生成了相应的UI。</p>
+<p>不过Universal Applications并没有这么简单。这种开发模式总的来说就是写一套代码，在客户端和服务端同时可用。服务端UI的渲染我们已经通过<code>renderToString</code>解决了。服务端的路由可以通过react-router的<code>match</code>函数来运行相应的UI组件渲染逻辑。而数据获取API的差异可以通过<code>isomorphic-fetch</code>这个库来抹平。</p>
+<h3 id="微信WebApp最佳实践_by_江剑锋">微信WebApp最佳实践 by 江剑锋</h3><p>我们在开发微信App的过程中会遇到一些问题，这些多数和微信内嵌的X5内核有关。</p>
+<h3 id="下一代Web技术运用_by_陈子舜">下一代Web技术运用 by 陈子舜</h3><h3 id="前端能力的培养_by_Winter">前端能力的培养 by Winter</h3><h3 id="HTTP/2时代的Web性能_by_Holger_Bartel">HTTP/2时代的Web性能 by Holger Bartel</h3>
         
       </div>
     
@@ -140,8 +134,8 @@
         
           <div class="post-tags">
             
-              <a href="/tags/jQuery-JavaScript/">
-                #jQuery JavaScript
+              <a href="/tags/FEDay/">
+                #FEDay
               </a>
             
           </div>
@@ -151,13 +145,11 @@
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2016/03/19/2016-feday/">2016 FEDay见闻录</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2016/03/11/front-end-interview/">前端面试题总结（持续更新）</a>
+                <a href="/2016/03/11/let-s-build-a-jQuery/">Let's build a jQuery!-Part 1(early release)</a>
               
             </div>
           </div>
@@ -257,7 +249,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#选择器和元素封装"><span class="nav-number">1.</span> <span class="nav-text">选择器和元素封装</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Universal_Applications_by_Stephan"><span class="nav-number">1.</span> <span class="nav-text">Universal Applications by Stephan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微信WebApp最佳实践_by_江剑锋"><span class="nav-number">2.</span> <span class="nav-text">微信WebApp最佳实践 by 江剑锋</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下一代Web技术运用_by_陈子舜"><span class="nav-number">3.</span> <span class="nav-text">下一代Web技术运用 by 陈子舜</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前端能力的培养_by_Winter"><span class="nav-number">4.</span> <span class="nav-text">前端能力的培养 by Winter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP/2时代的Web性能_by_Holger_Bartel"><span class="nav-number">5.</span> <span class="nav-text">HTTP/2时代的Web性能 by Holger Bartel</span></a></li></ol>
       </div>
     
   </div>
