@@ -234,10 +234,15 @@ DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC
 DOCUMENT_POSITION_PRECEDING
 </code></pre></li>
 <li><p><code>appendChild</code>&amp;&amp;<code>removeChild</code>  </p>
-<p>这两个API是比较常用的，<code>appendChild</code>在DOM子元素列表的最后插入元素，如果这个元素已经存在了，就先移除这个元素再插入。<code>removeChild</code>则从DOM子元素列表中移除元素。</p>
+<p>这两个API是比较常用的，<code>appendChild</code>在DOM子元素列表的最后插入元素，如果这个元素已经存在DOM树中，就先移除这个元素再插入。<code>removeChild</code>则从DOM子元素列表中移除元素。</p>
 </li>
-<li><code>insertBefore</code></li>
-<li><code>isEqualNode</code></li>
+<li><p><code>insertBefore</code>  </p>
+<p>这个API有两个参数，一个是<code>newChild</code>，一个是<code>refChild</code>。<code>newChild</code>既是要插入的节点，而<code>refChild</code>则是一个已经在<code>Node</code>所在DOM树中的参考子节点。<code>newChild</code>会插入到<code>refChild</code>之前，如果<code>refChild</code>是<code>null</code>，那么<code>newChild</code>会插入到<code>Node</code>子节点列表的末尾。</p>
+<p>这个API的记忆很简单，命名是<code>insertBefore</code>，必然是有一个参考节点的，不然插到谁的前面去呢？</p>
+</li>
+<li><p><code>isEqualNode</code></p>
+<p>这个API的作用是判断两个DOM</p>
+</li>
 </ul>
 <h4 id="Element接口">Element接口</h4><h4 id="Document接口">Document接口</h4><h4 id="Attr接口">Attr接口</h4><h4 id="Text，Comment和CharacterData接口">Text，Comment和CharacterData接口</h4><h4 id="DOM中的基础数据类型">DOM中的基础数据类型</h4><ul>
 <li><code>DOMString</code>  </li>
