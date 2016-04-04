@@ -102,7 +102,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2016-03-12
+              发表于 2016-03-11
             
           </span>
         
@@ -134,6 +134,18 @@
 <li>JS模块化的发展过程（从function，IIFE到Commonjs）</li>
 <li>JS模块化的几种方案介绍（Commonjs，AMD，ES6 Module）</li>
 </ul>
+<hr>
+<p>Q：<strong>JS中使用new关键字构造对象实例的过程</strong><br>A：</p>
+<pre><code>MyObject.construct = function() {
+    var o = {}, Constructor = MyObject;
+    o.__proto__ = Constructor.prototype;
+    // FF 支持用户引用内部属性 [[Prototype]]
+
+    Constructor.apply(o, arguments);
+    return o;
+};
+</code></pre><hr>
+<p>Q：<strong>JS性能优化</strong><br>A： to be done</p>
 <h2 id="CSS">CSS</h2><p>Q：<strong>CSS position的不同取值以及差异？</strong>  </p>
 <p>A：取值：static（默认），relative，absolute，fixed。差异，relative：相对于其自身进行定位，不脱离文档流。absolute：相对于父元素链上的第一个已定位元素，如果不存在则相对于body。脱离文档流。fixed，相对于浏览器窗口进行定位，脱离文档流。static：正常的文档流定位。</p>
 <hr>
@@ -172,8 +184,8 @@
 <hr>
 <p>Q：<strong>HTTP状态码</strong></p>
 <p>A：200 ok，304 not modified，404 not found，403 forbidden，500 internal server error， 503 Service Unavailable等。</p>
-<h2 id="网络-1">网络</h2><p>Q：<strong>Web安全</strong></p>
-<p>A：XSS，CSRF，SQL注入等。</p>
+<h2 id="安全">安全</h2><p>Q：<strong>Web安全</strong></p>
+<p>A：XSS，CSRF，SQL注入等。具体可以看一些前端安全相关的书，初步了解。有实战最佳。</p>
 <h2 id="浏览器">浏览器</h2><p>Q：<strong>描述在浏览器中输入url到网页加载完成的过程</strong></p>
 <p>A：  </p>
 <ul>
@@ -201,6 +213,14 @@
 <li>专题分析，写博客总结或者写demo总结。</li>
 <li>技术会议。</li>
 </ul>
+<hr>
+<p>Q：Web无障碍？<br>A：to be done</p>
+<h2 id="智力题">智力题</h2><p>Q：<strong>你让工人为你工作7天，给工人的回报是一根金条。金条平分成相连的7段<br>，你必须在每天结束时给他们一段金条，如果只许你两次把金条弄断，你如何给你<br>的工人付费？</strong></p>
+<p>A：把金条切成4份,2份和1份<br>    第一天给工人一份金条<br>    第二天给他两份的金条，把第一天的一份金条收回<br>    第三天又把一份的金条给他<br>    第四天把四份的金条给他，把一份和两份的金条收回<br>    第五天又把一份的金条给他<br>    第六天又给他两份的金条，收回一份的金条<br>    第七天最后把一份的金条给他  </p>
+<p>Q：<strong>一群人开舞会，每人头上都戴着一顶帽子。帽子只有黑白两种，黑的至少<br>有一顶。每个人都能看到其他人帽子的颜色，却看不到自己的。主持人先让大家看<br>看别人头上戴的是什么帽子，然后关灯，如果有人认为自己戴的是黑帽子，就打自<br>己一个耳光。第一次关灯，没有声音。于是再开灯，大家再看一遍，关灯时仍然鸦<br>雀无声。一直到第三次关灯，才有劈劈啪啪打耳光的声音响起。问有多少人戴着黑<br>帽子？</strong> </p>
+<p>或者这种变体： </p>
+<p><strong>一个村子里，有50户人家，每家都养了一条狗。现在，发现村子里面出现了n只疯狗，村里规定，谁要是发现了自己的狗是疯狗，就要将自己的狗枪毙。<br>但问题是，村子里面的人只能看出别人家的狗是不是疯狗，而不能看出自己的狗是不是疯的，如果看出别人家的狗是疯狗，也不能告诉别人。<br>于是大家开始观察，第一天晚上，没有枪声，第二天晚上，没有枪声，第三天晚上，枪声响起（具体几枪不清楚），问村子里有几只疯狗？<br>(1)必须确定是疯狗才能杀<br>(2)杀狗用猎枪,开枪杀狗人人都听的见,没聋子<br>(3)只能观察其他人家的狗是否得了疯狗病,不能观察自己的狗是否有疯狗病<br>(4)只能杀自己家的狗,别人家的狗你就是知道有疯狗病也不能杀<br>(5)任何观察到了其他人家的狗有疯狗病都不能告诉任何人<br>(6)每人每天去观察一遍其他人家的狗是否疯狗<br>现在现象是:第一天没有枪声,第二天没有枪声,第三天响起一片枪声</strong></p>
+<p>A：假如只有一个人戴黑帽子，那他看到所有人都戴白帽，在第一次关灯时就<br>应自打耳光，所以应该不止一个人戴黑帽子；如果有两顶黑帽子，第一次两人都只<br>看到对方头上的黑帽子，不敢确定自己的颜色，但到第二次关灯，这两人应该明白<br>，如果自己戴着白帽，那对方早在上一次就应打耳光了，因此自己戴的也是黑帽子<br>，于是也会有耳光声响起；可事实是第三次才响起了耳光声，说明全场不止两顶黑<br>帽，依此类推，应该是关了几次灯，有几顶黑帽。</p>
 
         
       </div>
@@ -328,7 +348,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript"><span class="nav-number">1.</span> <span class="nav-text">JavaScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS"><span class="nav-number">2.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML"><span class="nav-number">3.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构与算法"><span class="nav-number">4.</span> <span class="nav-text">数据结构与算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端性能"><span class="nav-number">5.</span> <span class="nav-text">前端性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络"><span class="nav-number">6.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络-1"><span class="nav-number">7.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器"><span class="nav-number">8.</span> <span class="nav-text">浏览器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">9.</span> <span class="nav-text">其他</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript"><span class="nav-number">1.</span> <span class="nav-text">JavaScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS"><span class="nav-number">2.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML"><span class="nav-number">3.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构与算法"><span class="nav-number">4.</span> <span class="nav-text">数据结构与算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端性能"><span class="nav-number">5.</span> <span class="nav-text">前端性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络"><span class="nav-number">6.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全"><span class="nav-number">7.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器"><span class="nav-number">8.</span> <span class="nav-text">浏览器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">9.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#智力题"><span class="nav-number">10.</span> <span class="nav-text">智力题</span></a></li></ol>
       </div>
     
   </div>
