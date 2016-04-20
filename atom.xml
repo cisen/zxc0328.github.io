@@ -225,7 +225,7 @@
     <link href="http://yoursite.com/2016/01/26/learning-dom-part2/"/>
     <id>http://yoursite.com/2016/01/26/learning-dom-part2/</id>
     <published>2016-01-26T07:58:34.000Z</published>
-    <updated>2016-03-30T05:19:15.000Z</updated>
+    <updated>2016-04-20T12:13:59.000Z</updated>
     <content type="html"><![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><h4 id="DOM标准的层级">DOM标准的层级</h4><p>DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>
 <a id="more"></a>
 <p>具体的层级结构如下图所示：<br><img src="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/images/dom-architecture.png" alt="dom-architecture"><br><em>image credit: w3.org</em></p>
@@ -349,13 +349,18 @@ DOCUMENT_POSITION_PRECEDING
 <p>这个API的记忆很简单，命名是<code>insertBefore</code>，必然是有一个参考节点的，不然插到谁的前面去呢？</p>
 </li>
 <li><p><code>isEqualNode</code></p>
-<p>这个API的作用是判断两个DOM</p>
+<p>这个API的作用是判断两个DOM是否相等。这里的相等并不是指指向同一个对象，而是指属性和值方面是否相同。</p>
+<p>对于两个节点来说比较的算法如下：</p>
+<ul>
+<li>两个节点是否是相同的类型</li>
+<li><code>nodeName, localName, namespaceURI, prefix, nodeValue</code>这些属性是否相同</li>
+<li>节点的属性集合（在DOM中的数据类型是<code>NamedNodeMaps</code>）是否相同，这里集合中属性的顺序可以是随意的</li>
+<li>子节点集合（<code>NodeLists</code>类型）是否相同，这里会考虑节点的index，如果不一样则不相同。</li>
+</ul>
 </li>
 </ul>
 <h4 id="Element接口">Element接口</h4><h4 id="Document接口">Document接口</h4><h4 id="Attr接口">Attr接口</h4><h4 id="Text，Comment和CharacterData接口">Text，Comment和CharacterData接口</h4><h4 id="DOM中的基础数据类型">DOM中的基础数据类型</h4><ul>
 <li><code>DOMString</code>  </li>
-</ul>
-<ul>
 <li><code>DOMTimeStamp</code></li>
 <li><code>DOMUserData</code></li>
 <li><code>DOMObject</code></li>
