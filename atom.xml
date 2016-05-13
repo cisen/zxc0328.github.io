@@ -225,7 +225,7 @@
     <link href="http://yoursite.com/2016/01/26/learning-dom-part2/"/>
     <id>http://yoursite.com/2016/01/26/learning-dom-part2/</id>
     <published>2016-01-26T07:58:34.000Z</published>
-    <updated>2016-04-20T12:13:59.000Z</updated>
+    <updated>2016-04-21T03:05:12.000Z</updated>
     <content type="html"><![CDATA[<h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><h4 id="DOM标准的层级">DOM标准的层级</h4><p>DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>
 <a id="more"></a>
 <p>具体的层级结构如下图所示：<br><img src="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/images/dom-architecture.png" alt="dom-architecture"><br><em>image credit: w3.org</em></p>
