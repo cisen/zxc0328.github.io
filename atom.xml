@@ -68,8 +68,8 @@
     <link href="http://yoursite.com/2016/03/11/let-s-build-a-jQuery/"/>
     <id>http://yoursite.com/2016/03/11/let-s-build-a-jQuery/</id>
     <published>2016-03-11T09:24:00.000Z</published>
-    <updated>2016-03-11T09:39:28.000Z</updated>
-    <content type="html"><![CDATA[<p>这个系列博客的灵感来源于<a href="https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html" target="_blank" rel="external">这篇博客</a>和一次失败的<a href="https://github.com/zxc0328/litejs" target="_blank" rel="external">造轮子</a>经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery like的基础库，并且配上相应的源码，也就是我们的Litejs。</p>
+    <updated>2016-06-12T14:13:03.000Z</updated>
+    <content type="html"><![CDATA[<p>这个系列博客的灵感来源于<a href="https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html" target="_blank" rel="external">这篇博客</a>和一次失败的<a href="https://github.com/zxc0328/litejs" target="_blank" rel="external">造轮子</a>经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery-like的基础库，并且配上相应的源码，也就是我们的Litejs。</p>
 <p>我们要做的工作有以下这些：</p>
 <ul>
 <li>选择器和元素封装</li>
@@ -79,11 +79,25 @@
 <li>触摸事件</li>
 </ul>
 <p>分别对应这系列文章的四个部分。</p>
-<p>好，让我们开启这段神奇(误)的重复造轮子之旅吧！</p>
+<p>好，让我们开启这段神奇的重复造轮子之旅吧！</p>
 <a id="more"></a>
-<h3 id="选择器和元素封装">选择器和元素封装</h3>]]></content>
+<h3 id="开发环境的搭建">开发环境的搭建</h3><p>我们使用ES6的模块语法编写模块，并使用<a href="http://rollupjs.org/" target="_blank" rel="external">rollup.js</a>打包，rollup是基于ES6模块的JS打包工具。我对于rollup的思考可以参考。除此之外我们还是用Babel和Flow。Flow是Facebook出品的JavaScript静态类型检查工具，我们用Babel来去除Flow的类型标记，以及编译其他的ES6特性代码。</p>
+<p>// todo 测试环境搭建</p>
+<p><code>git checkout 1-1</code></p>
+<h3 id="jQuery的组织架构">jQuery的组织架构</h3><p>简单的说，jQueryAPI由<code>jQuery</code>构造函数以及<code>jQuery</code>函数上的一系列静态API组成。<code>jQuery</code>构造函数就是我们平常使用的<code>$</code>函数，这个函数接收选择器字符串作为参数，返回jQuery对象实例。jQuery对象封装了原生的DOM对象，为其添加了一系列的属性和方法，以及链式调用的能力。</p>
+<p>与此同时，因为JavaScript的函数也是对象，因此我们可以在函数上添加属性和方法。函数是对象，因此也可以访问对象原型的方法。<code>jQuery</code>函数上的静态方法，包括了回调、AJAX、事件、动画、工具函数等jQuery API。另一些API，比如DOM相关的API，则是绑定在<code>jQuery</code>构造函数实例化出来的对象上。</p>
+<h4 id="lite构造函数"><code>lite</code>构造函数</h4><p>下面就让我们开始编写我们的自制<code>jQuery</code>————<code>litejs</code>。让我们来编写我们的第一个函数，<code>lite</code>构造函数。</p>
+<pre><code>// The lite constructor function
+var lite = function( selector, context ) {
+  return new lite.prototype.init( selector, context );
+};
+</code></pre><p>这个函数很简单，调用了<code>lite.fn.init</code>函数，传入了选择器和上下文，并返回实例化出阿里的对象。让我们来看看真正干活的<code>lite.prototype.init</code>函数。</p>
+<h4 id="lite-prototype-init"><code>lite.prototype.init</code></h4><p>我们之前说过，<code>lite</code>构造函数也是个对象，我们把一些静态方法都放在这个对象的原型上。其中就有<code>init</code>方法。我们先不急着看这个方法做了什么，我们在这里要做一个特殊的处理：</p>
+<pre><code>lite.prototype.init.prototype = lite.prototype;
+</code></pre><p>很简单，因为<code>lite.prototype.init</code>方法返回的实例无法访问到<code>lite</code>函数的原型链，所以我们设置这个对象构造函数的原型是<code>lite.prototype</code>。</p>
+<h4 id="lite-extend()"><code>lite.extend()</code></h4>]]></content>
     <summary type="html">
-    <![CDATA[<p>这个系列博客的灵感来源于<a href="https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html">这篇博客</a>和一次失败的<a href="https://github.com/zxc0328/litejs">造轮子</a>经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery like的基础库，并且配上相应的源码，也就是我们的Litejs。</p>
+    <![CDATA[<p>这个系列博客的灵感来源于<a href="https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html">这篇博客</a>和一次失败的<a href="https://github.com/zxc0328/litejs">造轮子</a>经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery-like的基础库，并且配上相应的源码，也就是我们的Litejs。</p>
 <p>我们要做的工作有以下这些：</p>
 <ul>
 <li>选择器和元素封装</li>
@@ -93,7 +107,7 @@
 <li>触摸事件</li>
 </ul>
 <p>分别对应这系列文章的四个部分。</p>
-<p>好，让我们开启这段神奇(误)的重复造轮子之旅吧！</p>]]>
+<p>好，让我们开启这段神奇的重复造轮子之旅吧！</p>]]>
     
     </summary>
     
