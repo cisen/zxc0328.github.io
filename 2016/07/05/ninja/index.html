@@ -18,9 +18,21 @@
 
 
 
-	<meta name="keywords" content="FEDay," />
 
-  <title> 2016 FEDay见闻录 // Zindex's blog </title>
+    <meta name="keywords" content="Hexo,next" />
+
+
+
+    <link rel="alternate" href="/atom.xml" title="Zindex's blog" type="application/atom+xml" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc5" />
+
+
+
+
+  <title> Ninja:dev server made easy // Zindex's blog </title>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
 
 </head>
@@ -93,7 +105,7 @@
           
           
             
-              2016 FEDay见闻录
+              Ninja:dev server made easy
             
           
         </h1>
@@ -102,7 +114,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2016-03-19
+              发表于 2016-07-05
             
           </span>
         
@@ -118,39 +130,24 @@
         
 
         
-          <p>这次FEDay是我第一次参加开发者大会，也是第一次去广州。当初主要是冲着两个Facebook的工程师去的，因为我对React好感度很高。总的来说这次的收获还是很多的，也算是值回票价了。</p>
-<a id="more"></a>
-<h3 id="Universal_Applications_by_Stephan">Universal Applications by Stephan</h3><p>首先是FB的<a href="https://twitter.com/stopachka" target="_blank" rel="external">Stephan</a>分享Universal Applications。Stephan会说中文，应该是他在台湾待过一段时间的原因。这里有个小插曲就是会场安排了一名翻译，Stephan说一句翻译就翻译一下，这样真的非常的多余。本来是想来听一下原汁原味的国外工程师分享的，结果还是打了折扣。</p>
-<p>Stephan说的Universal Applications我之前在开发Readme的时候使用过一部分。就是在服务器端用react-dom的<code>renderToString</code>方法生成字符串。同时也运行了Redux的代码，根据客户端传来的state生成了相应的UI。</p>
-<p>不过Universal Applications并没有这么简单。这种开发模式总的来说就是写一套代码，在客户端和服务端同时可用。服务端UI的渲染我们已经通过<code>renderToString</code>解决了。服务端的路由可以通过react-router的<code>match</code>函数来运行相应的UI组件渲染逻辑。而数据获取API的差异可以通过<code>isomorphic-fetch</code>这个库来抹平。</p>
-<h3 id="微信WebApp最佳实践_by_江剑锋">微信WebApp最佳实践 by 江剑锋</h3><p>说实话我之前对微信前端的工作不是很了解。看了这个分享之后我清楚多了，微信的前端做的也就是普通前端的事情，并没有涉及前端之外的部分。这个工作有点类似于淘宝无线。不过淘宝这个App的混合程度更高一些，而微信里面的Web和原生的内容之间的分离比较明显，这和微信的特点有关系。</p>
-<p>微信主要是为Web内容搭建了一个平台，也就是微信公众号。和原生的交互主要通过JS-SDK来实现。说实话这种开发模式是在世界上很少有的，算是微信的独创。目前Web内容一般来说会以原生的App为平台，而对于众多的普通开发者来说，微信是最好的开放平台。WebApp借微信这个超级App得以迅速的传播。打造了一个生态圈。所以微信Web开发现在已经成为了小公司前端的一个日常开发内容，现场有大量做过微信Web开发的前端同学，这个平台的体量可见一斑。</p>
-<p>首先我们看了微信的一些用户数据，前十位的机型里面除了三星之外就是小米。安卓系统版本有不少。因此微信内嵌的X5内核的目的就是抹平这些系统里自带的WebView的差异。</p>
-<p>我们在开发微信WebApp的过程中会遇到一些问题，这些多数和微信内嵌的X5内核有关。比如强制缓存，不仅会缓存CSS等资源，还会缓存HTML。要避免这个问题我们可以在URL后加参数。</p>
-<p>另外还讲了一些普遍的问题，比如动画卡顿，flex部分支持。Video的<code>autoplay</code>无效和<code>control</code>条无法隐藏，<code>autoplay</code>无法使用是因为产品策略，让用户有选择权。如果一定要使用则可以监听<code>WXJSBridgeReady</code>事件。Cookie和localStorage偶尔失效这个问题我还没有遇到过，江剑锋表示客户端存储本来就是不可靠的存储，所以我们要做相应的准备。</p>
-<p>接着介绍了WeUI，以及相应的jQuery,react,vue的binding。还有微信的一些调试工具。</p>
-<p>最后放了一个消息出来，那就是微信的内核将改用Blink。这样上述的问题都将得到解决，除了<code>autoplay</code>依然是按照原来的策略。</p>
-<h3 id="React_Tips_by_黄士旗">React Tips by 黄士旗</h3><p><a href="https://twitter.com/huang47" target="_blank" rel="external">黄士旗</a>是台湾人，目前在Facebook工作。他的React Tips的内容主要包括了Container Component和UI Component，HOC高阶函数，Array的函数式API等。</p>
-<p>第一次了解Container Component和UI Component这个概念是在一些React boilerplate里以及Dan Abramov的Redux教程里。Dan的<a href="https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.kv5gzrgje" target="_blank" rel="external">这篇博客</a>讲了这个问题。于是我在自己的Redux项目里也把组件分为UI组件和Container组件。简单的说，UI组件是Stateless function，只负责根据传入的数据返回UI组件，具有很高的可复用性。而Container组件则是负责处理数据，具有一些业务逻辑，基本是不可复用的（也不用考虑去复用）。</p>
-<p>UI组件的类型很多，如何达到进一步的复用呢？这里黄士旗引入了HOC的概念。我们用HOC作为一个装饰器，传入的UI组件被附加一些UI元素后返回，从而实现了更好程度的复用。我们可以用一个Base UI组件加上各色装饰器来渲染不同类型的UI组件。一个装饰器大概就是这样</p>
-<pre><code>function makeEditale(baseCompoennt){
-    return &lt;div&gt;
-                &lt;input /&gt;
-                &lt;baseCompoennt /&gt;
-            &lt;/div&gt;
-}
-</code></pre><p>之前我接触过ES7的装饰器，那就是一个class的语法糖，原理和这个是一样的。总之这里我们的原则就是Composition Over Inheritance。</p>
-<p>最后黄士旗介绍了Array的<code>map</code>，<code>reduce</code>，<code>filter</code>API的使用。这些函数式特性的API和React就是天作之合。在各种场合都很好用。</p>
-<h3 id="下一代Web技术运用_by_陈子舜">下一代Web技术运用 by 陈子舜</h3><p>陈子舜是腾讯云的技术总监，他分享的内容主要是提前运用下一代Web技术来提升Web性能。</p>
-<p>在过往，前端面试中提到Web性能，我们总会提到雅虎的35条前端性能优化定律这些。而这些规则在移动端Web开发占主流和新技术出现的情况下是否还适用呢？</p>
-<p>前端性能的要求就是我们的首屏必须在1s内渲染，这点我们可以通过Offline Caching来助力。</p>
-<p>子舜举了QQ红包的例子。红包相关的代码是用Web技术写的，但是这些代码不能在需要时拉取，而是应该提前拉取并缓存在本地。这一点和Google在推的Progressive App异曲同工。Google IO的IOWA是可以离线使用的。</p>
-<p>我们看到现在的离线存储技术有很多种，比如Application Cache和Service Worker。QQ红包中的离线存储是通过Native代码实现的。这些以后可以通过Service Worker来在Web端实现。Service Worker在目前还没有被主流浏览器实现，但这会是未来的方向。</p>
-<h3 id="前端能力的培养_by_Winter">前端能力的培养 by Winter</h3><p>Winter的那套理论我之前在看他画“前端校招重点“的时候就看到过。主要就是20%的知识加上80%的能力。</p>
-<p>在说20%的知识的时候，Winter说他看Python语法的文档来学语法。然后通过查论文来了解闭包的概念。总之就是，学知识需要看最权威的东西，追根溯源，搞清问题的本质。</p>
-<p>80%的能力分为工程能力，架构能力，编程能力。这些就是靠大量的练习来达到的。一万小时理论看起来有些恐怖，那就从每周20小时开始努力吧。就算是这样，也可以达到一个很不错的水平。</p>
-<h3 id="HTTP/2时代的Web性能_by_Holger_Bartel">HTTP/2时代的Web性能 by Holger Bartel</h3><p>Holger的分享还是很给力的，主要讲了HTTP/2和HTTP/1.1之间的区别，以及我们应该如何在HTTP/2中进行性能优化。以及如何在今天就开始使用HTTP/2。</p>
-<p>其中性能优化方面，在HTTP/2时代，我们不需要合并文件了，也不需要inline CSS/image以及分离资源的域名。至于雪碧图，压缩这些工序，还是需要的。</p>
+          <p><a href="https://github.com/Muxi-Studio/ninja" target="_blank" rel="external">Ninja</a>是一款用于前后端分离开发的本地开发服务器，也被称为是前端容器。它有以下一些特性：</p>
+<ul>
+<li>HTML、CSS的热重载</li>
+<li>根据配置文件自动生成路由</li>
+<li>根据配置文件自动读取在线/本地的虚拟数据</li>
+<li>支持<code>Jinja2</code>语法（以及其他Nodejs模板）</li>
+<li>支持路由代理</li>
+<li>支持<code>webpack</code>（通过<code>webpack-dev-middleware</code>）</li>
+</ul>
+<h3 id="Ninja的前世今生">Ninja的前世今生</h3><p>在木犀，之前我们的前后端分离开发方案是这样的：在本地运行一个简单的<code>Flask</code>应用，只包含路由，在路由中读取虚拟数据并渲染<code>Jinja2</code>模板，然后运行这个应用，进行开发。前端模板开发完成后和后端直接对接调试。</p>
+<p>这种方案有一些明显的问题，首先是这个<code>Flask</code>应用没法规范化为一个命令或是一个包，这就需要我们每次在构建前端仓库时都手动写路由等逻辑，这显然是不现实的。还有一个问题就是，<code>Flask</code>的Python环境与目前前端工具生态的主流Nodejs格格不入，想要接入<code>webpack</code>等前端工具，我们必须使用Nodejs来构建我们的dev server。</p>
+<p>于是我们需要一款能支持<code>Jinja2</code>语法，同时又能满足前端开发各种需要的dev server。Ninja就在这个节点上横空出世了！</p>
+<h3 id="基本用法">基本用法</h3><p>参见文档</p>
+<h3 id="开发手记">开发手记</h3><p>Ninja的主体就是一个Express server，读取配置文件然后生成路由，填入虚拟数据和模板。Livereload使用了<code>connect-inject</code>做模板的JS注入。用<code>socket.io</code>做浏览器与Ninja的实时通信。至于Webpack的集成，直接使用官方的<code>webpack-dev-middleware</code>和<code>webpack-hot-middleware</code>就可以轻松达成。</p>
+<p>总体来说没有遇到太大的困难，当然也可能是因为使用了大量的三方库。<code>@朱承浩</code>同学建议Ninja的Web server部分可以自己实现，没必要使用<code>Express</code>。我认为JS注入应该也可以自己实现。所以后期可以将这些部分替换为自己的实现。</p>
+<p>Ninja是我第一次尝试些CLI应用，也是第一次尝试写前端工具。在功能上借鉴了<a href="https://github.com/leeluolee/puer" target="_blank" rel="external"><code>puer</code></a>（但是没看代码，看不懂Coffee Script），在前后端分离的理念上借鉴了<a href="https://github.com/NEYouFan" target="_blank" rel="external"><code>NEI</code></a>。在这个过程中我最大的发现是Node生态圈的繁荣，基本上想要的功能都有相应的NPM包封装好了。这次用了<a href="https://github.com/tj/commander" target="_blank" rel="external"><code>commander</code></a>做命令行参数的文档生成，<a href="https://github.com/chalk/chalk" target="_blank" rel="external"><code>chalk</code></a>给<code>console.log</code>加颜色，<a href="https://github.com/tj/consolidate.js" target="_blank" rel="external"><code>consolidate</code></a>来统一Node模板调用，<a href="https://github.com/sindresorhus/opn" target="_blank" rel="external"><code>opn</code></a>用来打开浏览器。随着我Node水平的提升，在今后的开发中，会尽量少用不必要的三方库。</p>
+<h3 id="展望">展望</h3><p>Ninja目前的版本号是<code>0.1</code>，等稳定之后会放出<code>1.0</code>版。后续版本会加入subcommand，加入脚手架功能，一键搭建前端目录建构和配置文件。云端Mock数据平台也要做相应的跟进。</p>
+<p>总之，Ninja是木犀前后端分离开发实践一个进步。这仅仅只是一个开始，希望大家一起努力，提高开发的效率和开发者的体验。</p>
 
         
       </div>
@@ -159,26 +156,16 @@
     
       <div class="post-footer">
         
-          <div class="post-tags">
-            
-              <a href="/tags/FEDay/">
-                #FEDay
-              </a>
-            
-          </div>
-        
 
         
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2016/06/18/test/">teffff</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2016/03/11/let-s-build-a-jQuery/">Let's build a jQuery!-Part 1(early release)</a>
+                <a href="/2016/06/18/test/">teffff</a>
               
             </div>
           </div>
@@ -278,7 +265,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Universal_Applications_by_Stephan"><span class="nav-number">1.</span> <span class="nav-text">Universal Applications by Stephan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微信WebApp最佳实践_by_江剑锋"><span class="nav-number">2.</span> <span class="nav-text">微信WebApp最佳实践 by 江剑锋</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#React_Tips_by_黄士旗"><span class="nav-number">3.</span> <span class="nav-text">React Tips by 黄士旗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下一代Web技术运用_by_陈子舜"><span class="nav-number">4.</span> <span class="nav-text">下一代Web技术运用 by 陈子舜</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前端能力的培养_by_Winter"><span class="nav-number">5.</span> <span class="nav-text">前端能力的培养 by Winter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP/2时代的Web性能_by_Holger_Bartel"><span class="nav-number">6.</span> <span class="nav-text">HTTP/2时代的Web性能 by Holger Bartel</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ninja的前世今生"><span class="nav-number">1.</span> <span class="nav-text">Ninja的前世今生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本用法"><span class="nav-number">2.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发手记"><span class="nav-number">3.</span> <span class="nav-text">开发手记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#展望"><span class="nav-number">4.</span> <span class="nav-text">展望</span></a></li></ol>
       </div>
     
   </div>

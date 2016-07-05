@@ -108,6 +108,146 @@
           
           
             
+              <a class="post-title-link" href="/2016/07/05/ninja/">
+                Ninja:dev server made easy
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2016-07-05
+            
+          </span>
+        
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            <p><a href="https://github.com/Muxi-Studio/ninja" target="_blank" rel="external">Ninja</a>是一款用于前后端分离开发的本地开发服务器，也被称为是前端容器。它有以下一些特性：</p>
+<ul>
+<li>HTML、CSS的热重载</li>
+<li>根据配置文件自动生成路由</li>
+<li>根据配置文件自动读取在线/本地的虚拟数据</li>
+<li>支持<code>Jinja2</code>语法（以及其他Nodejs模板）</li>
+<li>支持路由代理</li>
+<li>支持<code>webpack</code>（通过<code>webpack-dev-middleware</code>）</li>
+</ul>
+<h3 id="Ninja的前世今生">Ninja的前世今生</h3><p>在木犀，之前我们的前后端分离开发方案是这样的：在本地运行一个简单的<code>Flask</code>应用，只包含路由，在路由中读取虚拟数据并渲染<code>Jinja2</code>模板，然后运行这个应用，进行开发。前端模板开发完成后和后端直接对接调试。</p>
+<p>这种方案有一些明显的问题，首先是这个<code>Flask</code>应用没法规范化为一个命令或是一个包，这就需要我们每次在构建前端仓库时都手动写路由等逻辑，这显然是不现实的。还有一个问题就是，<code>Flask</code>的Python环境与目前前端工具生态的主流Nodejs格格不入，想要接入<code>webpack</code>等前端工具，我们必须使用Nodejs来构建我们的dev server。</p>
+<p>于是我们需要一款能支持<code>Jinja2</code>语法，同时又能满足前端开发各种需要的dev server。Ninja就在这个节点上横空出世了！</p>
+<h3 id="基本用法">基本用法</h3><p>参见文档</p>
+<h3 id="开发手记">开发手记</h3><p>Ninja的主体就是一个Express server，读取配置文件然后生成路由，填入虚拟数据和模板。Livereload使用了<code>connect-inject</code>做模板的JS注入。用<code>socket.io</code>做浏览器与Ninja的实时通信。至于Webpack的集成，直接使用官方的<code>webpack-dev-middleware</code>和<code>webpack-hot-middleware</code>就可以轻松达成。</p>
+<p>总体来说没有遇到太大的困难，当然也可能是因为使用了大量的三方库。<code>@朱承浩</code>同学建议Ninja的Web server部分可以自己实现，没必要使用<code>Express</code>。我认为JS注入应该也可以自己实现。所以后期可以将这些部分替换为自己的实现。</p>
+<p>Ninja是我第一次尝试些CLI应用，也是第一次尝试写前端工具。在功能上借鉴了<a href="https://github.com/leeluolee/puer" target="_blank" rel="external"><code>puer</code></a>（但是没看代码，看不懂Coffee Script），在前后端分离的理念上借鉴了<a href="https://github.com/NEYouFan" target="_blank" rel="external"><code>NEI</code></a>。在这个过程中我最大的发现是Node生态圈的繁荣，基本上想要的功能都有相应的NPM包封装好了。这次用了<a href="https://github.com/tj/commander" target="_blank" rel="external"><code>commander</code></a>做命令行参数的文档生成，<a href="https://github.com/chalk/chalk" target="_blank" rel="external"><code>chalk</code></a>给<code>console.log</code>加颜色，<a href="https://github.com/tj/consolidate.js" target="_blank" rel="external"><code>consolidate</code></a>来统一Node模板调用，<a href="https://github.com/sindresorhus/opn" target="_blank" rel="external"><code>opn</code></a>用来打开浏览器。随着我Node水平的提升，在今后的开发中，会尽量少用不必要的三方库。</p>
+<h3 id="展望">展望</h3><p>Ninja目前的版本号是<code>0.1</code>，等稳定之后会放出<code>1.0</code>版。后续版本会加入subcommand，加入脚手架功能，一键搭建前端目录建构和配置文件。云端Mock数据平台也要做相应的跟进。</p>
+<p>总之，Ninja是木犀前后端分离开发实践一个进步。这仅仅只是一个开始，希望大家一起努力，提高开发的效率和开发者的体验。</p>
+
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2016/06/18/test/">
+                teffff
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              发表于 2016-06-18
+            
+          </span>
+        
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2016/03/19/2016-feday/">
                 2016 FEDay见闻录
               </a>
@@ -701,154 +841,6 @@
 
 
   
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/22/learn-ES6-with-babel/">
-                ES6探秘-Classes
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2015-10-22
-            
-          </span>
-        
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>ES6中增加了一些新特性，但从底层的角度来说，只是一些语法糖。<br>但是就我个人来说，如果不了解这些语法糖的本质，是用不安心的。那我们要如何揭开这些语法糖的真实面目呢？<br>Babel to the rescue！ Babel是一款将ES6代码转换为ES5代码的编译器，从而让我们可以无视浏览器的支持，直接享受ES6的新特性。同时，我们也可以通过研究Babel编译出的ES5代码，来揭开ES6的面纱。</p>
-            <div class="post-more-link text-center">
-              <a class="btn" href="/2015/10/22/learn-ES6-with-babel/#more">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/ES6/">
-                #ES6
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
-    
-
-  <div class="post post-type-normal ">
-    <div class="post-header">
-
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/09/27/web-desgin-issues-with-fe/">
-                面向前端模块化的web端设计准则
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-          <span class="post-time">
-            
-              发表于 2015-09-27
-            
-          </span>
-        
-          
-        
-      </div>
-    </div>
-
-    
-      <div class="post-body">
-
-        
-        
-
-        
-          
-            <p>一个了解前端页面实现的设计师做出的设计可以让前端工程师事半功倍，而一个不了解前端实现基本知识的设计师的作品，在实际的操作中会让前端工程师叫苦不迭。所以我写这篇博客是想讲一下一些前端实现的流程和思想，其中有很大一部分是建立在一个前提之下的，那就是设计师的设计稿考虑到了一些模块化，可复用的思想，并且是按这些标准来进行设计的。</p>
-            <div class="post-more-link text-center">
-              <a class="btn" href="/2015/09/27/web-desgin-issues-with-fe/#more">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-        
-      </div>
-    
-
-    
-      <div class="post-footer">
-        
-          <div class="post-tags">
-            
-              <a href="/tags/Design/">
-                #Design
-              </a>
-            
-          </div>
-        
-
-        
-
-        
-        
-          <div class="post-eof"></div>
-        
-      </div>
-    
-  </div>
-
-
-  
 
           </div>
 
@@ -881,7 +873,7 @@
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
