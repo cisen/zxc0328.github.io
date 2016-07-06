@@ -47,7 +47,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          首页
+          Home
         </a>
       </li>
     
@@ -55,7 +55,7 @@
       <li class="menu-item menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
-          归档
+          Archives
         </a>
       </li>
     
@@ -63,7 +63,7 @@
       <li class="menu-item menu-item-tags">
         <a href="/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
-          标签
+          Tags
         </a>
       </li>
     
@@ -102,7 +102,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2015-10-22
+              Posted on 2015-10-22
             
           </span>
         
@@ -120,7 +120,7 @@
         
           <p>ES6中增加了一些新特性，但从底层的角度来说，只是一些语法糖。<br>但是就我个人来说，如果不了解这些语法糖的本质，是用不安心的。那我们要如何揭开这些语法糖的真实面目呢？<br>Babel to the rescue！ Babel是一款将ES6代码转换为ES5代码的编译器，从而让我们可以无视浏览器的支持，直接享受ES6的新特性。同时，我们也可以通过研究Babel编译出的ES5代码，来揭开ES6的面纱。</p>
 <a id="more"></a>
-<h3 id="ES6_Classes">ES6 Classes</h3><p>ES6中的Classes是在Javascript现有的原型继承的基础上引入的一种语法糖。Class语法并没有引入一种新的继承模式。它为对象创建和继承提供了更清晰，易用的语法。  </p>
+<p>###ES6 Classes<br>ES6中的Classes是在Javascript现有的原型继承的基础上引入的一种语法糖。Class语法并没有引入一种新的继承模式。它为对象创建和继承提供了更清晰，易用的语法。  </p>
 <p>我们用class关键字来创建一个类，constructor关键字定义构造函数，用extends关键字来实现继承，super来实现调用父类方法。</p>
 <p>好，下面是一个ES6 class语法的完整例子：  </p>
 <pre class="prettyprint">
@@ -301,7 +301,8 @@ var LogView = (function(_View) {
 </pre>
 
 
-<h3 id="View类的实现">View类的实现</h3><p>我们从一个View类的创建开始分析</p>
+<p>###View类的实现</p>
+<p>我们从一个View类的创建开始分析</p>
 <pre class="prettyprint">
 class View {
   constructor(options) {
@@ -357,7 +358,8 @@ var _createClass = (function() {
 <blockquote>
 <p>js中的函数是对象，Function构造函数的prototype指向Object.prototype，因此可以写入属性</p>
 </blockquote>
-<h3 id="类继承的实现">类继承的实现</h3><p>OK，到目前我们已经搞清了ES6的class关键字是如何工作的，那么ES6中的继承有是如何实现的呢？下面让我们看看<code>_inherits()</code>函数。</p>
+<p>###类继承的实现</p>
+<p>OK，到目前我们已经搞清了ES6的class关键字是如何工作的，那么ES6中的继承有是如何实现的呢？下面让我们看看<code>_inherits()</code>函数。</p>
 <pre class="prettyprint">
 function _inherits(subClass, superClass) {
     if (typeof superClass !== 'function' && superClass !== null) {
@@ -405,7 +407,7 @@ var LogView = (function(_View) {
 
 <p><code>LogView</code>类和<code>View</code>类的最大不同便是增加了一个<code>_get()</code>函数的调用，我们仔细看这个<code>_get()</code>函数会发现它接收几个参数，子类的原型，”constructor”标识符，还有<code>this</code>。再看下面对<code>super.render()</code>的处理，同样是用<code>_get()</code>函数来处理的。再看<code>_get()</code>函数的源码，就可以发现<code>_get()</code>函数的作用便是遍历对象的原型链，找出传入的标识符对应的属性，把它用<code>apply</code>绑定在当前上下文上执行。</p>
 <p>大家是不是对这种继承模式似曾相识呢？对了，这就是所谓的“构造函数窃取”。当我们需要继承父类的属性时，在子类的构造函数内部调用父类构造函数，在加上<code>Object.create()</code>大法，然后就可以继承父类的所有属性和方法了。</p>
-<h3 id="结语">结语</h3><p>以上就是笔者对ES6中的class做的一些解读，依据是babel的编译结果。今天刚好看到getify大神的一篇<a href="http://blog.getify.com/arrow-this/" target="_blank" rel="external">博客</a>，将的是ES6中的箭头函数其实并不是一个语法糖，而是一种新的不带this的函数。他还进一步说了，错误的过程得到正确的结果，会导致很多后续的问题。</p>
+<p>###结语<br>以上就是笔者对ES6中的class做的一些解读，依据是babel的编译结果。今天刚好看到getify大神的一篇<a href="http://blog.getify.com/arrow-this/" target="_blank" rel="external">博客</a>，将的是ES6中的箭头函数其实并不是一个语法糖，而是一种新的不带this的函数。他还进一步说了，错误的过程得到正确的结果，会导致很多后续的问题。</p>
 <p>而本文的结论是建立在class是一种语法糖的基础之上的，根据MDN的文档，我们应该可以确认这个结论是可靠的。而ES6中的特性，如箭头函数，并不都是语法糖，因此在后续的ES6探秘文章中，我们将用其他的途径，来揭示ES6种种神奇魔法的秘密。</p>
 
         
@@ -474,10 +476,10 @@ var LogView = (function(_View) {
     
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
-          文章目录
+          Table Of Contents
         </li>
         <li class="sidebar-nav-overview" data-target="site-overview">
-          站点概览
+          Overview
         </li>
       </ul>
     
@@ -490,16 +492,16 @@ var LogView = (function(_View) {
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">20</span>
-          <span class="site-state-item-name">日志</span>
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
-            <span class="site-state-item-name">标签</span>
+            <span class="site-state-item-name">tags</span>
         </div>
         <div class="site-state-item site-state-pages">
             <span class="site-state-item-count">1</span>
-            <span class="site-state-item-name">页面</span>
+            <span class="site-state-item-name">pages</span>
         </div>
       </div>
 
@@ -534,7 +536,7 @@ var LogView = (function(_View) {
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6_Classes"><span class="nav-number">1.</span> <span class="nav-text">ES6 Classes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View类的实现"><span class="nav-number">2.</span> <span class="nav-text">View类的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类继承的实现"><span class="nav-number">3.</span> <span class="nav-text">类继承的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">4.</span> <span class="nav-text">结语</span></a></li></ol>
+        
       </div>
     
   </div>
@@ -557,11 +559,11 @@ var LogView = (function(_View) {
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 

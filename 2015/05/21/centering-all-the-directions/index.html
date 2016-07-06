@@ -47,7 +47,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          首页
+          Home
         </a>
       </li>
     
@@ -55,7 +55,7 @@
       <li class="menu-item menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
-          归档
+          Archives
         </a>
       </li>
     
@@ -63,7 +63,7 @@
       <li class="menu-item menu-item-tags">
         <a href="/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
-          标签
+          Tags
         </a>
       </li>
     
@@ -102,7 +102,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2015-05-21
+              Posted on 2015-05-21
             
           </span>
         
@@ -123,9 +123,9 @@
 <a id="more"></a>
 <p><img src="http://muxistudio.qiniudn.com/e594bf4bef370534e5b4470b8fd2c4d5.png" alt="twitter"></p>
 <p>我想说，“如果你曾与用css居中内容(尤其是垂直居中)苦战，请举手。”其实说“如果你从没有挣扎过…请举手。”可能更快些。CSS是一种强大到让人震惊的工具，但是还是有一些事情，比如垂直居中，甚至在今天仍处于“太TM难了”的状态。我将研究居中的多种方法，不过我认为我们仍将需要更好的东西。</p>
-<h3 id="&lt;center&gt;">&lt;center&gt;</h3><p>首先，如果你还在使用<code>&lt;center&gt;</code>标签来居中，那么1999年喊你回家吃饭。正经地说，你把你的“现代web开发者”会员卡交出来吧。直到你改掉你如此丑陋的代码为止。</p>
+<p>###&lt;center&gt;###<br>首先，如果你还在使用<code>&lt;center&gt;</code>标签来居中，那么1999年喊你回家吃饭。正经地说，你把你的“现代web开发者”会员卡交出来吧。直到你改掉你如此丑陋的代码为止。</p>
 <p><em>译者注：谷歌首页的logo就使用了<code>&lt;center&gt;</code>标签😰</em></p>
-<h3 id="text-align:center">text-align:center</h3><p>每当说到居中文本的时候，你显然无法放弃<code>text-align:center</code>。它的功能正如它的字面意义。它将父容器中的行内文本水平居中。</p>
+<p>###text-align:center###<br>每当说到居中文本的时候，你显然无法放弃<code>text-align:center</code>。它的功能正如它的字面意义。它将父容器中的行内文本水平居中。</p>
 <p>例：</p>
 <pre><code>&lt;style&gt;
 #ex1_container { text-align:center; width:200px; background-      
@@ -136,13 +136,14 @@ color:yellow; }
 
 <p>这很容易。这里的技巧在于构造一个我们希望其子元素居中的父元素。我们不直接对内容添加样式，而是它的父容器。</p>
 <p>除此之外，这个方法只对行内元素起作用（而且大概只该被使用在文本上，不过这点不被严格限制）。而且它只作用于水平方向。</p>
-<h3 id="vertical-align:middle">vertical-align:middle</h3><p> “不过，不过···”你说，“不过<code>vertical-align:middle</code>如何？”对，听起来不错。可是结果，没那么理想。</p>
+<p>###vertical-align:middle###<br> “不过，不过···”你说，“不过<code>vertical-align:middle</code>如何？”对，听起来不错。可是结果，没那么理想。</p>
 <p> 不像text-align：center，设置在一个父元素上来形容水平如何居中<em>它的内容</em>，<code>vertical-align:middle</code>作用在内容本身，并且不在它的父元素处描述它的位置，只是描述相对于周围别的行内元素的位置。</p>
 <p> 对，只对让行内文本和行内图像整齐地排排坐有用，但这不是我们想要的神一样的垂直居中。</p>
 <p><strong>注</strong>：你可以用<code>display:table</code>这个玩意在父元素上，把<code>display:table-cell</code>用在内容元素上。坏处：这就回到表格时代了，而且在低版本IE上兼容性很差。</p>
-<h3 id="line-height">line-height</h3><p>一个有用的垂直居中文本的技巧是设置它容器的<code>line-height</code>属性为你想要的高度，然后文本会（大概的）自动垂直居中。这是一个常用的技巧。有时<code>line-height</code>会有一些副作用，并且它并不是十分完美的（由于字体单位不同，等等）。不过，当你所有的全部只是一根火柴棒，每样事物看起来都像是可以生火的木柴，对吧？</p>
+<p>###line-height###<br>一个有用的垂直居中文本的技巧是设置它容器的<code>line-height</code>属性为你想要的高度，然后文本会（大概的）自动垂直居中。这是一个常用的技巧。有时<code>line-height</code>会有一些副作用，并且它并不是十分完美的（由于字体单位不同，等等）。不过，当你所有的全部只是一根火柴棒，每样事物看起来都像是可以生火的木柴，对吧？</p>
 <p>So，我们该怎么居中块级元素呢?</p>
-<h3 id="margin:auto">margin:auto</h3><p>好吧，理论上说，我们大概会使用<code>margin: .. auto</code>，此次“..”表示我们的垂直margin。（我们一会后再说垂直居中的问题）</p>
+<p>###margin:auto###</p>
+<p>好吧，理论上说，我们大概会使用<code>margin: .. auto</code>，此次“..”表示我们的垂直margin。（我们一会后再说垂直居中的问题）</p>
 <p>那么这是怎么工作的（水平居中）？例子如下：</p>
 <pre><code>&lt;style&gt;
 #ex2_container { width:200px; background-color:yellow; }
@@ -158,9 +159,11 @@ display:table; }
 <p>很酷吧?这里，我们只是直接告诉内容我们需要相对父元素居中它本身，当然，是水平的。这相比<br><code>text-align:center</code>来说不够语义化，因为你差不多正在描述内容周围的空间而不是控制内容本身。但我们在这点上会放它一马，因为这还不赖。</p>
 <p>所以，你会说“那这肯定适用于垂直居中喽!?”当然不是，你是有多傻多天真才希望会有这样一个对称而简单的方案!?正经地说，你是在火星学的CSS吗!？</p>
 <p>不幸的是，出于某些凡人无法理解的原因，这个“小把戏”不适用于垂直居中。</p>
-<h3 id="hacks，hacks">hacks，hacks</h3><p><a href="http://blog.themeforest.net/tutorials/vertical-centering-with-css/" target="_blank" rel="external">这里</a>有大量的hacks，比如像负边距那样的奇异的东西，还有<a href="http://css-tricks.com/centering-in-the-unknown/" target="_blank" rel="external">幽灵元素</a><code>::before</code>等等其他的什么鬼。他们中的大多数都很脆弱，除非你的内容是固定宽度。</p>
+<p>###hacks，hacks###</p>
+<p><a href="http://blog.themeforest.net/tutorials/vertical-centering-with-css/" target="_blank" rel="external">这里</a>有大量的hacks，比如像负边距那样的奇异的东西，还有<a href="http://css-tricks.com/centering-in-the-unknown/" target="_blank" rel="external">幽灵元素</a><code>::before</code>等等其他的什么鬼。他们中的大多数都很脆弱，除非你的内容是固定宽度。</p>
 <p>如果没有其他解决方案了，这将是我们在被压迫时会变成一种充满创造力的物种的证明——我们想办法制造它。</p>
-<h3 id="translate(-50%,-50%)">translate(-50%,-50%)</h3><p>对Chris Coyier在<a href="http://css-tricks.com/" target="_blank" rel="external">CSS-TRICKS.com</a>上发表的一个技巧：<a href="http://css-tricks.com/centering-percentage-widthheight-elements/" target="_blank" rel="external">使用position和translate</a>脱帽致敬。</p>
+<p>###translate(-50%,-50%)###</p>
+<p>对Chris Coyier在<a href="http://css-tricks.com/" target="_blank" rel="external">CSS-TRICKS.com</a>上发表的一个技巧：<a href="http://css-tricks.com/centering-percentage-widthheight-elements/" target="_blank" rel="external">使用position和translate</a>脱帽致敬。</p>
 <p>如果你在一些子元素上设定<code>position:absolute</code>，然后在那个子元素上设定<code>left:50%; top:50%</code>，它的左上角会被自动垂直居中和水平居中。呃，我们大概都知道这个。不过这完全没有帮助，除非我们的内容是1x1像素大。</p>
 <p>这个技巧的后续，是<code>translate(-50%,-50%)</code>。不同于大多数这类百分比计算，像<code>left</code>和<code>top</code>，是相对于父容器来说，<code>translate(-50%,-50%)</code>中的百分比是相对于这个元素本身。</p>
 <p>所以，我们把容器的左上角定位到中心，并且将它按宽度和长度的一半“转换”回来，然后duang!!，奇迹般得在两个方向都居中了。</p>
@@ -195,7 +198,8 @@ display:table; }
 <p>去<a href="http://jsbin.com/etupoz/1/" target="_blank" rel="external">把玩</a>一下看看它能做什么。</p>
 <p>不过，让我们诚实一些，这个方案不太语义化，而且在语法上比较丑陋（特别是因为那些奇怪的前缀）。并且落到了用力过度的那一类里。</p>
 <p>这大概是目前最好的技巧了，考虑到了所有情况。但是让我伤心的是我们依旧需要写这样的文章，玩弄CSS来达到我们需要的效果。</p>
-<h3 id="这是我们能做到的最好吗">这是我们能做到的最好吗</h3><p>如果这些“技巧”和“hacks”在你听起来像“垃圾科学”，这很正常。为什么这个该死的问题这么难？为什么我们需要根据不同的场景使用不同的技术？</p>
+<p>###这是我们能做到的最好吗###</p>
+<p>如果这些“技巧”和“hacks”在你听起来像“垃圾科学”，这很正常。为什么这个该死的问题这么难？为什么我们需要根据不同的场景使用不同的技术？</p>
 <p>一种统治一切的居中规则听起来如何？难道不该有一种标准的“东西”被加入CSS去处理一切问题，取代我们现在所处的处处hack的情形？</p>
 <p>（阴谋论：制定CSS标准的同志们需要继续给博主们猛料，所以他们故意留了一些没有解决的问题）</p>
 <p>这里有一个我刚想出来得平常的提议：</p>
@@ -207,7 +211,8 @@ background-color:gray; color:white; }
 &lt;/style&gt;
 </code></pre><p>我建议应该有一个<code>content-positioning</code>属性在父元素上来控制其子元素的位置。还有一个<code>content-positioning-anchor</code>属性控制子元素上起始点的位置。它会，当然，默认设为<code>0px 0px</code>，但是如果你把它设定为<code>50% 50%</code>，你会说，仅此而已，“把我的内容的中心放在容器的中心”。</p>
 <p>duang！我刚刚解决了全世界的难题。好吧，这不是真的。这种假设令人上瘾。</p>
-<h3 id="你怎么看？">你怎么看？</h3><p>让我们讨论一下统一的解决方案会是什么样的。或者可能已经有了我不知道的特别秘密的CSS标准提案。无论哪种情况，让我们免除hack之苦，向这个频繁地使用场景的标准化前进。</p>
+<p>###你怎么看？###</p>
+<p>让我们讨论一下统一的解决方案会是什么样的。或者可能已经有了我不知道的特别秘密的CSS标准提案。无论哪种情况，让我们免除hack之苦，向这个频繁地使用场景的标准化前进。</p>
 <p>你怎么看？告诉我们吧！</p>
 
         
@@ -276,10 +281,10 @@ background-color:gray; color:white; }
     
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
-          文章目录
+          Table Of Contents
         </li>
         <li class="sidebar-nav-overview" data-target="site-overview">
-          站点概览
+          Overview
         </li>
       </ul>
     
@@ -292,16 +297,16 @@ background-color:gray; color:white; }
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">20</span>
-          <span class="site-state-item-name">日志</span>
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
-            <span class="site-state-item-name">标签</span>
+            <span class="site-state-item-name">tags</span>
         </div>
         <div class="site-state-item site-state-pages">
             <span class="site-state-item-count">1</span>
-            <span class="site-state-item-name">页面</span>
+            <span class="site-state-item-name">pages</span>
         </div>
       </div>
 
@@ -336,7 +341,7 @@ background-color:gray; color:white; }
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#<center>"><span class="nav-number">1.</span> <span class="nav-text"><center></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#text-align:center"><span class="nav-number">2.</span> <span class="nav-text">text-align:center</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vertical-align:middle"><span class="nav-number">3.</span> <span class="nav-text">vertical-align:middle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#line-height"><span class="nav-number">4.</span> <span class="nav-text">line-height</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#margin:auto"><span class="nav-number">5.</span> <span class="nav-text">margin:auto</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hacks，hacks"><span class="nav-number">6.</span> <span class="nav-text">hacks，hacks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#translate(-50%,-50%)"><span class="nav-number">7.</span> <span class="nav-text">translate(-50%,-50%)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这是我们能做到的最好吗"><span class="nav-number">8.</span> <span class="nav-text">这是我们能做到的最好吗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#你怎么看？"><span class="nav-number">9.</span> <span class="nav-text">你怎么看？</span></a></li></ol>
+        
       </div>
     
   </div>
@@ -359,11 +364,11 @@ background-color:gray; color:white; }
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 

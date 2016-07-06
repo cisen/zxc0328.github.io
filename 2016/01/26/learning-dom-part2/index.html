@@ -47,7 +47,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          首页
+          Home
         </a>
       </li>
     
@@ -55,7 +55,7 @@
       <li class="menu-item menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
-          归档
+          Archives
         </a>
       </li>
     
@@ -63,7 +63,7 @@
       <li class="menu-item menu-item-tags">
         <a href="/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
-          标签
+          Tags
         </a>
       </li>
     
@@ -102,7 +102,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2016-01-26
+              Posted on 2016-01-26
             
           </span>
         
@@ -118,10 +118,11 @@
         
 
         
-          <h3 id="四、API详解-DOM_CORE">四、API详解-DOM CORE</h3><h4 id="DOM标准的层级">DOM标准的层级</h4><p>DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>
+          <p>###四、API详解-DOM CORE</p>
+<h4 id="DOM标准的层级"><a href="#DOM标准的层级" class="headerlink" title="DOM标准的层级"></a>DOM标准的层级</h4><p>DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>
 <a id="more"></a>
 <p>具体的层级结构如下图所示：<br><img src="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/images/dom-architecture.png" alt="dom-architecture"><br><em>image credit: w3.org</em></p>
-<h4 id="DOM_Core-导语">DOM Core-导语</h4><p>在我们把目光转向DOM Core模块之前，我想先讲讲如何阅读DOM的W3C Specification。首先我们可以阅读官方的导语-<a href="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/introduction.html" target="_blank" rel="external">What is the Document Object Model?</a>。</p>
+<h4 id="DOM-Core-导语"><a href="#DOM-Core-导语" class="headerlink" title="DOM Core-导语"></a>DOM Core-导语</h4><p>在我们把目光转向DOM Core模块之前，我想先讲讲如何阅读DOM的W3C Specification。首先我们可以阅读官方的导语-<a href="https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/introduction.html" target="_blank" rel="external">What is the Document Object Model?</a>。</p>
 <p>这一节中介绍了DOM的相关概念。比如关于DOM的结构，我们通常认为是一颗树，但实际上用森林来形容更为贴切，因为虽然以<code>Document</code>为根节点的文档树最多只能有一颗，但我们还有一颗可选的<code>doctype</code>节点树，以及<code>comments</code>节点等等。</p>
 <p>更重要的是，导语中还介绍了接下来文档中的一些惯例。比如因为DOM是独立于编程语言的，所以在文档中使用了IDL（Interactive Data Language）来描述接口。然后我们需要注意的一点就是，DOM可以用于HTML和XML，因此在前端同学看来，DOM中会有一些不太熟悉的概念，比如<code>Namespace</code>和<code>DOM URIs</code>，这些正是为了兼容XML而加入到DOM中的特性。不用过分在意。</p>
 <p>下面是一个简化的IDL示例：</p>
@@ -134,7 +135,7 @@
 };
 </code></pre><p><em>IDL中主要描述了一个接口的继承关系，以及接口的方法和属性，及相应的参数和返回值</em></p>
 <p>下面我们首先来看DOM Core模块。从“Core”这个名词就可以看出这个模块在整个DOM标准中处于中心地位。DOM Core模块主要定义了DOM最关键的一组接口和对象。其中最顶层的一个接口就是<code>Node</code>。直接继承<code>Node</code>的接口有<code>Element</code>、<code>DocumentType</code>、<br><code>Attr</code>、<code>ProcessingInstruction</code>、<code>Comment</code>、<br><code>Text</code>、<code>CDATASection</code>和<code>Notation</code>。</p>
-<h4 id="Node接口">Node接口</h4><p><code>Node</code>接口是整个DOM中最顶层的接口，DOM中的每一个节点都是一个<code>Node</code>。从<code>Node</code>接口分化出其他的更具体的接口。</p>
+<h4 id="Node接口"><a href="#Node接口" class="headerlink" title="Node接口"></a>Node接口</h4><p><code>Node</code>接口是整个DOM中最顶层的接口，DOM中的每一个节点都是一个<code>Node</code>。从<code>Node</code>接口分化出其他的更具体的接口。</p>
 <p><code>Node</code>接口的属性：</p>
 <table>
 <thead>
@@ -251,7 +252,7 @@ DOCUMENT_POSITION_PRECEDING
 </ul>
 </li>
 </ul>
-<h4 id="Element接口">Element接口</h4><h4 id="Document接口">Document接口</h4><h4 id="Attr接口">Attr接口</h4><h4 id="Text，Comment和CharacterData接口">Text，Comment和CharacterData接口</h4><h4 id="DOM中的基础数据类型">DOM中的基础数据类型</h4><ul>
+<h4 id="Element接口"><a href="#Element接口" class="headerlink" title="Element接口"></a>Element接口</h4><h4 id="Document接口"><a href="#Document接口" class="headerlink" title="Document接口"></a>Document接口</h4><h4 id="Attr接口"><a href="#Attr接口" class="headerlink" title="Attr接口"></a>Attr接口</h4><h4 id="Text，Comment和CharacterData接口"><a href="#Text，Comment和CharacterData接口" class="headerlink" title="Text，Comment和CharacterData接口"></a>Text，Comment和CharacterData接口</h4><h4 id="DOM中的基础数据类型"><a href="#DOM中的基础数据类型" class="headerlink" title="DOM中的基础数据类型"></a>DOM中的基础数据类型</h4><ul>
 <li><code>DOMString</code>  </li>
 <li><code>DOMTimeStamp</code></li>
 <li><code>DOMUserData</code></li>
@@ -324,10 +325,10 @@ DOCUMENT_POSITION_PRECEDING
     
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
-          文章目录
+          Table Of Contents
         </li>
         <li class="sidebar-nav-overview" data-target="site-overview">
-          站点概览
+          Overview
         </li>
       </ul>
     
@@ -340,16 +341,16 @@ DOCUMENT_POSITION_PRECEDING
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">20</span>
-          <span class="site-state-item-name">日志</span>
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
-            <span class="site-state-item-name">标签</span>
+            <span class="site-state-item-name">tags</span>
         </div>
         <div class="site-state-item site-state-pages">
             <span class="site-state-item-count">1</span>
-            <span class="site-state-item-name">页面</span>
+            <span class="site-state-item-name">pages</span>
         </div>
       </div>
 
@@ -384,7 +385,7 @@ DOCUMENT_POSITION_PRECEDING
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#四、API详解-DOM_CORE"><span class="nav-number">1.</span> <span class="nav-text">四、API详解-DOM CORE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM标准的层级"><span class="nav-number">1.1.</span> <span class="nav-text">DOM标准的层级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM_Core-导语"><span class="nav-number">1.2.</span> <span class="nav-text">DOM Core-导语</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node接口"><span class="nav-number">1.3.</span> <span class="nav-text">Node接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Element接口"><span class="nav-number">1.4.</span> <span class="nav-text">Element接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Document接口"><span class="nav-number">1.5.</span> <span class="nav-text">Document接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Attr接口"><span class="nav-number">1.6.</span> <span class="nav-text">Attr接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Text，Comment和CharacterData接口"><span class="nav-number">1.7.</span> <span class="nav-text">Text，Comment和CharacterData接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM中的基础数据类型"><span class="nav-number">1.8.</span> <span class="nav-text">DOM中的基础数据类型</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM标准的层级"><span class="nav-number">1.</span> <span class="nav-text">DOM标准的层级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM-Core-导语"><span class="nav-number">2.</span> <span class="nav-text">DOM Core-导语</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node接口"><span class="nav-number">3.</span> <span class="nav-text">Node接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Element接口"><span class="nav-number">4.</span> <span class="nav-text">Element接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Document接口"><span class="nav-number">5.</span> <span class="nav-text">Document接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Attr接口"><span class="nav-number">6.</span> <span class="nav-text">Attr接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Text，Comment和CharacterData接口"><span class="nav-number">7.</span> <span class="nav-text">Text，Comment和CharacterData接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM中的基础数据类型"><span class="nav-number">8.</span> <span class="nav-text">DOM中的基础数据类型</span></a></li></ol>
       </div>
     
   </div>
@@ -407,11 +408,11 @@ DOCUMENT_POSITION_PRECEDING
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 

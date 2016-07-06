@@ -59,7 +59,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          首页
+          Home
         </a>
       </li>
     
@@ -67,7 +67,7 @@
       <li class="menu-item menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
-          归档
+          Archives
         </a>
       </li>
     
@@ -75,7 +75,7 @@
       <li class="menu-item menu-item-tags">
         <a href="/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
-          标签
+          Tags
         </a>
       </li>
     
@@ -114,7 +114,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2015-11-05
+              Posted on 2015-11-05
             
           </span>
         
@@ -130,10 +130,11 @@
         
 
         
-          <h3 id="导语">导语</h3><p>CSS reset的作用主要就是清楚浏览器的默认样式，比如我们在Chrome里看到的<code>User Agent Stylesheet</code>就是Chrome浏览器的默认样式。不同的浏览器会有不同的默认样式，因此我们需要清除一些默认样式，<strong>以达到在所有浏览器里显示效果的一致</strong>。</p>
+          <p>###导语<br>CSS reset的作用主要就是清楚浏览器的默认样式，比如我们在Chrome里看到的<code>User Agent Stylesheet</code>就是Chrome浏览器的默认样式。不同的浏览器会有不同的默认样式，因此我们需要清除一些默认样式，<strong>以达到在所有浏览器里显示效果的一致</strong>。</p>
 <p>不过这里面的学问还是很大的。首先我们只需要reset我们在项目中会使用的元素，这就涉及reset的模块化使用。第二我们只需要reset必要的属性。因为reset会加重浏览器渲染的性能开销，因此我们在css reset时必须要慎之又慎，保证最少的代码量和最佳的效果之间的平衡。</p>
 <a id="more"></a>
-<h3 id="确定需要reset的元素">确定需要reset的元素</h3><p>需要reset的元素有以下几类</p>
+<p>###确定需要reset的元素</p>
+<p>需要reset的元素有以下几类</p>
 <p><strong>1.块级元素</strong></p>
 <p>块级元素所需要的重置主要是针对边距、字体的重置。我们常用的元素有<code>body,html,h1,h2,h3,h4,h5,h6,p,ul,li,ol,video</code>等。</p>
 <p><strong>2.表单元素</strong></p>
@@ -144,7 +145,8 @@
 <p>在不支持HTML5标签的浏览器，如IE8及以下的浏览器中，在使用html5shiv这样的polyfill之后，我们需要手动给这些元素加上<code>display:block;</code>来设置默认的<code>display</code>属性。不过目前html5shiv已经包括了默认的样式，所以我们可以不用考虑HTML5元素的<code>display</code>属性reset。</p>
 <p><strong>5.images</strong></p>
 <p><code>image</code>标签在IE8以以下版本的浏览器中默认会存在边框，所以我们需要重置<code>border:0;</code>。</p>
-<h3 id="几个流行的reset-css">几个流行的reset.css</h3><p>1.<a href="http://cssreset.com/scripts/eric-meyer-reset-css/" target="_blank" rel="external">Eric Meyer’s “Reset CSS” 2.0</a></p>
+<p>###几个流行的reset.css</p>
+<p>1.<a href="http://cssreset.com/scripts/eric-meyer-reset-css/" target="_blank" rel="external">Eric Meyer’s “Reset CSS” 2.0</a></p>
 <pre class="prettyprint" style="height:400px;overflow:auto">
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -749,7 +751,8 @@ th {
 </pre>
 
 <p>评价：这是一个全面的reset.css。最大的特点就是模块化。分<code>HTML5 display definitions</code>,<code>Links</code>,<code>Text-level semantics</code>,<code>Embedded content</code>,<code>Grouping content</code>,<code>Forms</code>,<code>Tables</code>这几个模块来分别设置。都有详细的注释。是一份不错的学习材料。</p>
-<h3 id="font-famliy的设置"><code>font-famliy</code>的设置</h3><p>在根元素处设置的<code>font-famliy</code>属性决定了全站所有页面的默认字体。一般我们设置<code>font-famliy</code>的顺序为，默认英文字体，默认中文字体，fallback中文字体。</p>
+<p>###<code>font-famliy</code>的设置</p>
+<p>在根元素处设置的<code>font-famliy</code>属性决定了全站所有页面的默认字体。一般我们设置<code>font-famliy</code>的顺序为，默认英文字体，默认中文字体，fallback中文字体。</p>
 <p>比如:</p>
 <pre class="prettyprint">
 font-famliy:"Arial","Helvetica","Microsoft YaHei","PingFang SC","STHeiti","sans-serif";
@@ -762,7 +765,8 @@ font-famliy:"Arial","Helvetica","sans-serif";
 </pre>
 
 <p>这种设置下，系统会调用默认的无衬线中文字体。所以如果在某些有很多无衬线中文字体的操作系统，如OS X下没有特定的字体要求的话，可以将第一种设置简化为这种设置。移动端web的字体比较多，所以设置方式与上面的类似。</p>
-<h3 id="一个基本的reset-css示例">一个基本的reset.css示例</h3><pre class="prettyprint">
+<p>###一个基本的reset.css示例</p>
+<pre class="prettyprint">
 /* 全局   
 ===================================================================== */
 
@@ -831,7 +835,8 @@ table {
 }
 </pre>
 
-<h3 id="结语">结语</h3><p>上面列出的示例，其实如Meyer说的，只是一个开始。我们需要根据我们的具体需求来做微调，来达到最好的“性价比”。</p>
+<p>###结语</p>
+<p>上面列出的示例，其实如Meyer说的，只是一个开始。我们需要根据我们的具体需求来做微调，来达到最好的“性价比”。</p>
 <p>比如众多的HTML5元素。如果你的项目中不打算使用这些元素，那么你就不用添加对这些元素的reset。之前列的三个流行reset的内容长短不一，很大程度上也是因为大家的目标不一样。所以我们应该以这些优秀的reset.css为模板，来打造自己的reset.css。</p>
 
         
@@ -892,10 +897,10 @@ table {
     
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
-          文章目录
+          Table Of Contents
         </li>
         <li class="sidebar-nav-overview" data-target="site-overview">
-          站点概览
+          Overview
         </li>
       </ul>
     
@@ -908,16 +913,16 @@ table {
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">20</span>
-          <span class="site-state-item-name">日志</span>
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
-            <span class="site-state-item-name">标签</span>
+            <span class="site-state-item-name">tags</span>
         </div>
         <div class="site-state-item site-state-pages">
             <span class="site-state-item-count">1</span>
-            <span class="site-state-item-name">页面</span>
+            <span class="site-state-item-name">pages</span>
         </div>
       </div>
 
@@ -952,7 +957,7 @@ table {
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#导语"><span class="nav-number">1.</span> <span class="nav-text">导语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#确定需要reset的元素"><span class="nav-number">2.</span> <span class="nav-text">确定需要reset的元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几个流行的reset-css"><span class="nav-number">3.</span> <span class="nav-text">几个流行的reset.css</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#font-famliy的设置"><span class="nav-number">4.</span> <span class="nav-text">font-famliy的设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个基本的reset-css示例"><span class="nav-number">5.</span> <span class="nav-text">一个基本的reset.css示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">6.</span> <span class="nav-text">结语</span></a></li></ol>
+        
       </div>
     
   </div>
@@ -975,11 +980,11 @@ table {
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 

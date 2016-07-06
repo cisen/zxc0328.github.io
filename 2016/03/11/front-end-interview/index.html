@@ -47,7 +47,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          首页
+          Home
         </a>
       </li>
     
@@ -55,7 +55,7 @@
       <li class="menu-item menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
-          归档
+          Archives
         </a>
       </li>
     
@@ -63,7 +63,7 @@
       <li class="menu-item menu-item-tags">
         <a href="/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
-          标签
+          Tags
         </a>
       </li>
     
@@ -102,7 +102,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2016-03-11
+              Posted on 2016-03-11
             
           </span>
         
@@ -120,7 +120,7 @@
         
           <p>接下来要参与大大小小的暑期实习笔试和面试。在这篇博客里我将总结一些常见的面试题。其中有一部分是我去年暑假找实习的时候总结的。现在看来，不免有些幼稚。慢慢完善吧！</p>
 <a id="more"></a>
-<h2 id="JavaScript">JavaScript</h2><p>Q：<strong>JS中的闭包</strong></p>
+<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><p>Q：<strong>JS中的闭包</strong></p>
 <p>A：闭包从本身在函数式编程中的概念来说，说的是在定义函数时的两部分-函数体和函数的<code>context</code>，也就是函数定义时的上下文。里面保存着作用域中的变量，函数的定义和赋值。</p>
 <p>而我们平时说的闭包，其实是创建对于这个上下文的引用，从而在外部作用域中通过这个引用来访问这个上下文。</p>
 <p>所以从概念上来说，你声明了一个函数，就声明了一个闭包。</p>
@@ -146,7 +146,7 @@
 };
 </code></pre><hr>
 <p>Q：<strong>JS性能优化</strong><br>A： to be done</p>
-<h2 id="CSS">CSS</h2><p>Q：<strong>CSS position的不同取值以及差异？</strong>  </p>
+<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><p>Q：<strong>CSS position的不同取值以及差异？</strong>  </p>
 <p>A：取值：static（默认），relative，absolute，fixed。差异，relative：相对于其自身进行定位，不脱离文档流。absolute：相对于父元素链上的第一个已定位元素，如果不存在则相对于body。脱离文档流。fixed，相对于浏览器窗口进行定位，脱离文档流。static：正常的文档流定位。</p>
 <hr>
 <p>Q：<strong>CSS 盒模型</strong></p>
@@ -162,12 +162,12 @@
 <hr>
 <p>Q：<strong>CSS hack</strong></p>
 <p>A：选择器hack（-webkit-,-moz-）,属性hack，IE条件注释</p>
-<h2 id="HTML">HTML</h2><p>Q：<strong>web语义化</strong></p>
+<h2 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h2><p>Q：<strong>web语义化</strong></p>
 <p>A：<br>html5新标签：<code>&lt;header&gt;&lt;footer&gt;&lt;nav&gt;&lt;aside&gt;</code><br>Microformat：标准化的css类名，方便搜索引擎对页面内容进行索引。</p>
 <hr>
 <p>Q：<strong>Doctype</strong></p>
 <p>A：通过检查doctype决定使用兼容模式还是标准模式对文档进行渲染。html中为&lt;!doctype html&gt;</p>
-<h2 id="数据结构与算法">数据结构与算法</h2><h2 id="前端性能">前端性能</h2><p>Q：<strong>页面加载速度优化？</strong>  </p>
+<h2 id="数据结构与算法"><a href="#数据结构与算法" class="headerlink" title="数据结构与算法"></a>数据结构与算法</h2><h2 id="前端性能"><a href="#前端性能" class="headerlink" title="前端性能"></a>前端性能</h2><p>Q：<strong>页面加载速度优化？</strong>  </p>
 <p>A：</p>
 <ul>
 <li>从http请求上来说，减少http请求数（合并css，js，sprite图，或者使用阿里的一个请求多个文件技术），但是合并请求不利于浏览器缓存。适当的请求数可以充分利用并发连接（瀑布图）并利用好缓存。减小文件的大小（压缩css，js，图片）。CDN加速等。</li>
@@ -175,7 +175,7 @@
 <li>服务器端，充分利用缓存。使用hash更新文件。Gzip压缩。</li>
 <li>性能检测工具。WebPagetest。Chrome DevTools。</li>
 </ul>
-<h2 id="网络">网络</h2><p>Q：<strong>HTTP GET POST的不同？</strong>  </p>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><p>Q：<strong>HTTP GET POST的不同？</strong>  </p>
 <p>A：</p>
 <ul>
 <li>GET是把参数加到URL中，在URL中可以看到。POST将表单内容放置在HTTP request body中。</li>
@@ -184,9 +184,9 @@
 <hr>
 <p>Q：<strong>HTTP状态码</strong></p>
 <p>A：200 ok，304 not modified，404 not found，403 forbidden，500 internal server error， 503 Service Unavailable等。</p>
-<h2 id="安全">安全</h2><p>Q：<strong>Web安全</strong></p>
+<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><p>Q：<strong>Web安全</strong></p>
 <p>A：XSS，CSRF，SQL注入等。具体可以看一些前端安全相关的书，初步了解。有实战最佳。</p>
-<h2 id="浏览器">浏览器</h2><p>Q：<strong>描述在浏览器中输入url到网页加载完成的过程</strong></p>
+<h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><p>Q：<strong>描述在浏览器中输入url到网页加载完成的过程</strong></p>
 <p>A：  </p>
 <ul>
 <li>浏览器查看缓存，如果有为过期的资源则直接返回该资源。</li>
@@ -203,7 +203,7 @@
 <li>js解析<br>浏览器创建Document对象并解析HTML，将解析到的元素和文本节点添加到文档中，此时document.readystate为loading<br>此时HTML解析器遇到同步script时，将他们添加到文档中，然后执行行内或外部脚本。这些脚本会同步执行，并且在脚本下载和执行时解析器会暂停。<br>浏览器在Document对象上触发DOMContentLoaded事件<br>此时文档完全解析完成，浏览器可能还在等待如图片等内容加载，等这些内容完成载入并且所有异步脚本完成载入和执行，document.readState变为complete,window触发load事件</li>
 <li>页面显示<br>（关于这个问题的浏览器渲染方面，看webkit技术内幕比较好，我觉得这本书也算是高阶前端必看的一本）</li>
 </ul>
-<h2 id="其他">其他</h2><p>Q：平时如何学习前端？</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>Q：平时如何学习前端？</p>
 <p>A：<br>答案因人而异</p>
 <ul>
 <li>技术书籍。英文为主，中文为辅。</li>
@@ -215,7 +215,7 @@
 </ul>
 <hr>
 <p>Q：Web无障碍？<br>A：to be done</p>
-<h2 id="智力题">智力题</h2><p>Q：<strong>你让工人为你工作7天，给工人的回报是一根金条。金条平分成相连的7段<br>，你必须在每天结束时给他们一段金条，如果只许你两次把金条弄断，你如何给你<br>的工人付费？</strong></p>
+<h2 id="智力题"><a href="#智力题" class="headerlink" title="智力题"></a>智力题</h2><p>Q：<strong>你让工人为你工作7天，给工人的回报是一根金条。金条平分成相连的7段<br>，你必须在每天结束时给他们一段金条，如果只许你两次把金条弄断，你如何给你<br>的工人付费？</strong></p>
 <p>A：把金条切成4份,2份和1份<br>    第一天给工人一份金条<br>    第二天给他两份的金条，把第一天的一份金条收回<br>    第三天又把一份的金条给他<br>    第四天把四份的金条给他，把一份和两份的金条收回<br>    第五天又把一份的金条给他<br>    第六天又给他两份的金条，收回一份的金条<br>    第七天最后把一份的金条给他  </p>
 <p>Q：<strong>一群人开舞会，每人头上都戴着一顶帽子。帽子只有黑白两种，黑的至少<br>有一顶。每个人都能看到其他人帽子的颜色，却看不到自己的。主持人先让大家看<br>看别人头上戴的是什么帽子，然后关灯，如果有人认为自己戴的是黑帽子，就打自<br>己一个耳光。第一次关灯，没有声音。于是再开灯，大家再看一遍，关灯时仍然鸦<br>雀无声。一直到第三次关灯，才有劈劈啪啪打耳光的声音响起。问有多少人戴着黑<br>帽子？</strong> </p>
 <p>或者这种变体： </p>
@@ -288,10 +288,10 @@
     
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
-          文章目录
+          Table Of Contents
         </li>
         <li class="sidebar-nav-overview" data-target="site-overview">
-          站点概览
+          Overview
         </li>
       </ul>
     
@@ -304,16 +304,16 @@
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">20</span>
-          <span class="site-state-item-name">日志</span>
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
-            <span class="site-state-item-name">标签</span>
+            <span class="site-state-item-name">tags</span>
         </div>
         <div class="site-state-item site-state-pages">
             <span class="site-state-item-count">1</span>
-            <span class="site-state-item-name">页面</span>
+            <span class="site-state-item-name">pages</span>
         </div>
       </div>
 
@@ -371,11 +371,11 @@
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 

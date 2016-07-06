@@ -47,7 +47,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          首页
+          Home
         </a>
       </li>
     
@@ -55,7 +55,7 @@
       <li class="menu-item menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
-          归档
+          Archives
         </a>
       </li>
     
@@ -63,7 +63,7 @@
       <li class="menu-item menu-item-tags">
         <a href="/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
-          标签
+          Tags
         </a>
       </li>
     
@@ -102,7 +102,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              发表于 2016-03-11
+              Posted on 2016-03-11
             
           </span>
         
@@ -130,21 +130,21 @@
 <p>分别对应这系列文章的四个部分。</p>
 <p>好，让我们开启这段神奇的重复造轮子之旅吧！</p>
 <a id="more"></a>
-<h3 id="开发环境的搭建">开发环境的搭建</h3><p>我们使用ES6的模块语法编写模块，并使用<a href="http://rollupjs.org/" target="_blank" rel="external">rollup.js</a>打包，rollup是基于ES6模块的JS打包工具。我对于rollup的思考可以参考。除此之外我们还是用Babel和Flow。Flow是Facebook出品的JavaScript静态类型检查工具，我们用Babel来去除Flow的类型标记，以及编译其他的ES6特性代码。</p>
+<h3 id="开发环境的搭建"><a href="#开发环境的搭建" class="headerlink" title="开发环境的搭建"></a>开发环境的搭建</h3><p>我们使用ES6的模块语法编写模块，并使用<a href="http://rollupjs.org/" target="_blank" rel="external">rollup.js</a>打包，rollup是基于ES6模块的JS打包工具。我对于rollup的思考可以参考。除此之外我们还是用Babel和Flow。Flow是Facebook出品的JavaScript静态类型检查工具，我们用Babel来去除Flow的类型标记，以及编译其他的ES6特性代码。</p>
 <p>// todo 测试环境搭建</p>
 <p><code>git checkout 1-1</code></p>
-<h3 id="jQuery的组织架构">jQuery的组织架构</h3><p>简单的说，jQueryAPI由<code>jQuery</code>构造函数以及<code>jQuery</code>函数上的一系列静态API组成。<code>jQuery</code>构造函数就是我们平常使用的<code>$</code>函数，这个函数接收选择器字符串作为参数，返回jQuery对象实例。jQuery对象封装了原生的DOM对象，为其添加了一系列的属性和方法，以及链式调用的能力。</p>
+<h3 id="jQuery的组织架构"><a href="#jQuery的组织架构" class="headerlink" title="jQuery的组织架构"></a>jQuery的组织架构</h3><p>简单的说，jQueryAPI由<code>jQuery</code>构造函数以及<code>jQuery</code>函数上的一系列静态API组成。<code>jQuery</code>构造函数就是我们平常使用的<code>$</code>函数，这个函数接收选择器字符串作为参数，返回jQuery对象实例。jQuery对象封装了原生的DOM对象，为其添加了一系列的属性和方法，以及链式调用的能力。</p>
 <p>与此同时，因为JavaScript的函数也是对象，因此我们可以在函数上添加属性和方法。函数是对象，因此也可以访问对象原型的方法。<code>jQuery</code>函数上的静态方法，包括了回调、AJAX、事件、动画、工具函数等jQuery API。另一些API，比如DOM相关的API，则是绑定在<code>jQuery</code>构造函数实例化出来的对象上。</p>
-<h4 id="lite构造函数"><code>lite</code>构造函数</h4><p>下面就让我们开始编写我们的自制<code>jQuery</code>—<code>litejs</code>。让我们来编写我们的第一个函数，<code>lite</code>构造函数。</p>
+<h4 id="lite构造函数"><a href="#lite构造函数" class="headerlink" title="lite构造函数"></a><code>lite</code>构造函数</h4><p>下面就让我们开始编写我们的自制<code>jQuery</code>—<code>litejs</code>。让我们来编写我们的第一个函数，<code>lite</code>构造函数。</p>
 <pre><code>// The lite constructor function
 var lite = function( selector, context ) {
   return new lite.prototype.init( selector, context );
 };
 </code></pre><p>这个函数很简单，调用了<code>lite.fn.init</code>函数，传入了选择器和上下文，并返回实例化的对象。让我们来看看真正干活的<code>lite.prototype.init</code>函数。</p>
-<h4 id="lite-prototype-init"><code>lite.prototype.init</code></h4><p>我们之前说过，<code>lite</code>构造函数也是个对象，我们把一些静态方法都放在这个对象的原型上。其中就有<code>init</code>方法。我们先不急着看这个方法做了什么，我们在这里要做一个特殊的处理：</p>
+<h4 id="lite-prototype-init"><a href="#lite-prototype-init" class="headerlink" title="lite.prototype.init"></a><code>lite.prototype.init</code></h4><p>我们之前说过，<code>lite</code>构造函数也是个对象，我们把一些静态方法都放在这个对象的原型上。其中就有<code>init</code>方法。我们先不急着看这个方法做了什么，我们在这里要做一个特殊的处理：</p>
 <pre><code>lite.prototype.init.prototype = lite.prototype;
 </code></pre><p>很简单，因为<code>lite.prototype.init</code>方法返回的实例无法访问到<code>lite</code>函数的原型链，所以我们设置这个对象构造函数的原型是<code>lite.prototype</code>。</p>
-<h4 id="lite-extend()"><code>lite.extend()</code></h4><p><code>lite.extend()</code>其实就是我们常说的<code>mixin</code>函数</p>
+<h4 id="lite-extend"><a href="#lite-extend" class="headerlink" title="lite.extend()"></a><code>lite.extend()</code></h4><p><code>lite.extend()</code>其实就是我们常说的<code>mixin</code>函数</p>
 
         
       </div>
@@ -212,10 +212,10 @@ var lite = function( selector, context ) {
     
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
-          文章目录
+          Table Of Contents
         </li>
         <li class="sidebar-nav-overview" data-target="site-overview">
-          站点概览
+          Overview
         </li>
       </ul>
     
@@ -228,16 +228,16 @@ var lite = function( selector, context ) {
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">20</span>
-          <span class="site-state-item-name">日志</span>
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
-            <span class="site-state-item-name">标签</span>
+            <span class="site-state-item-name">tags</span>
         </div>
         <div class="site-state-item site-state-pages">
             <span class="site-state-item-count">1</span>
-            <span class="site-state-item-name">页面</span>
+            <span class="site-state-item-name">pages</span>
         </div>
       </div>
 
@@ -272,7 +272,7 @@ var lite = function( selector, context ) {
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#开发环境的搭建"><span class="nav-number">1.</span> <span class="nav-text">开发环境的搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery的组织架构"><span class="nav-number">2.</span> <span class="nav-text">jQuery的组织架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lite构造函数"><span class="nav-number">2.1.</span> <span class="nav-text">lite构造函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lite-prototype-init"><span class="nav-number">2.2.</span> <span class="nav-text">lite.prototype.init</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lite-extend()"><span class="nav-number">2.3.</span> <span class="nav-text">lite.extend()</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#开发环境的搭建"><span class="nav-number">1.</span> <span class="nav-text">开发环境的搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery的组织架构"><span class="nav-number">2.</span> <span class="nav-text">jQuery的组织架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lite构造函数"><span class="nav-number">2.1.</span> <span class="nav-text">lite构造函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lite-prototype-init"><span class="nav-number">2.2.</span> <span class="nav-text">lite.prototype.init</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lite-extend"><span class="nav-number">2.3.</span> <span class="nav-text">lite.extend()</span></a></li></ol></li></ol>
       </div>
     
   </div>
@@ -295,11 +295,11 @@ var lite = function( selector, context ) {
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 
