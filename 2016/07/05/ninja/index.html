@@ -145,7 +145,7 @@
 <p>于是我们需要一款能支持<code>Jinja2</code>语法，同时又能满足前端开发各种需要的dev server。Ninja就在这个节点上横空出世了！</p>
 <h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>Ninja的上手非常简单，首先安装Ninja</p>
 <pre><code>npm install -g ninja_cli
-</code></pre><p>下面以Ninja和Webpack一起使用为例：</p>
+</code></pre><p>下面以Ninja和Webpack一起使用为例，这个例子的源代码在Ninja仓库的<a href="https://github.com/Muxi-Studio/ninja/tree/master/example/ninja_webpack_example" target="_blank" rel="external"><code>example文件夹</code></a>下可以找到。</p>
 <p>首先我们需要一个<code>ninja.conf.js</code>配置文件，当然你也可以选择用命令行参数配置。在这个文件里我们要配置一些必要的参数：</p>
 <pre><code>module.exports = {
     template: &quot;swig&quot;, // 模板引擎名
@@ -164,7 +164,8 @@
   },
 </code></pre><p>webpack的中间件提供静态文件，我们可以在Ninja的3000端口访问到，所以在模板中的静态文件路径可以写<code>/</code>+文件名。如<code>&lt;script src=&quot;/bundle.js&quot;&gt;&lt;/script&gt;</code>。</p>
 <p>配置好Webpack之后，我们写两个简单的模板</p>
-<pre><code>&lt;!DOCTYPE html&gt;
+<pre><code>// base.html
+&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -178,9 +179,8 @@
 	<script src="/bundle.js"></script>
 
 
-```
 
-```
+// second.html
 {% extends 'base.html' %}
 {% block content %}
 	<p>{{ title }}</p>
