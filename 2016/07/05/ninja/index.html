@@ -185,6 +185,39 @@
 {% block content %}
 	<p>{{ title }}</p>
 {% endblock %}
+</code></pre><p>然后写一个mock文件<code>/mock/mock.json</code>，配置路由和虚拟数据：</p>
+<pre><code>{
+    &quot;routes&quot;: [
+        {
+            &quot;name&quot;: &quot;home&quot;,
+            &quot;endpoint&quot;: &quot;/&quot;,
+            &quot;template&quot;: &quot;home&quot;,
+            &quot;async&quot;: false // 同步路由
+        },
+        {
+            &quot;name&quot;: &quot;second&quot;,
+            &quot;endpoint&quot;: &quot;/second&quot;,
+            &quot;template&quot;: &quot;home&quot;,
+            &quot;async&quot;: false
+        },
+        {
+            &quot;name&quot;: &quot;api.courses&quot;,
+            &quot;endpoint&quot;: &quot;/api/v1.0/courses&quot;,
+            &quot;async&quot;: true // 异步路由（API）
+        }
+    ],
+    &quot;data&quot;:{
+        &quot;home&quot;:{
+            &quot;title&quot;: &quot;hello&quot;
+        },
+        &quot;second&quot;:{
+            &quot;title&quot;: &quot;second&quot;
+        },
+        &quot;api.courses&quot;:{
+            &quot;title&quot;: &quot;second&quot;
+        }
+    }
+}
 </code></pre><p>然后启动Ninja</p>
 <pre><code>$ ninja
 </code></pre><p>之后Ninja会自动用Chrome打开<code>http://localhost:3000/</code>。并显示我们首页模板。大功告成！</p>
