@@ -221,6 +221,7 @@
 </code></pre><p>然后启动Ninja</p>
 <pre><code>$ ninja
 </code></pre><p>之后Ninja会自动用Chrome打开<code>http://localhost:3000/</code>。并显示我们首页模板。大功告成！</p>
+<p><img src="http://7xqk8r.com1.z0.glb.clouddn.com/ninja_start.gif" alt="ninja_start"></p>
 <h3 id="开发手记"><a href="#开发手记" class="headerlink" title="开发手记"></a>开发手记</h3><p>Ninja的主体就是一个Express server，读取配置文件然后生成路由，填入虚拟数据和模板。Livereload使用了<code>connect-inject</code>做模板的JS注入。用<code>socket.io</code>做浏览器与Ninja的实时通信。至于Webpack的集成，直接使用官方的<code>webpack-dev-middleware</code>和<code>webpack-hot-middleware</code>就可以轻松达成。</p>
 <p>总体来说没有遇到太大的困难，当然也可能是因为使用了大量的三方库。<code>@朱承浩</code>同学建议Ninja的Web server部分可以自己实现，没必要使用<code>Express</code>。我认为JS注入应该也可以自己实现。所以后期可以将这些部分替换为自己的实现。</p>
 <p>Ninja是我第一次尝试些CLI应用，也是第一次尝试写前端工具。在功能上借鉴了<a href="https://github.com/leeluolee/puer" target="_blank" rel="external"><code>puer</code></a>（但是没看代码，看不懂Coffee Script），在前后端分离的理念上借鉴了<a href="https://github.com/NEYouFan" target="_blank" rel="external"><code>NEI</code></a>。在这个过程中我最大的发现是Node生态圈的繁荣，基本上想要的功能都有相应的NPM包封装好了。这次用了<a href="https://github.com/tj/commander" target="_blank" rel="external"><code>commander</code></a>做命令行参数的文档生成，<a href="https://github.com/chalk/chalk" target="_blank" rel="external"><code>chalk</code></a>给<code>console.log</code>加颜色，<a href="https://github.com/tj/consolidate.js" target="_blank" rel="external"><code>consolidate</code></a>来统一Node模板调用，<a href="https://github.com/sindresorhus/opn" target="_blank" rel="external"><code>opn</code></a>用来打开浏览器。随着我Node水平的提升，在今后的开发中，会尽量少用不必要的三方库。</p>
