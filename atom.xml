@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-07-14T08:16:16.000Z</updated>
+  <updated>2016-07-27T11:37:02.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>发布Regular Devtools</title>
+    <link href="http://yoursite.com/2016/07/26/annoucing-regular-devtools/"/>
+    <id>http://yoursite.com/2016/07/26/annoucing-regular-devtools/</id>
+    <published>2016-07-26T10:20:33.000Z</published>
+    <updated>2016-07-27T11:37:02.000Z</updated>
+    
+    <content type="html">&lt;h3 id=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;a href=&quot;#为什么我们需要开发者工具？&quot; class=&quot;headerlink&quot; title=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;/a&gt;为什么我们需要开发者工具？&lt;/h3&gt;&lt;p&gt;现在五花八门的开源前端工具里面，有一些致力于解决前端不够工程化的问题，比如Webpack、Gulp、PostCSS。有些则致力于加强编程语言的特性，比如Babel。而有一部分工具则是为了提高开发者的体验，比如React Devtools、React Hotloader和Redux Devtools。提高开发者体验的工具，从某种角度来说，其实和其他直接参与到前端开发工作流中的工具一样，最终都是为了提高生产力。&lt;/p&gt;
+&lt;p&gt;React Devtools已经足够惊艳，而Redux Devtools带来的Time-travel Debugging和React Hotloader的热更新则让人直呼这是黑魔法。&lt;/p&gt;
+&lt;p&gt;所以，被这些开发者工具惯坏的我们，怎么能接受Regular没有Devtools的现实呢？&lt;/p&gt;
+&lt;h3 id=&quot;Regular-Devtools初印象&quot;&gt;&lt;a href=&quot;#Regular-Devtools初印象&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools初印象&quot;&gt;&lt;/a&gt;Regular Devtools初印象&lt;/h3&gt;&lt;p&gt;Regular Devtools是一款Chrome拓展。主要的功能是展示组件树，以及查看每个组件的数据。开发者对组件的操作，造成组件树和数据的变化，都会在Devtools中实时展现。&lt;/p&gt;
+&lt;p&gt;比如这样：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/rdt_demo_ss.gif&quot; alt=&quot;rdt_demo&quot;&gt;&lt;/p&gt;
+&lt;p&gt;更强大的是，你可以检查当前组件对应的DOM节点，这个节点会在Chrome Devtools中的Element Tab中出现，就像你平时习惯的右键inspect一样。&lt;/p&gt;
+&lt;p&gt;反之，如果你正在检查一个DOM元素，此时你可以切换到Regular Tab，Regular DevTools会自动选中那个DOM节点对应的Regular组件（如果那个DOM节点是Regular组件渲染出的）。&lt;/p&gt;
+&lt;p&gt;比如这样：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/rdt_demo_dom_ss.gif&quot; alt=&quot;rdt_demo&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h3&gt;&lt;p&gt;读到这里，想必你一定蠢蠢欲动了，那就快来体验一下Regular DevTools吧。&lt;/p&gt;
+&lt;h3 id=&quot;关于Regular版本&quot;&gt;&lt;a href=&quot;#关于Regular版本&quot; class=&quot;headerlink&quot; title=&quot;关于Regular版本&quot;&gt;&lt;/a&gt;关于Regular版本&lt;/h3&gt;&lt;h3 id=&quot;开发手记&quot;&gt;&lt;a href=&quot;#开发手记&quot; class=&quot;headerlink&quot; title=&quot;开发手记&quot;&gt;&lt;/a&gt;开发手记&lt;/h3&gt;&lt;h3 id=&quot;一些坑&quot;&gt;&lt;a href=&quot;#一些坑&quot; class=&quot;headerlink&quot; title=&quot;一些坑&quot;&gt;&lt;/a&gt;一些坑&lt;/h3&gt;&lt;h3 id=&quot;关于我&quot;&gt;&lt;a href=&quot;#关于我&quot; class=&quot;headerlink&quot; title=&quot;关于我&quot;&gt;&lt;/a&gt;关于我&lt;/h3&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;a href=&quot;#为什么我们需要开发者工具？&quot; class=&quot;headerlink&quot; title=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;/a&gt;为什么我们需要开发者工具？&lt;/h3&gt;&lt;p&gt;现在五花八门的开源前端工具里面，有一些致力于解决前端
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Ninja:dev server made easy</title>
