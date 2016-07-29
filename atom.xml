@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-07-28T07:58:14.000Z</updated>
+  <updated>2016-07-29T06:17:21.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,9 +20,25 @@
     <link href="http://yoursite.com/2016/07/28/regular-devtools-thought/"/>
     <id>http://yoursite.com/2016/07/28/regular-devtools-thought/</id>
     <published>2016-07-28T07:52:00.000Z</published>
-    <updated>2016-07-28T07:58:14.000Z</updated>
+    <updated>2016-07-29T06:17:21.000Z</updated>
     
-    <content type="html">&lt;h3 id=&quot;Regular-Devtools的前辈们&quot;&gt;&lt;a href=&quot;#Regular-Devtools的前辈们&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools的前辈们&quot;&gt;&lt;/a&gt;Regular Devtools的前辈们&lt;/h3&gt;&lt;h3 id=&quot;Chrome-Extension组成&quot;&gt;&lt;a href=&quot;#Chrome-Extension组成&quot; class=&quot;headerlink&quot; title=&quot;Chrome Extension组成&quot;&gt;&lt;/a&gt;Chrome Extension组成&lt;/h3&gt;&lt;h3 id=&quot;inject大法&quot;&gt;&lt;a href=&quot;#inject大法&quot; class=&quot;headerlink&quot; title=&quot;inject大法&quot;&gt;&lt;/a&gt;inject大法&lt;/h3&gt;&lt;h3 id=&quot;给Regular加点代码&quot;&gt;&lt;a href=&quot;#给Regular加点代码&quot; class=&quot;headerlink&quot; title=&quot;给Regular加点代码&quot;&gt;&lt;/a&gt;给Regular加点代码&lt;/h3&gt;&lt;h3 id=&quot;性能优化&quot;&gt;&lt;a href=&quot;#性能优化&quot; class=&quot;headerlink&quot; title=&quot;性能优化&quot;&gt;&lt;/a&gt;性能优化&lt;/h3&gt;</content>
+    <content type="html">&lt;h3 id=&quot;Regular-Devtools的前辈们&quot;&gt;&lt;a href=&quot;#Regular-Devtools的前辈们&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools的前辈们&quot;&gt;&lt;/a&gt;Regular Devtools的前辈们&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/gaearon&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dan Abramov&lt;/a&gt;的&lt;a href=&quot;https://github.com/gaearon/redux-devtools&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Redux Devtools&lt;/a&gt;把前端框架开发者工具推向了主流视野，他在React Europe 2015上的这个&lt;a href=&quot;https://www.youtube.com/watch?v=xsSnOQynTHs&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;演讲&lt;/a&gt;被疯转。Redux Devtools可以说是独领风骚，开启了新一代前端框架开发者工具的潮流。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/facebook/react-devtools&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;React Devtools&lt;/a&gt;也可以算是前端框架Devtools的祖师爷之一了。React Devtools不但有常用的组件树查看功能，还能直接查看JSX代码，筛选组件，双向修改state，查看组件源码等等。&lt;/p&gt;
+&lt;p&gt;而Regular Devtools主要参考的则是&lt;a href=&quot;https://github.com/vuejs/vue-devtools&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vue Devtools&lt;/a&gt;。Vue Devtools是一个轻量，简洁的Devtools，拥有Devtools必要的大部分功能。而Vue与Regular在某些方面比较相似，因为Vue Devtools就成为了我开发过程中的一个参考。&lt;/p&gt;
+&lt;h3 id=&quot;Chrome-Extension组成&quot;&gt;&lt;a href=&quot;#Chrome-Extension组成&quot; class=&quot;headerlink&quot; title=&quot;Chrome Extension组成&quot;&gt;&lt;/a&gt;Chrome Extension组成&lt;/h3&gt;&lt;p&gt;其实前端开发者熟悉的Chrome Devtools是用Web技术开发的。验证的方法很简单，如果你把Chrome Devtools设置为单独窗口，然而再按下打开Chrome Devtools的快捷键的话，你可以开启一个meta-inspecting，也就是检查开发者工具界面的DOM元素等等。当然了，如果你熟悉Chrome Devtools团队的一些知名开发者，比如&lt;a href=&quot;https://github.com/addyosmani&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Addy Osmani&lt;/a&gt;和&lt;a href=&quot;https://github.com/paulirish&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Paul Irish&lt;/a&gt;的话，你可能对此已经习以为常。（正如V8并不是完全的C++实现，有一部分API是JavaScript实现，Chrome的界面也不都是原生的，Hybrid无处不在）&lt;/p&gt;
+&lt;p&gt;好了，下面我们来说说Chrome Extension。Chrome Extension其实就是使用Web技术来开发的，只不过和一般的页面不同的是，Chrome Extension的执行环境可以访问到一系列的&lt;code&gt;chrome.*&lt;/code&gt;API。比如用&lt;code&gt;chrome.tabs&lt;/code&gt;API来打开新tab，或者监听和tab有关的一系列事件。完整的API文档在&lt;a href=&quot;https://developer.chrome.com/extensions/api_index&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这里&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;Chrome Extension一般由以下几个部分组成：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UI pages&lt;/li&gt;
+&lt;li&gt;Content Script&lt;/li&gt;
+&lt;li&gt;Background Script&lt;/li&gt;
+&lt;li&gt;Devtools Panel page&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所谓UI pages，就是一般的Extension点击图标之后出现的popup框。这个框是一个HTML文件，包含了Extension的UI逻辑。&lt;/p&gt;
+&lt;p&gt;如果你的Extension想要访问当前页面的DOM结构，那你必须使用Content Script。Content Script的特点就是，它可以访问当前页面的DOM结构，但除此之外，当前页面上的&lt;code&gt;window&lt;/code&gt;对象等全局变量以及JavaScript脚本运行后产生的context都无法访问。Content Script是运行在沙盒中的，它只被允许访问页面的DOM结构。不过Content Script作为Extension的一部分，可以和Background Script通信。Content Script和UI pages可以被当做Extension这个应用的View层。&lt;/p&gt;
+&lt;p&gt;Background Script，正如名字所示，是Extension运行在后台的一个脚本。这个脚本可以和Content Script通信。&lt;/p&gt;
+&lt;p&gt;如果你开发的是一款Chrome Devtools拓展，类似Regular Devtools，那你就需要Devtools Panel page了。这个页面负责在Chrome Devtools上新建tab，并且展示tab中的UI。&lt;/p&gt;
+&lt;h3 id=&quot;Regular-Devtools的组成&quot;&gt;&lt;a href=&quot;#Regular-Devtools的组成&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools的组成&quot;&gt;&lt;/a&gt;Regular Devtools的组成&lt;/h3&gt;&lt;h3 id=&quot;跨页面通信&quot;&gt;&lt;a href=&quot;#跨页面通信&quot; class=&quot;headerlink&quot; title=&quot;跨页面通信&quot;&gt;&lt;/a&gt;跨页面通信&lt;/h3&gt;&lt;h3 id=&quot;inject大法&quot;&gt;&lt;a href=&quot;#inject大法&quot; class=&quot;headerlink&quot; title=&quot;inject大法&quot;&gt;&lt;/a&gt;inject大法&lt;/h3&gt;&lt;h3 id=&quot;给Regular加点代码&quot;&gt;&lt;a href=&quot;#给Regular加点代码&quot; class=&quot;headerlink&quot; title=&quot;给Regular加点代码&quot;&gt;&lt;/a&gt;给Regular加点代码&lt;/h3&gt;&lt;h3 id=&quot;性能优化&quot;&gt;&lt;a href=&quot;#性能优化&quot; class=&quot;headerlink&quot; title=&quot;性能优化&quot;&gt;&lt;/a&gt;性能优化&lt;/h3&gt;</content>
     
     <summary type="html">
     
@@ -38,11 +54,12 @@
     <link href="http://yoursite.com/2016/07/26/annoucing-regular-devtools/"/>
     <id>http://yoursite.com/2016/07/26/annoucing-regular-devtools/</id>
     <published>2016-07-26T10:20:33.000Z</published>
-    <updated>2016-07-29T03:01:07.000Z</updated>
+    <updated>2016-07-29T03:04:04.000Z</updated>
     
     <content type="html">&lt;h3 id=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;a href=&quot;#为什么我们需要开发者工具？&quot; class=&quot;headerlink&quot; title=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;/a&gt;为什么我们需要开发者工具？&lt;/h3&gt;&lt;p&gt;现在五花八门的开源前端工具里面，有一些致力于解决前端不够工程化的问题，比如Webpack、Gulp、PostCSS。有些则致力于加强编程语言的特性，比如Babel。而有一部分工具则是为了提高开发者的体验，比如React Devtools、React Hotloader和Redux Devtools。提高开发者体验的工具，从某种角度来说，其实和其他直接参与到前端开发工作流中的工具一样，最终都是为了提高生产力。&lt;/p&gt;
 &lt;p&gt;React Devtools已经足够惊艳，而Redux Devtools带来的Time-travel Debugging和React Hotloader的热更新则让人直呼这是黑魔法。&lt;/p&gt;
 &lt;p&gt;所以，被这些开发者工具惯坏的我们，怎么能接受Regular没有Devtools的现实呢？&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h3 id=&quot;Regular-Devtools初印象&quot;&gt;&lt;a href=&quot;#Regular-Devtools初印象&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools初印象&quot;&gt;&lt;/a&gt;Regular Devtools初印象&lt;/h3&gt;&lt;p&gt;Regular Devtools是一款Chrome拓展。主要的功能是展示组件树，以及查看每个组件的数据。开发者对组件的操作，造成组件树和数据的变化，都会在Devtools中实时展现。&lt;/p&gt;
 &lt;p&gt;比如这样：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/rdt_demo_ss.gif&quot; alt=&quot;rdt_demo&quot;&gt;&lt;/p&gt;
@@ -71,7 +88,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;注意，你的项目必须使用&lt;a href=&quot;https://regularjs.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Regular v0.4.5&lt;/a&gt;或更高的版本&lt;br&gt;如果你手头上没有使用最新版Regular的项目，可以先拿这个&lt;a href=&quot;https://regularjs.github.io/regular-devtools/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Regular Todo例子&lt;/a&gt;尝鲜&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id=&quot;开发手记&quot;&gt;&lt;a href=&quot;#开发手记&quot; class=&quot;headerlink&quot; title=&quot;开发手记&quot;&gt;&lt;/a&gt;开发手记&lt;/h3&gt;&lt;p&gt;对这款Devtools的技术实现有兴趣的同学可以浏览&lt;a href=&quot;https://regularjs.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Regular Devtools开发手记&lt;/a&gt;这篇博客。&lt;/p&gt;
+&lt;h3 id=&quot;开发手记&quot;&gt;&lt;a href=&quot;#开发手记&quot; class=&quot;headerlink&quot; title=&quot;开发手记&quot;&gt;&lt;/a&gt;开发手记&lt;/h3&gt;&lt;p&gt;对这款Devtools的技术实现有兴趣的同学可以浏览&lt;a href=&quot;http://zxc0328.github.io/2016/07/28/regular-devtools-thought/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Regular Devtools开发手记&lt;/a&gt;这篇博客。&lt;/p&gt;
 &lt;h3 id=&quot;已知的问题&quot;&gt;&lt;a href=&quot;#已知的问题&quot; class=&quot;headerlink&quot; title=&quot;已知的问题&quot;&gt;&lt;/a&gt;已知的问题&lt;/h3&gt;&lt;p&gt;这些问题主要是由于某些特殊组件&lt;code&gt;$outer&lt;/code&gt;属性的指向和正常组件不同造成的。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;有&lt;code&gt;isolate&lt;/code&gt;属性的组件将不会出现在组件树中，其内嵌组件会正常显示。&lt;/li&gt;
@@ -82,7 +99,9 @@
     
     <summary type="html">
     
-      &lt;h3 id=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;a href=&quot;#为什么我们需要开发者工具？&quot; class=&quot;headerlink&quot; title=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;/a&gt;为什么我们需要开发者工具？&lt;/h3&gt;&lt;p&gt;现在五花八门的开源前端工具里面，有一些致力于解决前端
+      &lt;h3 id=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;a href=&quot;#为什么我们需要开发者工具？&quot; class=&quot;headerlink&quot; title=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;/a&gt;为什么我们需要开发者工具？&lt;/h3&gt;&lt;p&gt;现在五花八门的开源前端工具里面，有一些致力于解决前端不够工程化的问题，比如Webpack、Gulp、PostCSS。有些则致力于加强编程语言的特性，比如Babel。而有一部分工具则是为了提高开发者的体验，比如React Devtools、React Hotloader和Redux Devtools。提高开发者体验的工具，从某种角度来说，其实和其他直接参与到前端开发工作流中的工具一样，最终都是为了提高生产力。&lt;/p&gt;
+&lt;p&gt;React Devtools已经足够惊艳，而Redux Devtools带来的Time-travel Debugging和React Hotloader的热更新则让人直呼这是黑魔法。&lt;/p&gt;
+&lt;p&gt;所以，被这些开发者工具惯坏的我们，怎么能接受Regular没有Devtools的现实呢？&lt;/p&gt;
     
     </summary>
     

@@ -61,7 +61,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          Home
+          首页
         </a>
       </li>
     
@@ -69,7 +69,7 @@
       <li class="menu-item menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
-          Archives
+          归档
         </a>
       </li>
     
@@ -77,7 +77,7 @@
       <li class="menu-item menu-item-tags">
         <a href="/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
-          Tags
+          标签
         </a>
       </li>
     
@@ -119,7 +119,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-07-28
+              发表于 2016-07-28
             
           </span>
         
@@ -136,7 +136,23 @@
 
         
           
-            <h3 id="Regular-Devtools的前辈们"><a href="#Regular-Devtools的前辈们" class="headerlink" title="Regular Devtools的前辈们"></a>Regular Devtools的前辈们</h3><h3 id="Chrome-Extension组成"><a href="#Chrome-Extension组成" class="headerlink" title="Chrome Extension组成"></a>Chrome Extension组成</h3><h3 id="inject大法"><a href="#inject大法" class="headerlink" title="inject大法"></a>inject大法</h3><h3 id="给Regular加点代码"><a href="#给Regular加点代码" class="headerlink" title="给Regular加点代码"></a>给Regular加点代码</h3><h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3>
+            <h3 id="Regular-Devtools的前辈们"><a href="#Regular-Devtools的前辈们" class="headerlink" title="Regular Devtools的前辈们"></a>Regular Devtools的前辈们</h3><p><a href="https://github.com/gaearon" target="_blank" rel="external">Dan Abramov</a>的<a href="https://github.com/gaearon/redux-devtools" target="_blank" rel="external">Redux Devtools</a>把前端框架开发者工具推向了主流视野，他在React Europe 2015上的这个<a href="https://www.youtube.com/watch?v=xsSnOQynTHs" target="_blank" rel="external">演讲</a>被疯转。Redux Devtools可以说是独领风骚，开启了新一代前端框架开发者工具的潮流。</p>
+<p><a href="https://github.com/facebook/react-devtools" target="_blank" rel="external">React Devtools</a>也可以算是前端框架Devtools的祖师爷之一了。React Devtools不但有常用的组件树查看功能，还能直接查看JSX代码，筛选组件，双向修改state，查看组件源码等等。</p>
+<p>而Regular Devtools主要参考的则是<a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="external">Vue Devtools</a>。Vue Devtools是一个轻量，简洁的Devtools，拥有Devtools必要的大部分功能。而Vue与Regular在某些方面比较相似，因为Vue Devtools就成为了我开发过程中的一个参考。</p>
+<h3 id="Chrome-Extension组成"><a href="#Chrome-Extension组成" class="headerlink" title="Chrome Extension组成"></a>Chrome Extension组成</h3><p>其实前端开发者熟悉的Chrome Devtools是用Web技术开发的。验证的方法很简单，如果你把Chrome Devtools设置为单独窗口，然而再按下打开Chrome Devtools的快捷键的话，你可以开启一个meta-inspecting，也就是检查开发者工具界面的DOM元素等等。当然了，如果你熟悉Chrome Devtools团队的一些知名开发者，比如<a href="https://github.com/addyosmani" target="_blank" rel="external">Addy Osmani</a>和<a href="https://github.com/paulirish" target="_blank" rel="external">Paul Irish</a>的话，你可能对此已经习以为常。（正如V8并不是完全的C++实现，有一部分API是JavaScript实现，Chrome的界面也不都是原生的，Hybrid无处不在）</p>
+<p>好了，下面我们来说说Chrome Extension。Chrome Extension其实就是使用Web技术来开发的，只不过和一般的页面不同的是，Chrome Extension的执行环境可以访问到一系列的<code>chrome.*</code>API。比如用<code>chrome.tabs</code>API来打开新tab，或者监听和tab有关的一系列事件。完整的API文档在<a href="https://developer.chrome.com/extensions/api_index" target="_blank" rel="external">这里</a>。</p>
+<p>Chrome Extension一般由以下几个部分组成：</p>
+<ul>
+<li>UI pages</li>
+<li>Content Script</li>
+<li>Background Script</li>
+<li>Devtools Panel page</li>
+</ul>
+<p>所谓UI pages，就是一般的Extension点击图标之后出现的popup框。这个框是一个HTML文件，包含了Extension的UI逻辑。</p>
+<p>如果你的Extension想要访问当前页面的DOM结构，那你必须使用Content Script。Content Script的特点就是，它可以访问当前页面的DOM结构，但除此之外，当前页面上的<code>window</code>对象等全局变量以及JavaScript脚本运行后产生的context都无法访问。Content Script是运行在沙盒中的，它只被允许访问页面的DOM结构。不过Content Script作为Extension的一部分，可以和Background Script通信。Content Script和UI pages可以被当做Extension这个应用的View层。</p>
+<p>Background Script，正如名字所示，是Extension运行在后台的一个脚本。这个脚本可以和Content Script通信。</p>
+<p>如果你开发的是一款Chrome Devtools拓展，类似Regular Devtools，那你就需要Devtools Panel page了。这个页面负责在Chrome Devtools上新建tab，并且展示tab中的UI。</p>
+<h3 id="Regular-Devtools的组成"><a href="#Regular-Devtools的组成" class="headerlink" title="Regular Devtools的组成"></a>Regular Devtools的组成</h3><h3 id="跨页面通信"><a href="#跨页面通信" class="headerlink" title="跨页面通信"></a>跨页面通信</h3><h3 id="inject大法"><a href="#inject大法" class="headerlink" title="inject大法"></a>inject大法</h3><h3 id="给Regular加点代码"><a href="#给Regular加点代码" class="headerlink" title="给Regular加点代码"></a>给Regular加点代码</h3><h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3>
           
         
       </div>
@@ -180,7 +196,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-07-26
+              发表于 2016-07-26
             
           </span>
         
@@ -200,42 +216,11 @@
             <h3 id="为什么我们需要开发者工具？"><a href="#为什么我们需要开发者工具？" class="headerlink" title="为什么我们需要开发者工具？"></a>为什么我们需要开发者工具？</h3><p>现在五花八门的开源前端工具里面，有一些致力于解决前端不够工程化的问题，比如Webpack、Gulp、PostCSS。有些则致力于加强编程语言的特性，比如Babel。而有一部分工具则是为了提高开发者的体验，比如React Devtools、React Hotloader和Redux Devtools。提高开发者体验的工具，从某种角度来说，其实和其他直接参与到前端开发工作流中的工具一样，最终都是为了提高生产力。</p>
 <p>React Devtools已经足够惊艳，而Redux Devtools带来的Time-travel Debugging和React Hotloader的热更新则让人直呼这是黑魔法。</p>
 <p>所以，被这些开发者工具惯坏的我们，怎么能接受Regular没有Devtools的现实呢？</p>
-<h3 id="Regular-Devtools初印象"><a href="#Regular-Devtools初印象" class="headerlink" title="Regular Devtools初印象"></a>Regular Devtools初印象</h3><p>Regular Devtools是一款Chrome拓展。主要的功能是展示组件树，以及查看每个组件的数据。开发者对组件的操作，造成组件树和数据的变化，都会在Devtools中实时展现。</p>
-<p>比如这样：</p>
-<p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/rdt_demo_ss.gif" alt="rdt_demo"></p>
-<p>更强大的是，你可以检查当前组件对应的DOM节点，这个节点会在Chrome Devtools中的Element Tab中出现，就像你平时习惯的右键inspect一样。</p>
-<p>反之，如果你正在检查一个DOM元素，此时你可以切换到Regular Tab，Regular DevTools会自动选中那个DOM节点对应的Regular组件（如果那个DOM节点是Regular组件渲染出的）。</p>
-<p>比如这样：</p>
-<p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/rdt_demo_dom_ss.gif" alt="rdt_demo"></p>
-<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>对Regular Devtools有了初步印象之后，下面就详细介绍一下它的功能</p>
-<ul>
-<li>左侧Element View显示当前页面的Regular组件树，右侧State View显示被选中组件的状态。</li>
-<li>Element View和State View都会随着页面上组件和状态的变化实时更新。</li>
-<li>提供DOM节点和Regular组件的双向查找：可以点击State View中的Inspect查找当前Regular组件对应的DOM节点。</li>
-<li>也可以在Element选项卡中选中DOM节点后切换到Regular选项卡，如果被选中的DOM节点由Regular组件渲染，那么这个Regular节点会被自动选中。</li>
-<li>页面刷新时Devtools会自动重新加载，你也可以通过顶栏右侧的按钮手动重载。</li>
-<li>通过<code>include</code>方式被引入的组件将会在组件树中注明，并且在组件树种作为视觉父节点<code>this.$outer</code>子节点展示。</li>
-</ul>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>读到这里，想必你一定蠢蠢欲动了，那就快来体验一下Regular DevTools吧。</p>
-<ul>
-<li><strong>Step 1</strong> 克隆Regular Devtools<a href="https://regularjs.github.io/regular-devtools/" target="_blank" rel="external">仓库</a></li>
-<li><strong>Step 2</strong> 打开Chorme的<code>chrome://extensions/</code>页面</li>
-<li><strong>Step 3</strong> 点击<code>Load unpacked extension···</code></li>
-<li><strong>Step 4</strong> 选择你刚刚克隆的仓库文件夹</li>
-<li><strong>Step 5</strong> 大功告成!</li>
-</ul>
-<p>打开一个使用了Regular组件的页面，打开Chrome Devtools，选择Regular选项卡，如果一切顺利，你将在左边的Element View看到当前页面的组件树，然后就可以开始愉快的开发了！</p>
-<blockquote>
-<p>注意，你的项目必须使用<a href="https://regularjs.github.io/" target="_blank" rel="external">Regular v0.4.5</a>或更高的版本<br>如果你手头上没有使用最新版Regular的项目，可以先拿这个<a href="https://regularjs.github.io/regular-devtools/" target="_blank" rel="external">Regular Todo例子</a>尝鲜</p>
-</blockquote>
-<h3 id="开发手记"><a href="#开发手记" class="headerlink" title="开发手记"></a>开发手记</h3><p>对这款Devtools的技术实现有兴趣的同学可以浏览<a href="https://regularjs.github.io/" target="_blank" rel="external">Regular Devtools开发手记</a>这篇博客。</p>
-<h3 id="已知的问题"><a href="#已知的问题" class="headerlink" title="已知的问题"></a>已知的问题</h3><p>这些问题主要是由于某些特殊组件<code>$outer</code>属性的指向和正常组件不同造成的。</p>
-<ul>
-<li>有<code>isolate</code>属性的组件将不会出现在组件树中，其内嵌组件会正常显示。</li>
-<li>Regular-dnd中的<code>Draggable</code>和<code>Droppable</code>组件的内嵌组件会和父组件显示在同一个层级。</li>
-</ul>
-<h3 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h3><p>网易有数前端实习生</p>
-
+            <div class="post-more-link text-center">
+              <a class="btn" href="/2016/07/26/annoucing-regular-devtools/#more">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
         
       </div>
@@ -279,7 +264,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-07-05
+              发表于 2016-07-05
             
           </span>
         
@@ -307,7 +292,7 @@
 </ul>
             <div class="post-more-link text-center">
               <a class="btn" href="/2016/07/05/ninja/#more">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           
@@ -353,7 +338,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-03-19
+              发表于 2016-03-19
             
           </span>
         
@@ -373,7 +358,7 @@
             <p>这次FEDay是我第一次参加开发者大会，也是第一次去广州。当初主要是冲着两个Facebook的工程师去的，因为我对React好感度很高。总的来说这次的收获还是很多的，也算是值回票价了。</p>
             <div class="post-more-link text-center">
               <a class="btn" href="/2016/03/19/2016-feday/#more">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           
@@ -427,7 +412,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-03-11
+              发表于 2016-03-11
             
           </span>
         
@@ -457,7 +442,7 @@
 <p>好，让我们开启这段神奇的重复造轮子之旅吧！</p>
             <div class="post-more-link text-center">
               <a class="btn" href="/2016/03/11/let-s-build-a-jQuery/#more">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           
@@ -511,7 +496,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-03-11
+              发表于 2016-03-11
             
           </span>
         
@@ -531,7 +516,7 @@
             <p>接下来要参与大大小小的暑期实习笔试和面试。在这篇博客里我将总结一些常见的面试题。其中有一部分是我去年暑假找实习的时候总结的。现在看来，不免有些幼稚。慢慢完善吧！</p>
             <div class="post-more-link text-center">
               <a class="btn" href="/2016/03/11/front-end-interview/#more">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           
@@ -585,7 +570,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-01-26
+              发表于 2016-01-26
             
           </span>
         
@@ -606,7 +591,7 @@
 <h4 id="DOM标准的层级"><a href="#DOM标准的层级" class="headerlink" title="DOM标准的层级"></a>DOM标准的层级</h4><p>DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。</p>
             <div class="post-more-link text-center">
               <a class="btn" href="/2016/01/26/learning-dom-part2/#more">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           
@@ -660,7 +645,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-01-23
+              发表于 2016-01-23
             
           </span>
         
@@ -680,7 +665,7 @@
             <h3 id="一、什么是DOM"><a href="#一、什么是DOM" class="headerlink" title="一、什么是DOM"></a>一、什么是DOM</h3><p>Document Object Model(DOM)是用编程语言对HTML，XML以及SVG文档进行操作的接口。我们经常使用JavaScript来操纵DOM，不过DOM其实的语言无关的。它并不是JavaScript的一部分。</p>
             <div class="post-more-link text-center">
               <a class="btn" href="/2016/01/23/learning-dom-part1/#more">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           
@@ -734,7 +719,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2015-12-28
+              发表于 2015-12-28
             
           </span>
         
@@ -763,7 +748,7 @@
 <p>不过这个观点已经被推翻很久了，今天，Javascript已经拥有了在我见过的所有语言中最好的开发工具生态系统。<br>
             <div class="post-more-link text-center">
               <a class="btn" href="/2015/12/28/2015-javascript-tools/#more">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           
@@ -817,7 +802,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2015-11-05
+              发表于 2015-11-05
             
           </span>
         
@@ -838,7 +823,7 @@
 <p>不过这里面的学问还是很大的。首先我们只需要reset我们在项目中会使用的元素，这就涉及reset的模块化使用。第二我们只需要reset必要的属性。因为reset会加重浏览器渲染的性能开销，因此我们在css reset时必须要慎之又慎，保证最少的代码量和最佳的效果之间的平衡。</p>
             <div class="post-more-link text-center">
               <a class="btn" href="/2015/11/05/reset-css/#more">
-                Read more &raquo;
+                阅读全文 &raquo;
               </a>
             </div>
           
@@ -895,15 +880,15 @@
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
           <span class="site-state-item-count">21</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
-            <span class="site-state-item-name">tags</span>
+            <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
             <span class="site-state-item-count">1</span>
-            <span class="site-state-item-name">pages</span>
+            <span class="site-state-item-name">页面</span>
         </div>
       </div>
 
@@ -957,11 +942,11 @@
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 

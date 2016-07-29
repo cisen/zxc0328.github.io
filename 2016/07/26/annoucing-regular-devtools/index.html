@@ -59,7 +59,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          Home
+          首页
         </a>
       </li>
     
@@ -67,7 +67,7 @@
       <li class="menu-item menu-item-archives">
         <a href="/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
-          Archives
+          归档
         </a>
       </li>
     
@@ -75,7 +75,7 @@
       <li class="menu-item menu-item-tags">
         <a href="/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
-          Tags
+          标签
         </a>
       </li>
     
@@ -114,7 +114,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-07-26
+              发表于 2016-07-26
             
           </span>
         
@@ -133,6 +133,7 @@
           <h3 id="为什么我们需要开发者工具？"><a href="#为什么我们需要开发者工具？" class="headerlink" title="为什么我们需要开发者工具？"></a>为什么我们需要开发者工具？</h3><p>现在五花八门的开源前端工具里面，有一些致力于解决前端不够工程化的问题，比如Webpack、Gulp、PostCSS。有些则致力于加强编程语言的特性，比如Babel。而有一部分工具则是为了提高开发者的体验，比如React Devtools、React Hotloader和Redux Devtools。提高开发者体验的工具，从某种角度来说，其实和其他直接参与到前端开发工作流中的工具一样，最终都是为了提高生产力。</p>
 <p>React Devtools已经足够惊艳，而Redux Devtools带来的Time-travel Debugging和React Hotloader的热更新则让人直呼这是黑魔法。</p>
 <p>所以，被这些开发者工具惯坏的我们，怎么能接受Regular没有Devtools的现实呢？</p>
+<a id="more"></a>
 <h3 id="Regular-Devtools初印象"><a href="#Regular-Devtools初印象" class="headerlink" title="Regular Devtools初印象"></a>Regular Devtools初印象</h3><p>Regular Devtools是一款Chrome拓展。主要的功能是展示组件树，以及查看每个组件的数据。开发者对组件的操作，造成组件树和数据的变化，都会在Devtools中实时展现。</p>
 <p>比如这样：</p>
 <p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/rdt_demo_ss.gif" alt="rdt_demo"></p>
@@ -161,7 +162,7 @@
 <blockquote>
 <p>注意，你的项目必须使用<a href="https://regularjs.github.io/" target="_blank" rel="external">Regular v0.4.5</a>或更高的版本<br>如果你手头上没有使用最新版Regular的项目，可以先拿这个<a href="https://regularjs.github.io/regular-devtools/" target="_blank" rel="external">Regular Todo例子</a>尝鲜</p>
 </blockquote>
-<h3 id="开发手记"><a href="#开发手记" class="headerlink" title="开发手记"></a>开发手记</h3><p>对这款Devtools的技术实现有兴趣的同学可以浏览<a href="https://regularjs.github.io/" target="_blank" rel="external">Regular Devtools开发手记</a>这篇博客。</p>
+<h3 id="开发手记"><a href="#开发手记" class="headerlink" title="开发手记"></a>开发手记</h3><p>对这款Devtools的技术实现有兴趣的同学可以浏览<a href="http://zxc0328.github.io/2016/07/28/regular-devtools-thought/" target="_blank" rel="external">Regular Devtools开发手记</a>这篇博客。</p>
 <h3 id="已知的问题"><a href="#已知的问题" class="headerlink" title="已知的问题"></a>已知的问题</h3><p>这些问题主要是由于某些特殊组件<code>$outer</code>属性的指向和正常组件不同造成的。</p>
 <ul>
 <li>有<code>isolate</code>属性的组件将不会出现在组件树中，其内嵌组件会正常显示。</li>
@@ -227,10 +228,10 @@
     
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
-          Table Of Contents
+          文章目录
         </li>
         <li class="sidebar-nav-overview" data-target="site-overview">
-          Overview
+          站点概览
         </li>
       </ul>
     
@@ -244,15 +245,15 @@
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
           <span class="site-state-item-count">21</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">日志</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
-            <span class="site-state-item-name">tags</span>
+            <span class="site-state-item-name">标签</span>
         </div>
         <div class="site-state-item site-state-pages">
             <span class="site-state-item-count">1</span>
-            <span class="site-state-item-name">pages</span>
+            <span class="site-state-item-name">页面</span>
         </div>
       </div>
 
@@ -310,11 +311,11 @@
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  主题 - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 
