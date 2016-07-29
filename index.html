@@ -136,23 +136,14 @@
 
         
           
-            <h3 id="Regular-Devtools的前辈们"><a href="#Regular-Devtools的前辈们" class="headerlink" title="Regular Devtools的前辈们"></a>Regular Devtools的前辈们</h3><p><a href="https://github.com/gaearon" target="_blank" rel="external">Dan Abramov</a>的<a href="https://github.com/gaearon/redux-devtools" target="_blank" rel="external">Redux Devtools</a>把前端框架开发者工具推向了主流视野，他在React Europe 2015上的这个<a href="https://www.youtube.com/watch?v=xsSnOQynTHs" target="_blank" rel="external">演讲</a>被疯转。Redux Devtools可以说是独领风骚，开启了新一代前端框架开发者工具的潮流。</p>
-<p><a href="https://github.com/facebook/react-devtools" target="_blank" rel="external">React Devtools</a>也可以算是前端框架Devtools的祖师爷之一了。React Devtools不但有常用的组件树查看功能，还能直接查看JSX代码，筛选组件，双向修改state，查看组件源码等等。</p>
-<p>而Regular Devtools主要参考的则是<a href="https://github.com/vuejs/vue-devtools" target="_blank" rel="external">Vue Devtools</a>。Vue Devtools是一个轻量，简洁的Devtools，拥有Devtools必要的大部分功能。而Vue与Regular在某些方面比较相似，因为Vue Devtools就成为了我开发过程中的一个参考。</p>
-<h3 id="Chrome-Extension组成"><a href="#Chrome-Extension组成" class="headerlink" title="Chrome Extension组成"></a>Chrome Extension组成</h3><p>其实前端开发者熟悉的Chrome Devtools是用Web技术开发的。验证的方法很简单，如果你把Chrome Devtools设置为单独窗口，然而再按下打开Chrome Devtools的快捷键的话，你可以开启一个meta-inspecting，也就是检查开发者工具界面的DOM元素等等。当然了，如果你熟悉Chrome Devtools团队的一些知名开发者，比如<a href="https://github.com/addyosmani" target="_blank" rel="external">Addy Osmani</a>和<a href="https://github.com/paulirish" target="_blank" rel="external">Paul Irish</a>的话，你可能对此已经习以为常。（正如V8并不是完全的C++实现，有一部分API是JavaScript实现，Chrome的界面也不都是原生的，Hybrid无处不在）</p>
-<p>好了，下面我们来说说Chrome Extension。Chrome Extension其实就是使用Web技术来开发的，只不过和一般的页面不同的是，Chrome Extension的执行环境可以访问到一系列的<code>chrome.*</code>API。比如用<code>chrome.tabs</code>API来打开新tab，或者监听和tab有关的一系列事件。完整的API文档在<a href="https://developer.chrome.com/extensions/api_index" target="_blank" rel="external">这里</a>。</p>
-<p>Chrome Extension一般由以下几个部分组成：</p>
-<ul>
-<li>UI pages</li>
-<li>Content Script</li>
-<li>Background Script</li>
-<li>Devtools Panel page</li>
-</ul>
-<p>所谓UI pages，就是一般的Extension点击图标之后出现的popup框。这个框是一个HTML文件，包含了Extension的UI逻辑。</p>
-<p>如果你的Extension想要访问当前页面的DOM结构，那你必须使用Content Script。Content Script的特点就是，它可以访问当前页面的DOM结构，但除此之外，当前页面上的<code>window</code>对象等全局变量以及JavaScript脚本运行后产生的context都无法访问。Content Script是运行在沙盒中的，它只被允许访问页面的DOM结构。不过Content Script作为Extension的一部分，可以和Background Script通信。Content Script和UI pages可以被当做Extension这个应用的View层。</p>
-<p>Background Script，正如名字所示，是Extension运行在后台的一个脚本。这个脚本可以和Content Script通信。</p>
-<p>如果你开发的是一款Chrome Devtools拓展，类似Regular Devtools，那你就需要Devtools Panel page了。这个页面负责在Chrome Devtools上新建tab，并且展示tab中的UI。</p>
-<h3 id="Regular-Devtools的组成"><a href="#Regular-Devtools的组成" class="headerlink" title="Regular Devtools的组成"></a>Regular Devtools的组成</h3><h3 id="跨页面通信"><a href="#跨页面通信" class="headerlink" title="跨页面通信"></a>跨页面通信</h3><h3 id="inject大法"><a href="#inject大法" class="headerlink" title="inject大法"></a>inject大法</h3><h3 id="给Regular加点代码"><a href="#给Regular加点代码" class="headerlink" title="给Regular加点代码"></a>给Regular加点代码</h3><h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3>
+            <h3 id="Regular-Devtools的前辈们"><a href="#Regular-Devtools的前辈们" class="headerlink" title="Regular Devtools的前辈们"></a>Regular Devtools的前辈们</h3><p><a href="https://github.com/gaearon">Dan Abramov</a>的<a href="https://github.com/gaearon/redux-devtools">Redux Devtools</a>把前端框架开发者工具推向了主流视野，他在React Europe 2015上的这个<a href="https://www.youtube.com/watch?v=xsSnOQynTHs">演讲</a>被疯转。Redux Devtools可以说是独领风骚，开启了新一代前端框架开发者工具的潮流。</p>
+<p><a href="https://github.com/facebook/react-devtools">React Devtools</a>也可以算是前端框架Devtools的祖师爷之一了。React Devtools不但有常用的组件树查看功能，还能直接查看JSX代码，筛选组件，双向修改state，查看组件源码等等。</p>
+<p>而Regular Devtools主要参考的则是<a href="https://github.com/vuejs/vue-devtools">Vue Devtools</a>。Vue Devtools是一个轻量，简洁的Devtools，拥有Devtools必要的大部分功能。而Vue与Regular在某些方面比较相似，因为Vue Devtools就成为了我开发过程中的一个参考。</p>
+            <div class="post-more-link text-center">
+              <a class="btn" href="/2016/07/28/regular-devtools-thought/#more">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
         
       </div>
