@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-07-27T11:37:02.000Z</updated>
+  <updated>2016-07-28T07:58:14.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,11 +16,29 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>发布Regular Devtools</title>
+    <title>Regular Devtools开发手记</title>
+    <link href="http://yoursite.com/2016/07/28/regular-devtools-thought/"/>
+    <id>http://yoursite.com/2016/07/28/regular-devtools-thought/</id>
+    <published>2016-07-28T07:52:00.000Z</published>
+    <updated>2016-07-28T07:58:14.000Z</updated>
+    
+    <content type="html">&lt;h3 id=&quot;Regular-Devtools的前辈们&quot;&gt;&lt;a href=&quot;#Regular-Devtools的前辈们&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools的前辈们&quot;&gt;&lt;/a&gt;Regular Devtools的前辈们&lt;/h3&gt;&lt;h3 id=&quot;Chrome-Extension组成&quot;&gt;&lt;a href=&quot;#Chrome-Extension组成&quot; class=&quot;headerlink&quot; title=&quot;Chrome Extension组成&quot;&gt;&lt;/a&gt;Chrome Extension组成&lt;/h3&gt;&lt;h3 id=&quot;inject大法&quot;&gt;&lt;a href=&quot;#inject大法&quot; class=&quot;headerlink&quot; title=&quot;inject大法&quot;&gt;&lt;/a&gt;inject大法&lt;/h3&gt;&lt;h3 id=&quot;给Regular加点代码&quot;&gt;&lt;a href=&quot;#给Regular加点代码&quot; class=&quot;headerlink&quot; title=&quot;给Regular加点代码&quot;&gt;&lt;/a&gt;给Regular加点代码&lt;/h3&gt;&lt;h3 id=&quot;性能优化&quot;&gt;&lt;a href=&quot;#性能优化&quot; class=&quot;headerlink&quot; title=&quot;性能优化&quot;&gt;&lt;/a&gt;性能优化&lt;/h3&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;Regular-Devtools的前辈们&quot;&gt;&lt;a href=&quot;#Regular-Devtools的前辈们&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools的前辈们&quot;&gt;&lt;/a&gt;Regular Devtools的前辈们&lt;/h3&gt;&lt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>发布Regular Developer Tools</title>
     <link href="http://yoursite.com/2016/07/26/annoucing-regular-devtools/"/>
     <id>http://yoursite.com/2016/07/26/annoucing-regular-devtools/</id>
     <published>2016-07-26T10:20:33.000Z</published>
-    <updated>2016-07-27T11:37:02.000Z</updated>
+    <updated>2016-07-29T03:01:07.000Z</updated>
     
     <content type="html">&lt;h3 id=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;a href=&quot;#为什么我们需要开发者工具？&quot; class=&quot;headerlink&quot; title=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;/a&gt;为什么我们需要开发者工具？&lt;/h3&gt;&lt;p&gt;现在五花八门的开源前端工具里面，有一些致力于解决前端不够工程化的问题，比如Webpack、Gulp、PostCSS。有些则致力于加强编程语言的特性，比如Babel。而有一部分工具则是为了提高开发者的体验，比如React Devtools、React Hotloader和Redux Devtools。提高开发者体验的工具，从某种角度来说，其实和其他直接参与到前端开发工作流中的工具一样，最终都是为了提高生产力。&lt;/p&gt;
 &lt;p&gt;React Devtools已经足够惊艳，而Redux Devtools带来的Time-travel Debugging和React Hotloader的热更新则让人直呼这是黑魔法。&lt;/p&gt;
@@ -32,8 +50,35 @@
 &lt;p&gt;反之，如果你正在检查一个DOM元素，此时你可以切换到Regular Tab，Regular DevTools会自动选中那个DOM节点对应的Regular组件（如果那个DOM节点是Regular组件渲染出的）。&lt;/p&gt;
 &lt;p&gt;比如这样：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/rdt_demo_dom_ss.gif&quot; alt=&quot;rdt_demo&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;特性&quot;&gt;&lt;a href=&quot;#特性&quot; class=&quot;headerlink&quot; title=&quot;特性&quot;&gt;&lt;/a&gt;特性&lt;/h3&gt;&lt;p&gt;对Regular Devtools有了初步印象之后，下面就详细介绍一下它的功能&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;左侧Element View显示当前页面的Regular组件树，右侧State View显示被选中组件的状态。&lt;/li&gt;
+&lt;li&gt;Element View和State View都会随着页面上组件和状态的变化实时更新。&lt;/li&gt;
+&lt;li&gt;提供DOM节点和Regular组件的双向查找：可以点击State View中的Inspect查找当前Regular组件对应的DOM节点。&lt;/li&gt;
+&lt;li&gt;也可以在Element选项卡中选中DOM节点后切换到Regular选项卡，如果被选中的DOM节点由Regular组件渲染，那么这个Regular节点会被自动选中。&lt;/li&gt;
+&lt;li&gt;页面刷新时Devtools会自动重新加载，你也可以通过顶栏右侧的按钮手动重载。&lt;/li&gt;
+&lt;li&gt;通过&lt;code&gt;include&lt;/code&gt;方式被引入的组件将会在组件树中注明，并且在组件树种作为视觉父节点&lt;code&gt;this.$outer&lt;/code&gt;子节点展示。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h3&gt;&lt;p&gt;读到这里，想必你一定蠢蠢欲动了，那就快来体验一下Regular DevTools吧。&lt;/p&gt;
-&lt;h3 id=&quot;关于Regular版本&quot;&gt;&lt;a href=&quot;#关于Regular版本&quot; class=&quot;headerlink&quot; title=&quot;关于Regular版本&quot;&gt;&lt;/a&gt;关于Regular版本&lt;/h3&gt;&lt;h3 id=&quot;开发手记&quot;&gt;&lt;a href=&quot;#开发手记&quot; class=&quot;headerlink&quot; title=&quot;开发手记&quot;&gt;&lt;/a&gt;开发手记&lt;/h3&gt;&lt;h3 id=&quot;一些坑&quot;&gt;&lt;a href=&quot;#一些坑&quot; class=&quot;headerlink&quot; title=&quot;一些坑&quot;&gt;&lt;/a&gt;一些坑&lt;/h3&gt;&lt;h3 id=&quot;关于我&quot;&gt;&lt;a href=&quot;#关于我&quot; class=&quot;headerlink&quot; title=&quot;关于我&quot;&gt;&lt;/a&gt;关于我&lt;/h3&gt;</content>
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Step 1&lt;/strong&gt; 克隆Regular Devtools&lt;a href=&quot;https://regularjs.github.io/regular-devtools/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;仓库&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Step 2&lt;/strong&gt; 打开Chorme的&lt;code&gt;chrome://extensions/&lt;/code&gt;页面&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Step 3&lt;/strong&gt; 点击&lt;code&gt;Load unpacked extension···&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Step 4&lt;/strong&gt; 选择你刚刚克隆的仓库文件夹&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Step 5&lt;/strong&gt; 大功告成!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;打开一个使用了Regular组件的页面，打开Chrome Devtools，选择Regular选项卡，如果一切顺利，你将在左边的Element View看到当前页面的组件树，然后就可以开始愉快的开发了！&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意，你的项目必须使用&lt;a href=&quot;https://regularjs.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Regular v0.4.5&lt;/a&gt;或更高的版本&lt;br&gt;如果你手头上没有使用最新版Regular的项目，可以先拿这个&lt;a href=&quot;https://regularjs.github.io/regular-devtools/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Regular Todo例子&lt;/a&gt;尝鲜&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;开发手记&quot;&gt;&lt;a href=&quot;#开发手记&quot; class=&quot;headerlink&quot; title=&quot;开发手记&quot;&gt;&lt;/a&gt;开发手记&lt;/h3&gt;&lt;p&gt;对这款Devtools的技术实现有兴趣的同学可以浏览&lt;a href=&quot;https://regularjs.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Regular Devtools开发手记&lt;/a&gt;这篇博客。&lt;/p&gt;
+&lt;h3 id=&quot;已知的问题&quot;&gt;&lt;a href=&quot;#已知的问题&quot; class=&quot;headerlink&quot; title=&quot;已知的问题&quot;&gt;&lt;/a&gt;已知的问题&lt;/h3&gt;&lt;p&gt;这些问题主要是由于某些特殊组件&lt;code&gt;$outer&lt;/code&gt;属性的指向和正常组件不同造成的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;有&lt;code&gt;isolate&lt;/code&gt;属性的组件将不会出现在组件树中，其内嵌组件会正常显示。&lt;/li&gt;
+&lt;li&gt;Regular-dnd中的&lt;code&gt;Draggable&lt;/code&gt;和&lt;code&gt;Droppable&lt;/code&gt;组件的内嵌组件会和父组件显示在同一个层级。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;关于我&quot;&gt;&lt;a href=&quot;#关于我&quot; class=&quot;headerlink&quot; title=&quot;关于我&quot;&gt;&lt;/a&gt;关于我&lt;/h3&gt;&lt;p&gt;网易有数前端实习生&lt;/p&gt;
+</content>
     
     <summary type="html">
     
@@ -2930,29 +2975,6 @@ background-color:gray; color:white; }
     
     
       <category term="css" scheme="http://yoursite.com/tags/css/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>联创交流行</title>
-    <link href="http://yoursite.com/2015/03/27/%E8%81%94%E5%88%9B%E4%BA%A4%E6%B5%81%E8%A1%8C/"/>
-    <id>http://yoursite.com/2015/03/27/联创交流行/</id>
-    <published>2015-03-27T13:29:18.000Z</published>
-    <updated>2015-03-27T13:54:20.000Z</updated>
-    
-    <content type="html">&lt;p&gt;今天托房子学姐的福，我们一行8个人去了联创交流。收获如下：&lt;br&gt;1.招新之道。&lt;br&gt;联创的招新可谓是九九八十一难。几轮面试笔试压力测试加上实习期的四轮新手任务。这也是没办法的事情，报名的人多，而且据他们说也都不怎么有基础，那就需要不断的测试来筛选有潜力的。&lt;br&gt;新手任务我认为是可取的一个点。在不断的自我学习中获得成长，也得到了初步的知识与技能，不失为一个启动的好办法。&lt;br&gt;2.待客之道。&lt;br&gt;联创的人给人的印象是热情坦诚，愿意分享，但不失专业。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;3.团队之道。&lt;br&gt;如果让大家都相互熟识？如何让这个团队的气氛活跃？这个在我看来是个难题。在接下去的项目合作中大家会相互熟悉，但这样是不够的。&lt;br&gt;比较好的办法除了一些聚会（主动的或者被动的接触）之外，大概还有参加各种社交性的活动，比如组队去参加hackday之类的。&lt;br&gt;写代码不是人生的全部，在饭桌上，今夜我们不关心技术，只关心你。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天托房子学姐的福，我们一行8个人去了联创交流。收获如下：&lt;br&gt;1.招新之道。&lt;br&gt;联创的招新可谓是九九八十一难。几轮面试笔试压力测试加上实习期的四轮新手任务。这也是没办法的事情，报名的人多，而且据他们说也都不怎么有基础，那就需要不断的测试来筛选有潜力的。&lt;br&gt;新手任务我认为是可取的一个点。在不断的自我学习中获得成长，也得到了初步的知识与技能，不失为一个启动的好办法。&lt;br&gt;2.待客之道。&lt;br&gt;联创的人给人的印象是热情坦诚，愿意分享，但不失专业。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="木犀日常" scheme="http://yoursite.com/categories/%E6%9C%A8%E7%8A%80%E6%97%A5%E5%B8%B8/"/>
-    
-    
-      <category term="木犀日常" scheme="http://yoursite.com/tags/%E6%9C%A8%E7%8A%80%E6%97%A5%E5%B8%B8/"/>
     
   </entry>
   

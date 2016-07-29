@@ -32,13 +32,15 @@
 
 
 
-  <title> Tag: FEDay // Zindex's blog </title>
+  <title> Zindex's blog </title>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
 
 </head>
 
 <body>
-  <div class="container one-column ">
+  <div class="container one-column 
+   page-home 
+">
     <div class="headband"></div>
 
     <div id="header" class="header">
@@ -92,12 +94,8 @@
             
           
 
-          <div id="posts" class="posts-collapse">
+          <div id="posts" class="posts-expand">
             
-  <div class="collection-title">
-    <h2 >FEDay</h2>
-  </div>
-
   
     
 
@@ -110,8 +108,8 @@
           
           
             
-              <a class="post-title-link" href="/2016/03/19/2016-feday/">
-                2016 FEDay见闻录
+              <a class="post-title-link" href="/2015/03/27/联创交流行/">
+                联创交流行
               </a>
             
           
@@ -121,7 +119,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              03-19
+              Posted on 2015-03-27
             
           </span>
         
@@ -131,7 +129,43 @@
     </div>
 
     
+      <div class="post-body">
 
+        
+        
+
+        
+          
+            <p>今天托房子学姐的福，我们一行8个人去了联创交流。收获如下：<br>1.招新之道。<br>联创的招新可谓是九九八十一难。几轮面试笔试压力测试加上实习期的四轮新手任务。这也是没办法的事情，报名的人多，而且据他们说也都不怎么有基础，那就需要不断的测试来筛选有潜力的。<br>新手任务我认为是可取的一个点。在不断的自我学习中获得成长，也得到了初步的知识与技能，不失为一个启动的好办法。<br>2.待客之道。<br>联创的人给人的印象是热情坦诚，愿意分享，但不失专业。<br>
+            <div class="post-more-link text-center">
+              <a class="btn" href="/2015/03/27/联创交流行/#more">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/木犀日常/">
+                #木犀日常
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
     
   </div>
 
@@ -140,6 +174,10 @@
 
           </div>
 
+          
+            <div class="pagination">
+              <a class="extend prev" rel="prev" href="/page/2/">&laquo;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+            </div>
           
         </div>
 
@@ -287,6 +325,17 @@
   <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
 
   
+  <script type="text/javascript" id="motion.page.home">
+    $(document).ready(function () {
+      $.Velocity.RunSequence([
+        { e: $('.brand'), p: { opacity: 1 }, o: { duration: 100 } },
+        { e: $('.logo'), p: { opacity: 1, top: 0 }, o: { duration: 50} },
+        { e: $('.site-title'), p: { opacity: 1, top: 0 }, o: { duration: 200, sequenceQueue: false } }
+      ]);
+      $('.menu-item').velocity('transition.slideDownIn', {display: null});
+    });
+  </script>
+
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
