@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-07-29T08:21:01.000Z</updated>
+  <updated>2016-08-01T11:00:19.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,30 +20,32 @@
     <link href="http://yoursite.com/2016/07/28/regular-devtools-thought/"/>
     <id>http://yoursite.com/2016/07/28/regular-devtools-thought/</id>
     <published>2016-07-28T07:52:00.000Z</published>
-    <updated>2016-07-29T08:21:01.000Z</updated>
+    <updated>2016-08-01T11:00:19.000Z</updated>
     
     <content type="html">&lt;h3 id=&quot;Regular-Devtools的前辈们&quot;&gt;&lt;a href=&quot;#Regular-Devtools的前辈们&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools的前辈们&quot;&gt;&lt;/a&gt;Regular Devtools的前辈们&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/gaearon&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dan Abramov&lt;/a&gt;的&lt;a href=&quot;https://github.com/gaearon/redux-devtools&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Redux Devtools&lt;/a&gt;把前端框架开发者工具推向了主流视野，他在React Europe 2015上的这个&lt;a href=&quot;https://www.youtube.com/watch?v=xsSnOQynTHs&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;演讲&lt;/a&gt;被疯转。Redux Devtools可以说是独领风骚，开启了新一代前端框架开发者工具的潮流。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/facebook/react-devtools&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;React Devtools&lt;/a&gt;也可以算是前端框架Devtools的祖师爷之一了。React Devtools不但有常用的组件树查看功能，还能直接查看JSX代码，筛选组件，双向修改state，查看组件源码等等。&lt;/p&gt;
-&lt;p&gt;而Regular Devtools主要参考的则是&lt;a href=&quot;https://github.com/vuejs/vue-devtools&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vue Devtools&lt;/a&gt;。Vue Devtools是一个轻量，简洁的Devtools，拥有Devtools必要的大部分功能。而Vue与Regular在某些方面比较相似，因为Vue Devtools就成为了我开发过程中的一个参考。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/facebook/react-devtools&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;React Devtools&lt;/a&gt;也可以算是前开发者工具的祖师爷之一了。React Devtools不但有常用的组件树查看功能，还能直接查看JSX代码，筛选组件，双向修改state，查看组件源码等等。&lt;/p&gt;
+&lt;p&gt;而Regular Devtools主要参考的则是&lt;a href=&quot;https://github.com/vuejs/vue-devtools&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vue Devtools&lt;/a&gt;。Vue Devtools是一个轻量，简洁的Devtools，只实现了开发者工具中最核心的功能。而Vue与Regular在某些方面比较相似，所以Vue Devtools就成为了我开发过程中的一个重要参考。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;Chrome-Extension组成&quot;&gt;&lt;a href=&quot;#Chrome-Extension组成&quot; class=&quot;headerlink&quot; title=&quot;Chrome Extension组成&quot;&gt;&lt;/a&gt;Chrome Extension组成&lt;/h3&gt;&lt;p&gt;其实前端开发者熟悉的Chrome Devtools是用Web技术开发的。验证的方法很简单，如果你把Chrome Devtools设置为单独窗口，然而再按下打开Chrome Devtools的快捷键的话，你可以开启一个meta-inspecting，也就是检查开发者工具界面的DOM元素等等。当然了，如果你熟悉Chrome Devtools团队的一些知名开发者，比如&lt;a href=&quot;https://github.com/addyosmani&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Addy Osmani&lt;/a&gt;和&lt;a href=&quot;https://github.com/paulirish&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Paul Irish&lt;/a&gt;的话，你可能对此已经习以为常。（正如V8并不是完全的C++实现，有一部分API是JavaScript实现，Chrome的界面也不都是原生的，Hybrid无处不在）&lt;/p&gt;
+&lt;h3 id=&quot;Chrome-Extension组成&quot;&gt;&lt;a href=&quot;#Chrome-Extension组成&quot; class=&quot;headerlink&quot; title=&quot;Chrome Extension组成&quot;&gt;&lt;/a&gt;Chrome Extension组成&lt;/h3&gt;&lt;p&gt;其实前端开发者们熟悉的Chrome Devtools是用Web技术开发的。验证的方法很简单，如果你把Chrome Devtools设置为单独窗口，然而再按下打开Chrome Devtools的快捷键的话（&lt;code&gt;Control+Shift+I&lt;/code&gt;），你可以开启一个’meta inspecting’，也就是打开第二个开发者工具来检查第一个开发者工具的DOM元素。当然了，如果你熟悉Chrome Devtools团队的一些知名开发者，比如&lt;a href=&quot;https://github.com/addyosmani&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Addy Osmani&lt;/a&gt;和&lt;a href=&quot;https://github.com/paulirish&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Paul Irish&lt;/a&gt;的话，你可能对Chrome Devtools是用Web技术开发的这个事实习以为常。正如V8并不是完全的C++实现，有一部分API是JavaScript实现，Chrome的界面也不都是原生的，Hybrid无处不在。&lt;/p&gt;
 &lt;p&gt;好了，下面我们来说说Chrome Extension。Chrome Extension其实就是使用Web技术来开发的，只不过和一般的页面不同的是，Chrome Extension的执行环境可以访问到一系列的&lt;code&gt;chrome.*&lt;/code&gt;API。比如用&lt;code&gt;chrome.tabs&lt;/code&gt;API来打开新tab，或者监听和tab有关的一系列事件。完整的API文档在&lt;a href=&quot;https://developer.chrome.com/extensions/api_index&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这里&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;Chrome Extension一般由以下几个部分组成：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;UI pages&lt;/li&gt;
+&lt;li&gt;UI page&lt;/li&gt;
 &lt;li&gt;Content Script&lt;/li&gt;
 &lt;li&gt;Background Script&lt;/li&gt;
 &lt;li&gt;Devtools Panel page&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;所谓UI pages，就是一般的Extension点击图标之后出现的popup框。这个框是一个HTML文件，包含了Extension的UI逻辑。&lt;/p&gt;
-&lt;p&gt;如果你的Extension想要访问当前页面的DOM结构，那你必须使用Content Script。Content Script的特点就是，它可以访问当前页面的DOM结构，但除此之外，当前页面上的&lt;code&gt;window&lt;/code&gt;对象等全局变量以及JavaScript脚本运行后产生的context都无法访问。Content Script是运行在沙盒中的，它只被允许访问页面的DOM结构。不过Content Script作为Extension的一部分，可以和Background Script通信。Content Script和UI pages可以被当做Extension这个应用的View层。&lt;/p&gt;
+&lt;p&gt;所谓UI page，就是用户点击导航栏中Extension的图标之后出现的弹出框。这个框是一个HTML页面，包含了Extension的UI逻辑。&lt;/p&gt;
+&lt;p&gt;如果你的Extension想要访问当前用户页面的DOM结构，那你必须使用Content Script。Content Script的特点就是，它可以访问当前用户页面的DOM结构，但除此之外，当前用户页面上的&lt;code&gt;window&lt;/code&gt;对象等全局变量以及JavaScript脚本运行后产生的变量都无法访问。Content Script是运行在沙盒中的，它只被允许访问页面的DOM结构。不过Content Script作为Extension的一部分，可以和Background Script通信。&lt;/p&gt;
+&lt;p&gt;如果我们把一个Chrome Extension看成一个Web应用，Content Script和UI page可以一起被当做Extension这个应用的View层。&lt;/p&gt;
 &lt;p&gt;Background Script，正如名字所示，是Extension运行在后台的一个脚本。这个脚本可以和Content Script通信。&lt;/p&gt;
-&lt;p&gt;如果你开发的是一款Chrome Devtools拓展，类似Regular Devtools，那你就需要Devtools Panel page了。这个页面负责在Chrome Devtools上新建tab，并且展示tab中的UI。&lt;/p&gt;
+&lt;p&gt;如果你开发的是一款Chrome Devtools Extension，类似Regular Devtools，那你就需要Devtools Panel page了。这个页面负责在Chrome Devtools里新建tab，并且展示tab中的UI。&lt;/p&gt;
 &lt;h3 id=&quot;Regular-Devtools的组成&quot;&gt;&lt;a href=&quot;#Regular-Devtools的组成&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools的组成&quot;&gt;&lt;/a&gt;Regular Devtools的组成&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/Screen%20Shot%202016-07-29%20at%202.28.44%20PM.png&quot; alt=&quot;pic&quot;&gt;&lt;/p&gt;
-&lt;p&gt;Regular Devtools的组成和普通Extension不同之处在于没有UI pages，取而代之的是Devtools Panel page。这其实没有太大的区别。&lt;/p&gt;
-&lt;p&gt;这是Regular Devtools的大致结构。下面我们来讲讲具体的实现。&lt;/p&gt;
+&lt;p&gt;Regular Devtools的组成和普通Extension不同之处在于没有UI page，取而代之的是Devtools Panel page。这其实没有太大的区别。只不过UI部分由Devtools Panel page来展现而不是UI page。&lt;/p&gt;
+&lt;p&gt;上图是Regular Devtools的大致结构。其中Content Script和Background Script两部分构成Model层，负责数据的搜集和处理。Devtools Panel page则是UI层，负责展现数据。下面我们来讲讲具体的实现。&lt;/p&gt;
 &lt;h3 id=&quot;获取Regular组件实例&quot;&gt;&lt;a href=&quot;#获取Regular组件实例&quot; class=&quot;headerlink&quot; title=&quot;获取Regular组件实例&quot;&gt;&lt;/a&gt;获取Regular组件实例&lt;/h3&gt;&lt;p&gt;首先我们需要获得Regular组件实例。这一步的实现思路大致就是在页面中注入一个Event Emitter（在页面所有脚本运行之前），并挂载在全局的&lt;code&gt;window&lt;/code&gt;对象上。然后每一个Regular组件的初始化、更新、销毁等生命周期事件发生时都会在Event Emitter上emit相应的事件，并传入实例。这样我们就可以获取到页面中所有的Regualr组件实例以及相应的其他信息了。&lt;/p&gt;
-&lt;h3 id=&quot;inject大法&quot;&gt;&lt;a href=&quot;#inject大法&quot; class=&quot;headerlink&quot; title=&quot;inject大法&quot;&gt;&lt;/a&gt;inject大法&lt;/h3&gt;&lt;p&gt;说起来很简单，可以刚才讲到Content Script时我们说到过，它无法访问用户页面上的全局变量，因此Content Script无法访问到用户页面的&lt;code&gt;window&lt;/code&gt;对象，那我们要如何获取挂载在&lt;code&gt;window&lt;/code&gt;对象上的Regualr组件实例数组呢？&lt;/p&gt;
+&lt;p&gt;这个Event Emitter的实现可以参考&lt;/p&gt;
+&lt;h3 id=&quot;inject大法&quot;&gt;&lt;a href=&quot;#inject大法&quot; class=&quot;headerlink&quot; title=&quot;inject大法&quot;&gt;&lt;/a&gt;&lt;code&gt;inject&lt;/code&gt;大法&lt;/h3&gt;&lt;p&gt;说起来很简单，可以刚才讲到Content Script时我们说到过，它无法访问用户页面上的全局变量，因此Content Script无法访问到用户页面的&lt;code&gt;window&lt;/code&gt;对象，那我们要如何获取挂载在&lt;code&gt;window&lt;/code&gt;对象上的Regualr组件实例数组呢？&lt;/p&gt;
 &lt;p&gt;解决办法很简单，Content Script可以访问用户页面的DOM结构，那我们插入一个&lt;code&gt;script&lt;/code&gt;标签就可以在用户页面的context下执行脚本了。&lt;/p&gt;
 &lt;p&gt;比如我们可以实现这样一个&lt;code&gt;inject&lt;/code&gt;函数：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;function inject(content) {
@@ -90,8 +92,8 @@
     <summary type="html">
     
       &lt;h3 id=&quot;Regular-Devtools的前辈们&quot;&gt;&lt;a href=&quot;#Regular-Devtools的前辈们&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools的前辈们&quot;&gt;&lt;/a&gt;Regular Devtools的前辈们&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/gaearon&quot;&gt;Dan Abramov&lt;/a&gt;的&lt;a href=&quot;https://github.com/gaearon/redux-devtools&quot;&gt;Redux Devtools&lt;/a&gt;把前端框架开发者工具推向了主流视野，他在React Europe 2015上的这个&lt;a href=&quot;https://www.youtube.com/watch?v=xsSnOQynTHs&quot;&gt;演讲&lt;/a&gt;被疯转。Redux Devtools可以说是独领风骚，开启了新一代前端框架开发者工具的潮流。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/facebook/react-devtools&quot;&gt;React Devtools&lt;/a&gt;也可以算是前端框架Devtools的祖师爷之一了。React Devtools不但有常用的组件树查看功能，还能直接查看JSX代码，筛选组件，双向修改state，查看组件源码等等。&lt;/p&gt;
-&lt;p&gt;而Regular Devtools主要参考的则是&lt;a href=&quot;https://github.com/vuejs/vue-devtools&quot;&gt;Vue Devtools&lt;/a&gt;。Vue Devtools是一个轻量，简洁的Devtools，拥有Devtools必要的大部分功能。而Vue与Regular在某些方面比较相似，因为Vue Devtools就成为了我开发过程中的一个参考。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/facebook/react-devtools&quot;&gt;React Devtools&lt;/a&gt;也可以算是前开发者工具的祖师爷之一了。React Devtools不但有常用的组件树查看功能，还能直接查看JSX代码，筛选组件，双向修改state，查看组件源码等等。&lt;/p&gt;
+&lt;p&gt;而Regular Devtools主要参考的则是&lt;a href=&quot;https://github.com/vuejs/vue-devtools&quot;&gt;Vue Devtools&lt;/a&gt;。Vue Devtools是一个轻量，简洁的Devtools，只实现了开发者工具中最核心的功能。而Vue与Regular在某些方面比较相似，所以Vue Devtools就成为了我开发过程中的一个重要参考。&lt;/p&gt;
     
     </summary>
     
