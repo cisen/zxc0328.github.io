@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-08-01T11:00:19.000Z</updated>
+  <updated>2016-09-07T06:48:26.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2016 JSConf China见闻</title>
+    <link href="http://yoursite.com/2016/09/07/jsconf2016/"/>
+    <id>http://yoursite.com/2016/09/07/jsconf2016/</id>
+    <published>2016-09-07T03:29:53.000Z</published>
+    <updated>2016-09-07T06:48:26.000Z</updated>
+    
+    <content type="html">&lt;p&gt;今年9月3号-4号的JSConf是我第二次参加开发者大会。这次JSConf可以说是被我期待很久的。两天，十多个Topic，来自各大国外公司的大神，Vue、RxJS、WebVR等话题，让我非常期待。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;然而最终的结果只能说是差强人意。真正有干货的主要是Ben Lesh的&lt;a href=&quot;&quot;&gt;RxJS&lt;/a&gt;以及James Kyle的&lt;a href=&quot;&quot;&gt;How to build a complier&lt;/a&gt;，然而恰恰因为他们都是比较活跃的工程师，所以他们这两个演讲我都在youtube上看过了。至于Vue，并没有讲很多的干货，主要还是来圈粉的。&lt;/p&gt;
+&lt;p&gt;其他的talk里面，PM2作者的分享还是非常solid的，他当场开源了&lt;a href=&quot;&quot;&gt;grid control&lt;/a&gt;这个项目。朴灵的分享尽管主要是打广告，但是还是要我知道了Node性能调优里内存泄露、CPU占用和GC频繁三个方向。&lt;/p&gt;
+&lt;p&gt;WebVR和3D这些，说实话只能做到Demo级别的分享。这也是免不了的，外行只能看热闹。主要是给大家演示一下，如果能有启发就再好不过了。&lt;/p&gt;
+&lt;p&gt;不过这次大会上我的确看到了很多微博上关注的圈内人，等以后我在圈子里混熟了，水平更好了。那也许可以来参会和大家聊聊。&lt;/p&gt;
+&lt;p&gt;其实FEDay的质量明显要更高一些，尽管有翻译英文演讲这种笑话，但是干货明显更多，整体的技术气氛也更好一些。&lt;/p&gt;
+&lt;p&gt;总之，对于国内的技术大会，今后还是要慎重的选择。不然还不如在家看youtube上大神的分享呢。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今年9月3号-4号的JSConf是我第二次参加开发者大会。这次JSConf可以说是被我期待很久的。两天，十多个Topic，来自各大国外公司的大神，Vue、RxJS、WebVR等话题，让我非常期待。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Regular Devtools开发手记</title>
@@ -3014,37 +3040,6 @@ background-color:gray; color:white; }
     
     
       <category term="Javascript 读书笔记" scheme="http://yoursite.com/tags/Javascript-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>css像素与理想viewport宽度</title>
-    <link href="http://yoursite.com/2015/05/12/css%E5%83%8F%E7%B4%A0%E4%B8%8E%E7%90%86%E6%83%B3viewport%E5%AE%BD%E5%BA%A6/"/>
-    <id>http://yoursite.com/2015/05/12/css像素与理想viewport宽度/</id>
-    <published>2015-05-12T11:57:37.000Z</published>
-    <updated>2015-05-12T13:35:24.000Z</updated>
-    
-    <content type="html">&lt;p&gt;最近在开发移动端网页时遇到了两大问题，一是移动端的触摸事件的实现；二是移动端页面的宽度设置问题。今天先来说一说移动端的页面宽度问题。  &lt;/p&gt;
-&lt;p&gt;首先要说的是css的像素，一个css像素，一个px，和设备的物理像素不是一回事。&lt;br&gt;拿苹果的iphone来说，iphone3的分辨率是320*480，而retina屏的iphone4是640*960,  但如果在浏览器里输出视窗的宽度，两者都是320px宽。这说明Retina屏的iPhone用4个物理像素来渲染了一个css像素。iPad上的情况是相似的，新老ipad的css分辨率都是1024*768。安卓上的情况也是类似的，比如nexus 5的物理分辨率是1920*1080，而css分辨率是640*360。  关于这个可以参考一下&lt;a href=&quot;http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;quirksmode上的博文《此像素非彼像素》&lt;/a&gt;&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;接下来是关于viewport的问题，我在阅读了&lt;a href=&quot;http://www.cnblogs.com/2050/p/3877280.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这篇博文&lt;/a&gt;之后对viewport的尺寸问题清楚了不少。&lt;br&gt;其中我们需要加以重点关注的主要是ideal viewport size（下称理想视窗宽度）。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0&amp;quot;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;以上代码中的width=device-width可以设置视窗宽度为设备宽度，也就是理想的宽度。而上文说到的css分辨率，便是默认情况下viewport按理想宽度来显示时css的像素值。&lt;/p&gt;
-&lt;p&gt;因此对于移动端的网页，一般设html和body的宽为100%即可，但是由此带来的思考便是移动端网页图片尺寸的设置问题。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://muxistudio.qiniudn.com/blog-5-12.png&quot; alt=&quot;一加手机微信页面&quot;&gt;&lt;/p&gt;
-&lt;p&gt;这个微信页面的图片的宽度是640px，虽然手机的理想视窗宽度是320px左右，但是图片的像素还是应该和物理像素相近，不然就会出现一个物理像素渲染多个图片像素的情况。&lt;br&gt;而640px正是大部分iphone手机的物理像素值。如果图片尺寸按最高的设备物理像素值来设置，便会使图片过大，使网页性能下降，而iPhone的640px便达到了一个平衡，让大部分设备都有一个良好的使用体验。（当然也不排除工程师偷懒，就拿市占50%的iPhone当最佳实践了）&lt;/p&gt;
-&lt;p&gt;找到同样关于这个主题的&lt;a href=&quot;http://colachan.com/post/3435&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;一篇不错的博文&lt;/a&gt;我自愧不如···&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近在开发移动端网页时遇到了两大问题，一是移动端的触摸事件的实现；二是移动端页面的宽度设置问题。今天先来说一说移动端的页面宽度问题。  &lt;/p&gt;
-&lt;p&gt;首先要说的是css的像素，一个css像素，一个px，和设备的物理像素不是一回事。&lt;br&gt;拿苹果的iphone来说，iphone3的分辨率是320*480，而retina屏的iphone4是640*960,  但如果在浏览器里输出视窗的宽度，两者都是320px宽。这说明Retina屏的iPhone用4个物理像素来渲染了一个css像素。iPad上的情况是相似的，新老ipad的css分辨率都是1024*768。安卓上的情况也是类似的，比如nexus 5的物理分辨率是1920*1080，而css分辨率是640*360。  关于这个可以参考一下&lt;a href=&quot;http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html&quot;&gt;quirksmode上的博文《此像素非彼像素》&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="css" scheme="http://yoursite.com/categories/css/"/>
-    
-    
-      <category term="css" scheme="http://yoursite.com/tags/css/"/>
     
   </entry>
   
