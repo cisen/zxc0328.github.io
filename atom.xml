@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-09-07T06:48:26.000Z</updated>
+  <updated>2016-09-16T13:19:29.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,57 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《编码》导读</title>
+    <link href="http://yoursite.com/2016/09/15/read-code/"/>
+    <id>http://yoursite.com/2016/09/15/read-code/</id>
+    <published>2016-09-15T10:32:05.000Z</published>
+    <updated>2016-09-16T13:19:29.000Z</updated>
+    
+    <content type="html">&lt;p&gt;《编码》这本书被列了入我们团队技术方向培养方案的必读书目，可见这本书的地位。因此，我觉得有必要来撰写一篇导读，来帮助大家看透一些问题，把这本书上的知识和课本中的知识对应起来，并且形成一个体系。&lt;/p&gt;
+&lt;p&gt;《编码》讲的是什么呢？笼统的说，就是用自底向上的角度一层层的解析计算机的原理。比如第一章到第三章将的是编码的本质——信息和符号的对应。第四章到第六章讲的是电信号可以用来表示一种编码，从而传递信息。第七章到第九章介绍了二进制，也就是计算机系统中最基本的编码形式。第十章：逻辑与开关和第十一章：门，介绍了布尔代数，以及如何使用门电路进行布尔代数的运算。第十二章和第十三章介绍了二进制加法器和减法器，加法器已然是现代CPU中运算单元的雏形了。第十四章介绍的反馈与触发器是实现计算机中储存芯片的基础。第十五章字节与十六进制是为理解后续的存储器数据格式而准备的。第十六章讲了存储器的组织，这便是现代计算机系统中存储系统的原理。第十七章，是全书最难的一章，讲了如何制作一个CPU。CPU本质上就是一个可以编程的运算器。第十八章介绍了从算盘到机械结构到电子管再到晶体管的技术革命，晶体管、超大规模集成电路使得现代CPU的出现成为了可能。第十九章介绍了Intel 8080CPU的指令集。第二十章介绍了字符的存储格式，这可以帮助你理解计算机是如何存储文本的。第二十一章：总线，介绍了计算机系统中CPU、内存和I/O设备如何通信。第二十二章是一个简短的操作系统简史，注意到从这里我们涉及了软件层面的内容。第二十三章定点数和浮点数比较独立，主要讲了计算机是如何存储浮点数的。第二十四章和第二十五章则介绍了编程语言和图形学基础。&lt;/p&gt;
+&lt;p&gt;我们可以清晰的看到从硬件到软件，从具体到抽象，从底层到顶层的一个脉络。&lt;/p&gt;
+&lt;p&gt;这本书其实包含了我们计算机专业中《数字逻辑》、《计算机组成原理》、《微机系统与接口原理》三门课的主干内容。作者没有试图灌输大量的理论知识，而是试图将这些知识串联起来，包括最后的操作系统和编程语言，其实和计算机硬件是有着不可分割的关系的。在《编码》这本书中你就可以很自然的在章节的推进中体会到这种联系。&lt;/p&gt;
+&lt;p&gt;下面我会对一些章节进行详细的解读。主要是解释难点，拓展一些知识，并且写清这一章节的知识对应我们的哪门专业课，而专业课和这本书的要求有何不同等等。&lt;/p&gt;
+&lt;p&gt;我希望这本书可以让大家看清计算机的本质，计算机的本质其实就是一个处理信息的机器。你输入数据，计算机输出数据。首先我们需要一套编码系统来表示这些数据，而二进制的编码正好与半导体的性质相吻合，我们可以用布尔代数来对现实问题进行建模，通过门电路来表示这个布尔代数，从而制造出可以进行某种运算的电路。而如果这个电路可编程，再加上输入输出接口，那就是一个CPU了。至于是半导体和二进制之间孰先孰后呢，你可以做进一步的研究（从书中来看，第一台计算机ENIAC是采用十进制的，所以看来应该是半导体在先，二进制在后）（所以今后如果计算机的物理介质有了更新，我们也许就会换一种新的编码方案了）。&lt;/p&gt;
+&lt;p&gt;在书中大量讲到的门电路、继电器等等属于实现层面，大家了解一下就好。我们不是电气工程师，我们是软件工程师。当然理解硬件层面细节对于写好代码是很有帮助的。这主要解释的是一个“为什么”的问题。&lt;/p&gt;
+&lt;p&gt;你了解了CPU的指令集，和CPU的工作方式，你就理解为什么我们在程序运行时需要“栈”这个数据结构。&lt;/p&gt;
+&lt;p&gt;你了解了字符的编码以及浮点数的编码，你就不会奇怪于为什么&lt;code&gt;0.1+0.2&lt;/code&gt;不等于&lt;code&gt;0.3&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;我们要关注的主要是如何用编码来抽象问题。比如用二进制来表示数据，进行运算。比如用指令来对CPU进行编程。比如&lt;/p&gt;
+&lt;h3 id=&quot;第十章：逻辑与开关与第十一章：门&quot;&gt;&lt;a href=&quot;#第十章：逻辑与开关与第十一章：门&quot; class=&quot;headerlink&quot; title=&quot;第十章：逻辑与开关与第十一章：门&quot;&gt;&lt;/a&gt;&lt;code&gt;第十章：逻辑与开关&lt;/code&gt;与&lt;code&gt;第十一章：门&lt;/code&gt;&lt;/h3&gt;&lt;p&gt;第十章首先介绍的内容是：布尔代数。&lt;/p&gt;
+&lt;p&gt;布尔代数，其实在我们的《离散数学》课里就接触过。&lt;em&gt;注：如果没学过离散数学，可以买《离散数学及其应用》这本书学习，这里说到的形式逻辑主要指命题逻辑&lt;/em&gt;《离散数学》里一开始讲的逻辑，比如这种形式的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/3ad862b103437f908a58b008703464bea93a1ef2&quot; alt=&quot;命题逻辑&quot;&gt;&lt;/p&gt;
+&lt;p&gt;我们知道一个命题可能是真（T），也可能是假（F）。那如果我们把T和F换成1和0，然后将命题逻辑中的合取，析取，否定等关系换了一种表示形式，这就成了布尔代数。&lt;/p&gt;
+&lt;p&gt;布尔代数中每个变量都是一个&lt;code&gt;{0,1}&lt;/code&gt;的集合。命题逻辑中的合取在布尔代数中用&lt;code&gt;·&lt;/code&gt;或者AND表示，而析取则用&lt;code&gt;+&lt;/code&gt;或者OR表示。否定则用表示。&lt;/p&gt;
+&lt;p&gt;在第十一章中，有一个布尔表达式：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;(M·N·(W+T)+(F·N·(1-W))+B)&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们代入每个变量之中，运用布尔代数运算符的规则，就可以计算出这布尔表达式的值是True或者是False。&lt;/p&gt;
+&lt;p&gt;这就是问题的关键了，布尔代数是一个&lt;strong&gt;抽象的计算模型&lt;/strong&gt;。我们可以将现实世界的问题，抽象成布尔表达式（当然这个最终是因为我们可以用命题逻辑来表示现实世界的问题）。&lt;/p&gt;
+&lt;p&gt;讲到这里，似乎和计算机没有什么关系。但最精彩的部分就在下面，我们可以&lt;strong&gt;用布尔代数设计电路&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;一个机械开关，有开启和闭合两种状态，可以用来表示0或者1。这个是《编码》前几章大力铺垫的一个事实。既然这样，那我们就可以用两个开关的并联或者串联来表示AND和OR逻辑。更进一步，我们可以用开关和电线表示任何布尔表达式。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;值得注意的是，&lt;strong&gt;用布尔代数可以用某种电路来等价的表示&lt;/strong&gt;这个事实。从在19世纪50年代乔治·布尔发明布尔代数开始，一直到20世纪30年代才被信息论之父香农发现。尽管逻辑电路所需的开关和电线在19世纪都已经存在了。可见这种等价关系的革命性意义。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;当然，反过来，布尔表达式也可以指导我们设计电路。事实上这个是目前所有逻辑电路设计的理论基础。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;《数字逻辑》这门课讲布尔代数，主要是作为设计电路的一种工具。假如我们要设计电路，解决这个现实问题。这个问题被抽象成几个输入和输出。这些输入和输出是可能是0或者1。我们知道不同变量输入时对应的输出，也就是所谓的真值表。利用真值表，我们可以写出一个布尔表达式。但这个布尔表达式可以化简。我们可以用卡诺图等方式进行化简，化简的目的是简化电路。最终，化简的电路可以转化为门电路。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;《编码》里只是简单的介绍了布尔代数和门电路，没有深入的介绍电路的设计。这是比较明智的，因为如何设计电路不是我们要关心的话题。《数字逻辑》中在电路设计这块涉及的还有功能表到布尔表达式的转换，布尔表达式的化简等等。有兴趣的同学可以了解一下。&lt;/p&gt;
+&lt;p&gt;总结一下，这两章对我们最大的启发就是：逻辑电路设计的理论基础是布尔代数。布尔代数可以用逻辑电路进行等价表示。而逻辑电路则是计算机所有硬件的基础。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;《编码》这本书被列了入我们团队技术方向培养方案的必读书目，可见这本书的地位。因此，我觉得有必要来撰写一篇导读，来帮助大家看透一些问题，把这本书上的知识和课本中的知识对应起来，并且形成一个体系。&lt;/p&gt;
+&lt;p&gt;《编码》讲的是什么呢？笼统的说，就是用自底向上的角度一层层的解析计
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>2016 JSConf China见闻</title>
@@ -2945,101 +2996,6 @@ background-color:gray; color:white; }
     
     
       <category term="html5 翻译" scheme="http://yoursite.com/tags/html5-%E7%BF%BB%E8%AF%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>读书笔记(一)</title>
-    <link href="http://yoursite.com/2015/05/19/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0_1/"/>
-    <id>http://yoursite.com/2015/05/19/读书笔记_1/</id>
-    <published>2015-05-19T13:44:14.000Z</published>
-    <updated>2015-05-19T15:10:42.000Z</updated>
-    
-    <content type="html">&lt;p&gt;读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。  &lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-    //array.splice() is a method that delete some items in an array, 
-    //and add new items to the place where the deleted items used 
-    //to be, finally, it returns the deleted items as an array.
-    Array.method(&#39;splice&#39;, function (start, deleteCount) {
-    var max = Math.max,
-        min = Math.min,
-        delta,
-        element,
-        //arguments here refer to all the arguments this method
-        //receive(as an array). So we should drop the first two
-        //paramaters(start and deleteCount).
-        insertCount = max(arguments.length - 2, 0),
-        k = 0,
-        len = this.length,
-        new_len,
-        result = [],
-        shift_count;
-
-    //if start is null, start = 0.
-    start = start || 0;
-    //if start is a negtive number, add start and len to get the 
-    //index of the start element.
-    if (start &lt; 0) {
-        start += len;
-    }
-    //make sure that start is no bigger than len nor smaller than 0.
-    start = max(min(start, len), 0);
-    //if deleteCount is not given, delete all the elments after start.
-    //And make sure it is is no bigger than len nor smaller than 0.
-    deleteCount = max(min(typeof deleteCount === &#39;number&#39; ?
-            deleteCount : len, len − start), 0);
-    delta = insertCount − deleteCount;
-    new_len = len + delta;
-    //push this[start,start + deleteCount -1] into result, namely just 
-    //set the deleted array that will be returned.
-    while (k &lt; deleteCount) {
-        element = this[start + k];
-        if (element !== undefined) {
-            result[k] = element;
-        }
-        k += 1;
-    }
-    //shift_count is the count of remained elements in this[start,] 
-    shift_count = len - start - deleteCount;
-    //set the new index of the elements left in this[start,].
-    if (delta &lt; 0) {
-        k = start + insertCount;
-        while (shift_count) {
-            this[k] = this[k − delta];
-            k += 1;
-            shift_count −= 1;
-        }
-        this.length = new_len;
-    } else if (delta &gt; 0) {
-        k = 1;
-        while (shift_count) {
-            this[new_len − k] = this[len − k];
-            k += 1;
-            shift_count −= 1;
-        }
-    }
-    //push the added items in the new index-aranged array.
-    for (k = 0; k &lt; insertCount; k += 1) {
-        this[start + k] = arguments[k + 2];
-
-    //just return the result,nail it! 
-    return result;
-    });
-   &lt;/pre&gt;
-
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。  &lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Javascript 读书笔记" scheme="http://yoursite.com/categories/Javascript-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-    
-      <category term="Javascript 读书笔记" scheme="http://yoursite.com/tags/Javascript-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
