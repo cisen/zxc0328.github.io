@@ -59,7 +59,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          Accueil
+          Home
         </a>
       </li>
     
@@ -114,7 +114,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posté le 2016-09-29
+              Posted on 2016-09-29
             
           </span>
         
@@ -133,7 +133,8 @@
           <p>你是一个新手前端工程师，今天你接到了一个需求，写一个banner。banner嘛，大家都知道，就是一个用来展示图片的东西，不同的图片可以滚动切换。</p>
 <p>你心想着这很简单啊，于是刷刷刷写了一个。</p>
 <a id="more"></a>
-<h3 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h3><pre><code>var banner = {
+<p><strong>JS</strong></p>
+<pre><code>var banner = {
     init: function() {
         this.addEvent();
     },
@@ -154,7 +155,8 @@
 }
 
 banner.init();
-</code></pre><h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><pre><code>&lt;div class=&quot;banner&quot;&gt;
+</code></pre><p><strong>HTML</strong></p>
+<pre><code>&lt;div class=&quot;banner&quot;&gt;
     &lt;li&gt;
         &lt;img src=&quot;1.jpg&quot;&gt;&lt;/img&gt;
     &lt;/li&gt;
@@ -174,10 +176,11 @@ banner.init();
 <li>如果在需要在某个时间点从页面上移除banner，怎么办呢？手动remove节点吗，销毁对象吗？</li>
 <li>如果banner中图片的URL是从服务端API请求到的动态的数据，难道要用一个个用修改图片的src的方法来显示这些数据吗？</li>
 </ul>
-<p>看到这里，你的内心是崩溃的。</p>
+<p>听到这里，你的内心是崩溃的。</p>
 <p><img src="http://www.troll.me/images/y-u-no/css-floats-y-u-no-clear-yourself-thumb.jpg" alt="y no "></p>
 <h3 id="面向对象大法"><a href="#面向对象大法" class="headerlink" title="面向对象大法"></a>面向对象大法</h3><p>这时，你想起了大学时学过的面向对象。你把你的组件改成了这样：</p>
-<h3 id="JS-1"><a href="#JS-1" class="headerlink" title="JS"></a>JS</h3><pre><code>
+<p><strong>JS</strong></p>
+<pre><code>
 var Banner = function(options) {
     this._init(options);
 }
@@ -216,7 +219,95 @@ banner2.destroy();
 <blockquote>
 <p>生命周期<br>这是组件开发中的一个术语。如果把组件比作一个生物，我们设计的API，比如<code>init</code>和<code>destroy</code>就相当于这个生物的出生和死亡。一个组件从<code>init</code>被调用时被初始化，渲染到页面上，然后和用户发生交互，这时调用的方法也属于生命周期的一部分。用户界面随着用户的交互而发生变化，所以组件也不是一成不变的。生命周期方法其实就是在组件的某个阶段会被调用的方法。</p>
 </blockquote>
-<h3 id="模板和渲染"><a href="#模板和渲染" class="headerlink" title="模板和渲染"></a>模板和渲染</h3>
+<h3 id="模板和渲染"><a href="#模板和渲染" class="headerlink" title="模板和渲染"></a>模板和渲染</h3><p>还有一个问题没有解决，那就是如何轻松的将数据填充到DOM节点中呢？</p>
+<h4 id="字符串拼接大法"><a href="#字符串拼接大法" class="headerlink" title="字符串拼接大法"></a>字符串拼接大法</h4><p>你首先想出了一个比较笨的办法：</p>
+<pre><code>var url = &quot;/images/1.png&quot;
+var template = funtion(url) {
+    return &quot;&lt;img src=&#39;&quot; + url + &quot;&#39;/&gt;&quot;;
+}
+
+template(url); // &quot;&lt;img src=&#39;/images/1.png&#39;/&gt;&quot;
+</code></pre><p>这就是传说中的字符串拼接大法。一种非常原始的“模板”。简单的说就是把HTML中不变的部分原样写成字符串，中间的变化的部分，我们叫模板的变量，会被作为参数输入到模板函数中。然后这些变量和字符串拼接起来，就生成了目标HTML字符串。</p>
+<p>上例中的<code>template</code>函数做的事情，我们叫做“编译”模板。当然这个函数非常简单，只是拼接了一下字符串。一个成熟的模板引擎的编译函数做的事情，要更接近于传统意义上的“编译”。</p>
+<h4 id="DOM-based模板"><a href="#DOM-based模板" class="headerlink" title="DOM based模板"></a>DOM based模板</h4><p>字符串拼接大法的问题，相信大家都看到了，就是写起来非常的麻烦，各种单引号和双引号。如果要换行还必须用<code>+</code>号拼接。</p>
+<p>于是我们就想到了，如果我们把模板作为普通的HTML，那就会方便很多。我们只要像写HTML那样把模板写在HTML文件中，比如:</p>
+<p><strong>HTML</strong></p>
+<pre><code>
+&lt;body&gt;
+    &lt;div id=&quot;template&quot;&gt;
+        &lt;img src=&quot;{ url1 }&quot;&gt;
+        &lt;img src=&quot;{ url2 }&quot;&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><p>我们要向获取模板的内容，只需要这样：</p>
+<p><code>var templateString = document.querySelector(&quot;#template&quot;).innerHTML</code></p>
+<p>返回的就是这个模板的字符串了。</p>
+<p>假设我们写了一个模板引擎，它的作用就是将<code>{ }</code>花括号内的表达式，在模板的context下面解析，并返回值。</p>
+<blockquote>
+<p>context，就是指一个特定的作用域。里面有当前作用域下面的变量（标识符）和对应的值之间的映射。模板的context就是指一个有模板中相关变量的作用域。</p>
+</blockquote>
+<p>这个模板引擎是这样使用的:</p>
+<pre><code>import &#39;complie&#39; from &#39;templateEngine&#39;
+
+var templateString = document.querySelector(&quot;#template&quot;).innerHTML
+var data = {
+    url1: &quot;/images/1/png&quot;,
+    url2: &quot;/images/1/png&quot;
+}
+var HTMLString = compile(templateString, data)
+</code></pre><p>当<code>compile</code>函数遇到变量时，就会从<code>data</code>中去找。<code>data</code>在这个例子就是context。</p>
+<blockquote>
+<p>插一句，被大家吐槽的<code>eval</code>函数可以用来做在特定context下求值的事情，这正是这种模板引擎所需要做的。所以你可以用<code>eval</code>来实现一个简单的模板引擎。</p>
+</blockquote>
+<p>那这段模板</p>
+<pre><code>&lt;div id=&quot;template&quot;&gt;
+    &lt;img src=&quot;{ url1 }&quot;/&gt;
+    &lt;img src=&quot;{ url2 }&quot;/&gt;
+&lt;/div&gt;
+</code></pre><p>会被解析为</p>
+<pre><code>&lt;div id=&quot;template&quot;&gt;
+    &lt;img src=&quot;/images/1.png&quot;/&gt;
+    &lt;img src=&quot;/images/2.png&quot;/&gt;
+&lt;/div&gt;
+</code></pre><p>因为这个花括号中可以是任意合法的JavaScript表达式，所以你也可以这样玩</p>
+<p><strong>JS</strong></p>
+<pre><code>//其他省略
+var data = {
+    displayFlag: false,
+    url1: &quot;/images/1/png&quot;,
+    url2: &quot;/images/1/png&quot;
+}
+</code></pre><p>那这段模板</p>
+<pre><code>&lt;div id=&quot;template&quot; style=&quot;{{ displayFlag ? 'display:block':'display:none'}}&quot;&gt;
+    &lt;img src=&quot;{ url1 }&quot;/&gt;
+    &lt;img src=&quot;{ url2 }&quot;/&gt;
+&lt;/div&gt;
+</code></pre><p>会被解析为</p>
+<pre><code>&lt;div id=&quot;template&quot; style=&quot;display:none&quot;&gt;
+    &lt;img src=&quot;/images/1.png&quot;/&gt;
+    &lt;img src=&quot;/images/2.png&quot;/&gt;
+&lt;/div&gt;
+</code></pre><p>很神奇，不是吗?</p>
+<p><img src="https://www.ricardomartins.com.br/wp-content/uploads/2015/05/Magic_meme.gif" alt="magic"></p>
+<h4 id="render生命周期方法"><a href="#render生命周期方法" class="headerlink" title="render生命周期方法"></a><code>render</code>生命周期方法</h4><p>因为现在我们的组件不再使用静态的HTML字符串了，我们需要一个函数来输出HTML字符串。所以我们需要在组件上增加一个叫<code>render</code>的生命周期函数。</p>
+<pre><code>Banner.prototype.render = function() {
+    this.el.innerHTML = compile(this.el.innerHTML, this.data);
+}
+</code></pre><p>这里的<code>el</code>是这个组件的一个配置项，代表这个组件的根节点。组件的模板来自根节点的内容。模板编译之后输出的HTML字符串又会替换根节点中的模板，从而渲染这个组件。</p>
+<blockquote>
+<p>当然，模板所在的节点和渲染组件的节点可以不是同一个，这个是和具体的组件框架实现相关的。只要模板可以以字符串的形式被引入，就可以达到目的了。是否放在HTML的DOM节点中并不是问题的关键。我们可以写单独的模板文件并用webpack等打包工具引入。</p>
+</blockquote>
+<h3 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h3><p>一个组件中，比如模板根节点、以及组件的<code>data</code>这样的数据，应该在组件实例化的时候，作为配置被传入构造函数中。</p>
+<p>所以，让我们改造一下初始化函数：</p>
+<pre><code>Banner.prototype.init = function(options) {
+    this.data = options.data || {};
+    this.el = options.el || document.querySelector(&quot;body&quot;);
+    this.render();
+    this.addEvent();
+}
+</code></pre><p>此时，如果你这样再初始化一个组件，并调用<code>init</code>方法，你的页面上就出现了一个banner！大功告成！</p>
+<p><img src="https://occc3ev3l.qnssl.com/zindex/pp.png" alt="pp"></p>
+<h3 id="数据驱动"><a href="#数据驱动" class="headerlink" title="数据驱动"></a>数据驱动</h3><h3 id="Vue-and-Beyond"><a href="#Vue-and-Beyond" class="headerlink" title="Vue and Beyond"></a>Vue and Beyond</h3>
         
       </div>
     
@@ -273,10 +364,10 @@ banner2.destroy();
     
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
-          Table Des Matières
+          Table Of Contents
         </li>
         <li class="sidebar-nav-overview" data-target="site-overview">
-          Ensemble
+          Overview
         </li>
       </ul>
     
@@ -290,7 +381,7 @@ banner2.destroy();
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
           <span class="site-state-item-count">24</span>
-          <span class="site-state-item-name">articles</span>
+          <span class="site-state-item-name">posts</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
@@ -333,7 +424,7 @@ banner2.destroy();
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS"><span class="nav-number">1.</span> <span class="nav-text">JS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML"><span class="nav-number">2.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象大法"><span class="nav-number">3.</span> <span class="nav-text">面向对象大法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JS-1"><span class="nav-number">4.</span> <span class="nav-text">JS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板和渲染"><span class="nav-number">5.</span> <span class="nav-text">模板和渲染</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象大法"><span class="nav-number">1.</span> <span class="nav-text">面向对象大法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板和渲染"><span class="nav-number">2.</span> <span class="nav-text">模板和渲染</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串拼接大法"><span class="nav-number">2.1.</span> <span class="nav-text">字符串拼接大法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DOM-based模板"><span class="nav-number">2.2.</span> <span class="nav-text">DOM based模板</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#render生命周期方法"><span class="nav-number">2.3.</span> <span class="nav-text">render生命周期方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化配置"><span class="nav-number">3.</span> <span class="nav-text">初始化配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据驱动"><span class="nav-number">4.</span> <span class="nav-text">数据驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue-and-Beyond"><span class="nav-number">5.</span> <span class="nav-text">Vue and Beyond</span></a></li></ol>
       </div>
     
   </div>
@@ -360,7 +451,7 @@ banner2.destroy();
 </div>
 
 <div class="theme-info">
-  Thème - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 
