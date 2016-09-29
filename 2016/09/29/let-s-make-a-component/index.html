@@ -18,9 +18,21 @@
 
 
 
-	<meta name="keywords" content="CSS," />
 
-  <title> 最佳实践之多个高度不定水平实体垂直居中 // Zindex's blog </title>
+    <meta name="keywords" content="Hexo,next" />
+
+
+
+    <link rel="alternate" href="/atom.xml" title="Zindex's blog" type="application/atom+xml" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc5" />
+
+
+
+
+  <title> 一个组件的诞生 // Zindex's blog </title>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
 
 </head>
@@ -93,7 +105,7 @@
           
           
             
-              最佳实践之多个高度不定水平实体垂直居中
+              一个组件的诞生
             
           
         </h1>
@@ -102,7 +114,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posté le 2015-07-23
+              Posté le 2016-09-29
             
           </span>
         
@@ -118,71 +130,93 @@
         
 
         
-          <p>如何快速并且健壮地实现高度不一定的实体的居中呢？  </p>
-<p>vertical-align显然是一种办法。这个元素从语义上来看就是用来实现垂直对齐的。要理解vertical-align，首先我们得了解几个概念，inline boxes, line box, 以及baseline。  </p>
-<p>inline boxes是行内元素构成的行内box，而line box则是由一行内所有的inline boxes构成的box，比如：</p>
-<pre><code>&lt;div&gt;
-    &lt;span&gt;我是inline box&lt;/span&gt;
-    我是匿名inline box
-&lt;/div&gt;
-</code></pre><p>除了display为inline或者inline-block的标签会形成inline box，行内文本也会形成匿名的inline box。</p>
-<p>一行所有的inline boxes构成匿名的line box，其中inline box中高度最高的那个的高度便是line box的高度，由此撑起了整行的高度。（这涉及到line-height方面的知识）</p>
-<p>而关于baseline，则是文字在排版时顶部与底部中间的基线，如果是行内文本，具体位置随字体不同而不同，一般都在中线以下的位置。具体的需要参考西文字体学（Typography）(Jobs在大学旁听的课程之一，你值得拥有)  </p>
-<p>而line—height其实就是两条基线之间的距离。</p>
-<p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/blog_7_24_1.png" alt="baseline"></p>
+          <p>你是一个新手前端工程师，今天你接到了一个需求，写一个banner。banner嘛，大家都知道，就是一个用来展示图片的东西，不同的图片可以滚动切换。</p>
+<p>你心想着这很简单啊，于是刷刷刷写了一个。</p>
 <a id="more"></a>
-<p>对于inline-block级元素来说，基线的定义是这样的：</p>
-<pre><code>The baseline of an &#39;inline-block&#39; is the baseline of its last line
-box in the normal flow, unless it has either no in-flow line boxes
-or if its &#39;overflow&#39; property has a computed value other than
-&#39;visible&#39;, in which case the baseline is the bottom margin edge.
-（CSS2.1 W3C）
-</code></pre><p> 一般是正常文档流中的最后一个line box的基线。</p>
-<p>我们面对的场景是这样的，一个高度固定的div，中间有数个高度不固定的div需要被垂直居中。让我们来看看vertical-align:middle的定义：</p>
-<pre><code>Align the vertical midpoint of the box with the baseline of the
-parent box plus half the x-height of the parent.（CSS2.1 W3C）
-</code></pre><p> （元素）的垂直中点与父元素的基线加上x轴高度的一半对齐。</p>
-<p> 听起来有点奇怪，什么是x-height呢，x-height其实就是上图中小写字母x占据的高度，西文字体中小写字母x占据了mean line和baseline直接的这段空间，也就是所谓的字面所在。</p>
-<p> x这个字母恰好是镜面对称的，所以我们可以清楚的看到，vertical-align:middle就是将元素的中点对准x字母的中线，所以就形成了垂直居中的效果。</p>
-<p> 好，现在我们来看实际的情况，我们有一个高度固定的div，然后内部有两个inline-block级的div，需要水平居中，这两个div的高度随机。</p>
-<p> 代码：</p>
-<pre><code>&lt;div style=&quot;height:300px;&quot;&gt;
-    &lt;div style=&quot;display:inline-block&quot;&gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊啊啊啊啊啊啊&lt;/div&gt;
-    &lt;div style=&quot;display:inline-block&quot;&gt;我是二号div&lt;&lt;/div&gt;
+<h3 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h3><pre><code>var banner = {
+    init: function() {
+        this.addEvent();
+    },
+    addEvent: function() {
+        var buttonLeft = document.querySelector(&quot;.button-left&quot;);
+        var buttonRight = document.querySelector(&quot;.button-right&quot;);
+        buttonLeft.addEventListener(&quot;click&quot;, function() {
+            this.switchClassName(1)
+        })
+        buttonRight.addEventListener(&quot;click&quot;, function() {
+            this.switchClassName(-1)
+        })
+
+    },
+    switchClassName: function(direction) {
+        // 切换Class类名
+    }
+}
+
+banner.init();
+</code></pre><h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><pre><code>&lt;div class=&quot;banner&quot;&gt;
+    &lt;li&gt;
+        &lt;img src=&quot;1.jpg&quot;&gt;&lt;/img&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+        &lt;img src=&quot;2.jpg&quot;&gt;&lt;/img&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+        &lt;img src=&quot;3.jpg&quot;&gt;&lt;/img&gt;
+    &lt;/li&gt;
+    &lt;div class=&quot;button-left&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;button-right&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;
-</code></pre><div style="height:100px;background-color:blue"><div style="display:inline-block;background-color:red">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white">我是二号div</div></div>
+</code></pre><p><img src="http://www.troll.me/images/monocle-guy/jolly-god-old-chap-thumb.jpg" alt="old chap"></p>
+<p>正当你觉得自己可以刷知乎的时候，主管把你叫到一边，告诉你：</p>
+<ul>
+<li>如果你这个页面上需要有两个banner，怎么办呢？复制粘贴吗?</li>
+<li>如果在需要在某个时间点从页面上移除banner，怎么办呢？手动remove节点吗，销毁对象吗？</li>
+<li>如果banner中图片的URL是从服务端API请求到的动态的数据，难道要用一个个用修改图片的src的方法来显示这些数据吗？</li>
+</ul>
+<p>看到这里，你的内心是崩溃的。</p>
+<p><img src="http://www.troll.me/images/y-u-no/css-floats-y-u-no-clear-yourself-thumb.jpg" alt="y no "></p>
+<h3 id="面向对象大法"><a href="#面向对象大法" class="headerlink" title="面向对象大法"></a>面向对象大法</h3><p>这时，你想起了大学时学过的面向对象。你把你的组件改成了这样：</p>
+<h3 id="JS-1"><a href="#JS-1" class="headerlink" title="JS"></a>JS</h3><pre><code>
+var Banner = function(options) {
+    this._init(options);
+}
 
-<p>这是默认情况，两个div的vertical-align被设置为baseline,可以看出两个div的baseline在一条线上。第一个div的baseline是最后一个line box的baseline。</p>
-<p>那么父级元素div，一个块级元素，是否存在baseline呢？答案是否定的，在inline-block元素处于块极元素内部的情况下，vertical-align更多与同级inline-block元素的相互对齐有关，而和父级元素无关。</p>
-<p>可以实验一下，我们把父级div设为inline-block，看看会发生什么事情。</p>
-<pre><code>&lt;div style=&quot;display:inline-block;line-height:100px;background-
-color:blue&quot;&gt;
-    &lt;div style=&quot;display:inline-block;background-color:red&quot;&gt;
-    我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊啊啊啊啊啊啊
-    &lt;/div&gt;
-    &lt;div style=&quot;display:inline-block;background-color:white&quot;&gt;
-    我是二号div
-    &lt;/div&gt;
-&lt;/div&gt;
-</code></pre><div style="display:inline-block;line-height:100px;background-color:blue;font-size:150px"><div style="display:inline-block;background-color:red;font-size:15px">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white;font-size:15px">我是二号div</div>X</div>
+Banner.prototype.init = function() {
+    this.addEvent();
+}
 
-<p>这里我将父级div设为inline-block并且把line-height设为100px，因此其子元素的基线就和父元素的基线对齐了。我特意放了一个特大号的字，X的底部便是baseline了。</p>
-<p>了解到这一点之后，我们便清楚了，父元素是块级元素的情况下，vertical-align只和同级元素有关。vertical-align:middle便是同级元素的中线相互对齐。</p>
-<p>我们只需要一个空的div，它只起占位的作用，高度是100%，宽度是0，于是，其他高度小于父元素的子元素便会与这个占位元素的中线对齐，也就达到了垂直对齐。</p>
-<pre><code>&lt;div style=&quot;height:100px;background-color:blue;font-size:0&quot;&gt;
-    &lt;div style=&quot;height:100%;width:0;display:inline-block;vertical-
-    align:middle&quot;&gt;&lt;/div&gt;
-    &lt;div style=&quot;display:inline-block;background-color:red;font-size:
-    15px;vertical-align:middle&quot;&gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊
-    啊啊啊啊啊啊&lt;/div&gt;
-    &lt;div style=&quot;display:inline-block;background-color:white;font-
-    size:15px;vertical-align:middle&quot;&gt;我是二号div&lt;/div&gt;
-   &lt;/div&gt;
-</code></pre><div style="height:100px;background-color:blue;font-size:0"><div style="height:100%;width:0;display:inline-block;vertical-align:middle"></div><div style="display:inline-block;background-color:red;font-size:15px;vertical-align:middle">我是一号div，啊啊啊啊啊啊啊啊啊啊<br>啊啊啊啊啊啊啊啊</div><div style="display:inline-block;background-color:white;font-size:15px;vertical-align:middle">我是二号div</div></div>
+Banner.prototype.addEvent = function() {
+    var buttonLeft = document.querySelector(&quot;.button-left&quot;);
+    var buttonRight = document.querySelector(&quot;.button-right&quot;);
+    buttonLeft.addEventListener(&quot;click&quot;, function() {
+        this.switchClassName(1);
+    })
+    buttonRight.addEventListener(&quot;click&quot;, function() {
+        this.switchClassName(-1);
+    })
+}
 
-<p>垂直居中的效果就达成了！</p>
-<p>ok，用:before伪元素来实现也是一个很不错的做法，相比空div要更简洁一些。</p>
+Banner.prototype.switchClassName = function(direction) {
+    // 切换Class类名
+}
 
+Banner.prototype.destroy = function() {
+    //todo:解绑事件
+}
+
+//初始化
+var banner1 = new Banner();
+var banner2 = new Banner();
+
+//销毁
+banner1.destroy();
+banner2.destroy();
+</code></pre><p>棒，这样就可以轻松的使用多个banner，并通过调用<code>init</code>和<code>destroy</code>等生命周期方法来初始化和销毁组件了。</p>
+<blockquote>
+<p>生命周期<br>这是组件开发中的一个术语。如果把组件比作一个生物，我们设计的API，比如<code>init</code>和<code>destroy</code>就相当于这个生物的出生和死亡。一个组件从<code>init</code>被调用时被初始化，渲染到页面上，然后和用户发生交互，这时调用的方法也属于生命周期的一部分。用户界面随着用户的交互而发生变化，所以组件也不是一成不变的。生命周期方法其实就是在组件的某个阶段会被调用的方法。</p>
+</blockquote>
+<h3 id="模板和渲染"><a href="#模板和渲染" class="headerlink" title="模板和渲染"></a>模板和渲染</h3>
         
       </div>
     
@@ -190,26 +224,16 @@ color:blue&quot;&gt;
     
       <div class="post-footer">
         
-          <div class="post-tags">
-            
-              <a href="/tags/CSS/">
-                #CSS
-              </a>
-            
-          </div>
-        
 
         
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2015/07/25/ie-fix/">实战之IE兼容常见问题</a>
-              
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2015/05/23/Web-Animation-Using-Javascript-part-one/">Web Animation Using Javascript part one</a>
+                <a href="/2016/09/15/read-code/">《编码》导读</a>
               
             </div>
           </div>
@@ -309,7 +333,7 @@ color:blue&quot;&gt;
 
     
       <div class="post-toc sidebar-panel-active">
-        
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS"><span class="nav-number">1.</span> <span class="nav-text">JS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML"><span class="nav-number">2.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象大法"><span class="nav-number">3.</span> <span class="nav-text">面向对象大法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JS-1"><span class="nav-number">4.</span> <span class="nav-text">JS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板和渲染"><span class="nav-number">5.</span> <span class="nav-text">模板和渲染</span></a></li></ol>
       </div>
     
   </div>
