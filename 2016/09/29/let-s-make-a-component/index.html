@@ -59,7 +59,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          Home
+          Accueil
         </a>
       </li>
     
@@ -114,7 +114,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-09-29
+              Posté le 2016-09-29
             
           </span>
         
@@ -336,8 +336,8 @@ Banner.prototype.init = function(options) {
 <h3 id="API设计和抽象"><a href="#API设计和抽象" class="headerlink" title="API设计和抽象"></a>API设计和抽象</h3><p>到这里，我们的组件之旅就达到了一个阶段。我们对比一下就可以发现，传统的Backbone和jQuery UI的组件就是类似这种模式的。</p>
 <p>具体的说，首先你的组件是一个构造函数，你通过传入不同的配置来实例化不同的组件。不知道大家有没有发现，我们的组件以及<strong>不仅仅是一个Banner</strong>了，而是一个<strong>通用</strong>的组件。你通过传入不同的模板、数据、事件和回调来实例化不同的组件。可以是一个Banner，也可以是一个评论框等等。</p>
 <p>传统前端组件有着相似的生命周期API设计。比如初始化、渲染、销毁等。这个和前端组件的特点有关，就算是React或者Vue这样最新的技术，它的生命周期API也不外乎这几种，再加上一些和自己这个库运行流程相关的特有的API而已。</p>
-<p>模板是一种对DOM的封装。模板把我们从手动操纵DOM中解放出来。我们在传统的HTML基础上加入表达式和分支逻辑，让模板可以根据输入的数据渲染出相应的HTML字符串。这实际上就是讲HTML作为底层的细节封装起来。模板作为一种<strong>中间形态</strong>存在，是<strong>一种抽象</strong>。抽象，是计算机是、最<strong>本质</strong>的一种属性。我们在平时的API设计和编码时应该时刻牢记这一点，培养自己的抽象思维。</p>
-<p>下一篇会讲到如何讲我们的组件改造成数据驱动的模式，并将这个组件和Vue进行对比。</p>
+<p>模板是一种对DOM的封装。模板把我们从手动操纵DOM中解放出来。我们在传统的HTML基础上加入表达式和分支逻辑，让模板可以根据输入的数据渲染出相应的HTML字符串。这实际上就是将HTML作为底层的细节封装起来。模板作为一种<strong>中间形态</strong>存在，是<strong>一种抽象</strong>。抽象，是计算机最<strong>本质</strong>的一种属性。我们在平时的API设计和编码时应该牢记这一点，培养自己的抽象思维。</p>
+<p><a href="http://zxc0328.github.io/2016/09/30/let-s-build-a-component-2/" target="_blank" rel="external">下一篇</a>会讲到如何将我们的组件改造成数据驱动的模式，并将这个组件和Vue进行对比。</p>
 
         
       </div>
@@ -397,10 +397,10 @@ Banner.prototype.init = function(options) {
     
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
-          Table Of Contents
+          Table Des Matières
         </li>
         <li class="sidebar-nav-overview" data-target="site-overview">
-          Overview
+          Ensemble
         </li>
       </ul>
     
@@ -414,7 +414,7 @@ Banner.prototype.init = function(options) {
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
           <span class="site-state-item-count">25</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">articles</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
@@ -484,7 +484,7 @@ Banner.prototype.init = function(options) {
 </div>
 
 <div class="theme-info">
-  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  Thème - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 

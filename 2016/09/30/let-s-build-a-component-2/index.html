@@ -59,7 +59,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          Home
+          Accueil
         </a>
       </li>
     
@@ -114,7 +114,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-09-30
+              Posté le 2016-09-30
             
           </span>
         
@@ -130,7 +130,130 @@
         
 
         
-          <h3 id="数据驱动"><a href="#数据驱动" class="headerlink" title="数据驱动"></a>数据驱动</h3><h3 id="Vue-and-beyond"><a href="#Vue-and-beyond" class="headerlink" title="Vue and beyond"></a>Vue and beyond</h3>
+          <p>上一篇中我们实现了一个通用的组件模型。但这个模型在前端这种用户交互密集的应用场景下，会遇到更多的挑战。</p>
+<h3 id="数据驱动"><a href="#数据驱动" class="headerlink" title="数据驱动"></a>数据驱动</h3><p>你接到了这样一个需求，要在banner上加几个指示的圆点（indicator），当前页面是第几个页面，第几个圆点就会高亮。你想着这个需求很简单啊，刷刷刷就写好了。</p>
+<p><strong>HTML</strong></p>
+<pre><code>&lt;div class=&quot;banner&quot;&gt;
+    &lt;li&gt;
+        &lt;img src=&quot;{{ url1 }}&quot;/&gt;
+        &lt;img src=&quot;{{ url2 }}&quot;/&gt;
+    &lt;/li&gt;
+    &lt;div class=&quot;button-left&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;button-right&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;indicator&quot;&gt;
+        &lt;li class=&quot;item&quot;&gt;&lt;/li&gt;
+        &lt;li class=&quot;item&quot;&gt;&lt;/li&gt;
+        &lt;li class=&quot;item&quot;&gt;&lt;/li&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p><strong>JS</strong></p>
+<pre><code>import * as _ from &quot;utility&quot;
+
+var banner = new Banner({
+    el: document.querySelector(&quot;template&quot;),
+    data: {
+        index:0,
+        url1: &quot;/somewhere/1.jpg&quot;,
+        url2: &quot;/somewhere/2.jpg&quot;
+    },
+    events: {
+        &quot;.left-button.click&quot;: this.onSwitch.bind(this, 1),
+        &quot;.right-button.click&quot;: this.onSwitch.bind(this, -1)
+    },
+    methods: {
+        onSwitch: function(event, direction) {
+            // 切换banner逻辑    
+            data.index += direction
+            var indicators = document.querySelector(&quot;.indicator&quot;);
+            indicators.map( (item, index) =&gt; {
+                _.removeClass(item, &quot;hightLight&quot;);
+                if (index === data.index) {
+                    _.addClass(item, &quot;highLight&quot;);
+                }
+            })    
+        }
+    }
+})
+</code></pre><p>这的确可以实现我们想要的逻辑，但是看起来还是有点累赘。</p>
+<p><img src="https://pic1.zhimg.com/4f19d188d43babcf6362d2372307492c_b.jpg" alt=""></p>
+<p>如果我们能把一部分逻辑写在模板里，然后在组件中，只需要修改数据，模板就会进行对应的渲染，是不是很酷呢？</p>
+<p>这就是所谓的<strong>数据驱动</strong>。组件帮我们封装了底层的DOM操作细节。我们只需要声明组件的状态就可以了。用户的交互造成组件的状态改变，然后状态的改变又造成了DOM层面的重新渲染。组件就像是一个黑盒子，接收我们输入的数据，输出视图。计算机做的事情其实就是处理数据。因此，我们做这样的抽象，是非常<strong>符合本能的一种抽象</strong>。可以让我们集中精力来关注业务逻辑。同时也<strong>降低了前端组件的复杂度</strong>。</p>
+<p>那就让我们来试试吧。</p>
+<p><strong>HTML</strong></p>
+<pre><code>&lt;div class=&quot;banner&quot;&gt;
+    &lt;li&gt;
+        &lt;img src=&quot;{{ url }}&quot; for=&quot;url in urls&quot;/&gt;
+    &lt;/li&gt;
+    &lt;div class=&quot;button-left&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;button-right&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;indicator&quot; &gt;
+        &lt;li class=&quot;item&quot; 
+        class=&quot;{{ $index === index ? 'highLight' : 'normal' }}&quot;
+          for=&quot;url in urls&quot;&gt;&lt;/li&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p><strong>JS</strong></p>
+<pre><code>import * as _ from &quot;utility&quot;
+
+var banner = new Banner({
+    el: document.querySelector(&quot;template&quot;),
+    data: {
+        index:0,
+        url: [&quot;/somewhere/1.jpg&quot;, &quot;/somewhere/2.jpg&quot;]
+    },
+    events: {
+        &quot;.left-button.click&quot;: this.onSwitch.bind(this, 1),
+        &quot;.right-button.click&quot;: this.onSwitch.bind(this, -1)
+    },
+    methods: {
+        onSwitch: function(event, direction) {
+            // 切换banner逻辑    
+            data.index += direction //更新index
+            this.render() //重新渲染
+        }
+    }
+})
+</code></pre><blockquote>
+<p>这里有一个新的<code>for=&quot;url in urls&quot;</code>，我们把这个叫做指令。指令可以理解为为模板增加分支、循环等逻辑的标记。模板引擎在编译这个指令时就会按数据进行对应的渲染。这里用到的是循环指令，作用就是按给定的数据循环遍历，每遍历到一个就讲数据填充到模板中进行渲染。<code>$index</code>是这个指令中一个特殊的变量，代表当前遍历到的元素的下标。</p>
+</blockquote>
+<p>这样就清楚多啦。我们修改<code>data.index</code>，然后调用<code>this.render()</code>这个生命周期方法。不用操纵任何DOM节点。视图就更新了。是的，我们在某种程度上实现了数据驱动！</p>
+<h3 id="Vue-and-beyond"><a href="#Vue-and-beyond" class="headerlink" title="Vue and beyond"></a>Vue and beyond</h3><p>大家可以对比一下Vue的初始化：</p>
+<pre><code>new Vue({
+  el: &#39;#app&#39;,
+  data: {
+    message: &#39;Hello Vue.js!&#39;
+  },
+  methods: {
+    reverseMessage: function () {
+      this.message = this.message.split(&#39;&#39;).reverse().join(&#39;&#39;)
+    }
+  }
+})
+</code></pre><p>和我们的组件的初始化：</p>
+<pre><code>new Banner({
+    el: document.querySelector(&quot;template&quot;),
+    data: {
+        message: &#39;Hello Vue.js!&#39;
+    },
+    events: {
+        &quot;.some-button.click&quot;: this.oClick,
+    },
+    methods: {
+        onClick: function() {
+            // 业务逻辑
+        }
+    }
+})
+</code></pre><p>是不是很像呢，除了<code>events</code>这个选项。因为Vue把这些逻辑都放到指令中了，比如：</p>
+<p><code>&lt;button v-on:click=&quot;reverseMessage&quot;&gt;Reverse Message&lt;/button&gt;</code></p>
+<p>所以Vue的本质，就是一个用来构建用户界面的组件库。和我们一步步的设计API，调整模板，构建出来的这个组件，没有本质的区别。</p>
+<p>但Vue为什么好用呢？首先Vue有完善的指令系统，比如<code>v-for``v-for</code>和<code>v-if</code>等。其次是Vue实现了数据的双向绑定。双向绑定就是用户在界面上输入的数据，可以被同步到组件的状态中。刚才，我们在自己的组件中实现了将组件状态同步到界面，而双向绑定就以为着这个同步可以是反向的。</p>
+<blockquote>
+<p>双向绑定的实现是一个单独的话题。Angular使用的脏检查是一个流派。Vue使用<code>Object.defineProperty</code>API来实现。React倒是没有数据绑定的概念，不过React的Virtual DOM Diff从某种角度来说，其实也是脏检查。</p>
+</blockquote>
+<p>我们所实现的其实是一种粗犷的同步方式。并没有实现所谓的数据“绑定”。数据绑定就以为着为每个模板中被绑定的数据创建一个<code>Watcher</code>，这个<code>Watcher</code>决定数据变化时做什么操作。比如对于DOM中的表达式，<code>Watcher</code>就会对这个表达式重新求值，然后更新这个表达式所在的DOM节点的对应属性。</p>
+<p>按之前我们的做法，如果一个数据变动，就会造成整个组件的重新渲染。这样明显是低效的。数据绑定可以做到特定DOM节点的更新，这是目前前端组件的主流。</p>
+<h3 id="从MVC到MVVM"><a href="#从MVC到MVVM" class="headerlink" title="从MVC到MVVM"></a>从MVC到MVVM</h3>
         
       </div>
     
@@ -187,10 +310,10 @@
     
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc">
-          Table Of Contents
+          Table Des Matières
         </li>
         <li class="sidebar-nav-overview" data-target="site-overview">
-          Overview
+          Ensemble
         </li>
       </ul>
     
@@ -204,7 +327,7 @@
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
           <span class="site-state-item-count">25</span>
-          <span class="site-state-item-name">posts</span>
+          <span class="site-state-item-name">articles</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
@@ -247,7 +370,7 @@
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据驱动"><span class="nav-number">1.</span> <span class="nav-text">数据驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue-and-beyond"><span class="nav-number">2.</span> <span class="nav-text">Vue and beyond</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据驱动"><span class="nav-number">1.</span> <span class="nav-text">数据驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue-and-beyond"><span class="nav-number">2.</span> <span class="nav-text">Vue and beyond</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从MVC到MVVM"><span class="nav-number">3.</span> <span class="nav-text">从MVC到MVVM</span></a></li></ol>
       </div>
     
   </div>
@@ -274,7 +397,7 @@
 </div>
 
 <div class="theme-info">
-  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  Thème - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 
