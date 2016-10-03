@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-09-30T09:13:07.000Z</updated>
+  <updated>2016-10-03T03:17:57.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,10 +20,11 @@
     <link href="http://yoursite.com/2016/09/30/let-s-build-a-component-2/"/>
     <id>http://yoursite.com/2016/09/30/let-s-build-a-component-2/</id>
     <published>2016-09-30T02:34:07.000Z</published>
-    <updated>2016-09-30T09:13:07.000Z</updated>
+    <updated>2016-10-03T03:17:57.000Z</updated>
     
     <content type="html">&lt;p&gt;上一篇中我们实现了一个通用的组件模型。但这个模型在前端这种用户交互密集的应用场景下，会遇到更多的挑战。&lt;/p&gt;
 &lt;h3 id=&quot;数据驱动&quot;&gt;&lt;a href=&quot;#数据驱动&quot; class=&quot;headerlink&quot; title=&quot;数据驱动&quot;&gt;&lt;/a&gt;数据驱动&lt;/h3&gt;&lt;p&gt;你接到了这样一个需求，要在banner上加几个指示的圆点（indicator），当前页面是第几个页面，第几个圆点就会高亮。你想着这个需求很简单啊，刷刷刷就写好了。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;p&gt;&lt;strong&gt;HTML&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;&amp;lt;div class=&amp;quot;banner&amp;quot;&amp;gt;
     &amp;lt;li&amp;gt;
@@ -145,12 +146,14 @@ var banner = new Banner({
 &lt;/blockquote&gt;
 &lt;p&gt;我们所实现的其实是一种粗犷的同步方式。并没有实现所谓的数据“绑定”。数据绑定就以为着为每个模板中被绑定的数据创建一个&lt;code&gt;Watcher&lt;/code&gt;，这个&lt;code&gt;Watcher&lt;/code&gt;决定数据变化时做什么操作。比如对于DOM中的表达式，&lt;code&gt;Watcher&lt;/code&gt;就会对这个表达式重新求值，然后更新这个表达式所在的DOM节点的对应属性。&lt;/p&gt;
 &lt;p&gt;按之前我们的做法，如果一个数据变动，就会造成整个组件的重新渲染。这样明显是低效的。数据绑定可以做到特定DOM节点的更新，这是目前前端组件的主流。&lt;/p&gt;
-&lt;h3 id=&quot;从MVC到MVVM&quot;&gt;&lt;a href=&quot;#从MVC到MVVM&quot; class=&quot;headerlink&quot; title=&quot;从MVC到MVVM&quot;&gt;&lt;/a&gt;从MVC到MVVM&lt;/h3&gt;</content>
+&lt;h3 id=&quot;从MVC到MVVM&quot;&gt;&lt;a href=&quot;#从MVC到MVVM&quot; class=&quot;headerlink&quot; title=&quot;从MVC到MVVM&quot;&gt;&lt;/a&gt;从MVC到MVVM&lt;/h3&gt;&lt;p&gt;前端的MVC或者MVVM，View一般就指模板（模板可以看成是抽象的View，DOM则是这个抽象View的implementation detail）。我们的第一个组件构造器构造出来的对象其实是MVC中的Controller。里面的&lt;code&gt;data&lt;/code&gt;属性应该被单独拿出作为一个Model对象，这个对象可以通过观察者模式和Controller进行通信。&lt;/p&gt;
+&lt;p&gt;MVVM中的Model就是一个plain object，比如我们打造的组件中的&lt;code&gt;data&lt;/code&gt;。Vue这样的MVVM框架，Vue实例其实是MVVM中的VM，即ViewModel。Model，如上文说的，是一个挂载在&lt;code&gt;data&lt;/code&gt;属性上的普通的对象。我们修改这个对象，就会驱动View的更新。MVVM的独特处之一就在于此。MVVM的独特处之二就是，Model和View直接数据的双向绑定。VM和MVC中Controller的不同之处在于通信方式的不同。MVVM中各个部分的联动比较复杂，我们叫reactive system。MVC中的事件广播模式，主要是在组件之间的通信这个层面比较明显。&lt;/p&gt;
+</content>
     
     <summary type="html">
     
       &lt;p&gt;上一篇中我们实现了一个通用的组件模型。但这个模型在前端这种用户交互密集的应用场景下，会遇到更多的挑战。&lt;/p&gt;
-&lt;h3 id=&quot;数据驱动&quot;&gt;&lt;a href=&quot;#数据驱动&quot; class=&quot;headerlink&quot; title=&quot;数据驱动&quot;&gt;&lt;/a&gt;数据驱动&lt;/h3&gt;&lt;p&gt;你接到
+&lt;h3 id=&quot;数据驱动&quot;&gt;&lt;a href=&quot;#数据驱动&quot; class=&quot;headerlink&quot; title=&quot;数据驱动&quot;&gt;&lt;/a&gt;数据驱动&lt;/h3&gt;&lt;p&gt;你接到了这样一个需求，要在banner上加几个指示的圆点（indicator），当前页面是第几个页面，第几个圆点就会高亮。你想着这个需求很简单啊，刷刷刷就写好了。&lt;/p&gt;
     
     </summary>
     
