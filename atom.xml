@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-10-03T03:17:57.000Z</updated>
+  <updated>2016-10-03T08:08:53.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,41 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>猪场实习感受-项目管理</title>
+    <link href="http://yoursite.com/2016/10/03/project-management-in-netease/"/>
+    <id>http://yoursite.com/2016/10/03/project-management-in-netease/</id>
+    <published>2016-10-03T07:39:01.000Z</published>
+    <updated>2016-10-03T08:08:53.000Z</updated>
+    
+    <content type="html">&lt;p&gt;这次实习，我主要学到的倒不是前端方面的东西，而主要是关于一个产品的迭代的流程。&lt;/p&gt;
+&lt;p&gt;一个产品迭代的流程大致是这样的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/zindex/10031.png&quot; alt=&quot;产品流程&quot;&gt;&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;总的来说就是PM提出需求，交互出交互稿，然后这时研发和视觉可以同时开始进行。最后进行测试，测试通过后上线。这就是一个互联网产品版本迭代的过程。&lt;/p&gt;
+&lt;h3 id=&quot;时间规划&quot;&gt;&lt;a href=&quot;#时间规划&quot; class=&quot;headerlink&quot; title=&quot;时间规划&quot;&gt;&lt;/a&gt;时间规划&lt;/h3&gt;&lt;p&gt;在上一个版本的开发过程中，PM和各个负责人就可以开始讨论下一个版本的需求，然后项目经理和大家一起确定这个版本的研发、测试和上线的时间节点。这个时间一旦确定，就必须严格执行，如果有需求无法完成要移到下一个版本做，必须经各个负责人确认后向大家发邮件说明。&lt;/p&gt;
+&lt;h3 id=&quot;评审&quot;&gt;&lt;a href=&quot;#评审&quot; class=&quot;headerlink&quot; title=&quot;评审&quot;&gt;&lt;/a&gt;评审&lt;/h3&gt;&lt;p&gt;在我实习时，我作为开发，主要参加的就是交互的评审。这个评审的时间点在即将进入研发之前。其实主要就是交互设计师讲解交互稿，相关的开发人员提出自己的疑问，完善交互的可行性。&lt;/p&gt;
+&lt;p&gt;按理来说应该还有需求评审、设计评审和代码评审。这些在实习时，比如代码评审因为时间的原因，没有做。在木犀的项目实践中，我觉得我们可以加入这些评审。时间的节点在视觉和开发完成，即将进入测试之前。&lt;/p&gt;
+&lt;h3 id=&quot;JIRA&quot;&gt;&lt;a href=&quot;#JIRA&quot; class=&quot;headerlink&quot; title=&quot;JIRA&quot;&gt;&lt;/a&gt;JIRA&lt;/h3&gt;&lt;p&gt;JIRA是一款很有名的项目管理工具。在公司，我们一般是按需求创建Story，然后把交互、视觉和开发等任务关联到这个需求上。JIRA还有一个作用就是用来管理Bug。发现Bug的人可以提交Bug并指派给相关的责任人。JIRA有各种面板和筛选，可以方便的管理项目。&lt;/p&gt;
+&lt;p&gt;我们暂时可以用Tower的任务来发挥JIRA的作用。&lt;/p&gt;
+&lt;h3 id=&quot;测试&quot;&gt;&lt;a href=&quot;#测试&quot; class=&quot;headerlink&quot; title=&quot;测试&quot;&gt;&lt;/a&gt;测试&lt;/h3&gt;&lt;p&gt;测试主要是由专职的测试进行。测试负责编写测试用例，以及进行测试。&lt;/p&gt;
+&lt;p&gt;当然，开发人员自己的自测是第一道防线。在开发完全之后，会进行冒烟测试，由测试提供用例，开发自行测试。用例主要和这一个版本的需求有关，主要就是检测一下需求中的功能是否被实现。只有冒烟测试通过了，才能进入真正的测试阶段。&lt;/p&gt;
+&lt;p&gt;在测试人员进行测试的阶段。开发人员往往还要配合进行若干次的回归测试。同时要及时解决测试提出的Bug。&lt;/p&gt;
+&lt;p&gt;首先测试开发环境下的项目，然后是测试环境，最后是预发布环境。预发布环境测试通过且Bug都解决的情况下，就可以上线了。&lt;/p&gt;
+&lt;p&gt;对于我们这样的小团队来说，专职的测试是不太可能有的。主要就是在项目组中加入一位兼职的同学担任测试这个角色，然后各个模块的同学做到充分的自测。视觉、产品和交互进行走查（就是以用户的角度使用产品，来看是否有问题）。这样就可以保证较好的产品质量。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这次实习，我主要学到的倒不是前端方面的东西，而主要是关于一个产品的迭代的流程。&lt;/p&gt;
+&lt;p&gt;一个产品迭代的流程大致是这样的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/zindex/10031.png&quot; alt=&quot;产品流程&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>一个组件的诞生(下)</title>
@@ -2826,103 +2861,6 @@ filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#19fff
     
     
       <category term="兼容 实战" scheme="http://yoursite.com/tags/%E5%85%BC%E5%AE%B9-%E5%AE%9E%E6%88%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>最佳实践之多个高度不定水平实体垂直居中</title>
-    <link href="http://yoursite.com/2015/07/23/vertical-align-middle/"/>
-    <id>http://yoursite.com/2015/07/23/vertical-align-middle/</id>
-    <published>2015-07-23T14:35:05.000Z</published>
-    <updated>2015-07-25T10:09:25.000Z</updated>
-    
-    <content type="html">&lt;p&gt;如何快速并且健壮地实现高度不一定的实体的居中呢？  &lt;/p&gt;
-&lt;p&gt;vertical-align显然是一种办法。这个元素从语义上来看就是用来实现垂直对齐的。要理解vertical-align，首先我们得了解几个概念，inline boxes, line box, 以及baseline。  &lt;/p&gt;
-&lt;p&gt;inline boxes是行内元素构成的行内box，而line box则是由一行内所有的inline boxes构成的box，比如：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
-    &amp;lt;span&amp;gt;我是inline box&amp;lt;/span&amp;gt;
-    我是匿名inline box
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;除了display为inline或者inline-block的标签会形成inline box，行内文本也会形成匿名的inline box。&lt;/p&gt;
-&lt;p&gt;一行所有的inline boxes构成匿名的line box，其中inline box中高度最高的那个的高度便是line box的高度，由此撑起了整行的高度。（这涉及到line-height方面的知识）&lt;/p&gt;
-&lt;p&gt;而关于baseline，则是文字在排版时顶部与底部中间的基线，如果是行内文本，具体位置随字体不同而不同，一般都在中线以下的位置。具体的需要参考西文字体学（Typography）(Jobs在大学旁听的课程之一，你值得拥有)  &lt;/p&gt;
-&lt;p&gt;而line—height其实就是两条基线之间的距离。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/blog_7_24_1.png&quot; alt=&quot;baseline&quot;&gt;&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;对于inline-block级元素来说，基线的定义是这样的：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;The baseline of an &amp;#39;inline-block&amp;#39; is the baseline of its last line
-box in the normal flow, unless it has either no in-flow line boxes
-or if its &amp;#39;overflow&amp;#39; property has a computed value other than
-&amp;#39;visible&amp;#39;, in which case the baseline is the bottom margin edge.
-（CSS2.1 W3C）
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; 一般是正常文档流中的最后一个line box的基线。&lt;/p&gt;
-&lt;p&gt;我们面对的场景是这样的，一个高度固定的div，中间有数个高度不固定的div需要被垂直居中。让我们来看看vertical-align:middle的定义：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Align the vertical midpoint of the box with the baseline of the
-parent box plus half the x-height of the parent.（CSS2.1 W3C）
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; （元素）的垂直中点与父元素的基线加上x轴高度的一半对齐。&lt;/p&gt;
-&lt;p&gt; 听起来有点奇怪，什么是x-height呢，x-height其实就是上图中小写字母x占据的高度，西文字体中小写字母x占据了mean line和baseline直接的这段空间，也就是所谓的字面所在。&lt;/p&gt;
-&lt;p&gt; x这个字母恰好是镜面对称的，所以我们可以清楚的看到，vertical-align:middle就是将元素的中点对准x字母的中线，所以就形成了垂直居中的效果。&lt;/p&gt;
-&lt;p&gt; 好，现在我们来看实际的情况，我们有一个高度固定的div，然后内部有两个inline-block级的div，需要水平居中，这两个div的高度随机。&lt;/p&gt;
-&lt;p&gt; 代码：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div style=&amp;quot;height:300px;&amp;quot;&amp;gt;
-    &amp;lt;div style=&amp;quot;display:inline-block&amp;quot;&amp;gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&amp;lt;br&amp;gt;啊啊啊啊啊啊啊啊&amp;lt;/div&amp;gt;
-    &amp;lt;div style=&amp;quot;display:inline-block&amp;quot;&amp;gt;我是二号div&amp;lt;&amp;lt;/div&amp;gt;
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;div style=&quot;height:100px;background-color:blue&quot;&gt;&lt;div style=&quot;display:inline-block;background-color:red&quot;&gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊啊啊啊啊啊啊&lt;/div&gt;&lt;div style=&quot;display:inline-block;background-color:white&quot;&gt;我是二号div&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;这是默认情况，两个div的vertical-align被设置为baseline,可以看出两个div的baseline在一条线上。第一个div的baseline是最后一个line box的baseline。&lt;/p&gt;
-&lt;p&gt;那么父级元素div，一个块级元素，是否存在baseline呢？答案是否定的，在inline-block元素处于块极元素内部的情况下，vertical-align更多与同级inline-block元素的相互对齐有关，而和父级元素无关。&lt;/p&gt;
-&lt;p&gt;可以实验一下，我们把父级div设为inline-block，看看会发生什么事情。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div style=&amp;quot;display:inline-block;line-height:100px;background-
-color:blue&amp;quot;&amp;gt;
-    &amp;lt;div style=&amp;quot;display:inline-block;background-color:red&amp;quot;&amp;gt;
-    我是一号div，啊啊啊啊啊啊啊啊啊啊&amp;lt;br&amp;gt;啊啊啊啊啊啊啊啊
-    &amp;lt;/div&amp;gt;
-    &amp;lt;div style=&amp;quot;display:inline-block;background-color:white&amp;quot;&amp;gt;
-    我是二号div
-    &amp;lt;/div&amp;gt;
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;div style=&quot;display:inline-block;line-height:100px;background-color:blue;font-size:150px&quot;&gt;&lt;div style=&quot;display:inline-block;background-color:red;font-size:15px&quot;&gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊啊啊啊啊啊啊&lt;/div&gt;&lt;div style=&quot;display:inline-block;background-color:white;font-size:15px&quot;&gt;我是二号div&lt;/div&gt;X&lt;/div&gt;
-
-&lt;p&gt;这里我将父级div设为inline-block并且把line-height设为100px，因此其子元素的基线就和父元素的基线对齐了。我特意放了一个特大号的字，X的底部便是baseline了。&lt;/p&gt;
-&lt;p&gt;了解到这一点之后，我们便清楚了，父元素是块级元素的情况下，vertical-align只和同级元素有关。vertical-align:middle便是同级元素的中线相互对齐。&lt;/p&gt;
-&lt;p&gt;我们只需要一个空的div，它只起占位的作用，高度是100%，宽度是0，于是，其他高度小于父元素的子元素便会与这个占位元素的中线对齐，也就达到了垂直对齐。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div style=&amp;quot;height:100px;background-color:blue;font-size:0&amp;quot;&amp;gt;
-    &amp;lt;div style=&amp;quot;height:100%;width:0;display:inline-block;vertical-
-    align:middle&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
-    &amp;lt;div style=&amp;quot;display:inline-block;background-color:red;font-size:
-    15px;vertical-align:middle&amp;quot;&amp;gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&amp;lt;br&amp;gt;啊啊
-    啊啊啊啊啊啊&amp;lt;/div&amp;gt;
-    &amp;lt;div style=&amp;quot;display:inline-block;background-color:white;font-
-    size:15px;vertical-align:middle&amp;quot;&amp;gt;我是二号div&amp;lt;/div&amp;gt;
-   &amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;div style=&quot;height:100px;background-color:blue;font-size:0&quot;&gt;&lt;div style=&quot;height:100%;width:0;display:inline-block;vertical-align:middle&quot;&gt;&lt;/div&gt;&lt;div style=&quot;display:inline-block;background-color:red;font-size:15px;vertical-align:middle&quot;&gt;我是一号div，啊啊啊啊啊啊啊啊啊啊&lt;br&gt;啊啊啊啊啊啊啊啊&lt;/div&gt;&lt;div style=&quot;display:inline-block;background-color:white;font-size:15px;vertical-align:middle&quot;&gt;我是二号div&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;垂直居中的效果就达成了！&lt;/p&gt;
-&lt;p&gt;ok，用:before伪元素来实现也是一个很不错的做法，相比空div要更简洁一些。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;如何快速并且健壮地实现高度不一定的实体的居中呢？  &lt;/p&gt;
-&lt;p&gt;vertical-align显然是一种办法。这个元素从语义上来看就是用来实现垂直对齐的。要理解vertical-align，首先我们得了解几个概念，inline boxes, line box, 以及baseline。  &lt;/p&gt;
-&lt;p&gt;inline boxes是行内元素构成的行内box，而line box则是由一行内所有的inline boxes构成的box，比如：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div&amp;gt;
-    &amp;lt;span&amp;gt;我是inline box&amp;lt;/span&amp;gt;
-    我是匿名inline box
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;除了display为inline或者inline-block的标签会形成inline box，行内文本也会形成匿名的inline box。&lt;/p&gt;
-&lt;p&gt;一行所有的inline boxes构成匿名的line box，其中inline box中高度最高的那个的高度便是line box的高度，由此撑起了整行的高度。（这涉及到line-height方面的知识）&lt;/p&gt;
-&lt;p&gt;而关于baseline，则是文字在排版时顶部与底部中间的基线，如果是行内文本，具体位置随字体不同而不同，一般都在中线以下的位置。具体的需要参考西文字体学（Typography）(Jobs在大学旁听的课程之一，你值得拥有)  &lt;/p&gt;
-&lt;p&gt;而line—height其实就是两条基线之间的距离。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/blog_7_24_1.png&quot; alt=&quot;baseline&quot;&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="CSS" scheme="http://yoursite.com/categories/CSS/"/>
-    
-    
-      <category term="CSS" scheme="http://yoursite.com/tags/CSS/"/>
     
   </entry>
   

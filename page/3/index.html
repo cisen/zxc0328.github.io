@@ -61,7 +61,7 @@
       <li class="menu-item menu-item-home">
         <a href="/">
           <i class="menu-item-icon icon-home"></i> <br />
-          Accueil
+          Home
         </a>
       </li>
     
@@ -108,6 +108,91 @@
           
           
             
+              <a class="post-title-link" href="/2015/07/23/vertical-align-middle/">
+                最佳实践之多个高度不定水平实体垂直居中
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+          <span class="post-time">
+            
+              Posted on 2015-07-23
+            
+          </span>
+        
+          
+        
+      </div>
+    </div>
+
+    
+      <div class="post-body">
+
+        
+        
+
+        
+          
+            <p>如何快速并且健壮地实现高度不一定的实体的居中呢？  </p>
+<p>vertical-align显然是一种办法。这个元素从语义上来看就是用来实现垂直对齐的。要理解vertical-align，首先我们得了解几个概念，inline boxes, line box, 以及baseline。  </p>
+<p>inline boxes是行内元素构成的行内box，而line box则是由一行内所有的inline boxes构成的box，比如：</p>
+<pre><code>&lt;div&gt;
+    &lt;span&gt;我是inline box&lt;/span&gt;
+    我是匿名inline box
+&lt;/div&gt;
+</code></pre><p>除了display为inline或者inline-block的标签会形成inline box，行内文本也会形成匿名的inline box。</p>
+<p>一行所有的inline boxes构成匿名的line box，其中inline box中高度最高的那个的高度便是line box的高度，由此撑起了整行的高度。（这涉及到line-height方面的知识）</p>
+<p>而关于baseline，则是文字在排版时顶部与底部中间的基线，如果是行内文本，具体位置随字体不同而不同，一般都在中线以下的位置。具体的需要参考西文字体学（Typography）(Jobs在大学旁听的课程之一，你值得拥有)  </p>
+<p>而line—height其实就是两条基线之间的距离。</p>
+<p><img src="http://7oxh2b.com1.z0.glb.clouddn.com/blog_7_24_1.png" alt="baseline"></p>
+            <div class="post-more-link text-center">
+              <a class="btn" href="/2015/07/23/vertical-align-middle/#more">
+                Read more &raquo;
+              </a>
+            </div>
+          
+        
+      </div>
+    
+
+    
+      <div class="post-footer">
+        
+          <div class="post-tags">
+            
+              <a href="/tags/CSS/">
+                #CSS
+              </a>
+            
+          </div>
+        
+
+        
+
+        
+        
+          <div class="post-eof"></div>
+        
+      </div>
+    
+  </div>
+
+
+  
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/2015/05/23/Web-Animation-Using-Javascript-part-one/">
                 Web Animation Using Javascript part one
               </a>
@@ -119,7 +204,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posté le 2015-05-23
+              Posted on 2015-05-23
             
           </span>
         
@@ -140,7 +225,7 @@
 <p>不过抛开你现有的知识，本章中对特性的井井有条的分类将会向你介绍动画引擎行为的细微差别。掌握这些细微差别将会帮助你从新手成为专业人士。即使你已经对jQuery动画和Velocity.js相当熟悉了，也给自己一个机会，快速浏览本章。<strong>你必定会发现一些你没意识到的可行之事。</strong><br>
             <div class="post-more-link text-center">
               <a class="btn" href="/2015/05/23/Web-Animation-Using-Javascript-part-one/#more">
-                Lire la suite &raquo;
+                Read more &raquo;
               </a>
             </div>
           
@@ -194,7 +279,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posté le 2015-05-21
+              Posted on 2015-05-21
             
           </span>
         
@@ -215,7 +300,7 @@
 <p>自从文明的曙光降临以来，人类一直在斗争,对抗一切不可能之事，来达到人类进化的下一个阶段；去在这个伟大的星球上，以及环绕我们的宇宙中圈出自己的地盘；勇敢的进军任何地点…噢，原谅我这么夸张。</p>
             <div class="post-more-link text-center">
               <a class="btn" href="/2015/05/21/centering-all-the-directions/#more">
-                Lire la suite &raquo;
+                Read more &raquo;
               </a>
             </div>
           
@@ -269,7 +354,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posté le 2015-05-19
+              Posted on 2015-05-19
             
           </span>
         
@@ -289,7 +374,7 @@
             <p>读老道(Douglas Crockford)的《Javascript:The Good Parts》中关于array.splice()方法的实现代码，现在自己加一些注释。  </p>
             <div class="post-more-link text-center">
               <a class="btn" href="/2015/05/19/读书笔记_1/#more">
-                Lire la suite &raquo;
+                Read more &raquo;
               </a>
             </div>
           
@@ -343,7 +428,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posté le 2015-05-12
+              Posted on 2015-05-12
             
           </span>
         
@@ -364,7 +449,7 @@
 <p>首先要说的是css的像素，一个css像素，一个px，和设备的物理像素不是一回事。<br>拿苹果的iphone来说，iphone3的分辨率是320*480，而retina屏的iphone4是640*960,  但如果在浏览器里输出视窗的宽度，两者都是320px宽。这说明Retina屏的iPhone用4个物理像素来渲染了一个css像素。iPad上的情况是相似的，新老ipad的css分辨率都是1024*768。安卓上的情况也是类似的，比如nexus 5的物理分辨率是1920*1080，而css分辨率是640*360。  关于这个可以参考一下<a href="http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html">quirksmode上的博文《此像素非彼像素》</a><br>
             <div class="post-more-link text-center">
               <a class="btn" href="/2015/05/12/css像素与理想viewport宽度/#more">
-                Lire la suite &raquo;
+                Read more &raquo;
               </a>
             </div>
           
@@ -418,7 +503,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posté le 2015-03-27
+              Posted on 2015-03-27
             
           </span>
         
@@ -438,7 +523,7 @@
             <p>今天托房子学姐的福，我们一行8个人去了联创交流。收获如下：<br>1.招新之道。<br>联创的招新可谓是九九八十一难。几轮面试笔试压力测试加上实习期的四轮新手任务。这也是没办法的事情，报名的人多，而且据他们说也都不怎么有基础，那就需要不断的测试来筛选有潜力的。<br>新手任务我认为是可取的一个点。在不断的自我学习中获得成长，也得到了初步的知识与技能，不失为一个启动的好办法。<br>2.待客之道。<br>联创的人给人的印象是热情坦诚，愿意分享，但不失专业。<br>
             <div class="post-more-link text-center">
               <a class="btn" href="/2015/03/27/联创交流行/#more">
-                Lire la suite &raquo;
+                Read more &raquo;
               </a>
             </div>
           
@@ -502,8 +587,8 @@
       <p class="site-description motion-element"></p>
       <div class="site-state motion-element">
         <div class="site-state-item site-state-posts">
-          <span class="site-state-item-count">25</span>
-          <span class="site-state-item-name">articles</span>
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">posts</span>
         </div>
         <div class="site-state-item site-state-tags">
             <span class="site-state-item-count">16</span>
@@ -569,7 +654,7 @@
 </div>
 
 <div class="theme-info">
-  Thème - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
+  Theme - <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT</a>
 </div>
 
 
