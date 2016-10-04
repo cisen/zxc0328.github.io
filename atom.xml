@@ -427,7 +427,7 @@ Banner.prototype.init = function(options) {
     <link href="http://yoursite.com/2016/09/15/read-code/"/>
     <id>http://yoursite.com/2016/09/15/read-code/</id>
     <published>2016-09-15T10:32:05.000Z</published>
-    <updated>2016-09-30T02:45:38.000Z</updated>
+    <updated>2016-10-03T11:40:58.000Z</updated>
     
     <content type="html">&lt;p&gt;《编码》这本书被列了入我们团队技术方向培养方案的必读书目，可见这本书的地位。因此，我觉得有必要来撰写一篇导读，来帮助大家看透一些问题，把这本书上的知识和课本中的知识对应起来，并且形成一个体系。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -440,7 +440,9 @@ Banner.prototype.init = function(options) {
 &lt;p&gt;你了解了CPU的指令集，和CPU的工作方式，你就理解为什么我们在程序运行时需要“栈”这个数据结构。&lt;/p&gt;
 &lt;p&gt;你了解了字符的编码以及浮点数的编码，你就不会奇怪于为什么&lt;code&gt;0.1+0.2&lt;/code&gt;不等于&lt;code&gt;0.3&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;我们要关注的主要是如何用编码来抽象问题。比如用二进制来表示数据，进行运算。比如用指令来对CPU进行编程。比如&lt;/p&gt;
-&lt;h3 id=&quot;第一章：至亲密友、第二章：编码与组合与第三章：布莱叶盲文与二进制码&quot;&gt;&lt;a href=&quot;#第一章：至亲密友、第二章：编码与组合与第三章：布莱叶盲文与二进制码&quot; class=&quot;headerlink&quot; title=&quot;第一章：至亲密友、第二章：编码与组合与第三章：布莱叶盲文与二进制码&quot;&gt;&lt;/a&gt;第一章：至亲密友、第二章：编码与组合与&lt;code&gt;第三章：布莱叶盲文与二进制码&lt;/code&gt;&lt;/h3&gt;&lt;h3 id=&quot;第四章：手电筒的剖析、第五章：绕过拐角的通信&quot;&gt;&lt;a href=&quot;#第四章：手电筒的剖析、第五章：绕过拐角的通信&quot; class=&quot;headerlink&quot; title=&quot;第四章：手电筒的剖析、第五章：绕过拐角的通信&quot;&gt;&lt;/a&gt;第四章：手电筒的剖析、第五章：绕过拐角的通信&lt;/h3&gt;&lt;h3 id=&quot;第十章：逻辑与开关与第十一章：门&quot;&gt;&lt;a href=&quot;#第十章：逻辑与开关与第十一章：门&quot; class=&quot;headerlink&quot; title=&quot;第十章：逻辑与开关与第十一章：门&quot;&gt;&lt;/a&gt;第十章：逻辑与开关与第十一章：门&lt;/h3&gt;&lt;p&gt;第十章首先介绍的内容是：布尔代数。&lt;/p&gt;
+&lt;h3 id=&quot;第一章：至亲密友、第二章：编码与组合和第三章：布莱叶盲文与二进制码&quot;&gt;&lt;a href=&quot;#第一章：至亲密友、第二章：编码与组合和第三章：布莱叶盲文与二进制码&quot; class=&quot;headerlink&quot; title=&quot;第一章：至亲密友、第二章：编码与组合和第三章：布莱叶盲文与二进制码&quot;&gt;&lt;/a&gt;第一章：至亲密友、第二章：编码与组合和第三章：布莱叶盲文与二进制码&lt;/h3&gt;&lt;p&gt;前几章就举了几个编码的例子，让你知道——编码可以用来传递信息。然后布莱叶盲文是一种二进制的编码，因为和计算机的二进制特点符合，所以被拉出来讲了。接下去几章就是铺垫一些电学基础，让你知道我们可以用开关的开和闭，来表示1和0的编码。这样后面就可以借助这个特性，拿开关和电线来组装计算机了。&lt;/p&gt;
+&lt;h3 id=&quot;第四章：手电筒的剖析、第五章：绕过拐角的通信&quot;&gt;&lt;a href=&quot;#第四章：手电筒的剖析、第五章：绕过拐角的通信&quot; class=&quot;headerlink&quot; title=&quot;第四章：手电筒的剖析、第五章：绕过拐角的通信&quot;&gt;&lt;/a&gt;第四章：手电筒的剖析、第五章：绕过拐角的通信&lt;/h3&gt;&lt;p&gt;第五章里最重要的概念就是接地。大地电阻很大，但大地是导体。电子只要流动就能形成电能，电子是哪里来的？是不是一个环路？这个不重要。接地处电子往大地那里移动，电势就低。电池那边的电子就可以往接地处移动了。&lt;br&gt;有人说，那我一个电路，中间拿掉一个导线，为什么不能接通？因为空气的电阻太大了··· 电子没法移动到空气中。&lt;/p&gt;
+&lt;h3 id=&quot;第十章：逻辑与开关与第十一章：门&quot;&gt;&lt;a href=&quot;#第十章：逻辑与开关与第十一章：门&quot; class=&quot;headerlink&quot; title=&quot;第十章：逻辑与开关与第十一章：门&quot;&gt;&lt;/a&gt;第十章：逻辑与开关与第十一章：门&lt;/h3&gt;&lt;p&gt;第十章首先介绍的内容是：布尔代数。&lt;/p&gt;
 &lt;p&gt;布尔代数，其实在我们的《离散数学》课里就接触过。&lt;em&gt;注：如果没学过离散数学，可以买《离散数学及其应用》这本书学习，这里说到的形式逻辑主要指命题逻辑&lt;/em&gt;《离散数学》里一开始讲的逻辑，比如这种形式的：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/3ad862b103437f908a58b008703464bea93a1ef2&quot; alt=&quot;命题逻辑&quot;&gt;&lt;/p&gt;
 &lt;p&gt;我们知道一个命题可能是真（T），也可能是假（F）。那如果我们把T和F换成1和0，然后将命题逻辑中的合取，析取，否定等关系换了一种表示形式，这就成了布尔代数。&lt;/p&gt;
