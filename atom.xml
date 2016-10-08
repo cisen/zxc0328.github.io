@@ -427,7 +427,7 @@ Banner.prototype.init = function(options) {
     <link href="http://yoursite.com/2016/09/15/read-code/"/>
     <id>http://yoursite.com/2016/09/15/read-code/</id>
     <published>2016-09-15T10:32:05.000Z</published>
-    <updated>2016-10-03T11:40:58.000Z</updated>
+    <updated>2016-10-08T15:25:10.000Z</updated>
     
     <content type="html">&lt;p&gt;《编码》这本书被列了入我们团队技术方向培养方案的必读书目，可见这本书的地位。因此，我觉得有必要来撰写一篇导读，来帮助大家看透一些问题，把这本书上的知识和课本中的知识对应起来，并且形成一个体系。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -464,7 +464,10 @@ Banner.prototype.init = function(options) {
 &lt;/blockquote&gt;
 &lt;p&gt;《编码》里只是简单的介绍了布尔代数和门电路，没有深入的介绍电路的设计。这是比较明智的，因为如何设计电路不是我们要关心的话题。《数字逻辑》中在电路设计这块涉及的还有功能表到布尔表达式的转换，布尔表达式的化简等等。有兴趣的同学可以了解一下。&lt;/p&gt;
 &lt;p&gt;总结一下，这两章对我们最大的启发就是：逻辑电路设计的理论基础是布尔代数。布尔代数可以用逻辑电路进行等价表示。而逻辑电路则是计算机所有硬件的基础。&lt;/p&gt;
-&lt;h3 id=&quot;第十八章：从算盘到芯片&quot;&gt;&lt;a href=&quot;#第十八章：从算盘到芯片&quot; class=&quot;headerlink&quot; title=&quot;第十八章：从算盘到芯片&quot;&gt;&lt;/a&gt;第十八章：从算盘到芯片&lt;/h3&gt;</content>
+&lt;h3 id=&quot;第十八章：从算盘到芯片&quot;&gt;&lt;a href=&quot;#第十八章：从算盘到芯片&quot; class=&quot;headerlink&quot; title=&quot;第十八章：从算盘到芯片&quot;&gt;&lt;/a&gt;第十八章：从算盘到芯片&lt;/h3&gt;&lt;h3 id=&quot;第二十五章：图形化革命&quot;&gt;&lt;a href=&quot;#第二十五章：图形化革命&quot; class=&quot;headerlink&quot; title=&quot;第二十五章：图形化革命&quot;&gt;&lt;/a&gt;第二十五章：图形化革命&lt;/h3&gt;&lt;p&gt;这章与其说是在讲图形化革命，不如说是PC多媒体方向的发展史。&lt;/p&gt;
+&lt;p&gt;当然首先提到的还是图形化革命。这里有一个很重要的概念就是人机交互界面（GUI）。在打孔机时代，人机交互的实现主要是，通过纸带或者各种开关进行输入，然后经过计算机批处理之后输出。&lt;/p&gt;
+&lt;p&gt;最早实现&lt;/p&gt;
+</content>
     
     <summary type="html">
     
