@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-10-03T08:08:53.000Z</updated>
+  <updated>2016-11-13T08:21:56.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,157 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vue-finger</title>
+    <link href="http://yoursite.com/2016/11/13/vue-finger/"/>
+    <id>http://yoursite.com/2016/11/13/vue-finger/</id>
+    <published>2016-11-13T08:21:56.000Z</published>
+    <updated>2016-11-13T08:21:56.000Z</updated>
+    
+    <content type="html"></content>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>聊聊CSS Modules</title>
+    <link href="http://yoursite.com/2016/11/12/css-modules/"/>
+    <id>http://yoursite.com/2016/11/12/css-modules/</id>
+    <published>2016-11-12T12:02:32.000Z</published>
+    <updated>2016-11-13T09:22:46.000Z</updated>
+    
+    <content type="html">&lt;h3 id=&quot;CSS在工程化上的一些问题&quot;&gt;&lt;a href=&quot;#CSS在工程化上的一些问题&quot; class=&quot;headerlink&quot; title=&quot;CSS在工程化上的一些问题&quot;&gt;&lt;/a&gt;CSS在工程化上的一些问题&lt;/h3&gt;&lt;p&gt;关于React的CSS in JS，有一个&lt;a href=&quot;https://speakerdeck.com/vjeux/react-css-in-js&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;著名的talk&lt;/a&gt;，由Facebook的工程师&lt;a href=&quot;https://github.com/vjeux&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;vjeux&lt;/a&gt;带来。&lt;/p&gt;
+&lt;p&gt;里面最有名的一张slide是这样的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/zindex/Screen%20Shot%202016-11-13%20at%204.28.31%20PM.png&quot; alt=&quot;css in js&quot;&gt;&lt;/p&gt;
+&lt;p&gt;里面列举了CSS的一些问题。其中，Dead Code Elimination，Minification，和Sharing Constants这些问题我们已经通过在我们的工作流中加入SASS和PostCSS这样的CSS预处理器解决了。&lt;/p&gt;
+&lt;p&gt;然而还有一些问题没有解决，比如全局命名空间。同一个document下的所有CSS的类名，都是在同一个“作用域”下的，因此我们常常要考虑如何避免命名冲突问题。现有的解决办法主要是靠BEM这样的命名惯例，或者是用多层CSS父子选择器来模拟命名空间。然而这样的办法对工程师有许多的限制。多级选择器有比较高的优先级，不容易维护。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;解决全局作用域：Webpack-css-loader&quot;&gt;&lt;a href=&quot;#解决全局作用域：Webpack-css-loader&quot; class=&quot;headerlink&quot; title=&quot;解决全局作用域：Webpack css-loader&quot;&gt;&lt;/a&gt;解决全局作用域：Webpack css-loader&lt;/h3&gt;&lt;p&gt;Webpack的css-loader首先做出了解决全局作用域的尝试。解决办法就是在写CSS类名时加入&lt;code&gt;:local(...)&lt;/code&gt;这样的标记。&lt;/p&gt;
+&lt;p&gt;比如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;:local(.className) { background: red; }
+:local .className { color: green; }
+:local(.className .subClass) { color: green; }
+:local .className .subClass :global(.global-class-name) { color: blue; }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;会被转化为：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;._23_aKvs-b8bW2Vg3fwHozO { background: red; }
+._23_aKvs-b8bW2Vg3fwHozO { color: green; }
+._23_aKvs-b8bW2Vg3fwHozO ._13LGdX8RMStbBE9w-t0gZ1 { color: green; }
+._23_aKvs-b8bW2Vg3fwHozO ._13LGdX8RMStbBE9w-t0gZ1 .global-class-name { color: blue; }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里的办法就是把CSS类名转化为hash字符串，这样就可以保证每个类名都是独一无二的，自然也就不用在意命名冲突的问题了。只要在类名在当前模块内不会相互冲突就可以了。&lt;/p&gt;
+&lt;h3 id=&quot;CSS-Modules&quot;&gt;&lt;a href=&quot;#CSS-Modules&quot; class=&quot;headerlink&quot; title=&quot;CSS Modules&quot;&gt;&lt;/a&gt;CSS Modules&lt;/h3&gt;&lt;p&gt;上述的办法，还是有一些不便。大多数情况下，比如在JavaScript中，变量都默认是局部变量。你想要声明一个全局变量，只能去全局作用域声明，或者把变量挂到local上（非严格模式下，不写var声明的是全局变量这种坑就不说了）。&lt;/p&gt;
+&lt;p&gt;Webpack的开发者之后将css-loader中的local变成了默认设定，于是CSS Modules这个规范就呼之欲出了。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/css-modules/css-modules&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CSS Modules规范&lt;/a&gt;。我们可以通过&lt;code&gt;css-loader?modules&lt;/code&gt;这个参数来开启CSS Modules。&lt;/p&gt;
+&lt;p&gt;CSS Modules中的类名默认就是local的，如果你想要声明全局类名，可以加上&lt;code&gt;:global(...)&lt;/code&gt;这个标记。&lt;/p&gt;
+&lt;h3 id=&quot;Single-Responsibility-Principle&quot;&gt;&lt;a href=&quot;#Single-Responsibility-Principle&quot; class=&quot;headerlink&quot; title=&quot;Single Responsibility Principle&quot;&gt;&lt;/a&gt;Single Responsibility Principle&lt;/h3&gt;&lt;p&gt;讲CSS Modules的下一个特性之前。我们先聊点其他的，我们知道设计模式中有一条叫做Single Responsibility Principle。&lt;/p&gt;
+&lt;p&gt;比如我们有一个button：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.button {
+    display:inline-block;
+    padding:2em;
+    background-color:red;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;与其把这些属性写在一个class里，我们可以把它拆分成多个单独的class：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.button {
+    display:inline-block;
+}
+.button--large{
+    padding:2em;
+}
+.button--warnning{
+    background-color:red;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后在HTML中组合使用就可以了。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;button class=&amp;quot;button button--large button--warnning&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这样的好处是什么呢？我们的UI中，一个组件往往有很多不同的状态。如果我们将每一个class写成只专注于一个属性，做好一件事，那就可以用这些class组合成所有我们想要的不同状态的组件。相比给每个状态的组件写一个单独的class，代码要更优雅简洁一些。&lt;/p&gt;
+&lt;p&gt;比如我们想要一个small尺寸的普通button，只要加两个class:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.button {
+    display:inline-block;
+}
+.button--small{
+    padding:1em;
+}
+.button--large{
+    padding:2em;
+}
+.button--normal{
+    background-color:blue;
+}
+.button--warnning{
+    background-color:red;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后组合就可以了：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;button class=&amp;quot;button button--small button--normal&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;CSS-Classes-Composing&quot;&gt;&lt;a href=&quot;#CSS-Classes-Composing&quot; class=&quot;headerlink&quot; title=&quot;CSS Classes Composing&quot;&gt;&lt;/a&gt;CSS Classes Composing&lt;/h3&gt;&lt;p&gt;要想实现上述的这种组合，可以使用SASS的Mixin，但Mixin主要是提供了源代码中的抽象，最后生成的代码，和手写不同状态class的代码量，是一样的。&lt;/p&gt;
+&lt;p&gt;CSS Modules提供的Classes Composing则刚好可以满足我们的需求。&lt;/p&gt;
+&lt;p&gt;比如我们想渲染一段文字：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.text{
+  font-size: 20px;
+  composes: red from &amp;quot;./common/color.css&amp;quot;;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;color.css里是这样的&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.red{
+    color: red;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;最后渲染出的class是这样的&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&amp;quot;App-text-2AEnE_0 color-red-3ag3h_0&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;composes&lt;/code&gt;引入的类被作为一个单独的class引入，而不是和text类合在一起。&lt;/p&gt;
+&lt;h3 id=&quot;CSS-Modules和Vue工作流的整合&quot;&gt;&lt;a href=&quot;#CSS-Modules和Vue工作流的整合&quot; class=&quot;headerlink&quot; title=&quot;CSS Modules和Vue工作流的整合&quot;&gt;&lt;/a&gt;CSS Modules和Vue工作流的整合&lt;/h3&gt;&lt;p&gt;Vue-loader在v9.8.0之后加入了对CSS Modules的支持。&lt;/p&gt;
+&lt;p&gt;我们只要在&lt;code&gt;.vue&lt;/code&gt;文件的&lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt;处加一个&lt;code&gt;module&lt;/code&gt;就行&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;style lang=&amp;quot;sass&amp;quot; module&amp;gt;
+.text{
+  font-size: 20px;
+  composes: red from &amp;quot;sass!./common/color.scss&amp;quot;;
+}
+&amp;lt;/style&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里有一点要注意，就是&lt;code&gt;composes&lt;/code&gt;引入的如果是需要预处理器处理的，要在前面加上预处理器的标记，比如SASS用户就加上&lt;code&gt;sass!&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;如果需要对CSS Modules进行一些配置（其实这个是对Webpack的css-loader的配置，所以配置时可以参考&lt;a href=&quot;https://github.com/webpack/css-loader&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;css-loader的文档&lt;/a&gt;），写在vue-loader的配置的&lt;code&gt;cssModules&lt;/code&gt;属性里即可&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;loader: &amp;#39;vue&amp;#39;,
+options: {
+    cssModules: {
+        localIdentName: &amp;#39;[name]-[local]-[hash:base64:5]&amp;#39;,
+        camelCase: true
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;vue-loader会自动将一个&lt;code&gt;$style&lt;/code&gt;属性注入到对应的Vue实例中。在模板中用class binding语法写就可以了。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;template&amp;gt;
+  &amp;lt;div :class=&amp;quot;$style.app&amp;quot;&amp;gt;
+    &amp;lt;div :class=&amp;quot;$style.text&amp;quot;&amp;gt;
+      some text
+    &amp;lt;/div&amp;gt;
+    &amp;lt;main-text&amp;gt;&amp;lt;/main-text&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/template&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;$style&lt;/code&gt;其实是一个原class名和处理之后class名的hash，像这样：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  app: &amp;quot;App-app-3cl75_0&amp;quot;,
+  text: &amp;quot;App-text-2AEnE_0 color-red-3ag3h_0&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我写一了一个简单的&lt;a href=&quot;https://github.com/zxc0328/css-modules-demo&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DEMO仓库&lt;/a&gt;，可以供参考。&lt;/p&gt;
+&lt;h3 id=&quot;结语&quot;&gt;&lt;a href=&quot;#结语&quot; class=&quot;headerlink&quot; title=&quot;结语&quot;&gt;&lt;/a&gt;结语&lt;/h3&gt;&lt;p&gt;CSS Modules可以解决全局作用域和Class组合两个问题，加上SASS等预处理器，着实让我们在写CSS时的工程化程度大大提高了。&lt;/p&gt;
+&lt;p&gt;对于使用Vue的同学来说，vue-loader可以使CSS Modules可以轻松的整合到已有的工作流中。如果你正在使用Vue，可以试试使用CSS Modules。&lt;/p&gt;
+&lt;h3 id=&quot;Links&quot;&gt;&lt;a href=&quot;#Links&quot; class=&quot;headerlink&quot; title=&quot;Links&quot;&gt;&lt;/a&gt;Links&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://glenmaddern.com/articles/css-modules&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CSS Modules Welcome to the Future&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=zR1lOuyQEt8&amp;amp;index=29&amp;amp;list=LLHdx8Qwo6uxw0fj3gQ5yeTg&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;The case for CSS modules - Mark Dalgleish&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://speakerdeck.com/vjeux/react-css-in-js&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;React: CSS in JS by vjeux&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;CSS在工程化上的一些问题&quot;&gt;&lt;a href=&quot;#CSS在工程化上的一些问题&quot; class=&quot;headerlink&quot; title=&quot;CSS在工程化上的一些问题&quot;&gt;&lt;/a&gt;CSS在工程化上的一些问题&lt;/h3&gt;&lt;p&gt;关于React的CSS in JS，有一个&lt;a href=&quot;https://speakerdeck.com/vjeux/react-css-in-js&quot;&gt;著名的talk&lt;/a&gt;，由Facebook的工程师&lt;a href=&quot;https://github.com/vjeux&quot;&gt;vjeux&lt;/a&gt;带来。&lt;/p&gt;
+&lt;p&gt;里面最有名的一张slide是这样的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/zindex/Screen%20Shot%202016-11-13%20at%204.28.31%20PM.png&quot; alt=&quot;css in js&quot;&gt;&lt;/p&gt;
+&lt;p&gt;里面列举了CSS的一些问题。其中，Dead Code Elimination，Minification，和Sharing Constants这些问题我们已经通过在我们的工作流中加入SASS和PostCSS这样的CSS预处理器解决了。&lt;/p&gt;
+&lt;p&gt;然而还有一些问题没有解决，比如全局命名空间。同一个document下的所有CSS的类名，都是在同一个“作用域”下的，因此我们常常要考虑如何避免命名冲突问题。现有的解决办法主要是靠BEM这样的命名惯例，或者是用多层CSS父子选择器来模拟命名空间。然而这样的办法对工程师有许多的限制。多级选择器有比较高的优先级，不容易维护。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>猪场实习感受-项目管理</title>
@@ -427,7 +578,7 @@ Banner.prototype.init = function(options) {
     <link href="http://yoursite.com/2016/09/15/read-code/"/>
     <id>http://yoursite.com/2016/09/15/read-code/</id>
     <published>2016-09-15T10:32:05.000Z</published>
-    <updated>2016-10-08T15:25:10.000Z</updated>
+    <updated>2016-10-25T15:19:44.000Z</updated>
     
     <content type="html">&lt;p&gt;《编码》这本书被列了入我们团队技术方向培养方案的必读书目，可见这本书的地位。因此，我觉得有必要来撰写一篇导读，来帮助大家看透一些问题，把这本书上的知识和课本中的知识对应起来，并且形成一个体系。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -464,10 +615,95 @@ Banner.prototype.init = function(options) {
 &lt;/blockquote&gt;
 &lt;p&gt;《编码》里只是简单的介绍了布尔代数和门电路，没有深入的介绍电路的设计。这是比较明智的，因为如何设计电路不是我们要关心的话题。《数字逻辑》中在电路设计这块涉及的还有功能表到布尔表达式的转换，布尔表达式的化简等等。有兴趣的同学可以了解一下。&lt;/p&gt;
 &lt;p&gt;总结一下，这两章对我们最大的启发就是：逻辑电路设计的理论基础是布尔代数。布尔代数可以用逻辑电路进行等价表示。而逻辑电路则是计算机所有硬件的基础。&lt;/p&gt;
+&lt;h3 id=&quot;第十二章：二进制加法器&quot;&gt;&lt;a href=&quot;#第十二章：二进制加法器&quot; class=&quot;headerlink&quot; title=&quot;第十二章：二进制加法器&quot;&gt;&lt;/a&gt;第十二章：二进制加法器&lt;/h3&gt;&lt;p&gt;这章一开始说：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果我们可以造出加法器，同样地，就可以利用加法来实现减法、乘法和除法，计算按揭付款，引导火箭飞到火星、下棋，以及填写我们的话费账单&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;大家可能觉得这是夸张的说法，但其实加法器的确就是CPU中最重要的部分。实现了加法器，再加上存储系统，和控制器，就是一个基本的计算机了。&lt;/p&gt;
+&lt;p&gt;所以这章内容可以说是《编码》这本书介绍的如何制造一台计算机中的第一次飞跃（第二次飞跃是第十七章，自动操作）。&lt;/p&gt;
+&lt;p&gt;说的很神奇，其实加法器就是由简单的门电路构成的一个电路而已。&lt;/p&gt;
+&lt;p&gt;我们已经知道了各种门电路的输入输出，那问题就是，如何来利用门电路，设计一个相对复杂的电路呢？&lt;/p&gt;
+&lt;p&gt;这部分的知识对应的是大学中的《数字逻辑》课程。电路的设计有一套成熟的方法，当然我们先不考虑那么多，先来看看《编码》的作者是如何设计这个加法器电路的。&lt;/p&gt;
+&lt;p&gt;对于一个电路，我们&lt;strong&gt;首先&lt;/strong&gt;要确定输入和输出，并写出一个真值表。&lt;/p&gt;
+&lt;p&gt;我们进行二进制数的相加时，会分别相加两个二进制数的每一位，如果有进位，则将进位加入下一位二进制数的相加中。&lt;/p&gt;
+&lt;p&gt;这样，我们就可以将两个二进制数的加法，转化为多次的一位二进制数加法。一位二进制数加法的输入是两个个加数。输出是一位的二进制数，以及一个进位数。比如输入是1加1，输出结果是0，进位位是1。&lt;/p&gt;
+&lt;p&gt;现在我们就可以列出两个真值表，一个是加法的真值表，一个是进位的真值表。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;+加法&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;0&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;0&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;+进位&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;0&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;0&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;好了，现在我们可以进入第二步，根据真值表，设计电路。&lt;/p&gt;
+&lt;p&gt;我们要设计这样一个电路，输入A和B，都是一位二进制数，输出结果C和进位数D，也是都是一位二进制数。&lt;/p&gt;
+&lt;p&gt;我们&lt;strong&gt;观察真值表的输入和输出&lt;/strong&gt;，发现进位表的真值和与门是一样的。而加法表的真值和异或门是一样的。&lt;/p&gt;
+&lt;p&gt;P141页的半加器，就是简单地将一个异或门和一个与门连到相同的输入端。异或门输出的就是加法结果，与门输出的则是进位的结果。&lt;/p&gt;
+&lt;p&gt;为什么这个叫半加器呢，因为这个半加器还无法完成真正的加法，因为它的输入中没有考虑进位。真正的一位加法器，输入有两个加数，以及进位位，输出结果和进位位。&lt;/p&gt;
+&lt;p&gt;P142页顶部的图就是全加器。它的原理就是级联两个半加器，将第一个半加器的结果和输入的进位位相加，对于两个半加器输出的进位位，则用一个或门来处理。或门在这里其实也是起一个加法器的作用，只不过两个级联的半加器的进位输出不会同时为1&lt;em&gt;（如果前一个半加器产生进位，那结果必然是0，那后一个半加器就不可能产生进位了）&lt;/em&gt;，因此不用考虑输入都为1的情况。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;P144页&lt;/em&gt;底部的图，讲8个全加器连接起来，前一个全加器的进位位输出是后一个全加器的进位位输入，第一个全加器的进位输入是0。这样我们就得到了一个8位加法器。&lt;/p&gt;
+&lt;p&gt;这个加法器用开关的开和闭表示1或者0的输入，用灯泡的亮和灭表示1或者0的输出。这种方式很原始，但从原理上来说和现代的晶体管电路和LED显示器没有太大的不同。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这种加法器有一个问题，也就是书中P146页讲到的，在时间上必须串行工作，即后一个全机器要等前一个完成运算之后才能进行运算，而不是并行的工作。解决这个问题，可以用前置进位等方法来提高运算的速度。这个会在《数字逻辑》课中讲到。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们要知道的一点是，这里的电路是比较naive的。因此作者可以一眼看穿真值表对应的电路。而实际中电子工程师设计的电路是非常复杂的。用专门的方法和设计语言。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;《数字逻辑》课程中，有一套非常sophisticated的设计电路的方法。从真值表中得出布尔代数表达式，用卡诺图等工具对这个表达式化简，最后用基本的门电路来实现。我们作为软件工程师，对这套方法有着基本的掌握就可以了。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这章的意义重大。我们用19世纪就被发明出来的电子器件，开关，灯泡和继电器，搭建了一个加法器。这可是一个能做&lt;strong&gt;加法&lt;/strong&gt;的机器，这意味着我们可以用机器来做&lt;strong&gt;通用计算&lt;/strong&gt;，而不是之前设计的只能帮你选择猫咪的死板电路（当然我觉得那个电路也很神奇），这在构建可编程计算机的道路上无疑是一个里程碑。&lt;/p&gt;
+&lt;p&gt;回首这个过程，最重要的理论上的突破，无疑是布尔代数的发明，以及香农将代数和电路对应起来，用电路实现布尔代数的发现。&lt;/p&gt;
 &lt;h3 id=&quot;第十八章：从算盘到芯片&quot;&gt;&lt;a href=&quot;#第十八章：从算盘到芯片&quot; class=&quot;headerlink&quot; title=&quot;第十八章：从算盘到芯片&quot;&gt;&lt;/a&gt;第十八章：从算盘到芯片&lt;/h3&gt;&lt;h3 id=&quot;第二十五章：图形化革命&quot;&gt;&lt;a href=&quot;#第二十五章：图形化革命&quot; class=&quot;headerlink&quot; title=&quot;第二十五章：图形化革命&quot;&gt;&lt;/a&gt;第二十五章：图形化革命&lt;/h3&gt;&lt;p&gt;这章与其说是在讲图形化革命，不如说是PC多媒体方向的发展史。&lt;/p&gt;
-&lt;p&gt;当然首先提到的还是图形化革命。这里有一个很重要的概念就是人机交互界面（GUI）。在打孔机时代，人机交互的实现主要是，通过纸带或者各种开关进行输入，然后经过计算机批处理之后输出。&lt;/p&gt;
-&lt;p&gt;最早实现&lt;/p&gt;
-</content>
+&lt;h4 id=&quot;从电传打字机到视频显示器&quot;&gt;&lt;a href=&quot;#从电传打字机到视频显示器&quot; class=&quot;headerlink&quot; title=&quot;从电传打字机到视频显示器&quot;&gt;&lt;/a&gt;从电传打字机到视频显示器&lt;/h4&gt;&lt;p&gt;当然首先提到的还是图形化革命。这里有一个很重要的概念就是人机交互界面（GUI）。在打孔机时代，人机交互的实现主要是，通过纸带或者各种开关进行输入，然后经过计算机批处理之后输出。这个输入-处理-输出的循环，就是一个人机交互的过程。&lt;/p&gt;
+&lt;p&gt;20世纪60年代，流行的时分操作系统，输入和输出设备是打字机。这就比较接近于现代计算机的交互了。&lt;/p&gt;
+&lt;p&gt;早期的显示器，其实就是“玻璃屏幕电传打字机”。这样的显示设备仅仅只能一行一行的输出字符，和打字机没有太大区别。想要显示图形，那就只能使用ASCII Art了。这种类似打字机的界面，比较接近于我们现在使用的终端。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;C语言的标准I/O里的输出函数为什么叫&lt;code&gt;print&lt;/code&gt;呢？这就和当年的输出设备是打字机有关系了。在当时看来，这个函数就是在纸上打印字符，所以叫&lt;code&gt;print&lt;/code&gt;是很贴切的。&lt;br&gt;Linux中的一些命令，也和早期计算机的输入输出有关。比如早期计算机使用磁带作为存储设备。大家有兴趣的可以了解一下。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;接下去就是一个关键的分界线了。首先，我们要知道显示设备的原理。光栅显示器的原理就是，用一个像素点矩阵来组成图像。比如分辨率是1920*1080，那就意味着你看到的图像由2073600个像素点组成。&lt;/p&gt;
+&lt;p&gt;我们知道红、绿、蓝。三原色可以混合出所有的颜色。那我们就可以通过某种编码来表示显示器像素的颜色。&lt;br&gt;做客户端的同学，会知道代码中有很多表示颜色的方法，比如&lt;code&gt;rgb(255,255,255)&lt;/code&gt;或者&lt;code&gt;#FFFFFF&lt;/code&gt;。这两种其实是一样的。都是用分别用8位二进制数来表示红、绿、蓝三原色的深度。范围是0-255，数值越大，表示这种颜色越深。&lt;/p&gt;
+&lt;p&gt;这种编码叫256色，可以表示256的三次方种颜色。这样的显示器已经足够一般人使用了。&lt;/p&gt;
+&lt;p&gt;那我们就可以用三个字节来表示一个像素点的颜色。给每个像素点都写入颜色信息，那显示器就可以用这个信息来绘制图像。&lt;/p&gt;
+&lt;p&gt;问题就来了，这些信息要放在哪呢（一个1920*1080的矩阵，每个项目占三个字节）。最自然的当然是放在内存中，但内存和显卡直接的通信成本比较高，因此我们可以在显卡上设置一个专用的存储器，也就是我们常说的显存。显存主要的作用就是存放图像渲染的信息。&lt;/p&gt;
+&lt;h4 id=&quot;施乐和Mac&quot;&gt;&lt;a href=&quot;#施乐和Mac&quot; class=&quot;headerlink&quot; title=&quot;施乐和Mac&quot;&gt;&lt;/a&gt;施乐和Mac&lt;/h4&gt;&lt;h4 id=&quot;OOP和图形界面&quot;&gt;&lt;a href=&quot;#OOP和图形界面&quot; class=&quot;headerlink&quot; title=&quot;OOP和图形界面&quot;&gt;&lt;/a&gt;OOP和图形界面&lt;/h4&gt;&lt;h4 id=&quot;图像格式与压缩算法&quot;&gt;&lt;a href=&quot;#图像格式与压缩算法&quot; class=&quot;headerlink&quot; title=&quot;图像格式与压缩算法&quot;&gt;&lt;/a&gt;图像格式与压缩算法&lt;/h4&gt;&lt;h4 id=&quot;模拟-数字转换和多媒体&quot;&gt;&lt;a href=&quot;#模拟-数字转换和多媒体&quot; class=&quot;headerlink&quot; title=&quot;模拟/数字转换和多媒体&quot;&gt;&lt;/a&gt;模拟/数字转换和多媒体&lt;/h4&gt;&lt;h4 id=&quot;互联网&quot;&gt;&lt;a href=&quot;#互联网&quot; class=&quot;headerlink&quot; title=&quot;互联网&quot;&gt;&lt;/a&gt;互联网&lt;/h4&gt;</content>
     
     <summary type="html">
     
@@ -2503,369 +2739,6 @@ var LogView = (function(_View) {
     
     
       <category term="Design" scheme="http://yoursite.com/tags/Design/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Angular源码分析:$q</title>
-    <link href="http://yoursite.com/2015/08/24/angulr-q-js/"/>
-    <id>http://yoursite.com/2015/08/24/angulr-q-js/</id>
-    <published>2015-08-24T07:27:51.000Z</published>
-    <updated>2015-08-28T09:51:16.000Z</updated>
-    
-    <content type="html">&lt;p&gt;###概述&lt;br&gt;Augular中的$q服务提供了Promise的实现，这个服务叫做“q”是因为它是&lt;a href=&quot;https://github.com/kriskowal/q&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Kris Kowal’s Q&lt;/a&gt;的一种植入。  &lt;/p&gt;
-&lt;p&gt;从Augular中$q服务的文档中可以了解到，这个服务有两种用法，一种在某种程度上和ES6的Promise规范相似，而另一种则和Q以及jQuery的Deferred接口类似。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;因此在Angular中$q的具体代码实现有两种，一种是将$q作为一个构造函数，并且接收一个&lt;code&gt;resolver()&lt;/code&gt;函数作为唯一参数。这和ES6的原生实现相似：&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-// for the purpose of this example let&#39;s assume that variables `$q` and `okToGreet`
-// are available in the current lexical scope (they could have been injected or passed in).
-
-function asyncGreet(name) {
-  // perform some asynchronous operation, resolve or reject the promise when appropriate.
-  return $q(function(resolve, reject) {
-    setTimeout(function() {
-      if (okToGreet(name)) {
-        resolve(&#39;Hello, &#39; + name + &#39;!&#39;);
-      } else {
-        reject(&#39;Greeting &#39; + name + &#39; is not allowed.&#39;);
-      }
-    }, 1000);
-  });
-}
-
-var promise = asyncGreet(&#39;Robin Hood&#39;);
-promise.then(function(greeting) {
-  alert(&#39;Success: &#39; + greeting);
-}, function(reason) {
-  alert(&#39;Failed: &#39; + reason);
-});
-&lt;/pre&gt;
-
-&lt;p&gt;而另一种实现则是更为传统的CommonJS风格的实现，将Promise描述成一个接口，来和一个代表了未来结果的异步请求发生交互。&lt;/p&gt;
-&lt;p&gt;代码如下：  &lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-// for the purpose of this example let&#39;s assume that variables `$q` and `okToGreet`
-// are available in the current lexical scope (they could have been injected or passed in).
-
-function asyncGreet(name) {
-  var deferred = $q.defer();
-
-  setTimeout(function() {
-    deferred.notify(&#39;About to greet &#39; + name + &#39;.&#39;);
-
-    if (okToGreet(name)) {
-      deferred.resolve(&#39;Hello, &#39; + name + &#39;!&#39;);
-    } else {
-      deferred.reject(&#39;Greeting &#39; + name + &#39; is not allowed.&#39;);
-    }
-  }, 1000);
-
-  return deferred.promise;
-}
-
-var promise = asyncGreet(&#39;Robin Hood&#39;);
-promise.then(function(greeting) {
-  alert(&#39;Success: &#39; + greeting);
-}, function(reason) {
-  alert(&#39;Failed: &#39; + reason);
-}, function(update) {
-  alert(&#39;Got notification: &#39; + update);
-});
-
-&lt;/pre&gt;
-
-
-&lt;p&gt;##源码分析：deferred API&lt;br&gt;因为$q服务中的ES6形式实现实际上是在deferred api的基础上的一种封装实现，所以我们先来看看deferred API的源代码。&lt;br&gt;这部分代码的结构看起来是这样的：&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-//deferred method: return a instance of Deferred object
-var deferred = function() {
-    return new Deferred();
-};
-
-//construct function of Promise object
-function Promise() {
-    this.$$state = { status: 0 };
-}
-
-//then, catch, and finally method of Promise object
-extend(Promise.prototype, {
-    then: function(onFulfilled, onRejected, progressBack) {
-      //...
-    },
-
-    &quot;catch&quot;: function(callback) {
-      //...
-    },
-
-    &quot;finally&quot;: function(callback, progressBack) {
-      //...
-    }
-});
-
-
-//construct function of Deferred object, the promise object is a method 
-//of Deferred object. And resolve, reject, notify apis are binded here.
-function Deferred() {
-    this.promise = new Promise();
-    //Necessary to support unbound execution :/
-    this.resolve = simpleBind(this, this.resolve);
-    this.reject = simpleBind(this, this.reject);
-    this.notify = simpleBind(this, this.notify);
-}
-
-
-
-extend(Deferred.prototype, {
-    resolve: function(val) {
-        //...
-    },
-
-    $$resolve: function(val) {
-        //...
-    },
-
-    reject: function(reason) {
-        //...
-    },
-
-    $$reject: function(reason) {
-        //...
-    },
-
-    notify: function(progress) {
-           //...
-    }
-  });
-
-&lt;/pre&gt;
-
-
-&lt;p&gt;###具体分析：Deferred.promise.then()&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-then: function(onFulfilled, onRejected, progressBack) {
-       //check if at least one para was passed in, otherwise return.
-      if (isUndefined(onFulfilled) &amp;&amp; isUndefined(onRejected) &amp;&amp; isUndefined(progressBack)) {
-        return this;
-      }
-      //instantiate a new Deferred object as result
-      var result = new Deferred();
-
-       //instantiate $$state.pending
-      this.$$state.pending = this.$$state.pending || [];
-      //push paras of this into $$state.pending array
-      this.$$state.pending.push([result, onFulfilled, onRejected, progressBack]);
-      //if $$state.status changed, add this.$$state to the process 
-      queue
-      if (this.$$state.status &gt; 0) scheduleProcessQueue(this.$$state);
-
-      //return the new Deferred object instance&#39;s promise object
-      return result.promise;
-}
-&lt;/pre&gt;
-
-&lt;p&gt;then()方法接收三个参数，promise条件满足时执行的函数&lt;code&gt;onFulfilled&lt;/code&gt;，被拒绝时的回调函数&lt;code&gt;onRejected&lt;/code&gt;，以及一个通知用回调函数&lt;code&gt;progressBack&lt;/code&gt;。&lt;br&gt;这里的逻辑是&lt;code&gt;then()&lt;/code&gt;方法接收参数之后，实例化一个新&lt;code&gt;Deferred&lt;/code&gt;对象，并将参数推入pending数组中。&lt;br&gt;关于then,有趣的一点在于then的链式调用的实现，在分析这点之前，我们把目光移到这个api的大局上来，看看promise的状态变化以及状态转移是如何实现的。&lt;/p&gt;
-&lt;p&gt;###具体分析：Deferred.resolve()&lt;/p&gt;
-&lt;p&gt;在promise对象内部，收到请求后具体执行状态转移的便是&lt;code&gt;resolve()&lt;/code&gt;和&lt;code&gt;reject()&lt;/code&gt;函数了，我们还可以向其中传递一个唯一的参数，来作为&lt;code&gt;resolve()&lt;/code&gt;的value或是&lt;code&gt;reject()&lt;/code&gt;的reason。因为这两个方法原理大致类似（在源码中这两个方法的相关代码有较大的不同，应该和这个两种行为不同的结果有关），所以我们就以&lt;code&gt;resolve()&lt;/code&gt;方法为例来说明。&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-resolve: function(val) {
-        //if $$state not equals 0, which means the state had already 
-        changed, return.
-      if (this.promise.$$state.status) return;
-      //reject if val is this.promise its self.
-      if (val === this.promise) {
-        this.$$reject($qMinErr(
-          &#39;qcycle&#39;,
-          &quot;Expected promise to be resolved with value other than itself &#39;{0}&#39;&quot;,
-          val));
-      } else {
-      //resolve val with inner method $$resolve
-        this.$$resolve(val);
-      }
-
-    },
-
-$$resolve: function(val) {
-      var then, fns;
-      //warp the functions in order to be called only once
-      fns = callOnce(this, this.$$resolve, this.$$reject);
-      try {
-        if ((isObject(val) || isFunction(val))) then = val &amp;&amp; val.then;
-        if (isFunction(then)) {
-          this.promise.$$state.status = -1;
-          then.call(val, fns[0], fns[1], this.notify);
-        } else {
-          this.promise.$$state.value = val;
-          this.promise.$$state.status = 1;
-          scheduleProcessQueue(this.promise.$$state);
-        }
-      } catch (e) {
-        fns[1](e);
-        exceptionHandler(e);
-      }
-}
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;resolve()&lt;/code&gt;方法接收一个值val，这个值可能是对象/函数，也有可能是普通的数值或是字符串。&lt;code&gt;resolve()&lt;/code&gt;方法首先判断&lt;code&gt;Deferred.promise.$$state.status&lt;/code&gt;的值是否不为0，如果不为0则说明状态已经转移了，那么就不再继续执行。如果一切正常，在执行&lt;code&gt;resolve()&lt;/code&gt;方法时，&lt;code&gt;Deferred.promise.$$state.status&lt;/code&gt;的值为初始的0，然后val被传入一个内部函数&lt;code&gt;$$resolve()&lt;/code&gt;,来进行真正的处理。&lt;code&gt;$$resolve()&lt;/code&gt;函数首先调用&lt;code&gt;callOnce()&lt;/code&gt;函数来确保自己只被调用一次，然后判断val的数据类型，如果是对象或者是函数，则将val赋值给then，其中&lt;code&gt;then = val &amp;amp;&amp;amp; val.then;&lt;/code&gt;这个语句用来将&lt;code&gt;resolve()&lt;/code&gt;中可能传入的promise对象的&lt;code&gt;then()&lt;/code&gt;方法赋值给then。下一步，如果then是函数，也就是说传入的val是一个promise对象的话，则将&lt;code&gt;Deferred.promise.$$state.status&lt;/code&gt;的值设为-1，之后&lt;code&gt;then.call(val, fns[0], fns[1], this.notify);&lt;/code&gt;这是将fns[0], fns[1], this.notify三个函数作为参数传入了这个promise对象的then方法中，其中前两者便是经过了&lt;code&gt;callOnce()&lt;/code&gt;函数处理的&lt;code&gt;this.$$resolve&lt;/code&gt;和&lt;code&gt;this.$$reject&lt;/code&gt;函数，这一步设置了被传入的promise对象的pending list。&lt;br&gt;如果val不是函数，那么接下去的逻辑便很容易理解了，&lt;code&gt;this.promise.$$state.value&lt;/code&gt;被赋值为val的值，&lt;code&gt;this.promise.$$state.status&lt;/code&gt;的值被设置为1，1这个状态码便代表了promise对象目前处于&lt;strong&gt;fulfilled&lt;/strong&gt;状态。&lt;br&gt;接下去调用&lt;code&gt;scheduleProcessQueue()&lt;/code&gt;函数，并传入&lt;code&gt;this.promise.$$state&lt;/code&gt;对象。这个函数实际是调用了&lt;code&gt;ProcessQueue()&lt;/code&gt;函数，不过加入了一些angular内部的检查机制，来保证函数调用和angular内部运行的同步。而&lt;code&gt;ProcessQueue()&lt;/code&gt;函数则真正执行&lt;code&gt;then()&lt;/code&gt;方法推入到pending list中的回调函数。  &lt;/p&gt;
-&lt;p&gt;下面我们简单的来看看ProcessQueue函数:&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-function processQueue(state) {
-    var fn, deferred, pending;
-
-    pending = state.pending;
-    state.processScheduled = false;
-    state.pending = undefined;
-    for (var i = 0, ii = pending.length; i &lt; ii; ++i) {
-      deferred = pending[i][0];
-      fn = pending[i][state.status];
-      try {
-        if (isFunction(fn)) {
-          deferred.resolve(fn(state.value));
-        } else if (state.status === 1) {
-          deferred.resolve(state.value);
-        } else {
-          deferred.reject(state.value);
-        }
-      } catch (e) {
-        deferred.reject(e);
-        exceptionHandler(e);
-      }
-    }
-  }
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;processQueue()&lt;/code&gt;函数简单地将当前promise对象的pending list按传入的状态码进行处理。&lt;code&gt;fn = pending[i][state.status];&lt;/code&gt;中，status为1，那么就调用pending list的第二项，也就是onFulfilled情况下的回调函数。之后&lt;br&gt;&lt;code&gt;deferred.resolve(fn(state.value));&lt;/code&gt;中，实际上执行了一次&lt;code&gt;eval(fn(state.value))&lt;/code&gt;,回调函数就是在这里被执行的，之后&lt;code&gt;deferred.resolve(val)&lt;/code&gt;便将回调函数处理之后的值传给了新创建的deferred对象。&lt;/p&gt;
-&lt;p&gt;###实例分析：Deferred.promise.then()的链式调用机制&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-          var Deferred = $q.defer();
-          var promise1 = Deferred.promise;
-          var promise2 = promise1.then(function (data) {
-                 return data  + 1;
-          });
-          promise2.then(function (val) {
-               console.log(val);
-          }); 
-          Deferred.resolve(10);
-&lt;/pre&gt;
-
-&lt;p&gt;这段代码的预期结果是promise2的回调函数会输出11。让我们来看看这是怎样实现的。&lt;/p&gt;
-&lt;p&gt;首先，promise1的&lt;code&gt;then()&lt;/code&gt;方法被执行,回调函数被推入pending list中，一个新的&lt;code&gt;deferred&lt;/code&gt;对象被创建,&lt;code&gt;deferred.promise&lt;/code&gt;对象被返回，我们将这个新创建的promise对象赋值给promise2。同样的，promise2的&lt;code&gt;then()&lt;/code&gt;方法也被执行。所以我们把promise1的pending list称谓list1，promise2的pending list称为list2。&lt;/p&gt;
-&lt;p&gt;之后，&lt;code&gt;Deferred.resolve(10);&lt;/code&gt;被执行，在这里这是同步的，但一般来说这是异步执行的。此时执行resolve()方法，后数据被传入内部的&lt;code&gt;$$resolve()&lt;/code&gt;方法，因为val是数值，因此&lt;code&gt;$$state&lt;/code&gt;对象的value被设置为10，而状态码也被设置为相应的1，代表解析成功。  &lt;/p&gt;
-&lt;p&gt;之后的任务交给了&lt;code&gt;processQueue()&lt;/code&gt;函数，因为list1中的第二个参数是我们通过&lt;code&gt;then()&lt;/code&gt;方法传入的回调函数，这个函数执行&lt;code&gt;deferred.resolve(fn(state.value));&lt;/code&gt;，回调函数执行，并返回值11，这里的deferred对象便是promise1的&lt;code&gt;then()&lt;/code&gt;方法创建的新deferred对象，也就是list1中的deferred对象，是promise2的宿主对象。  &lt;/p&gt;
-&lt;p&gt;所以&lt;code&gt;deferred.resolve(fn(state.value));&lt;/code&gt;的执行，执行了又一次&lt;code&gt;resolve()&lt;/code&gt;函数，只是这次的上下文换成了promise2所在的上下文，那么接下去的流程便和promise1发生的一致了。最后list2中的回调执行，输出值11。&lt;/p&gt;
-&lt;p&gt;让我们总结一下，&lt;code&gt;then()&lt;/code&gt;方法实际上是负责在运行时挂载回调函数列表，而&lt;code&gt;resolve()&lt;/code&gt;函数则负责异步触发函数执行。链式调用是通过返回新promise对象，并配合&lt;code&gt;then()&lt;/code&gt;方法的同步加载回调以便获取新上下文来实现的。&lt;/p&gt;
-&lt;p&gt;tbc···&lt;/p&gt;
-&lt;hr&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;http://olim7t.github.io/2013/08/19/angular-promise-implementation.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;参考-A look at Angular’s promise implementation&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;###概述&lt;br&gt;Augular中的$q服务提供了Promise的实现，这个服务叫做“q”是因为它是&lt;a href=&quot;https://github.com/kriskowal/q&quot;&gt;Kris Kowal’s Q&lt;/a&gt;的一种植入。  &lt;/p&gt;
-&lt;p&gt;从Augular中$q服务的文档中可以了解到，这个服务有两种用法，一种在某种程度上和ES6的Promise规范相似，而另一种则和Q以及jQuery的Deferred接口类似。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Angular" scheme="http://yoursite.com/categories/Angular/"/>
-    
-    
-      <category term="Angular" scheme="http://yoursite.com/tags/Angular/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>实战之IE兼容常见问题</title>
-    <link href="http://yoursite.com/2015/07/25/ie-fix/"/>
-    <id>http://yoursite.com/2015/07/25/ie-fix/</id>
-    <published>2015-07-25T03:40:10.000Z</published>
-    <updated>2015-07-25T12:12:55.000Z</updated>
-    
-    <content type="html">&lt;p&gt;最近因为在实习，所以做的东西要测试，做了IE8的兼容，对IE8的常见CSS兼容问题有了一点认识，在这里总结一下。&lt;/p&gt;
-&lt;p&gt;###Html5标签问题&lt;/p&gt;
-&lt;p&gt;IE8不支持Html5的语义化新标签，&lt;code&gt;&amp;lt;header&amp;gt;,&amp;lt;nav&amp;gt;,&amp;lt;footer&amp;gt;&lt;/code&gt;之类。对此Google出了一个html5shiv.js，来实现这些标签。&lt;/p&gt;
-&lt;p&gt; 这个html5shiv.js的原理就是使用document.createElement()这个dom方法来动态创建一个html元素对象。html5shiv.js中处理了IE在这个方法上的一些问题（某些元素动态加入的属性不管用），还提供了api，以及基础的CSS，使得元素在默认的display属性为block。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;###RGBA支持问题&lt;/p&gt;
-&lt;p&gt;IE8不支持rgba这种颜色的表示方式，但我们如果在背景色使用rgba的话，还是有替代方案的：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;//IE8下
-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#19fff
- fff,endColorstr=#19ffffff);
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这句代码其实是用来实现渐变的，不过我们把startColor和endColor设成一样的便可以用来设置纯色背景了。&lt;/p&gt;
-&lt;p&gt;startColor的后六位便是正常的十六进制颜色代码，而前两位是alpha通道，对应关系如下：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;透明度&lt;/th&gt;
-&lt;th&gt;代码&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;0.1&lt;/td&gt;
-&lt;td&gt;19&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;0.2&lt;/td&gt;
-&lt;td&gt;33&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;0.3&lt;/td&gt;
-&lt;td&gt;4C&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;0.4&lt;/td&gt;
-&lt;td&gt;66&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;0.5&lt;/td&gt;
-&lt;td&gt;7F&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;0.6&lt;/td&gt;
-&lt;td&gt;99&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;0.7&lt;/td&gt;
-&lt;td&gt;B2&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;0.8&lt;/td&gt;
-&lt;td&gt;C8&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;0.9&lt;/td&gt;
-&lt;td&gt;E5&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;###CSS3支持&lt;/p&gt;
-&lt;p&gt;这部分是硬伤，media query有成熟的方案支持，但是像border-radius这种虽也有办法可以实现，但是太过于麻烦。我们毕竟得move on，不能太过拘泥，有些时候平稳退化，优雅降级就可以了。&lt;/p&gt;
-&lt;h3 id=&quot;To-Be-Contiued···&quot;&gt;&lt;a href=&quot;#To-Be-Contiued···&quot; class=&quot;headerlink&quot; title=&quot;To Be Contiued···&quot;&gt;&lt;/a&gt;To Be Contiued···&lt;/h3&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近因为在实习，所以做的东西要测试，做了IE8的兼容，对IE8的常见CSS兼容问题有了一点认识，在这里总结一下。&lt;/p&gt;
-&lt;p&gt;###Html5标签问题&lt;/p&gt;
-&lt;p&gt;IE8不支持Html5的语义化新标签，&lt;code&gt;&amp;lt;header&amp;gt;,&amp;lt;nav&amp;gt;,&amp;lt;footer&amp;gt;&lt;/code&gt;之类。对此Google出了一个html5shiv.js，来实现这些标签。&lt;/p&gt;
-&lt;p&gt; 这个html5shiv.js的原理就是使用document.createElement()这个dom方法来动态创建一个html元素对象。html5shiv.js中处理了IE在这个方法上的一些问题（某些元素动态加入的属性不管用），还提供了api，以及基础的CSS，使得元素在默认的display属性为block。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="兼容 实战" scheme="http://yoursite.com/categories/%E5%85%BC%E5%AE%B9-%E5%AE%9E%E6%88%98/"/>
-    
-    
-      <category term="兼容 实战" scheme="http://yoursite.com/tags/%E5%85%BC%E5%AE%B9-%E5%AE%9E%E6%88%98/"/>
     
   </entry>
   

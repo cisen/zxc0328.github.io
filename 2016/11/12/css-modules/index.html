@@ -18,9 +18,21 @@
 
 
 
-	<meta name="keywords" content="jQuery JavaScript," />
 
-  <title> Let's build a jQuery!-Part 1(early release) // Zindex's blog </title>
+    <meta name="keywords" content="Hexo,next" />
+
+
+
+    <link rel="alternate" href="/atom.xml" title="Zindex's blog" type="application/atom+xml" />
+
+
+
+    <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.3.0rc5" />
+
+
+
+
+  <title> 聊聊CSS Modules // Zindex's blog </title>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=desert"></script>
 
 </head>
@@ -93,7 +105,7 @@
           
           
             
-              Let's build a jQuery!-Part 1(early release)
+              聊聊CSS Modules
             
           
         </h1>
@@ -102,7 +114,7 @@
       <div class="post-meta">
           <span class="post-time">
             
-              Posted on 2016-03-11
+              Posted on 2016-11-12
             
           </span>
         
@@ -118,33 +130,119 @@
         
 
         
-          <p>这个系列博客的灵感来源于<a href="https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html" target="_blank" rel="external">这篇博客</a>和一次失败的<a href="https://github.com/zxc0328/litejs" target="_blank" rel="external">造轮子</a>经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery-like的基础库，并且配上相应的源码，也就是我们的Litejs。</p>
-<p>我们要做的工作有以下这些：</p>
-<ul>
-<li>选择器和元素封装</li>
-<li>DOM操作</li>
-<li>Ajax请求</li>
-<li>事件系统</li>
-<li>触摸事件</li>
-</ul>
-<p>分别对应这系列文章的四个部分。</p>
-<p>好，让我们开启这段神奇的重复造轮子之旅吧！</p>
+          <h3 id="CSS在工程化上的一些问题"><a href="#CSS在工程化上的一些问题" class="headerlink" title="CSS在工程化上的一些问题"></a>CSS在工程化上的一些问题</h3><p>关于React的CSS in JS，有一个<a href="https://speakerdeck.com/vjeux/react-css-in-js" target="_blank" rel="external">著名的talk</a>，由Facebook的工程师<a href="https://github.com/vjeux" target="_blank" rel="external">vjeux</a>带来。</p>
+<p>里面最有名的一张slide是这样的：</p>
+<p><img src="https://occc3ev3l.qnssl.com/zindex/Screen%20Shot%202016-11-13%20at%204.28.31%20PM.png" alt="css in js"></p>
+<p>里面列举了CSS的一些问题。其中，Dead Code Elimination，Minification，和Sharing Constants这些问题我们已经通过在我们的工作流中加入SASS和PostCSS这样的CSS预处理器解决了。</p>
+<p>然而还有一些问题没有解决，比如全局命名空间。同一个document下的所有CSS的类名，都是在同一个“作用域”下的，因此我们常常要考虑如何避免命名冲突问题。现有的解决办法主要是靠BEM这样的命名惯例，或者是用多层CSS父子选择器来模拟命名空间。然而这样的办法对工程师有许多的限制。多级选择器有比较高的优先级，不容易维护。</p>
 <a id="more"></a>
-<h3 id="开发环境的搭建"><a href="#开发环境的搭建" class="headerlink" title="开发环境的搭建"></a>开发环境的搭建</h3><p>我们使用ES6的模块语法编写模块，并使用<a href="http://rollupjs.org/" target="_blank" rel="external">rollup.js</a>打包，rollup是基于ES6模块的JS打包工具。我对于rollup的思考可以参考。除此之外我们还是用Babel和Flow。Flow是Facebook出品的JavaScript静态类型检查工具，我们用Babel来去除Flow的类型标记，以及编译其他的ES6特性代码。</p>
-<p>// todo 测试环境搭建</p>
-<p><code>git checkout 1-1</code></p>
-<h3 id="jQuery的组织架构"><a href="#jQuery的组织架构" class="headerlink" title="jQuery的组织架构"></a>jQuery的组织架构</h3><p>简单的说，jQueryAPI由<code>jQuery</code>构造函数以及<code>jQuery</code>函数上的一系列静态API组成。<code>jQuery</code>构造函数就是我们平常使用的<code>$</code>函数，这个函数接收选择器字符串作为参数，返回jQuery对象实例。jQuery对象封装了原生的DOM对象，为其添加了一系列的属性和方法，以及链式调用的能力。</p>
-<p>与此同时，因为JavaScript的函数也是对象，因此我们可以在函数上添加属性和方法。函数是对象，因此也可以访问对象原型的方法。<code>jQuery</code>函数上的静态方法，包括了回调、AJAX、事件、动画、工具函数等jQuery API。另一些API，比如DOM相关的API，则是绑定在<code>jQuery</code>构造函数实例化出来的对象上。</p>
-<h4 id="lite构造函数"><a href="#lite构造函数" class="headerlink" title="lite构造函数"></a><code>lite</code>构造函数</h4><p>下面就让我们开始编写我们的自制<code>jQuery</code>—<code>litejs</code>。让我们来编写我们的第一个函数，<code>lite</code>构造函数。</p>
-<pre><code>// The lite constructor function
-var lite = function( selector, context ) {
-  return new lite.prototype.init( selector, context );
-};
-</code></pre><p>这个函数很简单，调用了<code>lite.fn.init</code>函数，传入了选择器和上下文，并返回实例化的对象。让我们来看看真正干活的<code>lite.prototype.init</code>函数。</p>
-<h4 id="lite-prototype-init"><a href="#lite-prototype-init" class="headerlink" title="lite.prototype.init"></a><code>lite.prototype.init</code></h4><p>我们之前说过，<code>lite</code>构造函数也是个对象，我们把一些静态方法都放在这个对象的原型上。其中就有<code>init</code>方法。我们先不急着看这个方法做了什么，我们在这里要做一个特殊的处理：</p>
-<pre><code>lite.prototype.init.prototype = lite.prototype;
-</code></pre><p>很简单，因为<code>lite.prototype.init</code>方法返回的实例无法访问到<code>lite</code>函数的原型链，所以我们设置这个对象构造函数的原型是<code>lite.prototype</code>。</p>
-<h4 id="lite-extend"><a href="#lite-extend" class="headerlink" title="lite.extend()"></a><code>lite.extend()</code></h4><p><code>lite.extend()</code>其实就是我们常说的<code>mixin</code>函数</p>
+<h3 id="解决全局作用域：Webpack-css-loader"><a href="#解决全局作用域：Webpack-css-loader" class="headerlink" title="解决全局作用域：Webpack css-loader"></a>解决全局作用域：Webpack css-loader</h3><p>Webpack的css-loader首先做出了解决全局作用域的尝试。解决办法就是在写CSS类名时加入<code>:local(...)</code>这样的标记。</p>
+<p>比如：</p>
+<pre><code>:local(.className) { background: red; }
+:local .className { color: green; }
+:local(.className .subClass) { color: green; }
+:local .className .subClass :global(.global-class-name) { color: blue; }
+</code></pre><p>会被转化为：</p>
+<pre><code>._23_aKvs-b8bW2Vg3fwHozO { background: red; }
+._23_aKvs-b8bW2Vg3fwHozO { color: green; }
+._23_aKvs-b8bW2Vg3fwHozO ._13LGdX8RMStbBE9w-t0gZ1 { color: green; }
+._23_aKvs-b8bW2Vg3fwHozO ._13LGdX8RMStbBE9w-t0gZ1 .global-class-name { color: blue; }
+</code></pre><p>这里的办法就是把CSS类名转化为hash字符串，这样就可以保证每个类名都是独一无二的，自然也就不用在意命名冲突的问题了。只要在类名在当前模块内不会相互冲突就可以了。</p>
+<h3 id="CSS-Modules"><a href="#CSS-Modules" class="headerlink" title="CSS Modules"></a>CSS Modules</h3><p>上述的办法，还是有一些不便。大多数情况下，比如在JavaScript中，变量都默认是局部变量。你想要声明一个全局变量，只能去全局作用域声明，或者把变量挂到local上（非严格模式下，不写var声明的是全局变量这种坑就不说了）。</p>
+<p>Webpack的开发者之后将css-loader中的local变成了默认设定，于是CSS Modules这个规范就呼之欲出了。</p>
+<p><a href="https://github.com/css-modules/css-modules" target="_blank" rel="external">CSS Modules规范</a>。我们可以通过<code>css-loader?modules</code>这个参数来开启CSS Modules。</p>
+<p>CSS Modules中的类名默认就是local的，如果你想要声明全局类名，可以加上<code>:global(...)</code>这个标记。</p>
+<h3 id="Single-Responsibility-Principle"><a href="#Single-Responsibility-Principle" class="headerlink" title="Single Responsibility Principle"></a>Single Responsibility Principle</h3><p>讲CSS Modules的下一个特性之前。我们先聊点其他的，我们知道设计模式中有一条叫做Single Responsibility Principle。</p>
+<p>比如我们有一个button：</p>
+<pre><code>.button {
+    display:inline-block;
+    padding:2em;
+    background-color:red;
+}
+</code></pre><p>与其把这些属性写在一个class里，我们可以把它拆分成多个单独的class：</p>
+<pre><code>.button {
+    display:inline-block;
+}
+.button--large{
+    padding:2em;
+}
+.button--warnning{
+    background-color:red;
+}
+</code></pre><p>然后在HTML中组合使用就可以了。</p>
+<pre><code>&lt;button class=&quot;button button--large button--warnning&quot;&gt;
+</code></pre><p>这样的好处是什么呢？我们的UI中，一个组件往往有很多不同的状态。如果我们将每一个class写成只专注于一个属性，做好一件事，那就可以用这些class组合成所有我们想要的不同状态的组件。相比给每个状态的组件写一个单独的class，代码要更优雅简洁一些。</p>
+<p>比如我们想要一个small尺寸的普通button，只要加两个class:</p>
+<pre><code>.button {
+    display:inline-block;
+}
+.button--small{
+    padding:1em;
+}
+.button--large{
+    padding:2em;
+}
+.button--normal{
+    background-color:blue;
+}
+.button--warnning{
+    background-color:red;
+}
+</code></pre><p>然后组合就可以了：</p>
+<pre><code>&lt;button class=&quot;button button--small button--normal&quot;&gt;
+</code></pre><h3 id="CSS-Classes-Composing"><a href="#CSS-Classes-Composing" class="headerlink" title="CSS Classes Composing"></a>CSS Classes Composing</h3><p>要想实现上述的这种组合，可以使用SASS的Mixin，但Mixin主要是提供了源代码中的抽象，最后生成的代码，和手写不同状态class的代码量，是一样的。</p>
+<p>CSS Modules提供的Classes Composing则刚好可以满足我们的需求。</p>
+<p>比如我们想渲染一段文字：</p>
+<pre><code>.text{
+  font-size: 20px;
+  composes: red from &quot;./common/color.css&quot;;
+}
+</code></pre><p>color.css里是这样的</p>
+<pre><code>.red{
+    color: red;
+}
+</code></pre><p>最后渲染出的class是这样的</p>
+<pre><code>&lt;div class=&quot;App-text-2AEnE_0 color-red-3ag3h_0&quot;&gt;&lt;/div&gt;
+</code></pre><p><code>composes</code>引入的类被作为一个单独的class引入，而不是和text类合在一起。</p>
+<h3 id="CSS-Modules和Vue工作流的整合"><a href="#CSS-Modules和Vue工作流的整合" class="headerlink" title="CSS Modules和Vue工作流的整合"></a>CSS Modules和Vue工作流的整合</h3><p>Vue-loader在v9.8.0之后加入了对CSS Modules的支持。</p>
+<p>我们只要在<code>.vue</code>文件的<code>&lt;style&gt;</code>处加一个<code>module</code>就行</p>
+<pre><code>&lt;style lang=&quot;sass&quot; module&gt;
+.text{
+  font-size: 20px;
+  composes: red from &quot;sass!./common/color.scss&quot;;
+}
+&lt;/style&gt;
+</code></pre><p>这里有一点要注意，就是<code>composes</code>引入的如果是需要预处理器处理的，要在前面加上预处理器的标记，比如SASS用户就加上<code>sass!</code>。</p>
+<p>如果需要对CSS Modules进行一些配置（其实这个是对Webpack的css-loader的配置，所以配置时可以参考<a href="https://github.com/webpack/css-loader" target="_blank" rel="external">css-loader的文档</a>），写在vue-loader的配置的<code>cssModules</code>属性里即可</p>
+<pre><code>loader: &#39;vue&#39;,
+options: {
+    cssModules: {
+        localIdentName: &#39;[name]-[local]-[hash:base64:5]&#39;,
+        camelCase: true
+    }
+}
+</code></pre><p>vue-loader会自动将一个<code>$style</code>属性注入到对应的Vue实例中。在模板中用class binding语法写就可以了。</p>
+<pre><code>&lt;template&gt;
+  &lt;div :class=&quot;$style.app&quot;&gt;
+    &lt;div :class=&quot;$style.text&quot;&gt;
+      some text
+    &lt;/div&gt;
+    &lt;main-text&gt;&lt;/main-text&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+</code></pre><p><code>$style</code>其实是一个原class名和处理之后class名的hash，像这样：</p>
+<pre><code>{
+  app: &quot;App-app-3cl75_0&quot;,
+  text: &quot;App-text-2AEnE_0 color-red-3ag3h_0&quot;
+}
+</code></pre><p>我写一了一个简单的<a href="https://github.com/zxc0328/css-modules-demo" target="_blank" rel="external">DEMO仓库</a>，可以供参考。</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>CSS Modules可以解决全局作用域和Class组合两个问题，加上SASS等预处理器，着实让我们在写CSS时的工程化程度大大提高了。</p>
+<p>对于使用Vue的同学来说，vue-loader可以使CSS Modules可以轻松的整合到已有的工作流中。如果你正在使用Vue，可以试试使用CSS Modules。</p>
+<h3 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h3><ul>
+<li><a href="http://glenmaddern.com/articles/css-modules" target="_blank" rel="external">CSS Modules Welcome to the Future</a></li>
+<li><a href="https://www.youtube.com/watch?v=zR1lOuyQEt8&amp;index=29&amp;list=LLHdx8Qwo6uxw0fj3gQ5yeTg" target="_blank" rel="external">The case for CSS modules - Mark Dalgleish</a></li>
+<li><a href="https://speakerdeck.com/vjeux/react-css-in-js" target="_blank" rel="external">React: CSS in JS by vjeux</a></li>
+</ul>
 
         
       </div>
@@ -153,26 +251,18 @@ var lite = function( selector, context ) {
     
       <div class="post-footer">
         
-          <div class="post-tags">
-            
-              <a href="/tags/jQuery-JavaScript/">
-                #jQuery JavaScript
-              </a>
-            
-          </div>
-        
 
         
           <div class="post-nav">
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2016/03/19/2016-feday/">2016 FEDay见闻录</a>
+                <a href="/2016/11/13/vue-finger/">vue-finger</a>
               
             </div>
 
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2016/03/11/front-end-interview/">前端面试题总结（持续更新）</a>
+                <a href="/2016/10/03/project-management-in-netease/">猪场实习感受-项目管理</a>
               
             </div>
           </div>
@@ -272,7 +362,7 @@ var lite = function( selector, context ) {
 
     
       <div class="post-toc sidebar-panel-active">
-        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#开发环境的搭建"><span class="nav-number">1.</span> <span class="nav-text">开发环境的搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery的组织架构"><span class="nav-number">2.</span> <span class="nav-text">jQuery的组织架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lite构造函数"><span class="nav-number">2.1.</span> <span class="nav-text">lite构造函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lite-prototype-init"><span class="nav-number">2.2.</span> <span class="nav-text">lite.prototype.init</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lite-extend"><span class="nav-number">2.3.</span> <span class="nav-text">lite.extend()</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS在工程化上的一些问题"><span class="nav-number">1.</span> <span class="nav-text">CSS在工程化上的一些问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决全局作用域：Webpack-css-loader"><span class="nav-number">2.</span> <span class="nav-text">解决全局作用域：Webpack css-loader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-Modules"><span class="nav-number">3.</span> <span class="nav-text">CSS Modules</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Single-Responsibility-Principle"><span class="nav-number">4.</span> <span class="nav-text">Single Responsibility Principle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-Classes-Composing"><span class="nav-number">5.</span> <span class="nav-text">CSS Classes Composing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-Modules和Vue工作流的整合"><span class="nav-number">6.</span> <span class="nav-text">CSS Modules和Vue工作流的整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">7.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Links"><span class="nav-number">8.</span> <span class="nav-text">Links</span></a></li></ol>
       </div>
     
   </div>
