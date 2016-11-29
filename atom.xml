@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-13T09:30:51.000Z</updated>
+  <updated>2016-11-29T12:08:46.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,15 +16,65 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Unix·Talk 聊聊工程</title>
+    <link href="http://yoursite.com/2016/11/19/unix-talk-engineering/"/>
+    <id>http://yoursite.com/2016/11/19/unix-talk-engineering/</id>
+    <published>2016-11-19T02:43:14.000Z</published>
+    <updated>2016-11-29T12:08:46.000Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt; Unix·Talk是今年开始实行的木犀团队技术系列分享，面向的是团队内所有的技术同学，尤其是新人。在这个系列分享里，我们会聊聊计算机硬件，工程化实践，互联网文化，当然也会聊聊Unix操作系统相关的一切。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;工程是什么&quot;&gt;&lt;a href=&quot;#工程是什么&quot; class=&quot;headerlink&quot; title=&quot;工程是什么&quot;&gt;&lt;/a&gt;工程是什么&lt;/h3&gt;&lt;p&gt;首先看着两张图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/Screen%20Shot%202016-11-27%20at%207.00.59%20PM.png&quot; alt=&quot;vs&quot;&gt;&lt;/p&gt;
+&lt;p&gt;如果说左边的小草房是课程作业的话，那右边的高楼大厦，就是我们所说的工程。&lt;/p&gt;
+&lt;p&gt;大家可以思考一下，建造两者的过程有何不同。建左边的小房子也许不需要太多的材料，也不需要对材料进行深度的加工。在设计上，只要有基本的构想即可，不需要精准的蓝图。在施工上也相对随性一些。&lt;/p&gt;
+&lt;p&gt;而右边的高楼大厦，需要钢筋混凝土这种加工过的材料去构建，需要严密的蓝图和施工周期。同时也需要数百倍于左图的人力去建造。&lt;/p&gt;
+&lt;p&gt;从产出的规模和流程的复杂度来说，软件工程师和建筑工程师或者电气工程师一样，都在一套成熟的流程和体系下，打造大规模的产品。&lt;/p&gt;
+&lt;p&gt;所有，在互联网行业，工程就是一套完整的产品开发方法论。同时也包括项目开发中的项目管理，前期估算，后期测试等流程。&lt;/p&gt;
+&lt;p&gt;那为什么我们需要这套方法论呢？很简单。如果没有这套方法论指导，我们就无法顺利的开发出大型的软件，或者，我们的开发效率会很低。我们需要用工具来加速我们的开发，自动化一些无聊的工作。我们需要用设计模式来解耦我们的代码，让代码的可维护性更高。我们也需要项目管理，来让不同分工的工程师协同工作，顺利完工。&lt;/p&gt;
+&lt;p&gt;而这套方法论，学校里是很少有讲到的。这也是因为，工程相关的方法论需要工程师在项目开发的过程中不断的实践总结，毕竟纸上得来终觉浅，而工程这种和实际问题特别相关的方向，则更需要在实际的项目才能有更深入的理解。&lt;/p&gt;
+&lt;h3 id=&quot;工程的几个关键词&quot;&gt;&lt;a href=&quot;#工程的几个关键词&quot; class=&quot;headerlink&quot; title=&quot;工程的几个关键词&quot;&gt;&lt;/a&gt;工程的几个关键词&lt;/h3&gt;&lt;h4 id=&quot;工具&quot;&gt;&lt;a href=&quot;#工具&quot; class=&quot;headerlink&quot; title=&quot;工具&quot;&gt;&lt;/a&gt;工具&lt;/h4&gt;&lt;p&gt;俗话说，没有金刚钻，就不揽瓷器活。无论是客户端还是服务端，大家都有专属的神兵利器。&lt;/p&gt;
+&lt;p&gt;其中大家使用频率最高的便是编辑器或者IDE。前端有Sublime，安卓有Android Studio，iOS有Xcode，后端有Vim。强大的IDE往往&lt;br&gt;包含了从代码提示到编译打包的一条路服务。而Sublime这样的轻量级编辑器，需要我们进行各种DIY，打造成自己想要的样子。好用的编辑器往往会提高开发的效率，带来生产力的提高。&lt;/p&gt;
+&lt;p&gt;在客户端开发中，打包构建工具也是一个重要的类别。好用的打包工具不仅仅可以降低打包的时间，在前端等领域，好用的打包工具甚至代表了一种工具生态，串联起了一个完整的工具链。&lt;/p&gt;
+&lt;p&gt;开发中用到的工具还有很多。很多小工具的诞生，往往是为了解决某一个具体问题的。程序员往往希望一切机械的事务都可以自动化。并且也喜欢将繁杂的数据可视化。这两个动机驱动了很多小工具的诞生。&lt;/p&gt;
+&lt;p&gt;趁手的工具代表了先进的生产力。这也是构建大型工程时必须借助的垫脚石。工程化程度高的技术团队，往往都有着自己的先进工具。&lt;/p&gt;
+&lt;h4 id=&quot;编码规范&quot;&gt;&lt;a href=&quot;#编码规范&quot; class=&quot;headerlink&quot; title=&quot;编码规范&quot;&gt;&lt;/a&gt;编码规范&lt;/h4&gt;&lt;p&gt;编码规范包括代码风格，目录结构等等。这些编码规范的存在，一方面是约束团队成员的代码质量，使得一些低级错误和语言中的bad practice得到提醒和控制。一方面，代码规范中的一些代码风格相关的部分，是为了让团队成员的代码风格统一，这样有利于后期代码库的维护和迭代。&lt;/p&gt;
+&lt;p&gt;我们会使用一些Lint工具和持续集成等技术来将编码规范落地。一个团队的编码规范应该被写在一个单独的仓库或者文档里，以供团队成员参考。&lt;/p&gt;
+&lt;h4 id=&quot;设计模式&quot;&gt;&lt;a href=&quot;#设计模式&quot; class=&quot;headerlink&quot; title=&quot;设计模式&quot;&gt;&lt;/a&gt;设计模式&lt;/h4&gt;&lt;p&gt;设计模式&lt;/p&gt;
+&lt;h4 id=&quot;版本控制&quot;&gt;&lt;a href=&quot;#版本控制&quot; class=&quot;headerlink&quot; title=&quot;版本控制&quot;&gt;&lt;/a&gt;版本控制&lt;/h4&gt;&lt;p&gt;现在主流的版本控制工具是Git。Git&lt;/p&gt;
+&lt;h4 id=&quot;抽象&quot;&gt;&lt;a href=&quot;#抽象&quot; class=&quot;headerlink&quot; title=&quot;抽象&quot;&gt;&lt;/a&gt;抽象&lt;/h4&gt;&lt;p&gt;其实编程的精华便在于对过程以及数据的抽象。这是一种内功。通过对过程的抽象，我们可以将程序中可复用的模块提取成单独的函数，然后进行组合，这样可以大大增强语言的表现力。通过对数据的抽象，我们可以封装数据的细节，从一个更通用的角度来对数据进行操作。&lt;/p&gt;
+&lt;p&gt;对于抽象，推荐大家看《计算机程序的构造与解释》这本书。当然抽象要合理才行，过度的抽象也会使代码的易读性受损。&lt;/p&gt;
+&lt;h4 id=&quot;测试&quot;&gt;&lt;a href=&quot;#测试&quot; class=&quot;headerlink&quot; title=&quot;测试&quot;&gt;&lt;/a&gt;测试&lt;/h4&gt;&lt;p&gt;测试主要是为了保证软件的质量。在软件被开发完成之后，会进行一系列的测试，以保证软件的高可用性。一般团队会有专门的测试工程师。负责测试用例的编写。&lt;/p&gt;
+&lt;p&gt;对于后端这样主要负责数据处理的逻辑，我们可以编写单元测试，并且进行持续集成。单元测试以一个模块为单元进行测试，这样我们在错误发生时，可以准确的定位到具体的模块。单元测试也被用在测试驱动的开发中，测试驱动的开发就是先写测试用例，然后编写可以通过这个用例的代码。&lt;/p&gt;
+&lt;p&gt;对于客户端代码来说，因为UI复杂多变。所以自动化的单元测试只有在框架测试时比较实际，在UI的业务代码层面，一般我们采用人工测试。当然现在也有自动化的UI测试方案。&lt;/p&gt;
+&lt;h4 id=&quot;项目管理&quot;&gt;&lt;a href=&quot;#项目管理&quot; class=&quot;headerlink&quot; title=&quot;项目管理&quot;&gt;&lt;/a&gt;项目管理&lt;/h4&gt;&lt;h3 id=&quot;适合我们团队的一套工程化流程&quot;&gt;&lt;a href=&quot;#适合我们团队的一套工程化流程&quot; class=&quot;headerlink&quot; title=&quot;适合我们团队的一套工程化流程&quot;&gt;&lt;/a&gt;适合我们团队的一套工程化流程&lt;/h3&gt;&lt;p&gt;技术选型&lt;br&gt;合适的工具&lt;br&gt;Git协作&lt;br&gt;代码规范&lt;br&gt;项目架构-合适的抽象&lt;br&gt;代码审查&lt;br&gt;单元测试（后端）&lt;br&gt;人肉或自动测试（客户端）&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt; Unix·Talk是今年开始实行的木犀团队技术系列分享，面向的是团队内所有的技术同学，尤其是新人。在这个系列分享里，我们会聊聊计算机硬件，工程化实践，互联网文化，当然也会聊聊Unix操作系统相关的一切。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>自制Vue插件</title>
     <link href="http://yoursite.com/2016/11/13/vue-finger/"/>
     <id>http://yoursite.com/2016/11/13/vue-finger/</id>
     <published>2016-11-13T08:21:56.000Z</published>
-    <updated>2016-11-13T09:30:51.000Z</updated>
+    <updated>2016-11-27T10:47:30.000Z</updated>
     
-    <content type="html"></content>
+    <content type="html">&lt;h3 id=&quot;Vue的插件化机制&quot;&gt;&lt;a href=&quot;#Vue的插件化机制&quot; class=&quot;headerlink&quot; title=&quot;Vue的插件化机制&quot;&gt;&lt;/a&gt;Vue的插件化机制&lt;/h3&gt;&lt;h3 id=&quot;Vue-finger，一个插件的诞生&quot;&gt;&lt;a href=&quot;#Vue-finger，一个插件的诞生&quot; class=&quot;headerlink&quot; title=&quot;Vue-finger，一个插件的诞生&quot;&gt;&lt;/a&gt;Vue-finger，一个插件的诞生&lt;/h3&gt;</content>
     
     <summary type="html">
+    
+      &lt;h3 id=&quot;Vue的插件化机制&quot;&gt;&lt;a href=&quot;#Vue的插件化机制&quot; class=&quot;headerlink&quot; title=&quot;Vue的插件化机制&quot;&gt;&lt;/a&gt;Vue的插件化机制&lt;/h3&gt;&lt;h3 id=&quot;Vue-finger，一个插件的诞生&quot;&gt;&lt;a href=&quot;#Vue-fin
     
     </summary>
     
@@ -2684,61 +2734,6 @@ var LogView = (function(_View) {
     
     
       <category term="ES6" scheme="http://yoursite.com/tags/ES6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>面向前端模块化的web端设计准则</title>
-    <link href="http://yoursite.com/2015/09/27/web-desgin-issues-with-fe/"/>
-    <id>http://yoursite.com/2015/09/27/web-desgin-issues-with-fe/</id>
-    <published>2015-09-27T06:07:40.000Z</published>
-    <updated>2015-09-27T09:25:42.000Z</updated>
-    
-    <content type="html">&lt;p&gt;一个了解前端页面实现的设计师做出的设计可以让前端工程师事半功倍，而一个不了解前端实现基本知识的设计师的作品，在实际的操作中会让前端工程师叫苦不迭。所以我写这篇博客是想讲一下一些前端实现的流程和思想，其中有很大一部分是建立在一个前提之下的，那就是设计师的设计稿考虑到了一些模块化，可复用的思想，并且是按这些标准来进行设计的。&lt;/p&gt;
- &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;###1. 前端页面实现的流程&lt;br&gt;一般来说，一个web端产品有好几个页面组成，前端工程师会首先分析页面的结构和模块，这属于页面的架构部分。而在页面的样式部分，则需要提取出页面的主要设计元素（色值，字号，margin，padding等等）。&lt;br&gt;你可能会问，为什么要提取呢，直接做页面，到时候去看一下色值和字号是什么不就行了？&lt;br&gt;问的好，按那样做的确是可以，然而现在的产品比较复杂，css虽然不是一种编程语言，但是less，sass等技术给css添加了一些编程语言才有的特性，比如变量，嵌套，mixin等等。这样我们在使用sass之类的异构语言写css时，就可以将css分门别类，每个模块写一个专门的sass文件，将页面上可以复用的css代码段提取出来，在各个模块之中调用，达到提高效率的目的。&lt;br&gt;我这么说可能还是不够具体，拿学而来说，整个产品中有这样几种色值：&lt;br&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/Screen%20Shot%202015-09-27%20at%202.54.58%20PM.png&quot; alt=&quot;学而色值&quot;&gt;&lt;br&gt;&lt;em&gt;p.s.这里只列出了最主要的颜色。&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;用sass代码写就是这样  &lt;/p&gt;
-&lt;p&gt;&lt;pre class=&quot;prettyprint&quot;&gt;&lt;br&gt;$mainColorGreen:#92CF67;&lt;br&gt;$mainColorGray:F7F8FA;&lt;br&gt;$fontColorDark:#666;&lt;br&gt;$fontColorLight:#999;&lt;br&gt;&lt;/pre&gt;&lt;br&gt;这样我们就告别了符号化的16进制颜色代码，从而可以用语义化的变量来调用颜色值，每当我们要使用颜色值的时候，只要这样调用就可以了：  &lt;/p&gt;
-&lt;p&gt;&lt;pre class=&quot;prettyprint&quot;&gt;&lt;br&gt;.main{&lt;br&gt;    background-color:$mainColorGray;&lt;br&gt;}&lt;br&gt;.title{&lt;br&gt;    color:$fontColorDark;&lt;br&gt;}&lt;br&gt;&lt;/pre&gt;&lt;br&gt;从而将颜色值统一管理，大大加强了可复用性。&lt;/p&gt;
-&lt;p&gt;对于其他的数值类型的样式比如字号，边距，也是同样的做法，前端工程师在写样式时会首先提取这些通用的元素。&lt;br&gt;因此如果设计师懂得前端的流程，并按相应的准则来设计，那么前端工程师就可以提取到大量的信息。事实上，如果有标注这个流程，那么设计师在标注时便可以总结出自己设计稿中的一些可以复用的元素，相比之下，设计师更了解自己的作品，因此在总结时会更加的轻松自如。标注这一部分将在2.4节中介绍。&lt;br&gt;反之，如果设计师不按约定的准则来设计，那么前端工程师便很难提取出相同的元素（因为设计的时候压根就没考虑这个！），造成前端的样式混乱，开发效率大大下降。&lt;/p&gt;
-&lt;p&gt;###2. 一些面向前端模块化的设计准则&lt;/p&gt;
-&lt;p&gt;####2.1 样式复用&lt;br&gt;这些元素包括，颜色值，字体的字号，边距等    &lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;颜色值&lt;/strong&gt;  &lt;/p&gt;
-&lt;p&gt;之前在第一节中便举了颜色复用的例子，这里再拿学而作为例子，比如学而中的课程信息页：&lt;br&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/Screen%20Shot%202015-09-27%20at%203.28.16%20PM.png&quot; alt=&quot;课程信息页&quot;&gt;&lt;br&gt; 搜索框和评论框的边框色是一样的，这就方便了前端工程师的代码复用。而从视觉上来说，搜索框和评论框作为两个组件，在UI上的风格是相近的。&lt;br&gt; 所以基本的原则就是控制整个项目中使用的颜色的数量，在相似的组件上复用色值或者其他的数值，在使用一种新的颜色之前，请想一想，是否可以用现有的颜色而不是引入一种新的颜色。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;字号&lt;/strong&gt;  &lt;/p&gt;
-&lt;p&gt;字号的原则也是在页面中不要引入过多的不同字号。因为我们在前端中使用相对字号，所以一般我们定一种基础的字号，作为主要的正文的字号。而标题等元素的字号大小则定为基础字号的倍数，一般是一位小数倍，比如1.2、1.5、1.8等。比如在学而中存在32px,24px,17px,16px,14px,12px这些字号，我们将12px定为base字号，那么24px便是12px的两倍，用2rem表示，16px则是1.33rem，不是有理数，因此在设计中应该加以避免（在视觉效果满足要求的前提下，16px可以改为15px，这样就是1.25rem）（或者在最初设计之时就加以规划）。&lt;br&gt;然而这些字号还是太散乱了，在一个组件（模块）中使用三级字体是比较合理的选择，而组件之间的字号值可以重合，从而使整个产品的字号系统大大简化。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;边距&lt;/strong&gt;  &lt;/p&gt;
-&lt;p&gt;在一个组件中，可能存在很多不同的边距值，这次问题的关键不是不同边距值的数量，而是边距之间的倍数关系。如果边距之间是整数倍的，那么在sass中便可以使用运算符来进行边距的计算，比如:  &lt;/p&gt;
-&lt;p&gt;&lt;pre class=&quot;prettyprint&quot;&gt;&lt;br&gt;$marginBase:10px;&lt;br&gt;$paddingBase:20px;&lt;br&gt;.box{&lt;br&gt;    margin:$marginBase $marginBase*2;&lt;br&gt;    padding-top:$paddingBase/2;&lt;br&gt;}&lt;br&gt;&lt;/pre&gt;&lt;br&gt;这就要求我们在设计时对边距进行一些计算，从而在保证视觉效果的前提之下，使边距达到一个倍数的关系。 &lt;/p&gt;
-&lt;p&gt;一个反面例子：    &lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/Screen%20Shot%202015-09-27%20at%204.06.04%20PM_spec.png&quot; alt=&quot;学而首页热门课程组件&quot;&gt;  &lt;/p&gt;
-&lt;p&gt;这是学而首页的热门课程组件，其中纵向的边距每一个的不同，而且之间没有任何倍数关系，这就给边距的计算带来了麻烦。  &lt;/p&gt;
-&lt;p&gt;####2.2 页面模块化&lt;br&gt;之前在第一节中讲过，在开发中，前端工程师会对页面进行模块的划分，然后分别开发。因此设计师在设计时，就要注意这种模块化、组件化的思路。  &lt;/p&gt;
-&lt;p&gt;这是学而首页的模块划分：  &lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/xueer.png&quot; alt=&quot;学而首页&quot;&gt;  &lt;/p&gt;
-&lt;p&gt;为什么要进行模块划分呢？首先，拿学而来说，首页有的导航和页脚两个模块在其他页面中都会用到，所以我们将它们分出来来达到一个复用的效果。对于其他模块，实际上我们在其他页面中并不会复用，但我们还是要用一种模块化的思维来看。   &lt;/p&gt;
-&lt;p&gt;什么是模块化的思维呢？其实就将一个模块设计成一个相对独立的个体，它继承了整个产品的基础设计风格，简而言之就是一些通用的样式，比如色值，字体，字号，边距。但它是相对独立的，可以独立的完成一个功能，与其他的模块并没有耦合的关系。也就是说，这个模块是可以拔插的，加入这个模块，便获得了相应的功能，而移除这个模块，整个页面在功能上不会受太大的影响，当然视觉效果上会受影响。所以设计师要考虑的就是如何设计相互独立的模块并且布局（比如两个模块在页面上有部分重叠，就是一个不太好的实践）。 &lt;/p&gt;
-&lt;p&gt;学而的首页便是一个高度模块化的页面，我们将一些功能模块，如猜你喜欢移除，换成其他的模块，整个页面在视觉上和功能上都不会受影响，只是没有了猜你喜欢这个特定的模块罢了。  &lt;/p&gt;
-&lt;p&gt;模块化的页面设计，对于后续的产品升级和维护，也是很有利的。&lt;/p&gt;
-&lt;p&gt;####2.3 UI组件系统化&lt;br&gt;UI组件和上一小节中所说的模块有什么不同呢?&lt;br&gt;相比于带有逻辑、能完成独立功能的模块，UI组件不带有逻辑，是用于完成UI交互功能的某个小组件。所以UI组件相比与模块来说细粒度要更小一些。各个模块可以重复使用站点的UI组件，来达到一种视觉风格的统一。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/Screen%20Shot%202015-09-27%20at%205.00.34%20PM.png&quot; alt=&quot;UI&quot;&gt;&lt;br&gt;&lt;em&gt;学而的UI组件&lt;/em&gt;   &lt;/p&gt;
-&lt;p&gt;关于UI组件，我相信就不用我班门弄斧了，设计师们在设计一个产品时所设计的UI组件自然是系统化的。  &lt;/p&gt;
-&lt;p&gt;一套系统的UI组件，可以在代码中用独立的文件进行引用，因此这是加强页面组件化的一大利器。对此我的建议就是在做页面的同时维护一张UI组件清单，这样可以直观的组织已有的UI组件，同时在开发时，也可以交给前端进行UI组件的快速整理和开发。  &lt;/p&gt;
-&lt;p&gt;####2.4 关于标注&lt;br&gt;关于标注，做的好可以给前端工程师带来巨大的效率提升，但如果不懂得前端开发的一些常识，标注也可以变得毫无用处。&lt;/p&gt;
-&lt;p&gt;关于页面色值，字号，边距的标注比较复杂，可以单独写一篇博文来讲，这里就不详述了。 &lt;/p&gt;
-&lt;p&gt;而另一个意义重大的标注便是UI组件的清单，比如：&lt;br&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/index_uikit.png&quot; alt=&quot;UI&quot;&gt;  &lt;/p&gt;
-&lt;p&gt;这个清单对于设计师整理自己的UI组件和前端工程师快速开发都是很有利的。&lt;/p&gt;
-&lt;p&gt;###3. 结语&lt;br&gt;如果设计师能了解了这些前端开发的常识，并且把这些准则在设计中运用起来，那么我相信前端工程师和设计师之前的合作可以更加的流畅。前端工程师是设计稿的最终实践者，所以如果工程师和设计师之间能去除了一些认知障碍，达成共识，开发效率一定可以得到很大程度的提升。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;一个了解前端页面实现的设计师做出的设计可以让前端工程师事半功倍，而一个不了解前端实现基本知识的设计师的作品，在实际的操作中会让前端工程师叫苦不迭。所以我写这篇博客是想讲一下一些前端实现的流程和思想，其中有很大一部分是建立在一个前提之下的，那就是设计师的设计稿考虑到了一些模块化，可复用的思想，并且是按这些标准来进行设计的。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="Design" scheme="http://yoursite.com/tags/Design/"/>
     
   </entry>
   
