@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-30T08:33:31.000Z</updated>
+  <updated>2016-11-30T08:46:41.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,17 +20,21 @@
     <link href="http://yoursite.com/2016/11/29/timeline/"/>
     <id>http://yoursite.com/2016/11/29/timeline/</id>
     <published>2016-11-29T12:15:49.000Z</published>
-    <updated>2016-11-30T08:33:31.000Z</updated>
+    <updated>2016-11-30T08:46:41.000Z</updated>
     
     <content type="html">&lt;p&gt;最近在进行移动端Web页面的性能调优时用到了Chrome Devtools的Timeline。Timeline主要是针对浏览器渲染引擎的相关数据进行记录。关于Timeline的介绍可以看&lt;a href=&quot;https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/timeline-tool&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官方文档&lt;/a&gt;。下面主要说说实际应用时如何来分析Timeline的数据，然后优化页面。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h3 id=&quot;Timeline的使用场景&quot;&gt;&lt;a href=&quot;#Timeline的使用场景&quot; class=&quot;headerlink&quot; title=&quot;Timeline的使用场景&quot;&gt;&lt;/a&gt;Timeline的使用场景&lt;/h3&gt;&lt;p&gt;Timeline的使用场景一个是在页面发生明显的卡顿时，比如CSS动画或者页面滚动时，用来分析卡顿的原因。还有一个场景便是进行页面渲染性能的评估，看页面渲染性能是否有优化的空间，或者通过截图观察页面渲染的过程，优化&lt;a href=&quot;https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Speed Index&lt;/a&gt;来提升用户体验。&lt;/p&gt;
 &lt;h3 id=&quot;关于渲染&quot;&gt;&lt;a href=&quot;#关于渲染&quot; class=&quot;headerlink&quot; title=&quot;关于渲染&quot;&gt;&lt;/a&gt;关于渲染&lt;/h3&gt;&lt;p&gt;我们知道，如果以每秒16-24帧的速度连续播放图片，那人就会产生动画的幻觉。在UI动画中，因为目前主流显示设备的刷新率达到了60Hz，我们追求的的帧率是60fps。那理想情况下，每一帧的时间应该是&lt;code&gt;1/60=16.67ms&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;又因为JavaScript是单线程事件驱动的模型。所以浏览器在一帧之内要完成JavaScript脚本的运行，然后计算，合成这帧画面，并渲染。&lt;/p&gt;
-&lt;h3 id=&quot;Long-Frame&quot;&gt;&lt;a href=&quot;#Long-Frame&quot; class=&quot;headerlink&quot; title=&quot;Long Frame&quot;&gt;&lt;/a&gt;Long Frame&lt;/h3&gt;&lt;p&gt;所谓的Long Frame，也就是我们在Timeline的FPS中被标注为红色的那些帧，便是用时超过正常标准的那些帧。&lt;/p&gt;
+&lt;h3 id=&quot;Long-Frame&quot;&gt;&lt;a href=&quot;#Long-Frame&quot; class=&quot;headerlink&quot; title=&quot;Long Frame&quot;&gt;&lt;/a&gt;Long Frame&lt;/h3&gt;&lt;p&gt;所谓的Long Frame，也就是我们在Timeline的FPS中被标注为红色（如下图）的那些帧，便是用时超过正常标准的那些帧。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/longframe.png&quot; alt=&quot;longframe&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;long frame&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Long Frame往往意味着卡顿，因为帧率低于60fps，甚至30fps。我们会通过查看这帧中的JS运行情况，浏览器渲染情况，以及浏览器用户触发事件的情况来分析卡顿的原因。&lt;/p&gt;
-&lt;h3 id=&quot;Timeline中有价值的数据&quot;&gt;&lt;a href=&quot;#Timeline中有价值的数据&quot; class=&quot;headerlink&quot; title=&quot;Timeline中有价值的数据&quot;&gt;&lt;/a&gt;Timeline中有价值的数据&lt;/h3&gt;&lt;h4 id=&quot;JS调用栈&quot;&gt;&lt;a href=&quot;#JS调用栈&quot; class=&quot;headerlink&quot; title=&quot;JS调用栈&quot;&gt;&lt;/a&gt;JS调用栈&lt;/h4&gt;&lt;p&gt;如果是JS运行时间过长，比如超过10ms，那我们就有必要检查这个JS的调用栈，可以通过查看Details一栏中的Bottom-up选项卡来看到自顶向下的调用信息。分析那个函数调用占用了过多的时间，并加以解决。&lt;/p&gt;
+&lt;h3 id=&quot;Timeline中有价值的数据&quot;&gt;&lt;a href=&quot;#Timeline中有价值的数据&quot; class=&quot;headerlink&quot; title=&quot;Timeline中有价值的数据&quot;&gt;&lt;/a&gt;Timeline中有价值的数据&lt;/h3&gt;&lt;h4 id=&quot;JS调用栈&quot;&gt;&lt;a href=&quot;#JS调用栈&quot; class=&quot;headerlink&quot; title=&quot;JS调用栈&quot;&gt;&lt;/a&gt;JS调用栈&lt;/h4&gt;&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/jsstack.png&quot; alt=&quot;jscallstack&quot;&gt;&lt;br&gt;&lt;em&gt;JS Call Stack&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;如果是JS运行时间过长，比如超过10ms，那我们就有必要检查这个JS的调用栈，可以通过查看Details一栏中的Bottom-up选项卡来看到自顶向下的调用信息。分析那个函数调用占用了过多的时间，并加以解决。&lt;/p&gt;
 &lt;h4 id=&quot;浏览器渲染信息&quot;&gt;&lt;a href=&quot;#浏览器渲染信息&quot; class=&quot;headerlink&quot; title=&quot;浏览器渲染信息&quot;&gt;&lt;/a&gt;浏览器渲染信息&lt;/h4&gt;&lt;p&gt;浏览器渲染每一帧画面，需要经过这些阶段。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://developers.google.com/web/fundamentals/performance/rendering/images/intro/frame-full.jpg&quot; alt=&quot;render&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/frame-full.jpg&quot; alt=&quot;render&quot;&gt;&lt;br&gt;&lt;em&gt;render pipeline&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;其中我们需要避免的主要就是Layout，如果触发了Layout的重新计算，那就意味着你的页面需要重绘，这是一个非常expensive的任务。如果我们在CSS动画时使用了GPU加速，那这些动画就不会造成重绘，而是作为一个单独的层在Compose阶段进行组合。&lt;/p&gt;
 &lt;p&gt;如果是浏览器渲染用时过多，我们就需要检查代码中是否触发了不必要的浏览器重绘。这方面的优化主要是针对CSS的优化，是一个专门的专题。一般的措施是采用CSS3 transform进行动画，开启硬件加速来避免浏览器重绘。&lt;/p&gt;
 &lt;h4 id=&quot;事件输入&quot;&gt;&lt;a href=&quot;#事件输入&quot; class=&quot;headerlink&quot; title=&quot;事件输入&quot;&gt;&lt;/a&gt;事件输入&lt;/h4&gt;&lt;p&gt;我们可以在Flame Chart的Interaction部分看到浏览器在这段时间触发的事件。&lt;/p&gt;
@@ -43,7 +47,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;最近在进行移动端Web页面的性能调优时用到了Chrome Devtools的Timeline。Timeline主要是针对浏览器渲染引擎的相关数据进行记录。关于Timeline的介绍可以看&lt;a href=&quot;https://developers.google.com/web/t
+      &lt;p&gt;最近在进行移动端Web页面的性能调优时用到了Chrome Devtools的Timeline。Timeline主要是针对浏览器渲染引擎的相关数据进行记录。关于Timeline的介绍可以看&lt;a href=&quot;https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/timeline-tool&quot;&gt;官方文档&lt;/a&gt;。下面主要说说实际应用时如何来分析Timeline的数据，然后优化页面。&lt;/p&gt;
     
     </summary>
     
