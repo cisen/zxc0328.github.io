@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-11-29T12:08:46.000Z</updated>
+  <updated>2016-11-29T12:15:49.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,23 +16,39 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>timeline</title>
+    <link href="http://yoursite.com/2016/11/29/timeline/"/>
+    <id>http://yoursite.com/2016/11/29/timeline/</id>
+    <published>2016-11-29T12:15:49.000Z</published>
+    <updated>2016-11-29T12:15:49.000Z</updated>
+    
+    <content type="html"></content>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Unix·Talk 聊聊工程</title>
     <link href="http://yoursite.com/2016/11/19/unix-talk-engineering/"/>
     <id>http://yoursite.com/2016/11/19/unix-talk-engineering/</id>
     <published>2016-11-19T02:43:14.000Z</published>
-    <updated>2016-11-29T12:08:46.000Z</updated>
+    <updated>2016-11-29T14:50:59.000Z</updated>
     
     <content type="html">&lt;blockquote&gt;
-&lt;p&gt; Unix·Talk是今年开始实行的木犀团队技术系列分享，面向的是团队内所有的技术同学，尤其是新人。在这个系列分享里，我们会聊聊计算机硬件，工程化实践，互联网文化，当然也会聊聊Unix操作系统相关的一切。&lt;/p&gt;
+&lt;p&gt; Unix·Talk是今年开始实行的木犀团队系列技术分享，面向的是团队内所有的技术同学，尤其是新人。在这个系列分享里，我们会聊聊计算机硬件，工程化实践，互联网文化，当然也会聊聊和Unix操作系统有关的一切。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;工程是什么&quot;&gt;&lt;a href=&quot;#工程是什么&quot; class=&quot;headerlink&quot; title=&quot;工程是什么&quot;&gt;&lt;/a&gt;工程是什么&lt;/h3&gt;&lt;p&gt;首先看着两张图：&lt;/p&gt;
+&lt;h3 id=&quot;工程是什么&quot;&gt;&lt;a href=&quot;#工程是什么&quot; class=&quot;headerlink&quot; title=&quot;工程是什么&quot;&gt;&lt;/a&gt;工程是什么&lt;/h3&gt;&lt;p&gt;首先请大家观察这两张图：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/Screen%20Shot%202016-11-27%20at%207.00.59%20PM.png&quot; alt=&quot;vs&quot;&gt;&lt;/p&gt;
 &lt;p&gt;如果说左边的小草房是课程作业的话，那右边的高楼大厦，就是我们所说的工程。&lt;/p&gt;
 &lt;p&gt;大家可以思考一下，建造两者的过程有何不同。建左边的小房子也许不需要太多的材料，也不需要对材料进行深度的加工。在设计上，只要有基本的构想即可，不需要精准的蓝图。在施工上也相对随性一些。&lt;/p&gt;
-&lt;p&gt;而右边的高楼大厦，需要钢筋混凝土这种加工过的材料去构建，需要严密的蓝图和施工周期。同时也需要数百倍于左图的人力去建造。&lt;/p&gt;
+&lt;p&gt;而右边的高楼大厦，需要钢筋混凝土这种深度加工的材料去构建，需要严密的蓝图和施工周期。同时也需要数百倍于左图的人力去建造。&lt;/p&gt;
 &lt;p&gt;从产出的规模和流程的复杂度来说，软件工程师和建筑工程师或者电气工程师一样，都在一套成熟的流程和体系下，打造大规模的产品。&lt;/p&gt;
-&lt;p&gt;所有，在互联网行业，工程就是一套完整的产品开发方法论。同时也包括项目开发中的项目管理，前期估算，后期测试等流程。&lt;/p&gt;
+&lt;p&gt;所以，在互联网行业，工程就是一套完整的产品研发方法论。同时也包括项目开发周期中的项目管理，前期估算，后期测试等流程。&lt;/p&gt;
 &lt;p&gt;那为什么我们需要这套方法论呢？很简单。如果没有这套方法论指导，我们就无法顺利的开发出大型的软件，或者，我们的开发效率会很低。我们需要用工具来加速我们的开发，自动化一些无聊的工作。我们需要用设计模式来解耦我们的代码，让代码的可维护性更高。我们也需要项目管理，来让不同分工的工程师协同工作，顺利完工。&lt;/p&gt;
 &lt;p&gt;而这套方法论，学校里是很少有讲到的。这也是因为，工程相关的方法论需要工程师在项目开发的过程中不断的实践总结，毕竟纸上得来终觉浅，而工程这种和实际问题特别相关的方向，则更需要在实际的项目才能有更深入的理解。&lt;/p&gt;
 &lt;h3 id=&quot;工程的几个关键词&quot;&gt;&lt;a href=&quot;#工程的几个关键词&quot; class=&quot;headerlink&quot; title=&quot;工程的几个关键词&quot;&gt;&lt;/a&gt;工程的几个关键词&lt;/h3&gt;&lt;h4 id=&quot;工具&quot;&gt;&lt;a href=&quot;#工具&quot; class=&quot;headerlink&quot; title=&quot;工具&quot;&gt;&lt;/a&gt;工具&lt;/h4&gt;&lt;p&gt;俗话说，没有金刚钻，就不揽瓷器活。无论是客户端还是服务端，大家都有专属的神兵利器。&lt;/p&gt;
@@ -41,21 +57,40 @@
 &lt;p&gt;开发中用到的工具还有很多。很多小工具的诞生，往往是为了解决某一个具体问题的。程序员往往希望一切机械的事务都可以自动化。并且也喜欢将繁杂的数据可视化。这两个动机驱动了很多小工具的诞生。&lt;/p&gt;
 &lt;p&gt;趁手的工具代表了先进的生产力。这也是构建大型工程时必须借助的垫脚石。工程化程度高的技术团队，往往都有着自己的先进工具。&lt;/p&gt;
 &lt;h4 id=&quot;编码规范&quot;&gt;&lt;a href=&quot;#编码规范&quot; class=&quot;headerlink&quot; title=&quot;编码规范&quot;&gt;&lt;/a&gt;编码规范&lt;/h4&gt;&lt;p&gt;编码规范包括代码风格，目录结构等等。这些编码规范的存在，一方面是约束团队成员的代码质量，使得一些低级错误和语言中的bad practice得到提醒和控制。一方面，代码规范中的一些代码风格相关的部分，是为了让团队成员的代码风格统一，这样有利于后期代码库的维护和迭代。&lt;/p&gt;
-&lt;p&gt;我们会使用一些Lint工具和持续集成等技术来将编码规范落地。一个团队的编码规范应该被写在一个单独的仓库或者文档里，以供团队成员参考。&lt;/p&gt;
-&lt;h4 id=&quot;设计模式&quot;&gt;&lt;a href=&quot;#设计模式&quot; class=&quot;headerlink&quot; title=&quot;设计模式&quot;&gt;&lt;/a&gt;设计模式&lt;/h4&gt;&lt;p&gt;设计模式&lt;/p&gt;
-&lt;h4 id=&quot;版本控制&quot;&gt;&lt;a href=&quot;#版本控制&quot; class=&quot;headerlink&quot; title=&quot;版本控制&quot;&gt;&lt;/a&gt;版本控制&lt;/h4&gt;&lt;p&gt;现在主流的版本控制工具是Git。Git&lt;/p&gt;
-&lt;h4 id=&quot;抽象&quot;&gt;&lt;a href=&quot;#抽象&quot; class=&quot;headerlink&quot; title=&quot;抽象&quot;&gt;&lt;/a&gt;抽象&lt;/h4&gt;&lt;p&gt;其实编程的精华便在于对过程以及数据的抽象。这是一种内功。通过对过程的抽象，我们可以将程序中可复用的模块提取成单独的函数，然后进行组合，这样可以大大增强语言的表现力。通过对数据的抽象，我们可以封装数据的细节，从一个更通用的角度来对数据进行操作。&lt;/p&gt;
+&lt;p&gt;我们可以使用一些Lint工具和持续集成等技术来将编码规范落地。一个团队的编码规范应该被写在一个单独的仓库或者文档里，以供团队成员参考。&lt;/p&gt;
+&lt;h4 id=&quot;设计模式&quot;&gt;&lt;a href=&quot;#设计模式&quot; class=&quot;headerlink&quot; title=&quot;设计模式&quot;&gt;&lt;/a&gt;设计模式&lt;/h4&gt;&lt;p&gt;设计模式有很多，从常见的工厂模式，单例模式，观察者模式，装饰器模式等到应用架构层面的MVC，MVVM等。&lt;/p&gt;
+&lt;p&gt;设计模式主要帮我们将一个大型的系统解耦成不同的层次。比如将数据层和视图层分离，并用一个中间层将二者联系起来。&lt;/p&gt;
+&lt;p&gt;因为大型的系统的模块数量众多，不同模块之间关系复杂。我们要用设计模式来将不同的模块划入不同的层次。&lt;/p&gt;
+&lt;p&gt;而观察者模式这样的设计模式主要是为了使模块之间可以实现松耦合下的通信。虽然模块之间有着各种的依赖和调用关系，但我们并不打算让不同模块直接相互调用，而是实现一套接口，并借助中间人通信。这样如果某个模块被替换，只要新的模块实现了相同的接口，整个系统依然可以正常运行。&lt;/p&gt;
+&lt;p&gt;在开发软件时，我们一般都遵循一套成熟的模式，在此基础上，完成业务代码的编写。设计模式也是大型软件的基石。&lt;/p&gt;
+&lt;p&gt;对于设计模式，关键点往往不是你能说出几个设计模式，而是你懂得在什么情况下使用合适的设计模式。&lt;/p&gt;
+&lt;h4 id=&quot;版本控制&quot;&gt;&lt;a href=&quot;#版本控制&quot; class=&quot;headerlink&quot; title=&quot;版本控制&quot;&gt;&lt;/a&gt;版本控制&lt;/h4&gt;&lt;p&gt;现在主流的版本控制工具是Git。Git主要的作用是版本控制，同时也帮助我们进行多人的协作。&lt;/p&gt;
+&lt;p&gt;没有Git的话，如果我们需要保留多个不同版本的代码，就需要手动保存。在多人协作时，没有Git也是无法想象的。比如用FTP进行协作，每次都覆盖式的保存，这样的的代码管理无疑是非常原始的。&lt;/p&gt;
+&lt;p&gt;事实上Git的Branch以及Github的pull request等等机制造就了一套独特的Git工作流。这套工作流无疑是团队协作的最佳选择之一。&lt;/p&gt;
+&lt;h4 id=&quot;抽象&quot;&gt;&lt;a href=&quot;#抽象&quot; class=&quot;headerlink&quot; title=&quot;抽象&quot;&gt;&lt;/a&gt;抽象&lt;/h4&gt;&lt;p&gt;其实编程的精华便在于对过程（precedure）以及数据的抽象。这是一种编程的内功。通过对过程的抽象，我们可以将程序中可复用的模块提取成单独的函数，然后进行组合，这样可以大大增强程序的表现力。通过对数据的抽象，我们可以封装数据的细节，从一个更通用的维度来对数据进行操作。&lt;/p&gt;
 &lt;p&gt;对于抽象，推荐大家看《计算机程序的构造与解释》这本书。当然抽象要合理才行，过度的抽象也会使代码的易读性受损。&lt;/p&gt;
 &lt;h4 id=&quot;测试&quot;&gt;&lt;a href=&quot;#测试&quot; class=&quot;headerlink&quot; title=&quot;测试&quot;&gt;&lt;/a&gt;测试&lt;/h4&gt;&lt;p&gt;测试主要是为了保证软件的质量。在软件被开发完成之后，会进行一系列的测试，以保证软件的高可用性。一般团队会有专门的测试工程师。负责测试用例的编写。&lt;/p&gt;
-&lt;p&gt;对于后端这样主要负责数据处理的逻辑，我们可以编写单元测试，并且进行持续集成。单元测试以一个模块为单元进行测试，这样我们在错误发生时，可以准确的定位到具体的模块。单元测试也被用在测试驱动的开发中，测试驱动的开发就是先写测试用例，然后编写可以通过这个用例的代码。&lt;/p&gt;
-&lt;p&gt;对于客户端代码来说，因为UI复杂多变。所以自动化的单元测试只有在框架测试时比较实际，在UI的业务代码层面，一般我们采用人工测试。当然现在也有自动化的UI测试方案。&lt;/p&gt;
-&lt;h4 id=&quot;项目管理&quot;&gt;&lt;a href=&quot;#项目管理&quot; class=&quot;headerlink&quot; title=&quot;项目管理&quot;&gt;&lt;/a&gt;项目管理&lt;/h4&gt;&lt;h3 id=&quot;适合我们团队的一套工程化流程&quot;&gt;&lt;a href=&quot;#适合我们团队的一套工程化流程&quot; class=&quot;headerlink&quot; title=&quot;适合我们团队的一套工程化流程&quot;&gt;&lt;/a&gt;适合我们团队的一套工程化流程&lt;/h3&gt;&lt;p&gt;技术选型&lt;br&gt;合适的工具&lt;br&gt;Git协作&lt;br&gt;代码规范&lt;br&gt;项目架构-合适的抽象&lt;br&gt;代码审查&lt;br&gt;单元测试（后端）&lt;br&gt;人肉或自动测试（客户端）&lt;/p&gt;
+&lt;p&gt;对于后端这样主要负责数据处理的逻辑，我们可以编写自动化的单元测试，并且进行持续集成。单元测试以一个模块为单元进行测试，这样我们在错误发生时，可以准确的定位到具体的模块。单元测试也被用在测试驱动的开发中，测试驱动的开发就是先写测试用例，然后编写可以通过这个测试用例的代码。&lt;/p&gt;
+&lt;p&gt;对于客户端代码来说，因为UI复杂多变。所以自动化的单元测试只有在对框架/库的代码进行测试时比较实际，在业务逻辑层面，比如视图层，我们一般采用人工测试。当然现在也有自动化的UI测试方案。&lt;/p&gt;
+&lt;h4 id=&quot;项目管理&quot;&gt;&lt;a href=&quot;#项目管理&quot; class=&quot;headerlink&quot; title=&quot;项目管理&quot;&gt;&lt;/a&gt;项目管理&lt;/h4&gt;&lt;p&gt;项目管理，是学校软件工程课程中主要涉及的。这个主要涉及传统软件的开发流程。从需求分析，成本估算，开发流程到最后的测试。&lt;/p&gt;
+&lt;p&gt;互联网的开发模型上主要还是比较敏捷的迭代。通常以一个月甚至几周的周期进行迭代。其中Web应用的特点便是可以随时发布更新，所以在这方面显得更突出一些。&lt;/p&gt;
+&lt;p&gt;关于项目管理或者软件工程，大家可以去看《人月神话》，《构建之法》等书。虽然这些书主要针对的是传统软件工程，但我们在互联网产品的开发中还是可以从中汲取一些经验的。&lt;/p&gt;
+&lt;h3 id=&quot;适合我们团队的一套工程化流程&quot;&gt;&lt;a href=&quot;#适合我们团队的一套工程化流程&quot; class=&quot;headerlink&quot; title=&quot;适合我们团队的一套工程化流程&quot;&gt;&lt;/a&gt;适合我们团队的一套工程化流程&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;技术选型&lt;/strong&gt;-选用最合适的技术栈，当然为了把玩新技术而选用比较新的技术栈也是可以的。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;合适的工具&lt;/strong&gt;-鼓励大家，没有在开源社区找到符合自己要求的工具时，打造自己专属的工具。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Git协作&lt;/strong&gt;-Git工作流&lt;/li&gt;
+&lt;li&gt;代码规范&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;项目架构&lt;/strong&gt;-合适的抽象，不仅仅是MVC等架构，也包括其他可以复用的组件和Utility模块。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;代码审查&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;单元测试（后端）&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;人肉或自动测试（客户端）&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
 </content>
     
     <summary type="html">
     
       &lt;blockquote&gt;
-&lt;p&gt; Unix·Talk是今年开始实行的木犀团队技术系列分享，面向的是团队内所有的技术同学，尤其是新人。在这个系列分享里，我们会聊聊计算机硬件，工程化实践，互联网文化，当然也会聊聊Unix操作系统相关的一切。&lt;/p&gt;
+&lt;p&gt; Unix·Talk是今年开始实行的木犀团队系列技术分享，面向的是团队内所有的技术同学，尤其是新人。在这个系列分享里，我们会聊聊计算机硬件，工程化实践，互联网文化，当然也会聊聊和Unix操作系统有关的一切。&lt;/p&gt;
 &lt;/blockquote&gt;
     
     </summary>
@@ -2423,317 +2458,6 @@ this.options.userModel.fetch({
     
     
       <category term="Network" scheme="http://yoursite.com/tags/Network/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ES6探秘-Classes</title>
-    <link href="http://yoursite.com/2015/10/22/learn-ES6-with-babel/"/>
-    <id>http://yoursite.com/2015/10/22/learn-ES6-with-babel/</id>
-    <published>2015-10-22T01:23:57.000Z</published>
-    <updated>2015-10-22T14:28:44.000Z</updated>
-    
-    <content type="html">&lt;p&gt;ES6中增加了一些新特性，但从底层的角度来说，只是一些语法糖。&lt;br&gt;但是就我个人来说，如果不了解这些语法糖的本质，是用不安心的。那我们要如何揭开这些语法糖的真实面目呢？&lt;br&gt;Babel to the rescue！ Babel是一款将ES6代码转换为ES5代码的编译器，从而让我们可以无视浏览器的支持，直接享受ES6的新特性。同时，我们也可以通过研究Babel编译出的ES5代码，来揭开ES6的面纱。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;###ES6 Classes&lt;br&gt;ES6中的Classes是在Javascript现有的原型继承的基础上引入的一种语法糖。Class语法并没有引入一种新的继承模式。它为对象创建和继承提供了更清晰，易用的语法。  &lt;/p&gt;
-&lt;p&gt;我们用class关键字来创建一个类，constructor关键字定义构造函数，用extends关键字来实现继承，super来实现调用父类方法。&lt;/p&gt;
-&lt;p&gt;好，下面是一个ES6 class语法的完整例子：  &lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-//定义父类View
-class View {
-  constructor(options) {
-    this.model = options.model;
-    this.template = options.template;
-  }
-
-  render() {
-    return _.template(this.template, this.model.toObject());
-  }
-}
-//实例化父类View
-var view = new View({
-  template: &#39;Hello, &lt;%= name=&quot;&quot; %=&quot;&quot;&gt;&#39;
-});
-//定义子类LogView，继承父类View
-class LogView extends View {
-  render() {
-    var compiled = super.render();
-    console.log(compiled);
-  }
-}
-&lt;/%=&gt;&lt;/pre&gt;  
-
-&lt;p&gt;这段简短的代码就用到了上述的几个关键词。class语法的确的简洁明确，借鉴了主流OO语言的语法，更易于理解。  &lt;/p&gt;
-&lt;p&gt;然而我在用这段代码时，又有些犹豫。这还是我熟悉的js原型继承吗，这真的是同一种继承模式的一个语法糖吗？  &lt;/p&gt;
-&lt;p&gt;真相究竟是如何呢？我们就拿babel编译之后的代码作为切入口，来看看ES6 class语法的本质。&lt;/p&gt;
-&lt;p&gt;下面是上述ES6代码用babel编译之后的结果：&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot; style=&quot;height:400px;overflow-y:scroll&quot;&gt;
-&#39;use strict&#39;;
-var _get = function get(_x, _x2, _x3) {
-    var _again = true;
-    _function: while (_again) {
-        var object = _x,
-            property = _x2,
-            receiver = _x3;
-        desc = parent = getter = undefined;
-        _again = false;
-        if (object === null) object = Function.prototype;
-        var desc = Object.getOwnPropertyDescriptor(object, property);
-        if (desc === undefined) {
-            var parent = Object.getPrototypeOf(object);
-            if (parent === null) {
-                return undefined;
-            } else {
-                _x = parent;
-                _x2 = property;
-                _x3 = receiver;
-                _again = true;
-                continue _function;
-            }
-        } else if (&#39;value&#39; in desc) {
-            return desc.value;
-        } else {
-            var getter = desc.get;
-            if (getter === undefined) {
-                return undefined;
-            }
-            return getter.call(receiver);
-        }
-    }
-};
-
-var _createClass = (function() {
-    function defineProperties(target, props) {
-        for (var i = 0; i &lt; props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if (&#39;value&#39; in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    return function(Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) defineProperties(Constructor, staticProps);
-        return Constructor;
-    };
-})();
-
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== &#39;function&#39; &amp;&amp; superClass !== null) {
-        throw new TypeError(&#39;Super expression must either be null or a function, not &#39; + typeof superClass);
-    }
-    subClass.prototype = Object.create(superClass &amp;&amp; superClass.prototype, {
-        constructor: {
-            value: subClass,
-            enumerable: false,
-            writable: true,
-            configurable: true
-        }
-    });
-    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-        throw new TypeError(&#39;Cannot call a class as a function&#39;);
-    }
-}
-
-var View = (function() {
-    function View(options) {
-        _classCallCheck(this, View);
-            this.model = options.model;
-        this.template = options.template;
-    }
-    _createClass(View, [{
-        key: &#39;render&#39;,
-        value: function render() {
-            return _.template(this.template, this.model.toObject());
-        }
-    }]);
-    return View;
-})();
-
-var LogView = (function(_View) {
-    _inherits(LogView, _View);
-    function LogView() {
-        _classCallCheck(this, LogView);
-        _get(Object.getPrototypeOf(LogView.prototype), &#39;constructor&#39;, this).apply(this, arguments);
-    }
-    _createClass(LogView, [{
-        key: &#39;render&#39;,
-        value: function render() {
-            var compiled = _get(Object.getPrototypeOf(LogView.prototype), &#39;render&#39;, this).call(this);
-            console.log(compiled);
-        }
-    }]);
-    return LogView;  
-
-})(View);
-&lt;/pre&gt;
-
-&lt;p&gt;这段代码很长，我们只关注里面的函数，可以得到它的结构如下:&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot; style=&quot;height:400px;overflow-y:scroll&quot;&gt;
-//用于得到原型链上属性的方法的函数
-var _get = function get(_x, _x2, _x3) {
-    //······
-}
-
-//用于创建对象的函数
-var _createClass = (function() {
-     //内部函数，定义对象的属性
-    function defineProperties(target, props) {
-        //······
-    }
-    return function(Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) defineProperties(Constructor, staticProps);
-        return Constructor;
-    };
-})();
-
-//用于实现继承的函数
-function _inherits(subClass, superClass) {
-        //······
-        subClass.prototype = Object.create(superClass &amp;&amp; superClass.prototype, {
-        constructor: {
-            value: subClass,
-            enumerable: false,
-            writable: true,
-            configurable: true
-        }
-});
-
-var View = (function() {
-    //······
-    return View;
-})();
-
-var LogView = (function(_View) {
-    //······
-})(View);
-&lt;/pre&gt;
-
-
-&lt;p&gt;###View类的实现&lt;/p&gt;
-&lt;p&gt;我们从一个View类的创建开始分析&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-class View {
-  constructor(options) {
-    this.model = options.model;
-    this.template = options.template;
-  }
-  render() {
-    return _.template(this.template, this.model.toObject());
-  }
-}
-
-//ES5代码
-var View = (function() {
-    function View(options) {
-        _classCallCheck(this, View);
-            this.model = options.model;
-        this.template = options.template;
-    }
-    _createClass(View, [{
-        key: &#39;render&#39;,
-        value: function render() {
-            return _.template(this.template, this.model.toObject());
-        }
-    }]);
-    return View;
-})();
-
-&lt;/pre&gt;
-我们从编译之后的代码中可以看出，View是一个IIFE，里面是一个同名的函数View，这个函数经过  `_createClass()`函数的处理之后，被返回了。所以我们得出的第一点结论就是，**ES6中的class实际就是函数**。当然这点在各种文档中已经明确了，所以让我们继续分析。 
-
-IIFE中的同名的View实际上就是我们在ES5的原型继承中使用的构造函数，所以ES6中的class是对ES5中的构造函数的一种包装。我们发现，在class中设定的属性被放在ES5的构造函数中，而方法则以键值对的形式传入一个`_createClass()`函数中。那么这个`_createClass()`函数又制造了什么魔法呢？  
-
-&lt;pre class=&quot;prettyprint&quot;&gt;
-var _createClass = (function() {
-    function defineProperties(target, props) {
-        for (var i = 0; i &lt; props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if (&#39;value&#39; in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    return function(Constructor, protoProps, staticProps) {
-        if (protoProps) defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) defineProperties(Constructor, staticProps);
-        return Constructor;
-    };
-})();
-&lt;/pre&gt; 
-
-&lt;p&gt;&lt;code&gt;_createClass&lt;/code&gt;也是一个IIFE，有一个内部的函数&lt;code&gt;defineProperties&lt;/code&gt;，这个函数遍历属性的描述符，进行描述符的默认设置，最后使用&lt;code&gt;Object.defineProperty()&lt;/code&gt;方法来写入对象的属性。IIFE的renturn部分有两个分支，一个是针对一个类的原型链方法，一个是静态方法，我们看到原型链方法被写入构造函数的原型对象里，&lt;strong&gt;而静态方法则被直接写入构造函数里，因此我们不用实例化对象就可以直接调用一个类的静态方法了&lt;/strong&gt;。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;js中的函数是对象，Function构造函数的prototype指向Object.prototype，因此可以写入属性&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;###类继承的实现&lt;/p&gt;
-&lt;p&gt;OK，到目前我们已经搞清了ES6的class关键字是如何工作的，那么ES6中的继承有是如何实现的呢？下面让我们看看&lt;code&gt;_inherits()&lt;/code&gt;函数。&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-function _inherits(subClass, superClass) {
-    if (typeof superClass !== &#39;function&#39; &amp;&amp; superClass !== null) {
-        throw new TypeError(&#39;Super expression must either be null or a function, not &#39; + typeof superClass);
-    }
-    subClass.prototype = Object.create(superClass &amp;&amp; superClass.prototype, {
-        constructor: {
-            value: subClass,
-            enumerable: false,
-            writable: true,
-            configurable: true
-        }
-    });
-    if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;_inherits()&lt;/code&gt;函数的关键部分便是&lt;code&gt;subClass.prototype = Object.create(···)&lt;/code&gt;。通过&lt;code&gt;Object.create()&lt;/code&gt;方法来指定新创建对象的原型，由此省去了对父类构造函数的处理，达到了简单的原型继承效果。&lt;/p&gt;
-&lt;p&gt;然后我们来看看创建&lt;code&gt;LogView&lt;/code&gt;类的代码：&lt;/p&gt;
-&lt;pre class=&quot;prettyprint&quot;&gt;
-//ES6
-class LogView extends View {
-  render() {
-    var compiled = super.render();
-    console.log(compiled);
-  }
-}
-//ES5
-var LogView = (function(_View) {
-    _inherits(LogView, _View);
-    function LogView() {
-        _classCallCheck(this, LogView);
-        _get(Object.getPrototypeOf(LogView.prototype), &#39;constructor&#39;, this).apply(this, arguments);
-    }
-    _createClass(LogView, [{
-        key: &#39;render&#39;,
-        value: function render() {
-            var compiled = _get(Object.getPrototypeOf(LogView.prototype), &#39;render&#39;, this).call(this);
-            console.log(compiled);
-        }
-    }]);
-    return LogView;
-})(View);
-&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;LogView&lt;/code&gt;类和&lt;code&gt;View&lt;/code&gt;类的最大不同便是增加了一个&lt;code&gt;_get()&lt;/code&gt;函数的调用，我们仔细看这个&lt;code&gt;_get()&lt;/code&gt;函数会发现它接收几个参数，子类的原型，”constructor”标识符，还有&lt;code&gt;this&lt;/code&gt;。再看下面对&lt;code&gt;super.render()&lt;/code&gt;的处理，同样是用&lt;code&gt;_get()&lt;/code&gt;函数来处理的。再看&lt;code&gt;_get()&lt;/code&gt;函数的源码，就可以发现&lt;code&gt;_get()&lt;/code&gt;函数的作用便是遍历对象的原型链，找出传入的标识符对应的属性，把它用&lt;code&gt;apply&lt;/code&gt;绑定在当前上下文上执行。&lt;/p&gt;
-&lt;p&gt;大家是不是对这种继承模式似曾相识呢？对了，这就是所谓的“构造函数窃取”。当我们需要继承父类的属性时，在子类的构造函数内部调用父类构造函数，在加上&lt;code&gt;Object.create()&lt;/code&gt;大法，然后就可以继承父类的所有属性和方法了。&lt;/p&gt;
-&lt;p&gt;###结语&lt;br&gt;以上就是笔者对ES6中的class做的一些解读，依据是babel的编译结果。今天刚好看到getify大神的一篇&lt;a href=&quot;http://blog.getify.com/arrow-this/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;博客&lt;/a&gt;，将的是ES6中的箭头函数其实并不是一个语法糖，而是一种新的不带this的函数。他还进一步说了，错误的过程得到正确的结果，会导致很多后续的问题。&lt;/p&gt;
-&lt;p&gt;而本文的结论是建立在class是一种语法糖的基础之上的，根据MDN的文档，我们应该可以确认这个结论是可靠的。而ES6中的特性，如箭头函数，并不都是语法糖，因此在后续的ES6探秘文章中，我们将用其他的途径，来揭示ES6种种神奇魔法的秘密。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;ES6中增加了一些新特性，但从底层的角度来说，只是一些语法糖。&lt;br&gt;但是就我个人来说，如果不了解这些语法糖的本质，是用不安心的。那我们要如何揭开这些语法糖的真实面目呢？&lt;br&gt;Babel to the rescue！ Babel是一款将ES6代码转换为ES5代码的编译器，从而让我们可以无视浏览器的支持，直接享受ES6的新特性。同时，我们也可以通过研究Babel编译出的ES5代码，来揭开ES6的面纱。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="ES6" scheme="http://yoursite.com/tags/ES6/"/>
     
   </entry>
   
