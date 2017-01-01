@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-12-23T07:12:39.000Z</updated>
+  <updated>2017-01-01T06:44:04.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,47 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>我的2016</title>
+    <link href="http://yoursite.com/2016/12/26/my2016/"/>
+    <id>http://yoursite.com/2016/12/26/my2016/</id>
+    <published>2016-12-26T06:58:46.000Z</published>
+    <updated>2017-01-01T06:44:04.000Z</updated>
+    
+    <content type="html">&lt;p&gt;2016对我来说当然是很神奇也很重要的一年。团队的进步很快，华师匣子终于上线。我也顺利的找到的工作。&lt;/p&gt;
+&lt;p&gt;回想这一年，对于上半年的事情，现在只残存着一些依稀的回忆了。这一年我对前端的理解，有了很大的变化，这其实是一个日积月累的过程。所以Tower里的进度，对于我来说，就是一个非常好的备忘录。自己的学习的历程，在里面可以看到一个很清晰的脉络。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;回看我的进度，1月的时候我开始写简历生成器和学而的后台，那段时间我对于前端工程化很痴迷。把Dan Abramov的视频看了很多遍。主要用React写东西。&lt;/p&gt;
+&lt;p&gt;寒假主要是写学而后台，写个人主页，看YDKJS和《JavaScript忍者秘籍》。寒假里面我发现了大批的电子书，对于JS的语言有了更深入的了解。也开始对公司和业务有一些自己的思考。我对于浏览器的探索也在那个时候开始了，主要是看了Mozilla工程师写的自制浏览器那一系列的博客。从进度上来看，那个时候真是热火朝天的学学学，新事物扑面而来，整个人还是很有干劲的。&lt;/p&gt;
+&lt;p&gt;在找工作这问题上，当时我还是很没有底的。&lt;/p&gt;
+&lt;p&gt;那段时间还在刷PAT，打算去参加春季的考试，但最后还是没有去，觉得没有准备好。&lt;/p&gt;
+&lt;p&gt;接下来就是3月了，开学了，要上课要辅修，事情很多。学习的进度就没有那么快了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;3.14&lt;/p&gt;
+&lt;p&gt;投简历+学而+团队+i华大 = 爆炸&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;后来就是接触简单的算法，去网易面试。&lt;/p&gt;
+&lt;p&gt;4月学校的出版社实习期间开始看jQuery源码。&lt;/p&gt;
+&lt;h3 id=&quot;找工作&quot;&gt;&lt;a href=&quot;#找工作&quot; class=&quot;headerlink&quot; title=&quot;找工作&quot;&gt;&lt;/a&gt;找工作&lt;/h3&gt;&lt;p&gt;3月开始面试，第一个面的是阿里，二面挂了，一些很简单的问题没有准备，比如正则和简单的DOM API。后来面了饿了么，过了。在面试网易的时候，饿了么表示如果不能确定offer那就算了，于是我就在没有保底offer的情况下，去网易面试了。&lt;/p&gt;
+&lt;p&gt;去网易的面试算是我第一次很正式的面试。总的来说，其实很平稳，但对我来说，记忆犹新。最让我感到印象深刻的还是面试期间那种忐忑的心情。好在最后一切顺利。现在看来，觉得还是挺幸福的。&lt;/p&gt;
+&lt;h3 id=&quot;团队&quot;&gt;&lt;a href=&quot;#团队&quot; class=&quot;headerlink&quot; title=&quot;团队&quot;&gt;&lt;/a&gt;团队&lt;/h3&gt;&lt;p&gt;5月份的时候，团队出了大事，主要就是工作室要装修。领导为了面子工程，把我们的304改成了展示厅。对当时的我来说这真是和晴天霹雳一般。&lt;/p&gt;
+&lt;p&gt;匆忙的租了房子，其实最后也没起多大作用。这次搬家对我们来说，意味着很多。和过去告别。真正的成长，担起团队的责任。&lt;/p&gt;
+&lt;p&gt;这个时候，我们确立了核心成员的概念。一个团队，只需要核心成员，不是核心成员的都可以离开了。一个团队的人数并不是关键，团队的凝聚力和战斗力才是最关键的。&lt;/p&gt;
+&lt;p&gt;其他的话，其实从我进度里看，关于团队的很多。大部分都是一些消极的抱怨，还有一些思考。暑假的时候，和大家远程交流，开会。很困难，到最后其实很有多的摩擦。但无论如何，事情都算是过去了。&lt;/p&gt;
+&lt;h3 id=&quot;在网易的三个月&quot;&gt;&lt;a href=&quot;#在网易的三个月&quot; class=&quot;headerlink&quot; title=&quot;在网易的三个月&quot;&gt;&lt;/a&gt;在网易的三个月&lt;/h3&gt;&lt;p&gt;在网易的实习经历，在业务上是比较平淡的。做的有数这个平台的确是很复杂的，但我加入的时候这个平台已经比较成熟了，所以也没有太多挑战性的东西。没有见证初期的技术选型和架构的选择，我&lt;/p&gt;
+&lt;h3 id=&quot;华师匣子&quot;&gt;&lt;a href=&quot;#华师匣子&quot; class=&quot;headerlink&quot; title=&quot;华师匣子&quot;&gt;&lt;/a&gt;华师匣子&lt;/h3&gt;&lt;p&gt;这个可以直接看之前写的&lt;a href=&quot;https://zxc0328.github.io/2016/12/19/ios-story/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;华师匣子开发记&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;未来打算&quot;&gt;&lt;a href=&quot;#未来打算&quot; class=&quot;headerlink&quot; title=&quot;未来打算&quot;&gt;&lt;/a&gt;未来打算&lt;/h3&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;2016对我来说当然是很神奇也很重要的一年。团队的进步很快，华师匣子终于上线。我也顺利的找到的工作。&lt;/p&gt;
+&lt;p&gt;回想这一年，对于上半年的事情，现在只残存着一些依稀的回忆了。这一年我对前端的理解，有了很大的变化，这其实是一个日积月累的过程。所以Tower里的进度，对于我来说，就是一个非常好的备忘录。自己的学习的历程，在里面可以看到一个很清晰的脉络。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>从0到1：我和木犀的故事</title>
@@ -1789,64 +1830,6 @@ DOCUMENT_POSITION_PRECEDING
     
       &lt;p&gt;###四、API详解-DOM CORE&lt;/p&gt;
 &lt;h4 id=&quot;DOM标准的层级&quot;&gt;&lt;a href=&quot;#DOM标准的层级&quot; class=&quot;headerlink&quot; title=&quot;DOM标准的层级&quot;&gt;&lt;/a&gt;DOM标准的层级&lt;/h4&gt;&lt;p&gt;DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="DOM" scheme="http://yoursite.com/tags/DOM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DOM API详解（一）</title>
-    <link href="http://yoursite.com/2016/01/23/learning-dom-part1/"/>
-    <id>http://yoursite.com/2016/01/23/learning-dom-part1/</id>
-    <published>2016-01-23T12:49:30.000Z</published>
-    <updated>2016-03-11T09:25:16.000Z</updated>
-    
-    <content type="html">&lt;h3 id=&quot;一、什么是DOM&quot;&gt;&lt;a href=&quot;#一、什么是DOM&quot; class=&quot;headerlink&quot; title=&quot;一、什么是DOM&quot;&gt;&lt;/a&gt;一、什么是DOM&lt;/h3&gt;&lt;p&gt;Document Object Model(DOM)是用编程语言对HTML，XML以及SVG文档进行操作的接口。我们经常使用JavaScript来操纵DOM，不过DOM其实的语言无关的。它并不是JavaScript的一部分。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;虽然如此，DOM在前端开发中经常和JS一起讨论，并且对JS造成了极大的负面影响。这个原因就在于早年间各大浏览器厂商（主要是老版本IE），对DOM的实现并没有按W3C的标准来做，而是自己制定了一套接口，由此给前端开发造成了极大的麻烦。我们需要使用jQuery这样的基础库，使用封装好的跨平台兼容API，才能使代码兼容主要浏览器。&lt;/p&gt;
-&lt;p&gt;直到今天，jQuery这样的基础库依然是不可或缺的。好消息是，随着时代的进步，DOM API的兼容性在主流浏览器中已经不是问题。在没有低版本IE的移动端web中，我们就可以不用为这个问题劳神了。&lt;/p&gt;
-&lt;p&gt;然而相比于CSS和JS所拥有的明确版本迭代和丰富的文档，DOM无论是在版本的碎片化程度还是文档的数量上来说都很难和前两者相比。&lt;/p&gt;
-&lt;p&gt;打开MDN的&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DOM文档首页&lt;/a&gt;，我们可以看到密密麻麻的API列表，点开其中的一个，可以看到更多的子API。其中除了DOM Core，有CSS DOM，还有HTMl5相关的DOM，更有Worker这样的浏览器相关的接口。可谓是一个大杂烩，CSS，JS，浏览器各种功能的API都在其中。因此本文就是一个DOM API的分类梳理，带大家看清DOM众多API的组成和层级。&lt;/p&gt;
-&lt;h3 id=&quot;二、DOM标准&quot;&gt;&lt;a href=&quot;#二、DOM标准&quot; class=&quot;headerlink&quot; title=&quot;二、DOM标准&quot;&gt;&lt;/a&gt;二、DOM标准&lt;/h3&gt;&lt;p&gt;我们从W3C的&lt;a href=&quot;https://www.w3.org/DOM/DOMTR&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DOM Technical Reports&lt;/a&gt;来看，Document Object Model (DOM)目前有Level 1，Level 2，Level 3，以及Level4三个标准。每一个Level的标准下又分为多个模块，其中DOM2 Core Specification的发布时间为2000-11-13，而DOM3 Core Specification的发布时间为2004-04-07，最新的DOM4发布于2015-11-19。&lt;/p&gt;
-&lt;p&gt;DOM2由许多个标准组成是，如图：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/DOM2%20modules.png&quot; alt=&quot;DOM2模块&quot;&gt;&lt;/p&gt;
-&lt;p&gt;然后我们来看看DOM3。DOM3标准构建在DOM2的基础上，因此数量上少于DOM2的模块。DOM3中的XPath Specification等等标准还没有正式成为推荐标准，因此没有加入图表。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/DOM3%20modules%20v3.png&quot; alt=&quot;DOM3模块&quot;&gt;&lt;/p&gt;
-&lt;h3 id=&quot;三、DOM2与DOM3，以及非核心API&quot;&gt;&lt;a href=&quot;#三、DOM2与DOM3，以及非核心API&quot; class=&quot;headerlink&quot; title=&quot;三、DOM2与DOM3，以及非核心API&quot;&gt;&lt;/a&gt;三、DOM2与DOM3，以及非核心API&lt;/h3&gt;&lt;p&gt;和CSS标准一样，DOM标准的版本也是各自独立的。我们所说的DOM2，DOM3其实主要指DOM Core Specification的版本。在DOM Core Specification中会写明这个版本的DOM Core和哪些版本的标准一起组成新一代DOM标准。&lt;/p&gt;
-&lt;p&gt;因此我们也就可以解释为什么DOM3的组成标准要大大少于DOM2了。DOM2中的&lt;a href=&quot;https://www.w3.org/TR/DOM-Level-2-Style/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Style Specification&lt;/a&gt;后来发展为了一个新的&lt;a href=&quot;https://drafts.csswg.org/cssom/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CSSOM Specification&lt;/a&gt;，事实上这个标准已经不属于DOM的范畴，而被划入CSS标准。而&lt;a href=&quot;http://www.w3.org/TR/DOM-Level-2-Events/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Events Specification&lt;/a&gt;的Level 3最后发展为了新的&lt;a href=&quot;https://www.w3.org/TR/uievents/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;UI Events Specification&lt;/a&gt;以及&lt;a href=&quot;https://www.w3.org/TR/2013/REC-touch-events-20131010/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Touch Events Specification&lt;/a&gt;等等独立的Event Specification，补充了DOM2 Events Specification中缺失的事件。&lt;a href=&quot;https://www.w3.org/TR/DOM-Level-2-Traversal-Range/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Traversal and Range Specification&lt;/a&gt;中的Traversal部分发展为了新的&lt;a href=&quot;https://www.w3.org/TR/ElementTraversal/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Element Traversal Specification&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;具体标准之间的关系可以看下表:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;&lt;strong&gt;DOM2模块&lt;/strong&gt;&lt;/th&gt;
-&lt;th style=&quot;text-align:left&quot;&gt;&lt;strong&gt;新标准&lt;/strong&gt;&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://www.w3.org/TR/DOM-Level-2-Style/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Style Specification Level 2&lt;/a&gt;&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;&lt;a href=&quot;https://drafts.csswg.org/cssom/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CSSOM Specification（Not a part of DOM now）&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;https://www.w3.org/TR/DOM-Level-2-Traversal-Range/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Traversal and Range Specification Level 2&lt;/a&gt;&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;&lt;a href=&quot;https://www.w3.org/TR/ElementTraversal/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Element Traversal Specification（Part of DOM4）&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&quot;http://www.w3.org/TR/DOM-Level-2-Events/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Events Specification Level 2&lt;/a&gt;&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;&lt;a href=&quot;https://www.w3.org/TR/uievents/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;UI Events Specification&lt;/a&gt;&lt;br&gt;   &lt;a href=&quot;https://www.w3.org/TR/2013/REC-touch-events-20131010/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Touch Events Specification&lt;/a&gt;&lt;br&gt;   &lt;a href=&quot;https://www.w3.org/TR/2015/REC-pointerevents-20150224/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Pointer Events Specification&lt;/a&gt;&lt;br&gt;   &lt;a href=&quot;https://www.w3.org/TR/2014/REC-progress-events-20140211/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Progress Events Specification&lt;/a&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;然后我们来看看所谓的非核心API。所谓的非核心API就是那些在W3C标准中不属于DOM的API，但是这些API和DOM的核心部分有着或多或少的关系。如CSS相关的&lt;a href=&quot;https://drafts.csswg.org/cssom/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CSSOM Specification&lt;/a&gt;，&lt;a href=&quot;https://www.w3.org/TR/2013/REC-selectors-api-20130221/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Selectors API&lt;/a&gt;等等。以及与HTML5相关的众多JavaScript API，比如&lt;a href=&quot;https://www.w3.org/TR/2015/PR-webstorage-20151126/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Web Storage&lt;/a&gt;，&lt;a href=&quot;https://www.w3.org/TR/2015/WD-workers-20150924/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Web Workers&lt;/a&gt;等等&lt;/p&gt;
-&lt;p&gt;本文关注的主要是DOM2，DOM3以及部分新模块的API，解读它们的构成，以及在浏览器的兼容情况。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;一、什么是DOM&quot;&gt;&lt;a href=&quot;#一、什么是DOM&quot; class=&quot;headerlink&quot; title=&quot;一、什么是DOM&quot;&gt;&lt;/a&gt;一、什么是DOM&lt;/h3&gt;&lt;p&gt;Document Object Model(DOM)是用编程语言对HTML，XML以及SVG文档进行操作的接口。我们经常使用JavaScript来操纵DOM，不过DOM其实的语言无关的。它并不是JavaScript的一部分。&lt;/p&gt;
     
     </summary>
     
