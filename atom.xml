@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-01-01T06:44:04.000Z</updated>
+  <updated>2017-01-01T08:40:08.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2016/12/26/my2016/"/>
     <id>http://yoursite.com/2016/12/26/my2016/</id>
     <published>2016-12-26T06:58:46.000Z</published>
-    <updated>2017-01-01T06:44:04.000Z</updated>
+    <updated>2017-01-01T08:40:08.000Z</updated>
     
     <content type="html">&lt;p&gt;2016对我来说当然是很神奇也很重要的一年。团队的进步很快，华师匣子终于上线。我也顺利的找到的工作。&lt;/p&gt;
 &lt;p&gt;回想这一年，对于上半年的事情，现在只残存着一些依稀的回忆了。这一年我对前端的理解，有了很大的变化，这其实是一个日积月累的过程。所以Tower里的进度，对于我来说，就是一个非常好的备忘录。自己的学习的历程，在里面可以看到一个很清晰的脉络。&lt;/p&gt;
@@ -42,9 +42,16 @@
 &lt;p&gt;匆忙的租了房子，其实最后也没起多大作用。这次搬家对我们来说，意味着很多。和过去告别。真正的成长，担起团队的责任。&lt;/p&gt;
 &lt;p&gt;这个时候，我们确立了核心成员的概念。一个团队，只需要核心成员，不是核心成员的都可以离开了。一个团队的人数并不是关键，团队的凝聚力和战斗力才是最关键的。&lt;/p&gt;
 &lt;p&gt;其他的话，其实从我进度里看，关于团队的很多。大部分都是一些消极的抱怨，还有一些思考。暑假的时候，和大家远程交流，开会。很困难，到最后其实很有多的摩擦。但无论如何，事情都算是过去了。&lt;/p&gt;
-&lt;h3 id=&quot;在网易的三个月&quot;&gt;&lt;a href=&quot;#在网易的三个月&quot; class=&quot;headerlink&quot; title=&quot;在网易的三个月&quot;&gt;&lt;/a&gt;在网易的三个月&lt;/h3&gt;&lt;p&gt;在网易的实习经历，在业务上是比较平淡的。做的有数这个平台的确是很复杂的，但我加入的时候这个平台已经比较成熟了，所以也没有太多挑战性的东西。没有见证初期的技术选型和架构的选择，我&lt;/p&gt;
+&lt;p&gt;在12月的时候，我决定从团队的日常事务中抽身，专心做自己的事情。经过这段时间来看，团队是可以自己正常运转的。很开心啊，像是自己的孩子长大了一样。&lt;/p&gt;
+&lt;h3 id=&quot;在网易的三个月&quot;&gt;&lt;a href=&quot;#在网易的三个月&quot; class=&quot;headerlink&quot; title=&quot;在网易的三个月&quot;&gt;&lt;/a&gt;在网易的三个月&lt;/h3&gt;&lt;p&gt;在网易的实习经历，在业务上是比较平淡的。做的有数这个平台的确是很复杂的，但我加入的时候这个平台已经比较成熟了，所以也没有太多挑战性的东西。没有见证初期的技术选型和架构的选择，所以在这方面没有学到太多想学到的。在大公司，技术选型这个是一个多方博弈的结果，要考虑公司本身的基础设施，并不是简单的引入开源项目就可以的。&lt;/p&gt;
+&lt;p&gt;在网易主要是写了一个Regular-devtool，其他的话就写了一些简单的业务。生活的话，可以说还是非常幸福的。环境这些都挺不错的。现在想来还挺怀念呢。&lt;/p&gt;
 &lt;h3 id=&quot;华师匣子&quot;&gt;&lt;a href=&quot;#华师匣子&quot; class=&quot;headerlink&quot; title=&quot;华师匣子&quot;&gt;&lt;/a&gt;华师匣子&lt;/h3&gt;&lt;p&gt;这个可以直接看之前写的&lt;a href=&quot;https://zxc0328.github.io/2016/12/19/ios-story/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;华师匣子开发记&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;未来打算&quot;&gt;&lt;a href=&quot;#未来打算&quot; class=&quot;headerlink&quot; title=&quot;未来打算&quot;&gt;&lt;/a&gt;未来打算&lt;/h3&gt;</content>
+&lt;h3 id=&quot;一些新的探索&quot;&gt;&lt;a href=&quot;#一些新的探索&quot; class=&quot;headerlink&quot; title=&quot;一些新的探索&quot;&gt;&lt;/a&gt;一些新的探索&lt;/h3&gt;&lt;p&gt;函数式编程，以及相关的一些，还有编译原理。这两个Topic是我下半年的核心。这是我最近觉得最感兴趣的方向。对这些方向只进行了一些初步的探索。&lt;/p&gt;
+&lt;p&gt;前端工具上，7月我写了Ninja，在团队的项目中用了半年。说实话这个是我最自豪的事情。&lt;/p&gt;
+&lt;p&gt;12月开始写Build your own Vuejs，希望能顺利写完。&lt;/p&gt;
+&lt;h3 id=&quot;未来打算&quot;&gt;&lt;a href=&quot;#未来打算&quot; class=&quot;headerlink&quot; title=&quot;未来打算&quot;&gt;&lt;/a&gt;未来打算&lt;/h3&gt;&lt;p&gt;我现在的一个理念，就是，你想学什么，那就自己写一个。光用是不行的。比如像了解前端MVVM框架，就自己实现一个。想学编译原理，可以自己实现一个简单的编译器。我认为这是很有趣的事情，也是很了不起的事情。&lt;/p&gt;
+&lt;p&gt;未来打算在前端工具和框架这个方向上深入的研究。然后正式学习函数式编程。以及DSL相关的知识。保持好奇心。保持对生活的热爱！&lt;/p&gt;
+</content>
     
     <summary type="html">
     
