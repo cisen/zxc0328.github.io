@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-01-01T08:40:08.000Z</updated>
+  <updated>2017-03-24T14:00:46.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,61 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>聊聊云计算</title>
+    <link href="http://yoursite.com/2017/03/21/about-cloud/"/>
+    <id>http://yoursite.com/2017/03/21/about-cloud/</id>
+    <published>2017-03-21T07:17:18.000Z</published>
+    <updated>2017-03-24T14:00:46.000Z</updated>
+    
+    <content type="html">&lt;p&gt;这篇文章主要是写我对团队在云计算方向上现状的一些思考。并没有什么关于云计算的干货，毕竟我在这方面还需要大量的实践才能有足够的发言权。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;IaaS&quot;&gt;&lt;a href=&quot;#IaaS&quot; class=&quot;headerlink&quot; title=&quot;IaaS&quot;&gt;&lt;/a&gt;IaaS&lt;/h3&gt;&lt;p&gt;我们用的最多的就是IaaS（Infrastructure as a Service）了。阿里云中的ECS和RDS就是典型的IaaS，另外阿里云OSS或者亚马逊S3那样的存储服务也是。&lt;/p&gt;
+&lt;p&gt;IaaS，简单的理解就是，将计算资源，作为一种基础设施，提供给用户。用户可以像消费水和电一样来按需进行使用计算资源。&lt;/p&gt;
+&lt;p&gt;IaaS是基于虚拟化和分布式技术来提供服务的。在云计算之前的时代，公司的网站是部署在一台台实体的服务器上的。一般来说，一家小公司，可能只需要一两台服务器就可以满足业务需求了。有服务器也自然有传统的运维人员，这种工程师精通硬件、网络和安全方面的知识，全权负责机房里服务器的正常运转和性能优化。&lt;/p&gt;
+&lt;p&gt;然而维护一台实体服务器的成本是很高的，需要雇佣一个服务器运维人员，需要付出电费和购置服务器的费用，以及架设网络的成本。&lt;/p&gt;
+&lt;p&gt;大公司会建立数据中心，其实就是有着大量服务器的厂房。大公司有着足够的人力去维护自有的服务器。&lt;/p&gt;
+&lt;p&gt;在那个年代，后端工程师部署服务是直接部署在实体机器上的，在部署时需要和运维人员确定服务器的环境等，经常会有一些沟通上的问题。&lt;/p&gt;
+&lt;p&gt;还有一个问题则是，那时的网站是很难动态伸缩的，一个应用往往同时部署在多台服务器上。然而，要使得一个服务能抗下更多的流量，就需要更多的服务器，如果不能在短时间内配置好新服务器，网站在压力之下往往会崩溃。&lt;/p&gt;
+&lt;p&gt;云计算对于小公司的好处在于，消除了维护实体服务器需要的各种繁杂的成本。维护实体服务器的责任交给了云服务厂商。小公司只需要购买服务就可以。&lt;/p&gt;
+&lt;p&gt;对于大公司来说，云计算可以动态扩容，一键部署，使得应用在压力之下可以弹性伸缩。将计算资源利用率最大化。&lt;/p&gt;
+&lt;p&gt;我们使用的ECS其实并不对应一台实体的服务器，但我们在使用的时候可以将ECS当成一台完整的服务器来使用。这就是虚拟化技术的好处。我们可以按需使用计算资源（一台实体服务器往往是8核或者16核CPU这样的配置，我们用不到这么多的CPU）。&lt;/p&gt;
+&lt;p&gt;我们也不用担心服务器会被攻击或者数据丢失。ECS提供了自动快照的服务。&lt;/p&gt;
+&lt;p&gt;在我看来云计算是对计算资源做的一次抽象，将后端应用和实体的服务器硬件资源隔离了。使得基于硬件的备份和维护这些事情抽象出来，开发人员只用关注应用层面的逻辑就可以了。&lt;/p&gt;
+&lt;p&gt;而RDS和OSS这些服务，也是同理。我们不用关心存储具体的物理位置在哪台服务器上，只需要调用这个服务就可以了。&lt;/p&gt;
+&lt;p&gt;而RDS、ECS和OSS三个服务的分离，也是一种抽象。ECS只关心业务逻辑，OSS和RDS只关心数据存储。只有无状态的服务才能轻松实现横向的拓展。如果ECS上的应用和数据库一起部署的话，会对应用的可拓展性造成影响。&lt;/p&gt;
+&lt;p&gt;具体说到我们团队，ECS和RDS我们使用阿里云的服务。对象存储我们则打算自建。一个是利用手上的物理服务器，降低一些成本，还有一个就是研究一下分布式存储相关的技术，加深团队在云计算方面的技术深度（Ceph这个开源的分布式存储框架已经非常强大了，我们目前打算先尝试Ceph）。&lt;/p&gt;
+&lt;h3 id=&quot;PaaS&quot;&gt;&lt;a href=&quot;#PaaS&quot; class=&quot;headerlink&quot; title=&quot;PaaS&quot;&gt;&lt;/a&gt;PaaS&lt;/h3&gt;&lt;p&gt;PaaS（Platform as a Service）方面的服务的代表就是Google的App Engine（以下简称GAE）。在App Engine中你只需要写业务逻辑，不需要关心服务和数据的部署。GAE号称会根据你应用的流量实时拓展服务的部署。&lt;/p&gt;
+&lt;p&gt;GAE带来的其实是更高的一层抽象。将基础设施的使用也屏蔽了。其实这个就将当于大家写了一个Flask应用，push到Github，写一个简单的配置文件，然后就可以访问了。你不用关心Nginx的配置，也不用关心部署多个实例以及均衡负载这些问题。It just works。&lt;/p&gt;
+&lt;p&gt;另外你还可以在控制台用GUI控制你的应用，以及读取监控数据等等。&lt;/p&gt;
+&lt;p&gt;我对此是非常感兴趣的，特别是Docker的出现，使得自动化的部署，环境的隔离以及标准化变成了一件比较简单的事情。&lt;/p&gt;
+&lt;p&gt;我构想中的Muxi App Engine（以下简称MAE）是这样的：&lt;/p&gt;
+&lt;p&gt;支持Python和Node两种环境，会根据ECS上的实时部署情况，自动将容器实例部署在最合适的ECS上，并且在流量变大时会自动伸缩。在MAE控制台上可以看到常规的Log统计。可以在MAE上用配置中的Git仓库和分支进行一键部署，前端代码也是一样的。&lt;/p&gt;
+&lt;p&gt;MAE的目标是将一些应用公共的流程尽量标准化，目前我们的自动化部署还是需要自己写Webhook脚本的。统计的话也是需要手动去配置的。Nginx相关的一些配置也是手动的。&lt;/p&gt;
+&lt;p&gt;MAE是一个单独的服务，部署在一台服务器上。MAE对可支配的ECS都有着记录，并且在对应的ECS上都运行着守护进程，和MAE服务通信。&lt;/p&gt;
+&lt;p&gt;MAE时代的开发和目前并没有太大的区别，只是每个应用需要有一个MAE的配置文件，里面写了域名、Github仓库、Docker环境等等信息。&lt;/p&gt;
+&lt;p&gt;我们在MAE上新建一个应用，然后点击部署，就可以部署了。&lt;/p&gt;
+&lt;p&gt;对于我们的大部分，自己托管数据的应用（相比匣子这样需要实时爬取的应用），比如学而、桂声等等，MAE这样的模式可以很好的讲平台层的运维工作简单化、标准化。&lt;/p&gt;
+&lt;p&gt;当然MAE如何和微服务结合这个也是一个问题，目前的应用其实是有分拆成服务的空间的，这样的话MAE其实应该是以服务为单位的。&lt;/p&gt;
+&lt;h3 id=&quot;SaaS&quot;&gt;&lt;a href=&quot;#SaaS&quot; class=&quot;headerlink&quot; title=&quot;SaaS&quot;&gt;&lt;/a&gt;SaaS&lt;/h3&gt;&lt;p&gt;SaaS（Software as a Service）离普通用户最近的云计算形式。我们用Tower、百度云盘、石墨文档这些，都属于SaaS。&lt;/p&gt;
+&lt;p&gt;我们日后推出的服务，比如云简历，或者是其他工具类的应用，都是以软件形式向用户提供了某种基于云计算的服务。&lt;/p&gt;
+&lt;h3 id=&quot;结语&quot;&gt;&lt;a href=&quot;#结语&quot; class=&quot;headerlink&quot; title=&quot;结语&quot;&gt;&lt;/a&gt;结语&lt;/h3&gt;&lt;p&gt;基于综合的考虑，我认为云计算是目前最有用，也是最触手可及的前沿技术。&lt;/p&gt;
+&lt;p&gt;目前后端技术这边，机器学习/人工智能、云计算、大数据，是几个比较火的领域。当然这几个领域目前有融合的趋势。&lt;/p&gt;
+&lt;p&gt;对于我们来说，要构筑我们的技术壁垒，云计算是最好的突破口。在知识水平、业务体量等种种的不利因素下，云计算是可以深挖，并且&lt;strong&gt;实践&lt;/strong&gt;的一个领域。&lt;/p&gt;
+&lt;p&gt;无论是对于我们内部服务的支持，或者是对于个人技术能力，就业市场竞争力的提升来说，这都是一个最优的方向。&lt;/p&gt;
+&lt;p&gt;所以在接下来的很长一段时间，我希望大家能一起努力，在云计算上，达到一个不算太寒碜的水准。这需要所有同学的支持，包括前端、客户端和设计组的同学，因为转向云计算会对目前的开发流程产生很大的影响。然后在UI和品牌方面，自然也需要前端和设计师的配合。PM同学也需要理解这个战略。&lt;/p&gt;
+&lt;p&gt;就写这么多吧。祝一切顺利。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇文章主要是写我对团队在云计算方向上现状的一些思考。并没有什么关于云计算的干货，毕竟我在这方面还需要大量的实践才能有足够的发言权。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>我的2016</title>
@@ -1681,167 +1736,6 @@ var lite = function( selector, context ) {
     
     
       <category term="Interview Front-end" scheme="http://yoursite.com/tags/Interview-Front-end/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>DOM API详解（二）</title>
-    <link href="http://yoursite.com/2016/01/26/learning-dom-part2/"/>
-    <id>http://yoursite.com/2016/01/26/learning-dom-part2/</id>
-    <published>2016-01-26T07:58:34.000Z</published>
-    <updated>2016-04-21T03:05:12.000Z</updated>
-    
-    <content type="html">&lt;p&gt;###四、API详解-DOM CORE&lt;/p&gt;
-&lt;h4 id=&quot;DOM标准的层级&quot;&gt;&lt;a href=&quot;#DOM标准的层级&quot; class=&quot;headerlink&quot; title=&quot;DOM标准的层级&quot;&gt;&lt;/a&gt;DOM标准的层级&lt;/h4&gt;&lt;p&gt;DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;具体的层级结构如下图所示：&lt;br&gt;&lt;img src=&quot;https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/images/dom-architecture.png&quot; alt=&quot;dom-architecture&quot;&gt;&lt;br&gt;&lt;em&gt;image credit: w3.org&lt;/em&gt;&lt;/p&gt;
-&lt;h4 id=&quot;DOM-Core-导语&quot;&gt;&lt;a href=&quot;#DOM-Core-导语&quot; class=&quot;headerlink&quot; title=&quot;DOM Core-导语&quot;&gt;&lt;/a&gt;DOM Core-导语&lt;/h4&gt;&lt;p&gt;在我们把目光转向DOM Core模块之前，我想先讲讲如何阅读DOM的W3C Specification。首先我们可以阅读官方的导语-&lt;a href=&quot;https://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/introduction.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;What is the Document Object Model?&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;这一节中介绍了DOM的相关概念。比如关于DOM的结构，我们通常认为是一颗树，但实际上用森林来形容更为贴切，因为虽然以&lt;code&gt;Document&lt;/code&gt;为根节点的文档树最多只能有一颗，但我们还有一颗可选的&lt;code&gt;doctype&lt;/code&gt;节点树，以及&lt;code&gt;comments&lt;/code&gt;节点等等。&lt;/p&gt;
-&lt;p&gt;更重要的是，导语中还介绍了接下来文档中的一些惯例。比如因为DOM是独立于编程语言的，所以在文档中使用了IDL（Interactive Data Language）来描述接口。然后我们需要注意的一点就是，DOM可以用于HTML和XML，因此在前端同学看来，DOM中会有一些不太熟悉的概念，比如&lt;code&gt;Namespace&lt;/code&gt;和&lt;code&gt;DOM URIs&lt;/code&gt;，这些正是为了兼容XML而加入到DOM中的特性。不用过分在意。&lt;/p&gt;
-&lt;p&gt;下面是一个简化的IDL示例：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;interface Element : Node {
-  readonly attribute DOMString       tagName;
-  void               removeAttribute(in DOMString name)
-                                        raises(DOMException);
-  Attr               getAttributeNode(in DOMString name);
-  NodeList           getElementsByTagName(in DOMString name);
-};
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;em&gt;IDL中主要描述了一个接口的继承关系，以及接口的方法和属性，及相应的参数和返回值&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;下面我们首先来看DOM Core模块。从“Core”这个名词就可以看出这个模块在整个DOM标准中处于中心地位。DOM Core模块主要定义了DOM最关键的一组接口和对象。其中最顶层的一个接口就是&lt;code&gt;Node&lt;/code&gt;。直接继承&lt;code&gt;Node&lt;/code&gt;的接口有&lt;code&gt;Element&lt;/code&gt;、&lt;code&gt;DocumentType&lt;/code&gt;、&lt;br&gt;&lt;code&gt;Attr&lt;/code&gt;、&lt;code&gt;ProcessingInstruction&lt;/code&gt;、&lt;code&gt;Comment&lt;/code&gt;、&lt;br&gt;&lt;code&gt;Text&lt;/code&gt;、&lt;code&gt;CDATASection&lt;/code&gt;和&lt;code&gt;Notation&lt;/code&gt;。&lt;/p&gt;
-&lt;h4 id=&quot;Node接口&quot;&gt;&lt;a href=&quot;#Node接口&quot; class=&quot;headerlink&quot; title=&quot;Node接口&quot;&gt;&lt;/a&gt;Node接口&lt;/h4&gt;&lt;p&gt;&lt;code&gt;Node&lt;/code&gt;接口是整个DOM中最顶层的接口，DOM中的每一个节点都是一个&lt;code&gt;Node&lt;/code&gt;。从&lt;code&gt;Node&lt;/code&gt;接口分化出其他的更具体的接口。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;Node&lt;/code&gt;接口的属性：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;&lt;strong&gt;属性名&lt;/strong&gt;&lt;/th&gt;
-&lt;th style=&quot;text-align:left&quot;&gt;&lt;strong&gt;返回值&lt;/strong&gt;&lt;/th&gt;
-&lt;th style=&quot;text-align:left&quot;&gt;&lt;strong&gt;备注&lt;/strong&gt;&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;nodeName&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;DOMString&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;nodeValue&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;DOMString&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;nodeType&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;unsigned short&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;parentNode&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;Node&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;childNodes&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;NodeList&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;firstChild&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;Node&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;lastChild&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;Node&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;previousSibling&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;Node&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;nextSibling&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;Node&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;attributes&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;NamedNodeMap&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;ownerDocument&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;Document&lt;/td&gt;
-&lt;td style=&quot;text-align:left&quot;&gt;只读&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;值得注意的是，虽然这些属性都定义在Node接口上，但是不是所有的底层接口实现都有对应的值。如&lt;code&gt;Text&lt;/code&gt;和&lt;code&gt;Comment&lt;/code&gt;节点都没有子元素，因此它们的&lt;code&gt;childNodes&lt;/code&gt;为&lt;code&gt;null&lt;/code&gt;。同理，&lt;code&gt;Element&lt;/code&gt;接口的&lt;code&gt;nodeValue&lt;/code&gt;值就为&lt;code&gt;null&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;nodeType&lt;/code&gt;属性的值被定义为一组常量：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// NodeType
-  const unsigned short      ELEMENT_NODE                   = 1;
-  const unsigned short      ATTRIBUTE_NODE                 = 2;
-  const unsigned short      TEXT_NODE                      = 3;
-  const unsigned short      CDATA_SECTION_NODE             = 4;
-  const unsigned short      ENTITY_REFERENCE_NODE          = 5;
-  const unsigned short      ENTITY_NODE                    = 6;
-  const unsigned short      PROCESSING_INSTRUCTION_NODE    = 7;
-  const unsigned short      COMMENT_NODE                   = 8;
-  const unsigned short      DOCUMENT_NODE                  = 9;
-  const unsigned short      DOCUMENT_TYPE_NODE             = 10;
-  const unsigned short      DOCUMENT_FRAGMENT_NODE         = 11;
-  const unsigned short      NOTATION_NODE                  = 12;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这就是我们平时用来检测节点类型时使用的数值了。&lt;/p&gt;
-&lt;p&gt;下面从&lt;code&gt;Node&lt;/code&gt;接口的方法中选几个主流的API进行简单的介绍，对于W3C中为标准但在WHATWG中被废弃的，这里不进行介绍（在主流的浏览器中也没有相应的实现）。对于一些在继承Node的接口中有更具体实现的API，这里也不进行介绍（如&lt;code&gt;hasAttributes&lt;/code&gt;在Element接口中有更具体的实现）。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;compareDocumentPosition&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;这是DOM3中引入的一个很有意思的API。这个API将两个Node的位置进行比较，然后返回&lt;code&gt;DocumentPosition&lt;/code&gt;这组常量中的一种。这组常量是：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// 节点被另一个节点包含。被包含的节点是父节点的后继
-DOCUMENT_POSITION_CONTAINED_BY
-// 节点包含另一个节点。父节点是子节点的前驱
-  DOCUMENT_POSITION_CONTAINS
-DOCUMENT_POSITION_DISCONNECTED
-// 后继关系
-DOCUMENT_POSITION_FOLLOWING
-DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC
-// 前驱关系
-DOCUMENT_POSITION_PRECEDING
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;appendChild&lt;/code&gt;&amp;amp;&amp;amp;&lt;code&gt;removeChild&lt;/code&gt;  &lt;/p&gt;
-&lt;p&gt;这两个API是比较常用的，&lt;code&gt;appendChild&lt;/code&gt;在DOM子元素列表的最后插入元素，如果这个元素已经存在DOM树中，就先移除这个元素再插入。&lt;code&gt;removeChild&lt;/code&gt;则从DOM子元素列表中移除元素。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;insertBefore&lt;/code&gt;  &lt;/p&gt;
-&lt;p&gt;这个API有两个参数，一个是&lt;code&gt;newChild&lt;/code&gt;，一个是&lt;code&gt;refChild&lt;/code&gt;。&lt;code&gt;newChild&lt;/code&gt;既是要插入的节点，而&lt;code&gt;refChild&lt;/code&gt;则是一个已经在&lt;code&gt;Node&lt;/code&gt;所在DOM树中的参考子节点。&lt;code&gt;newChild&lt;/code&gt;会插入到&lt;code&gt;refChild&lt;/code&gt;之前，如果&lt;code&gt;refChild&lt;/code&gt;是&lt;code&gt;null&lt;/code&gt;，那么&lt;code&gt;newChild&lt;/code&gt;会插入到&lt;code&gt;Node&lt;/code&gt;子节点列表的末尾。&lt;/p&gt;
-&lt;p&gt;这个API的记忆很简单，命名是&lt;code&gt;insertBefore&lt;/code&gt;，必然是有一个参考节点的，不然插到谁的前面去呢？&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;isEqualNode&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;这个API的作用是判断两个DOM是否相等。这里的相等并不是指指向同一个对象，而是指属性和值方面是否相同。&lt;/p&gt;
-&lt;p&gt;对于两个节点来说比较的算法如下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;两个节点是否是相同的类型&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;nodeName, localName, namespaceURI, prefix, nodeValue&lt;/code&gt;这些属性是否相同&lt;/li&gt;
-&lt;li&gt;节点的属性集合（在DOM中的数据类型是&lt;code&gt;NamedNodeMaps&lt;/code&gt;）是否相同，这里集合中属性的顺序可以是随意的&lt;/li&gt;
-&lt;li&gt;子节点集合（&lt;code&gt;NodeLists&lt;/code&gt;类型）是否相同，这里会考虑节点的index，如果不一样则不相同。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;Element接口&quot;&gt;&lt;a href=&quot;#Element接口&quot; class=&quot;headerlink&quot; title=&quot;Element接口&quot;&gt;&lt;/a&gt;Element接口&lt;/h4&gt;&lt;h4 id=&quot;Document接口&quot;&gt;&lt;a href=&quot;#Document接口&quot; class=&quot;headerlink&quot; title=&quot;Document接口&quot;&gt;&lt;/a&gt;Document接口&lt;/h4&gt;&lt;h4 id=&quot;Attr接口&quot;&gt;&lt;a href=&quot;#Attr接口&quot; class=&quot;headerlink&quot; title=&quot;Attr接口&quot;&gt;&lt;/a&gt;Attr接口&lt;/h4&gt;&lt;h4 id=&quot;Text，Comment和CharacterData接口&quot;&gt;&lt;a href=&quot;#Text，Comment和CharacterData接口&quot; class=&quot;headerlink&quot; title=&quot;Text，Comment和CharacterData接口&quot;&gt;&lt;/a&gt;Text，Comment和CharacterData接口&lt;/h4&gt;&lt;h4 id=&quot;DOM中的基础数据类型&quot;&gt;&lt;a href=&quot;#DOM中的基础数据类型&quot; class=&quot;headerlink&quot; title=&quot;DOM中的基础数据类型&quot;&gt;&lt;/a&gt;DOM中的基础数据类型&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;DOMString&lt;/code&gt;  &lt;/li&gt;
-&lt;li&gt;&lt;code&gt;DOMTimeStamp&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;DOMUserData&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;DOMObject&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;###四、API详解-DOM CORE&lt;/p&gt;
-&lt;h4 id=&quot;DOM标准的层级&quot;&gt;&lt;a href=&quot;#DOM标准的层级&quot; class=&quot;headerlink&quot; title=&quot;DOM标准的层级&quot;&gt;&lt;/a&gt;DOM标准的层级&lt;/h4&gt;&lt;p&gt;DOM标准实际由很多的子模块组成，包括Core module，XML module，Events module，User interface Events module，Mouse Events module，Text Events module，Keyboard Events module，Mutation Events module，Mutation name Events module，HTML Events module，Load and Save module，Asynchronous load module，Validation module，和XPath module。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="DOM" scheme="http://yoursite.com/tags/DOM/"/>
     
   </entry>
   
