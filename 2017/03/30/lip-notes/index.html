@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="jQuery JavaScript," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -86,46 +86,16 @@
 
 
 
-<meta name="description" content="这个系列博客的灵感来源于这篇博客和一次失败的造轮子经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery-like的基础库，并且配上相应的源码，也就是我们的Litejs。
-我们要做的工作有以下这些：
-
-选择器和元素封装
-DOM操作
-Ajax请求
-事件系统
-触摸事件
-
-分别对应这系列文章的四个部分。
-好，让我们开启这段神奇的重复">
+<meta name="description" content="这里记录一下我阅读《编程语言实现模式》这本书的一些感受。一开始，对于编译原理，我的印象是这门课非常的艰深。在正式学习之前其实我已经看了很多编译相关的东西，比如V8，以及前端模板引擎等等。当时的感觉就是十分神奇。上了课之后首先接触的是形式文法、自动机和正规表达式等等。我的感觉就是，这些东西，是如何被前端大神们运用来写相关框架的呢，完全看不出门路嘛！">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Let's build a jQuery!-Part 1(early release)">
-<meta property="og:url" content="http://yoursite.com/2016/03/11/let-s-build-a-jQuery/index.html">
+<meta property="og:title" content="《编程语言实现模式》-阅读笔记">
+<meta property="og:url" content="http://yoursite.com/2017/03/30/lip-notes/index.html">
 <meta property="og:site_name" content="Zindex's blog">
-<meta property="og:description" content="这个系列博客的灵感来源于这篇博客和一次失败的造轮子经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery-like的基础库，并且配上相应的源码，也就是我们的Litejs。
-我们要做的工作有以下这些：
-
-选择器和元素封装
-DOM操作
-Ajax请求
-事件系统
-触摸事件
-
-分别对应这系列文章的四个部分。
-好，让我们开启这段神奇的重复">
-<meta property="og:updated_time" content="2016-06-15T10:56:00.000Z">
+<meta property="og:description" content="这里记录一下我阅读《编程语言实现模式》这本书的一些感受。一开始，对于编译原理，我的印象是这门课非常的艰深。在正式学习之前其实我已经看了很多编译相关的东西，比如V8，以及前端模板引擎等等。当时的感觉就是十分神奇。上了课之后首先接触的是形式文法、自动机和正规表达式等等。我的感觉就是，这些东西，是如何被前端大神们运用来写相关框架的呢，完全看不出门路嘛！">
+<meta property="og:updated_time" content="2017-03-30T14:08:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Let's build a jQuery!-Part 1(early release)">
-<meta name="twitter:description" content="这个系列博客的灵感来源于这篇博客和一次失败的造轮子经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery-like的基础库，并且配上相应的源码，也就是我们的Litejs。
-我们要做的工作有以下这些：
-
-选择器和元素封装
-DOM操作
-Ajax请求
-事件系统
-触摸事件
-
-分别对应这系列文章的四个部分。
-好，让我们开启这段神奇的重复">
+<meta name="twitter:title" content="《编程语言实现模式》-阅读笔记">
+<meta name="twitter:description" content="这里记录一下我阅读《编程语言实现模式》这本书的一些感受。一开始，对于编译原理，我的印象是这门课非常的艰深。在正式学习之前其实我已经看了很多编译相关的东西，比如V8，以及前端模板引擎等等。当时的感觉就是十分神奇。上了课之后首先接触的是形式文法、自动机和正规表达式等等。我的感觉就是，这些东西，是如何被前端大神们运用来写相关框架的呢，完全看不出门路嘛！">
 
 
 
@@ -153,13 +123,13 @@ Ajax请求
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/03/11/let-s-build-a-jQuery/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/30/lip-notes/"/>
 
 
 
 
 
-  <title> Let's build a jQuery!-Part 1(early release) | Zindex's blog </title>
+  <title> 《编程语言实现模式》-阅读笔记 | Zindex's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -280,7 +250,7 @@ Ajax请求
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/11/let-s-build-a-jQuery/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/30/lip-notes/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Zindex">
@@ -304,7 +274,7 @@ Ajax请求
             
             
               
-                Let's build a jQuery!-Part 1(early release)
+                《编程语言实现模式》-阅读笔记
               
             
           </h1>
@@ -317,8 +287,8 @@ Ajax请求
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-03-11T17:24:00+08:00">
-                2016-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-30T21:34:59+08:00">
+                2017-03-30
               </time>
             
 
@@ -353,33 +323,29 @@ Ajax请求
       
 
       
-        <p>这个系列博客的灵感来源于<a href="https://limpet.net/mbrubeck/2014/08/08/toy-layout-engine-1.html" target="_blank" rel="external">这篇博客</a>和一次失败的<a href="https://github.com/zxc0328/litejs" target="_blank" rel="external">造轮子</a>经历。出于对jQuery进行源码分析和让旧日作品发挥余热的目的，我开始写这一系列博客。主要内容就是从头开始打造一个jQuery-like的基础库，并且配上相应的源码，也就是我们的Litejs。</p>
-<p>我们要做的工作有以下这些：</p>
-<ul>
-<li>选择器和元素封装</li>
-<li>DOM操作</li>
-<li>Ajax请求</li>
-<li>事件系统</li>
-<li>触摸事件</li>
-</ul>
-<p>分别对应这系列文章的四个部分。</p>
-<p>好，让我们开启这段神奇的重复造轮子之旅吧！</p>
+        <p>这里记录一下我阅读《编程语言实现模式》这本书的一些感受。一开始，对于编译原理，我的印象是这门课非常的艰深。在正式学习之前其实我已经看了很多编译相关的东西，比如V8，以及前端模板引擎等等。当时的感觉就是十分神奇。上了课之后首先接触的是形式文法、自动机和正规表达式等等。我的感觉就是，这些东西，是如何被前端大神们运用来写相关框架的呢，完全看不出门路嘛！</p>
 <a id="more"></a>
-<h3 id="开发环境的搭建"><a href="#开发环境的搭建" class="headerlink" title="开发环境的搭建"></a>开发环境的搭建</h3><p>我们使用ES6的模块语法编写模块，并使用<a href="http://rollupjs.org/" target="_blank" rel="external">rollup.js</a>打包，rollup是基于ES6模块的JS打包工具。我对于rollup的思考可以参考。除此之外我们还是用Babel和Flow。Flow是Facebook出品的JavaScript静态类型检查工具，我们用Babel来去除Flow的类型标记，以及编译其他的ES6特性代码。</p>
-<p>// todo 测试环境搭建</p>
-<p><code>git checkout 1-1</code></p>
-<h3 id="jQuery的组织架构"><a href="#jQuery的组织架构" class="headerlink" title="jQuery的组织架构"></a>jQuery的组织架构</h3><p>简单的说，jQueryAPI由<code>jQuery</code>构造函数以及<code>jQuery</code>函数上的一系列静态API组成。<code>jQuery</code>构造函数就是我们平常使用的<code>$</code>函数，这个函数接收选择器字符串作为参数，返回jQuery对象实例。jQuery对象封装了原生的DOM对象，为其添加了一系列的属性和方法，以及链式调用的能力。</p>
-<p>与此同时，因为JavaScript的函数也是对象，因此我们可以在函数上添加属性和方法。函数是对象，因此也可以访问对象原型的方法。<code>jQuery</code>函数上的静态方法，包括了回调、AJAX、事件、动画、工具函数等jQuery API。另一些API，比如DOM相关的API，则是绑定在<code>jQuery</code>构造函数实例化出来的对象上。</p>
-<h4 id="lite构造函数"><a href="#lite构造函数" class="headerlink" title="lite构造函数"></a><code>lite</code>构造函数</h4><p>下面就让我们开始编写我们的自制<code>jQuery</code>—<code>litejs</code>。让我们来编写我们的第一个函数，<code>lite</code>构造函数。</p>
-<pre><code>// The lite constructor function
-var lite = function( selector, context ) {
-  return new lite.prototype.init( selector, context );
-};
-</code></pre><p>这个函数很简单，调用了<code>lite.fn.init</code>函数，传入了选择器和上下文，并返回实例化的对象。让我们来看看真正干活的<code>lite.prototype.init</code>函数。</p>
-<h4 id="lite-prototype-init"><a href="#lite-prototype-init" class="headerlink" title="lite.prototype.init"></a><code>lite.prototype.init</code></h4><p>我们之前说过，<code>lite</code>构造函数也是个对象，我们把一些静态方法都放在这个对象的原型上。其中就有<code>init</code>方法。我们先不急着看这个方法做了什么，我们在这里要做一个特殊的处理：</p>
-<pre><code>lite.prototype.init.prototype = lite.prototype;
-</code></pre><p>很简单，因为<code>lite.prototype.init</code>方法返回的实例无法访问到<code>lite</code>函数的原型链，所以我们设置这个对象构造函数的原型是<code>lite.prototype</code>。</p>
-<h4 id="lite-extend"><a href="#lite-extend" class="headerlink" title="lite.extend()"></a><code>lite.extend()</code></h4><p><code>lite.extend()</code>其实就是我们常说的<code>mixin</code>函数</p>
+<p>Jame Kyle的分享—<a href="https://www.youtube.com/watch?v=Tar4WgAfMr4&amp;t=9s" target="_blank" rel="external">《How to write a compiler》</a>虽然很好，但是和有实际运用价值的编译技能还差的远呢。</p>
+<p>看龙书看的欲哭无泪，后来转而看《自制编程语言》，把crowbar的代码和流程大概了解了一下。最大的收获就是了解了yacc和lex。此前我对于Lexer和Parser还是抱有一定的恐惧心理的。</p>
+<p>最终让我认清门路的是戴嘉华的<a href="https://github.com/livoras/blog/issues/14" target="_blank" rel="external">这篇博客</a>。后来我去翻了翻编译原理课本，让我彻底搞清楚几个事情：</p>
+<p>第一点，虽然波神说的很对，最关键的是动手去写，但了解必要的理论是很重要的。问题就在于，编译这边理论很多，类似有限自动机和正规表达式的转换等等知识，后端代码生成和优化等等，会加重认知的负担。所以关键就是，对于一个普通的工程师来说，开发文本处理或者DSL相关程序需要掌握的编译原理知识是哪些。</p>
+<p>第二点，需要了解的概念有：</p>
+<ul>
+<li>主流编译器，解释器的流水线</li>
+<li>形式文法（EBNF）</li>
+<li>LL(1)文法，以及EBNF和LL(1)之间的转换</li>
+<li>根据LL(1)文法写递归下降Parser</li>
+<li>了解不同的AST类型，会设计AST</li>
+</ul>
+<h3 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h3><p>这章主要讲基于LL(1)的Tokenizing和Parsing。</p>
+<p>很妙的一点在于，在写关于形式文法的地方，这本书没有将BNF和乔姆斯基之类的科班教材中讲的，而是讲文法当成是一种DSL，这其实是非常正确的。Parser Generator的输入一般就是某种类似BNF的DSL。本书中的例子是ANTLR（一个parser generator）的DSL。</p>
+<p>这种务实的风格是延续在整个第二章中的，讲LL(1)的First和Follow集的时候，是这样说的：</p>
+<blockquote>
+<p>正规的定义中通常使用FIRST和FOLLOW两个运算来计算向前看集合，而实际使用时，这个问题可以等价于“哪些词法单元可能会出现在这个解析选项的开头”，这种思维方式更容易掌握，FIRST和严格定义就不在这里解释了，因为它比较复杂，而且这里也用不着其原理。如果有兴趣，可以在网上找到很多相关材料。</p>
+</blockquote>
+<p>First集合的数学定义是这样的：</p>
+<p>试想一下，如果初学者接触到的是严谨的数学定义，而不是一个相对直白的解释和代码演示的话，还是会有不少人打退堂鼓的。</p>
+<p>在实际的学习中，还是需要一些如上文中的“等价于”那样的解释。</p>
 
       
     </div>
@@ -401,19 +367,13 @@ var lite = function( selector, context ) {
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/jQuery-JavaScript/" rel="tag"># jQuery JavaScript</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/11/front-end-interview/" rel="next" title="前端面试题总结（持续更新）">
-                <i class="fa fa-chevron-left"></i> 前端面试题总结（持续更新）
+              <a href="/2017/03/28/crowbar-note-1/" rel="next" title="crowbar-note-1">
+                <i class="fa fa-chevron-left"></i> crowbar-note-1
               </a>
             
           </div>
@@ -421,10 +381,6 @@ var lite = function( selector, context ) {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/03/19/2016-feday/" rel="prev" title="2016 FEDay见闻录">
-                2016 FEDay见闻录 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -580,7 +536,7 @@ var lite = function( selector, context ) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#开发环境的搭建"><span class="nav-number">1.</span> <span class="nav-text">开发环境的搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery的组织架构"><span class="nav-number">2.</span> <span class="nav-text">jQuery的组织架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lite构造函数"><span class="nav-number">2.1.</span> <span class="nav-text">lite构造函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lite-prototype-init"><span class="nav-number">2.2.</span> <span class="nav-text">lite.prototype.init</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lite-extend"><span class="nav-number">2.3.</span> <span class="nav-text">lite.extend()</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章"><span class="nav-number">1.</span> <span class="nav-text">第二章</span></a></li></ol></div>
             
 
           </div>

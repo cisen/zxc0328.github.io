@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-28T10:52:55.000Z</updated>
+  <updated>2017-03-30T14:08:29.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,47 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《编程语言实现模式》-阅读笔记</title>
+    <link href="http://yoursite.com/2017/03/30/lip-notes/"/>
+    <id>http://yoursite.com/2017/03/30/lip-notes/</id>
+    <published>2017-03-30T13:34:59.000Z</published>
+    <updated>2017-03-30T14:08:29.000Z</updated>
+    
+    <content type="html">&lt;p&gt;这里记录一下我阅读《编程语言实现模式》这本书的一些感受。一开始，对于编译原理，我的印象是这门课非常的艰深。在正式学习之前其实我已经看了很多编译相关的东西，比如V8，以及前端模板引擎等等。当时的感觉就是十分神奇。上了课之后首先接触的是形式文法、自动机和正规表达式等等。我的感觉就是，这些东西，是如何被前端大神们运用来写相关框架的呢，完全看不出门路嘛！&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;Jame Kyle的分享—&lt;a href=&quot;https://www.youtube.com/watch?v=Tar4WgAfMr4&amp;amp;t=9s&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;《How to write a compiler》&lt;/a&gt;虽然很好，但是和有实际运用价值的编译技能还差的远呢。&lt;/p&gt;
+&lt;p&gt;看龙书看的欲哭无泪，后来转而看《自制编程语言》，把crowbar的代码和流程大概了解了一下。最大的收获就是了解了yacc和lex。此前我对于Lexer和Parser还是抱有一定的恐惧心理的。&lt;/p&gt;
+&lt;p&gt;最终让我认清门路的是戴嘉华的&lt;a href=&quot;https://github.com/livoras/blog/issues/14&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这篇博客&lt;/a&gt;。后来我去翻了翻编译原理课本，让我彻底搞清楚几个事情：&lt;/p&gt;
+&lt;p&gt;第一点，虽然波神说的很对，最关键的是动手去写，但了解必要的理论是很重要的。问题就在于，编译这边理论很多，类似有限自动机和正规表达式的转换等等知识，后端代码生成和优化等等，会加重认知的负担。所以关键就是，对于一个普通的工程师来说，开发文本处理或者DSL相关程序需要掌握的编译原理知识是哪些。&lt;/p&gt;
+&lt;p&gt;第二点，需要了解的概念有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;主流编译器，解释器的流水线&lt;/li&gt;
+&lt;li&gt;形式文法（EBNF）&lt;/li&gt;
+&lt;li&gt;LL(1)文法，以及EBNF和LL(1)之间的转换&lt;/li&gt;
+&lt;li&gt;根据LL(1)文法写递归下降Parser&lt;/li&gt;
+&lt;li&gt;了解不同的AST类型，会设计AST&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;第二章&quot;&gt;&lt;a href=&quot;#第二章&quot; class=&quot;headerlink&quot; title=&quot;第二章&quot;&gt;&lt;/a&gt;第二章&lt;/h3&gt;&lt;p&gt;这章主要讲基于LL(1)的Tokenizing和Parsing。&lt;/p&gt;
+&lt;p&gt;很妙的一点在于，在写关于形式文法的地方，这本书没有将BNF和乔姆斯基之类的科班教材中讲的，而是讲文法当成是一种DSL，这其实是非常正确的。Parser Generator的输入一般就是某种类似BNF的DSL。本书中的例子是ANTLR（一个parser generator）的DSL。&lt;/p&gt;
+&lt;p&gt;这种务实的风格是延续在整个第二章中的，讲LL(1)的First和Follow集的时候，是这样说的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;正规的定义中通常使用FIRST和FOLLOW两个运算来计算向前看集合，而实际使用时，这个问题可以等价于“哪些词法单元可能会出现在这个解析选项的开头”，这种思维方式更容易掌握，FIRST和严格定义就不在这里解释了，因为它比较复杂，而且这里也用不着其原理。如果有兴趣，可以在网上找到很多相关材料。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;First集合的数学定义是这样的：&lt;/p&gt;
+&lt;p&gt;试想一下，如果初学者接触到的是严谨的数学定义，而不是一个相对直白的解释和代码演示的话，还是会有不少人打退堂鼓的。&lt;/p&gt;
+&lt;p&gt;在实际的学习中，还是需要一些如上文中的“等价于”那样的解释。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这里记录一下我阅读《编程语言实现模式》这本书的一些感受。一开始，对于编译原理，我的印象是这门课非常的艰深。在正式学习之前其实我已经看了很多编译相关的东西，比如V8，以及前端模板引擎等等。当时的感觉就是十分神奇。上了课之后首先接触的是形式文法、自动机和正规表达式等等。我的感觉就是，这些东西，是如何被前端大神们运用来写相关框架的呢，完全看不出门路嘛！&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>crowbar-note-1</title>
@@ -1556,129 +1597,6 @@ Banner.prototype.init = function(options) {
       &lt;h3 id=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;a href=&quot;#为什么我们需要开发者工具？&quot; class=&quot;headerlink&quot; title=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;/a&gt;为什么我们需要开发者工具？&lt;/h3&gt;&lt;p&gt;现在五花八门的开源前端工具里面，有一些致力于解决前端不够工程化的问题，比如Webpack、Gulp、PostCSS。有些则致力于加强编程语言的特性，比如Babel。而有一部分工具则是为了提高开发者的体验，比如React Devtools、React Hotloader和Redux Devtools。提高开发者体验的工具，从某种角度来说，其实和其他直接参与到前端开发工作流中的工具一样，最终都是为了提高生产力。&lt;/p&gt;
 &lt;p&gt;React Devtools已经足够惊艳，而Redux Devtools带来的Time-travel Debugging和React Hotloader的热更新则让人直呼这是黑魔法。&lt;/p&gt;
 &lt;p&gt;所以，被这些开发者工具惯坏的我们，怎么能接受Regular没有Devtools的现实呢？&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Ninja:dev server made easy</title>
-    <link href="http://yoursite.com/2016/07/05/ninja/"/>
-    <id>http://yoursite.com/2016/07/05/ninja/</id>
-    <published>2016-07-05T12:32:43.000Z</published>
-    <updated>2016-07-14T08:16:16.000Z</updated>
-    
-    <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/Muxi-Studio/ninja&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Ninja&lt;/a&gt;是一款用于前后端分离开发的本地开发服务器，也被称为是前端容器。它有以下一些特性：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;HTML、CSS的热重载&lt;/li&gt;
-&lt;li&gt;根据配置文件自动生成路由&lt;/li&gt;
-&lt;li&gt;根据配置文件自动读取在线/本地的虚拟数据&lt;/li&gt;
-&lt;li&gt;支持&lt;code&gt;Jinja2&lt;/code&gt;语法（以及其他Nodejs模板）&lt;/li&gt;
-&lt;li&gt;支持路由代理&lt;/li&gt;
-&lt;li&gt;支持&lt;code&gt;webpack&lt;/code&gt;（通过&lt;code&gt;webpack-dev-middleware&lt;/code&gt;）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;Ninja的前世今生&quot;&gt;&lt;a href=&quot;#Ninja的前世今生&quot; class=&quot;headerlink&quot; title=&quot;Ninja的前世今生&quot;&gt;&lt;/a&gt;Ninja的前世今生&lt;/h3&gt;&lt;p&gt;在木犀，之前我们的前后端分离开发方案是这样的：在本地运行一个简单的&lt;code&gt;Flask&lt;/code&gt;应用，只包含路由，在路由中读取虚拟数据并渲染&lt;code&gt;Jinja2&lt;/code&gt;模板，然后运行这个应用，进行开发。前端模板开发完成后和后端直接对接调试。&lt;/p&gt;
-&lt;p&gt;这种方案有一些明显的问题，首先是这个&lt;code&gt;Flask&lt;/code&gt;应用没法规范化为一个命令或是一个包，这就需要我们每次在构建前端仓库时都手动写路由等逻辑，这显然是不现实的。还有一个问题就是，&lt;code&gt;Flask&lt;/code&gt;的Python环境与目前前端工具生态的主流Nodejs格格不入，想要接入&lt;code&gt;webpack&lt;/code&gt;等前端工具，我们必须使用Nodejs来构建我们的dev server。&lt;/p&gt;
-&lt;p&gt;于是我们需要一款能支持&lt;code&gt;Jinja2&lt;/code&gt;语法，同时又能满足前端开发各种需要的dev server。Ninja就在这个节点上横空出世了！&lt;/p&gt;
-&lt;h3 id=&quot;基本用法&quot;&gt;&lt;a href=&quot;#基本用法&quot; class=&quot;headerlink&quot; title=&quot;基本用法&quot;&gt;&lt;/a&gt;基本用法&lt;/h3&gt;&lt;p&gt;Ninja的上手非常简单，首先安装Ninja&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;npm install -g ninja_cli
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;下面以Ninja和Webpack一起使用为例，这个例子的源代码在Ninja仓库的&lt;a href=&quot;https://github.com/Muxi-Studio/ninja/tree/master/example/ninja_webpack_example&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;example文件夹&lt;/code&gt;&lt;/a&gt;下可以找到。&lt;/p&gt;
-&lt;p&gt;首先我们需要一个&lt;code&gt;ninja.conf.js&lt;/code&gt;配置文件，当然你也可以选择用命令行参数配置。在这个文件里我们要配置一些必要的参数：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;module.exports = {
-    template: &amp;quot;swig&amp;quot;, // 模板引擎名
-    mock: &amp;quot;/mock/mock.json&amp;quot;, // 虚拟数据位置
-    webpack: true, // 启用webpack支持
-    templateDir: &amp;quot;/template&amp;quot;, // 模板文件目录
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后在webpack的配置里要注意&lt;code&gt;entry&lt;/code&gt;和&lt;code&gt;output&lt;/code&gt;的配置：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;  entry: [
-    path.resolve(__dirname, &amp;#39;./index.js&amp;#39;)
-  ],
-  output: {
-    path: &amp;#39;/&amp;#39;,
-    publicPath: &amp;#39;http://localhost:3000/&amp;#39;,
-    filename: &amp;#39;bundle.js&amp;#39;
-  },
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;webpack的中间件提供静态文件，我们可以在Ninja的3000端口访问到，所以在模板中的静态文件路径可以写&lt;code&gt;/&lt;/code&gt;+文件名。如&lt;code&gt;&amp;lt;script src=&amp;quot;/bundle.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;配置好Webpack之后，我们写两个简单的模板&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// base.html
-&amp;lt;!DOCTYPE html&amp;gt;
-&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
-&amp;lt;head&amp;gt;
-    &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt;
-    &amp;lt;title&amp;gt;Ninja Test&amp;lt;/title&amp;gt;
-&amp;lt;/head&amp;gt;
-&amp;lt;body&amp;gt;
-    &amp;lt;h2&amp;gt;I&amp;#39;m the head&amp;lt;/h2&amp;gt;
-    {% block content %}{% endblock %}
-	&lt;a href=&quot;/&quot;&gt;index page&lt;/a&gt;
-	&lt;a href=&quot;/second&quot;&gt;second page&lt;/a&gt;
-	&lt;script src=&quot;/bundle.js&quot;&gt;&lt;/script&gt;
-
-
-
-// second.html
-{% extends &#39;base.html&#39; %}
-{% block content %}
-	&lt;p&gt;{{ title }}&lt;/p&gt;
-{% endblock %}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后写一个mock文件&lt;code&gt;/mock/mock.json&lt;/code&gt;，配置路由和虚拟数据：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;{
-    &amp;quot;routes&amp;quot;: [
-        {
-            &amp;quot;name&amp;quot;: &amp;quot;home&amp;quot;,
-            &amp;quot;endpoint&amp;quot;: &amp;quot;/&amp;quot;,
-            &amp;quot;template&amp;quot;: &amp;quot;home&amp;quot;,
-            &amp;quot;async&amp;quot;: false // 同步路由
-        },
-        {
-            &amp;quot;name&amp;quot;: &amp;quot;second&amp;quot;,
-            &amp;quot;endpoint&amp;quot;: &amp;quot;/second&amp;quot;,
-            &amp;quot;template&amp;quot;: &amp;quot;home&amp;quot;,
-            &amp;quot;async&amp;quot;: false
-        },
-        {
-            &amp;quot;name&amp;quot;: &amp;quot;api.courses&amp;quot;,
-            &amp;quot;endpoint&amp;quot;: &amp;quot;/api/v1.0/courses&amp;quot;,
-            &amp;quot;async&amp;quot;: true // 异步路由（API）
-        }
-    ],
-    &amp;quot;data&amp;quot;:{
-        &amp;quot;home&amp;quot;:{
-            &amp;quot;title&amp;quot;: &amp;quot;hello&amp;quot;
-        },
-        &amp;quot;second&amp;quot;:{
-            &amp;quot;title&amp;quot;: &amp;quot;second&amp;quot;
-        },
-        &amp;quot;api.courses&amp;quot;:{
-            &amp;quot;title&amp;quot;: &amp;quot;second&amp;quot;
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后启动Ninja&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ ninja
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;之后Ninja会自动用Chrome打开&lt;code&gt;http://localhost:3000/&lt;/code&gt;。并显示我们首页模板。大功告成！&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7xqk8r.com1.z0.glb.clouddn.com/ninja_start.gif&quot; alt=&quot;ninja_start&quot;&gt;&lt;/p&gt;
-&lt;h3 id=&quot;开发手记&quot;&gt;&lt;a href=&quot;#开发手记&quot; class=&quot;headerlink&quot; title=&quot;开发手记&quot;&gt;&lt;/a&gt;开发手记&lt;/h3&gt;&lt;p&gt;Ninja的主体就是一个Express server，读取配置文件然后生成路由，填入虚拟数据和模板。Livereload使用了&lt;code&gt;connect-inject&lt;/code&gt;做模板的JS注入。用&lt;code&gt;socket.io&lt;/code&gt;做浏览器与Ninja的实时通信。至于Webpack的集成，直接使用官方的&lt;code&gt;webpack-dev-middleware&lt;/code&gt;和&lt;code&gt;webpack-hot-middleware&lt;/code&gt;就可以轻松达成。&lt;/p&gt;
-&lt;p&gt;总体来说没有遇到太大的困难，当然也可能是因为使用了大量的三方库。&lt;code&gt;@朱承浩&lt;/code&gt;同学建议Ninja的Web server部分可以自己实现，没必要使用&lt;code&gt;Express&lt;/code&gt;。我认为JS注入应该也可以自己实现。所以后期可以将这些部分替换为自己的实现。&lt;/p&gt;
-&lt;p&gt;Ninja是我第一次尝试些CLI应用，也是第一次尝试写前端工具。在功能上借鉴了&lt;a href=&quot;https://github.com/leeluolee/puer&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;puer&lt;/code&gt;&lt;/a&gt;（但是没看代码，看不懂Coffee Script），在前后端分离的理念上借鉴了&lt;a href=&quot;https://github.com/NEYouFan&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;NEI&lt;/code&gt;&lt;/a&gt;。在这个过程中我最大的发现是Node生态圈的繁荣，基本上想要的功能都有相应的NPM包封装好了。这次用了&lt;a href=&quot;https://github.com/tj/commander&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;commander&lt;/code&gt;&lt;/a&gt;做命令行参数的文档生成，&lt;a href=&quot;https://github.com/chalk/chalk&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;chalk&lt;/code&gt;&lt;/a&gt;给&lt;code&gt;console.log&lt;/code&gt;加颜色，&lt;a href=&quot;https://github.com/tj/consolidate.js&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;consolidate&lt;/code&gt;&lt;/a&gt;来统一Node模板调用，&lt;a href=&quot;https://github.com/sindresorhus/opn&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;opn&lt;/code&gt;&lt;/a&gt;用来打开浏览器。随着我Node水平的提升，在今后的开发中，会尽量少用不必要的三方库。&lt;/p&gt;
-&lt;h3 id=&quot;展望&quot;&gt;&lt;a href=&quot;#展望&quot; class=&quot;headerlink&quot; title=&quot;展望&quot;&gt;&lt;/a&gt;展望&lt;/h3&gt;&lt;p&gt;Ninja目前的版本号是&lt;code&gt;0.1&lt;/code&gt;，等稳定之后会放出&lt;code&gt;1.0&lt;/code&gt;版。后续版本会加入subcommand，加入脚手架功能，一键搭建前端目录建构和配置文件。云端Mock数据平台也要做相应的跟进。&lt;/p&gt;
-&lt;p&gt;总之，Ninja是木犀前后端分离开发实践一个进步。这仅仅只是一个开始，希望大家一起努力，提高开发的效率和开发者的体验。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;a href=&quot;https://github.com/Muxi-Studio/ninja&quot;&gt;Ninja&lt;/a&gt;是一款用于前后端分离开发的本地开发服务器，也被称为是前端容器。它有以下一些特性：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;HTML、CSS的热重载&lt;/li&gt;
-&lt;li&gt;根据配置文件自动生成路由&lt;/li&gt;
-&lt;li&gt;根据配置文件自动读取在线/本地的虚拟数据&lt;/li&gt;
-&lt;li&gt;支持&lt;code&gt;Jinja2&lt;/code&gt;语法（以及其他Nodejs模板）&lt;/li&gt;
-&lt;li&gt;支持路由代理&lt;/li&gt;
-&lt;li&gt;支持&lt;code&gt;webpack&lt;/code&gt;（通过&lt;code&gt;webpack-dev-middleware&lt;/code&gt;）&lt;/li&gt;
-&lt;/ul&gt;
     
     </summary>
     
