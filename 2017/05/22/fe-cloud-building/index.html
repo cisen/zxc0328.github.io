@@ -86,16 +86,19 @@
 
 
 
-<meta name="description" content="Vue的插件化机制Vue-finger，一个插件的诞生">
+<meta name="description" content="最近在思考团队里前端代码部署的问题，之前采用的方案是在本地构建，推到Github上一个专门放build后前端代码的仓库，然后Github的Webhook去触发后端的部署逻辑。代码就从这个仓库里拉取。
+这种方案看起来没什么大问题，但总觉得比较awkward。首先这套方案不够自动化，需要大量的人工操作。然后Github的Webhook其实并不是特别好用，如果后期要和我们内部的私有云平台对接起来，还要经">
 <meta property="og:type" content="article">
-<meta property="og:title" content="自制Vue插件">
-<meta property="og:url" content="http://yoursite.com/2016/11/13/vue-finger/index.html">
+<meta property="og:title" content="基于Travis CI和Github的前端云构建">
+<meta property="og:url" content="http://yoursite.com/2017/05/22/fe-cloud-building/index.html">
 <meta property="og:site_name" content="Zindex's blog">
-<meta property="og:description" content="Vue的插件化机制Vue-finger，一个插件的诞生">
-<meta property="og:updated_time" content="2016-11-30T08:48:07.000Z">
+<meta property="og:description" content="最近在思考团队里前端代码部署的问题，之前采用的方案是在本地构建，推到Github上一个专门放build后前端代码的仓库，然后Github的Webhook去触发后端的部署逻辑。代码就从这个仓库里拉取。
+这种方案看起来没什么大问题，但总觉得比较awkward。首先这套方案不够自动化，需要大量的人工操作。然后Github的Webhook其实并不是特别好用，如果后期要和我们内部的私有云平台对接起来，还要经">
+<meta property="og:updated_time" content="2017-05-22T12:05:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="自制Vue插件">
-<meta name="twitter:description" content="Vue的插件化机制Vue-finger，一个插件的诞生">
+<meta name="twitter:title" content="基于Travis CI和Github的前端云构建">
+<meta name="twitter:description" content="最近在思考团队里前端代码部署的问题，之前采用的方案是在本地构建，推到Github上一个专门放build后前端代码的仓库，然后Github的Webhook去触发后端的部署逻辑。代码就从这个仓库里拉取。
+这种方案看起来没什么大问题，但总觉得比较awkward。首先这套方案不够自动化，需要大量的人工操作。然后Github的Webhook其实并不是特别好用，如果后期要和我们内部的私有云平台对接起来，还要经">
 
 
 
@@ -123,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/11/13/vue-finger/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/22/fe-cloud-building/"/>
 
 
 
 
 
-  <title> 自制Vue插件 | Zindex's blog </title>
+  <title> 基于Travis CI和Github的前端云构建 | Zindex's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -250,7 +253,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/13/vue-finger/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/22/fe-cloud-building/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Zindex">
@@ -274,7 +277,7 @@
             
             
               
-                自制Vue插件
+                基于Travis CI和Github的前端云构建
               
             
           </h1>
@@ -287,8 +290,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-13T16:21:56+08:00">
-                2016-11-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-22T16:04:00+08:00">
+                2017-05-22
               </time>
             
 
@@ -323,7 +326,27 @@
       
 
       
-        <h3 id="Vue的插件化机制"><a href="#Vue的插件化机制" class="headerlink" title="Vue的插件化机制"></a>Vue的插件化机制</h3><h3 id="Vue-finger，一个插件的诞生"><a href="#Vue-finger，一个插件的诞生" class="headerlink" title="Vue-finger，一个插件的诞生"></a>Vue-finger，一个插件的诞生</h3>
+        <p>最近在思考团队里前端代码部署的问题，之前采用的方案是在本地构建，推到Github上一个专门放build后前端代码的仓库，然后Github的Webhook去触发后端的部署逻辑。代码就从这个仓库里拉取。</p>
+<p>这种方案看起来没什么大问题，但总觉得比较awkward。首先这套方案不够自动化，需要大量的人工操作。然后Github的Webhook其实并不是特别好用，如果后期要和我们内部的私有云平台对接起来，还要经过一些桥接才可以。</p>
+<p>本来呢，因为最近学了docker的缘故，我想写一个简单的Node服务，用来自动构建代码，然后通知服务端部署。每个应用就是一个单独的容器，这样环境就可以隔离。这个方案想来也不错。直到我仔细研究了一下Travis CI，才发现这个CI真是不简单。云端构建的任务用Travis CI就可以完美的实现。</p>
+<a id="more"></a>
+<h3 id="关于CI"><a href="#关于CI" class="headerlink" title="关于CI"></a>关于CI</h3><p>CI是持续集成的意思，持续集成里主要包括构建和测试代码。之前对Travis CI的印象是可以跑测试，仔细看了之后才发现Travis CI其实是一个云服务，提供了一个虚拟的Linux环境。你可以运行自定义的脚本。这个Linux环境的自由度还是非常大的。对于前端构建来说，Travis CI的网络环境可以快速安装npm包，这是一个非常大的优势。</p>
+<h3 id="travis-yml文件"><a href="#travis-yml文件" class="headerlink" title=".travis.yml文件"></a><code>.travis.yml</code>文件</h3><p>Travis CI的配置文件其实就是让你写几个生命周期hook，内容一般是shell命令。比如<code>install</code>这个hook里主要写一些安装依赖的逻辑，<code>script</code>这个hook里主要是写测试和构建的逻辑，<code>deploy</code>这个hook里是写部署的逻辑。另外这几个hook都有各自的<code>before</code>和<code>after</code>版本。总而言之自由度是很大的。</p>
+<p>一个示例<code>.travis.yml</code>文件。虽然我们不能直接<code>.travis.yml</code>中写逻辑，但我们可以运行任意的脚本，所以可以看出<code>.travis.yml</code>的能力基本等价于shell脚本。</p>
+<pre><code>language: node_js
+node_js:
+  - &quot;7&quot;
+install:
+  - npm install
+script:
+  - npm run build
+after_script:
+  - tar -cvf bundle.tar ./dist
+  - node deploy.js
+</code></pre><h3 id="云端构建"><a href="#云端构建" class="headerlink" title="云端构建"></a>云端构建</h3><p>在看过了上节的<code>.travis.yml</code>文件之后，云端构建的大致逻辑应该已经非常清楚了。我们在Travis CI的虚拟机中安装node依赖，build代码，压缩代码，然后运行一个js脚本。这个脚本的内容就是将代码上传到CDN。</p>
+<p><code>deploy.js</code>中还可以向后端的平台发送部署的请求，以达到自动部署的目的。如果后端是分布式的架构，向管理的节点发送请求即可。</p>
+<h3 id="一些展望"><a href="#一些展望" class="headerlink" title="一些展望"></a>一些展望</h3><p>Travis CI的能力取决于这个虚拟机里提供了怎样的环境。Travis CI支持docker，因此我们可以用Travis CI进行docker镜像的构建和上传。Travis CI支持Nodejs，因此我们可以在虚拟机中安装hexo，进行博客的云端构建和自动部署。云端的构建，由于保证环境的隔离，因此稳定性会比本地高。以上都是Travis CI可能的用途。Travis CI作为一个云服务，在运维方面，还有无限的可能性等我们去探索</p>
+
       
     </div>
 
@@ -349,8 +372,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/11/12/css-modules/" rel="next" title="聊聊CSS Modules">
-                <i class="fa fa-chevron-left"></i> 聊聊CSS Modules
+              <a href="/2017/03/30/lip-notes/" rel="next" title="《编程语言实现模式》-阅读笔记">
+                <i class="fa fa-chevron-left"></i> 《编程语言实现模式》-阅读笔记
               </a>
             
           </div>
@@ -358,10 +381,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/19/unix-talk-engineering/" rel="prev" title="Unix·Talk 聊聊工程">
-                Unix·Talk 聊聊工程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -517,7 +536,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue的插件化机制"><span class="nav-number">1.</span> <span class="nav-text">Vue的插件化机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vue-finger，一个插件的诞生"><span class="nav-number">2.</span> <span class="nav-text">Vue-finger，一个插件的诞生</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于CI"><span class="nav-number">1.</span> <span class="nav-text">关于CI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#travis-yml文件"><span class="nav-number">2.</span> <span class="nav-text">.travis.yml文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#云端构建"><span class="nav-number">3.</span> <span class="nav-text">云端构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些展望"><span class="nav-number">4.</span> <span class="nav-text">一些展望</span></a></li></ol></div>
             
 
           </div>

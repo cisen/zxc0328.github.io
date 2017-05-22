@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-03-31T13:43:42.000Z</updated>
+  <updated>2017-05-22T12:05:50.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,46 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>基于Travis CI和Github的前端云构建</title>
+    <link href="http://yoursite.com/2017/05/22/fe-cloud-building/"/>
+    <id>http://yoursite.com/2017/05/22/fe-cloud-building/</id>
+    <published>2017-05-22T08:04:00.000Z</published>
+    <updated>2017-05-22T12:05:50.000Z</updated>
+    
+    <content type="html">&lt;p&gt;最近在思考团队里前端代码部署的问题，之前采用的方案是在本地构建，推到Github上一个专门放build后前端代码的仓库，然后Github的Webhook去触发后端的部署逻辑。代码就从这个仓库里拉取。&lt;/p&gt;
+&lt;p&gt;这种方案看起来没什么大问题，但总觉得比较awkward。首先这套方案不够自动化，需要大量的人工操作。然后Github的Webhook其实并不是特别好用，如果后期要和我们内部的私有云平台对接起来，还要经过一些桥接才可以。&lt;/p&gt;
+&lt;p&gt;本来呢，因为最近学了docker的缘故，我想写一个简单的Node服务，用来自动构建代码，然后通知服务端部署。每个应用就是一个单独的容器，这样环境就可以隔离。这个方案想来也不错。直到我仔细研究了一下Travis CI，才发现这个CI真是不简单。云端构建的任务用Travis CI就可以完美的实现。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;关于CI&quot;&gt;&lt;a href=&quot;#关于CI&quot; class=&quot;headerlink&quot; title=&quot;关于CI&quot;&gt;&lt;/a&gt;关于CI&lt;/h3&gt;&lt;p&gt;CI是持续集成的意思，持续集成里主要包括构建和测试代码。之前对Travis CI的印象是可以跑测试，仔细看了之后才发现Travis CI其实是一个云服务，提供了一个虚拟的Linux环境。你可以运行自定义的脚本。这个Linux环境的自由度还是非常大的。对于前端构建来说，Travis CI的网络环境可以快速安装npm包，这是一个非常大的优势。&lt;/p&gt;
+&lt;h3 id=&quot;travis-yml文件&quot;&gt;&lt;a href=&quot;#travis-yml文件&quot; class=&quot;headerlink&quot; title=&quot;.travis.yml文件&quot;&gt;&lt;/a&gt;&lt;code&gt;.travis.yml&lt;/code&gt;文件&lt;/h3&gt;&lt;p&gt;Travis CI的配置文件其实就是让你写几个生命周期hook，内容一般是shell命令。比如&lt;code&gt;install&lt;/code&gt;这个hook里主要写一些安装依赖的逻辑，&lt;code&gt;script&lt;/code&gt;这个hook里主要是写测试和构建的逻辑，&lt;code&gt;deploy&lt;/code&gt;这个hook里是写部署的逻辑。另外这几个hook都有各自的&lt;code&gt;before&lt;/code&gt;和&lt;code&gt;after&lt;/code&gt;版本。总而言之自由度是很大的。&lt;/p&gt;
+&lt;p&gt;一个示例&lt;code&gt;.travis.yml&lt;/code&gt;文件。虽然我们不能直接&lt;code&gt;.travis.yml&lt;/code&gt;中写逻辑，但我们可以运行任意的脚本，所以可以看出&lt;code&gt;.travis.yml&lt;/code&gt;的能力基本等价于shell脚本。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;language: node_js
+node_js:
+  - &amp;quot;7&amp;quot;
+install:
+  - npm install
+script:
+  - npm run build
+after_script:
+  - tar -cvf bundle.tar ./dist
+  - node deploy.js
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;云端构建&quot;&gt;&lt;a href=&quot;#云端构建&quot; class=&quot;headerlink&quot; title=&quot;云端构建&quot;&gt;&lt;/a&gt;云端构建&lt;/h3&gt;&lt;p&gt;在看过了上节的&lt;code&gt;.travis.yml&lt;/code&gt;文件之后，云端构建的大致逻辑应该已经非常清楚了。我们在Travis CI的虚拟机中安装node依赖，build代码，压缩代码，然后运行一个js脚本。这个脚本的内容就是将代码上传到CDN。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;deploy.js&lt;/code&gt;中还可以向后端的平台发送部署的请求，以达到自动部署的目的。如果后端是分布式的架构，向管理的节点发送请求即可。&lt;/p&gt;
+&lt;h3 id=&quot;一些展望&quot;&gt;&lt;a href=&quot;#一些展望&quot; class=&quot;headerlink&quot; title=&quot;一些展望&quot;&gt;&lt;/a&gt;一些展望&lt;/h3&gt;&lt;p&gt;Travis CI的能力取决于这个虚拟机里提供了怎样的环境。Travis CI支持docker，因此我们可以用Travis CI进行docker镜像的构建和上传。Travis CI支持Nodejs，因此我们可以在虚拟机中安装hexo，进行博客的云端构建和自动部署。云端的构建，由于保证环境的隔离，因此稳定性会比本地高。以上都是Travis CI可能的用途。Travis CI作为一个云服务，在运维方面，还有无限的可能性等我们去探索&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近在思考团队里前端代码部署的问题，之前采用的方案是在本地构建，推到Github上一个专门放build后前端代码的仓库，然后Github的Webhook去触发后端的部署逻辑。代码就从这个仓库里拉取。&lt;/p&gt;
+&lt;p&gt;这种方案看起来没什么大问题，但总觉得比较awkward。首先这套方案不够自动化，需要大量的人工操作。然后Github的Webhook其实并不是特别好用，如果后期要和我们内部的私有云平台对接起来，还要经过一些桥接才可以。&lt;/p&gt;
+&lt;p&gt;本来呢，因为最近学了docker的缘故，我想写一个简单的Node服务，用来自动构建代码，然后通知服务端部署。每个应用就是一个单独的容器，这样环境就可以隔离。这个方案想来也不错。直到我仔细研究了一下Travis CI，才发现这个CI真是不简单。云端构建的任务用Travis CI就可以完美的实现。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>《编程语言实现模式》-阅读笔记</title>
@@ -1551,65 +1591,6 @@ Banner.prototype.init = function(options) {
       &lt;h3 id=&quot;Regular-Devtools的前辈们&quot;&gt;&lt;a href=&quot;#Regular-Devtools的前辈们&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools的前辈们&quot;&gt;&lt;/a&gt;Regular Devtools的前辈们&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/gaearon&quot;&gt;Dan Abramov&lt;/a&gt;的&lt;a href=&quot;https://github.com/gaearon/redux-devtools&quot;&gt;Redux Devtools&lt;/a&gt;把前端框架开发者工具推向了主流视野，他在React Europe 2015上的这个&lt;a href=&quot;https://www.youtube.com/watch?v=xsSnOQynTHs&quot;&gt;演讲&lt;/a&gt;被疯转。Redux Devtools可以说是独领风骚，开启了新一代前端框架开发者工具的潮流。&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/facebook/react-devtools&quot;&gt;React Devtools&lt;/a&gt;也可以算是前开发者工具的祖师爷之一了。React Devtools不但有常用的组件树查看功能，还能直接查看JSX代码，筛选组件，双向修改state，查看组件源码等等。&lt;/p&gt;
 &lt;p&gt;而Regular Devtools主要参考的则是&lt;a href=&quot;https://github.com/vuejs/vue-devtools&quot;&gt;Vue Devtools&lt;/a&gt;。Vue Devtools是一个轻量，简洁的Devtools，只实现了开发者工具中最核心的功能。而Vue与Regular在某些方面比较相似，所以Vue Devtools就成为了我开发过程中的一个重要参考。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>发布Regular Developer Tools</title>
-    <link href="http://yoursite.com/2016/07/26/annoucing-regular-devtools/"/>
-    <id>http://yoursite.com/2016/07/26/annoucing-regular-devtools/</id>
-    <published>2016-07-26T10:20:33.000Z</published>
-    <updated>2016-07-29T03:04:04.000Z</updated>
-    
-    <content type="html">&lt;h3 id=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;a href=&quot;#为什么我们需要开发者工具？&quot; class=&quot;headerlink&quot; title=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;/a&gt;为什么我们需要开发者工具？&lt;/h3&gt;&lt;p&gt;现在五花八门的开源前端工具里面，有一些致力于解决前端不够工程化的问题，比如Webpack、Gulp、PostCSS。有些则致力于加强编程语言的特性，比如Babel。而有一部分工具则是为了提高开发者的体验，比如React Devtools、React Hotloader和Redux Devtools。提高开发者体验的工具，从某种角度来说，其实和其他直接参与到前端开发工作流中的工具一样，最终都是为了提高生产力。&lt;/p&gt;
-&lt;p&gt;React Devtools已经足够惊艳，而Redux Devtools带来的Time-travel Debugging和React Hotloader的热更新则让人直呼这是黑魔法。&lt;/p&gt;
-&lt;p&gt;所以，被这些开发者工具惯坏的我们，怎么能接受Regular没有Devtools的现实呢？&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;Regular-Devtools初印象&quot;&gt;&lt;a href=&quot;#Regular-Devtools初印象&quot; class=&quot;headerlink&quot; title=&quot;Regular Devtools初印象&quot;&gt;&lt;/a&gt;Regular Devtools初印象&lt;/h3&gt;&lt;p&gt;Regular Devtools是一款Chrome拓展。主要的功能是展示组件树，以及查看每个组件的数据。开发者对组件的操作，造成组件树和数据的变化，都会在Devtools中实时展现。&lt;/p&gt;
-&lt;p&gt;比如这样：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/rdt_demo_ss.gif&quot; alt=&quot;rdt_demo&quot;&gt;&lt;/p&gt;
-&lt;p&gt;更强大的是，你可以检查当前组件对应的DOM节点，这个节点会在Chrome Devtools中的Element Tab中出现，就像你平时习惯的右键inspect一样。&lt;/p&gt;
-&lt;p&gt;反之，如果你正在检查一个DOM元素，此时你可以切换到Regular Tab，Regular DevTools会自动选中那个DOM节点对应的Regular组件（如果那个DOM节点是Regular组件渲染出的）。&lt;/p&gt;
-&lt;p&gt;比如这样：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7oxh2b.com1.z0.glb.clouddn.com/rdt_demo_dom_ss.gif&quot; alt=&quot;rdt_demo&quot;&gt;&lt;/p&gt;
-&lt;h3 id=&quot;特性&quot;&gt;&lt;a href=&quot;#特性&quot; class=&quot;headerlink&quot; title=&quot;特性&quot;&gt;&lt;/a&gt;特性&lt;/h3&gt;&lt;p&gt;对Regular Devtools有了初步印象之后，下面就详细介绍一下它的功能&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;左侧Element View显示当前页面的Regular组件树，右侧State View显示被选中组件的状态。&lt;/li&gt;
-&lt;li&gt;Element View和State View都会随着页面上组件和状态的变化实时更新。&lt;/li&gt;
-&lt;li&gt;提供DOM节点和Regular组件的双向查找：可以点击State View中的Inspect查找当前Regular组件对应的DOM节点。&lt;/li&gt;
-&lt;li&gt;也可以在Element选项卡中选中DOM节点后切换到Regular选项卡，如果被选中的DOM节点由Regular组件渲染，那么这个Regular节点会被自动选中。&lt;/li&gt;
-&lt;li&gt;页面刷新时Devtools会自动重新加载，你也可以通过顶栏右侧的按钮手动重载。&lt;/li&gt;
-&lt;li&gt;通过&lt;code&gt;include&lt;/code&gt;方式被引入的组件将会在组件树中注明，并且在组件树种作为视觉父节点&lt;code&gt;this.$outer&lt;/code&gt;子节点展示。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h3&gt;&lt;p&gt;读到这里，想必你一定蠢蠢欲动了，那就快来体验一下Regular DevTools吧。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Step 1&lt;/strong&gt; 克隆Regular Devtools&lt;a href=&quot;https://regularjs.github.io/regular-devtools/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;仓库&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Step 2&lt;/strong&gt; 打开Chorme的&lt;code&gt;chrome://extensions/&lt;/code&gt;页面&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Step 3&lt;/strong&gt; 点击&lt;code&gt;Load unpacked extension···&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Step 4&lt;/strong&gt; 选择你刚刚克隆的仓库文件夹&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Step 5&lt;/strong&gt; 大功告成!&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;打开一个使用了Regular组件的页面，打开Chrome Devtools，选择Regular选项卡，如果一切顺利，你将在左边的Element View看到当前页面的组件树，然后就可以开始愉快的开发了！&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;注意，你的项目必须使用&lt;a href=&quot;https://regularjs.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Regular v0.4.5&lt;/a&gt;或更高的版本&lt;br&gt;如果你手头上没有使用最新版Regular的项目，可以先拿这个&lt;a href=&quot;https://regularjs.github.io/regular-devtools/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Regular Todo例子&lt;/a&gt;尝鲜&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;开发手记&quot;&gt;&lt;a href=&quot;#开发手记&quot; class=&quot;headerlink&quot; title=&quot;开发手记&quot;&gt;&lt;/a&gt;开发手记&lt;/h3&gt;&lt;p&gt;对这款Devtools的技术实现有兴趣的同学可以浏览&lt;a href=&quot;http://zxc0328.github.io/2016/07/28/regular-devtools-thought/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Regular Devtools开发手记&lt;/a&gt;这篇博客。&lt;/p&gt;
-&lt;h3 id=&quot;已知的问题&quot;&gt;&lt;a href=&quot;#已知的问题&quot; class=&quot;headerlink&quot; title=&quot;已知的问题&quot;&gt;&lt;/a&gt;已知的问题&lt;/h3&gt;&lt;p&gt;这些问题主要是由于某些特殊组件&lt;code&gt;$outer&lt;/code&gt;属性的指向和正常组件不同造成的。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;有&lt;code&gt;isolate&lt;/code&gt;属性的组件将不会出现在组件树中，其内嵌组件会正常显示。&lt;/li&gt;
-&lt;li&gt;Regular-dnd中的&lt;code&gt;Draggable&lt;/code&gt;和&lt;code&gt;Droppable&lt;/code&gt;组件的内嵌组件会和父组件显示在同一个层级。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;关于我&quot;&gt;&lt;a href=&quot;#关于我&quot; class=&quot;headerlink&quot; title=&quot;关于我&quot;&gt;&lt;/a&gt;关于我&lt;/h3&gt;&lt;p&gt;网易有数前端实习生&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;a href=&quot;#为什么我们需要开发者工具？&quot; class=&quot;headerlink&quot; title=&quot;为什么我们需要开发者工具？&quot;&gt;&lt;/a&gt;为什么我们需要开发者工具？&lt;/h3&gt;&lt;p&gt;现在五花八门的开源前端工具里面，有一些致力于解决前端不够工程化的问题，比如Webpack、Gulp、PostCSS。有些则致力于加强编程语言的特性，比如Babel。而有一部分工具则是为了提高开发者的体验，比如React Devtools、React Hotloader和Redux Devtools。提高开发者体验的工具，从某种角度来说，其实和其他直接参与到前端开发工作流中的工具一样，最终都是为了提高生产力。&lt;/p&gt;
-&lt;p&gt;React Devtools已经足够惊艳，而Redux Devtools带来的Time-travel Debugging和React Hotloader的热更新则让人直呼这是黑魔法。&lt;/p&gt;
-&lt;p&gt;所以，被这些开发者工具惯坏的我们，怎么能接受Regular没有Devtools的现实呢？&lt;/p&gt;
     
     </summary>
     
