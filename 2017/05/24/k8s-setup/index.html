@@ -92,10 +92,12 @@
 <meta property="og:url" content="http://yoursite.com/2017/05/24/k8s-setup/index.html">
 <meta property="og:site_name" content="Zindex's blog">
 <meta property="og:description" content="本文介绍了如何用Kubeadm 1.6版在Ubuntu 16.04系统上快速部署一个Kubernetes集群。">
-<meta property="og:updated_time" content="2017-05-26T07:12:17.000Z">
+<meta property="og:image" content="http://wx1.sinaimg.cn/large/64c45edcly1ffysdi2jjfj21kw0yhnpe.jpg">
+<meta property="og:updated_time" content="2017-05-26T07:32:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Kubeadm 1.6部署Kubernetes">
 <meta name="twitter:description" content="本文介绍了如何用Kubeadm 1.6版在Ubuntu 16.04系统上快速部署一个Kubernetes集群。">
+<meta name="twitter:image" content="http://wx1.sinaimg.cn/large/64c45edcly1ffysdi2jjfj21kw0yhnpe.jpg">
 
 
 
@@ -422,7 +424,32 @@ kubectl apply -n sock-shop -f &quot;https://github.com/microservices-demo/micros
 </code></pre><p>查看front-end服务的端口：</p>
 <pre><code>NAME        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
 front-end   10.103.179.228   &lt;nodes&gt;       80:30001/TCP   1h
-</code></pre><p>端口是30001，然后我们就可以用<code>http://&lt;MASTER_IP&gt;:30001</code>来访问服务了。</p>
+</code></pre><p>端口是30001，然后我们就可以用<code>http://&lt;MASTER_IP&gt;:30001</code>来访问服务了:</p>
+<p><img src="http://wx1.sinaimg.cn/large/64c45edcly1ffysdi2jjfj21kw0yhnpe.jpg" alt="socks-shop"></p>
+<h3 id="查看和升级部署"><a href="#查看和升级部署" class="headerlink" title="查看和升级部署"></a>查看和升级部署</h3><p>在任意节点运行：</p>
+<pre><code>kubectl get depolyment --all-namespaces
+</code></pre><p>可以看到当前的depolyment：</p>
+<pre><code>NAMESPACE     NAME           DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+kube-system   kube-dns       1         1         1            1           3h
+sock-shop     carts          1         1         1            1           1h
+sock-shop     carts-db       1         1         1            1           1h
+sock-shop     catalogue      1         1         1            1           1h
+sock-shop     catalogue-db   1         1         1            1           1h
+sock-shop     front-end      1         1         1            1           1h
+sock-shop     orders         1         1         1            1           1h
+sock-shop     orders-db      1         1         1            1           1h
+sock-shop     payment        1         1         1            1           1h
+sock-shop     queue-master   1         1         1            1           1h
+sock-shop     rabbitmq       1         1         1            1           1h
+sock-shop     shipping       1         1         1            1           1h
+sock-shop     user           1         1         1            1           1h
+sock-shop     user-db        1         1         1            1           1h
+</code></pre><p>如果我们想将其中一个服务横向拓展，比如payment服务，我们只需要：</p>
+<pre><code>kubectl --namespace=sock-shop scale deployment payment --replicas 2
+</code></pre><p>一个新的payment pod就被初始化，并被分配到合适的节点上运行。</p>
+<p>关于更多deployment相关的更新、回滚的信息请参考<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/" target="_blank" rel="external">官方文档</a>。</p>
+<h3 id="一些思考"><a href="#一些思考" class="headerlink" title="一些思考"></a>一些思考</h3><p>Kubernetes相对来说还是很容易上手的一个容器集群管理方案。只要我们开发的时候是按cloud native的思路去写，部署就是一件非常简单的事情。可以说几个配置文件就搞定了。Kubernetes接管了部署的更新和回滚，让运维变的轻松、可靠。比如部署的时候不会在新容器没有启动之前就终止旧容器。如果部署出了问题需要回滚，也可以进行一键式的回滚。部署也可以暂定，继续。这样的一套方案相比于手动管理容器，简直就是鸟枪换炮式的升级。</p>
+<p>不仅仅是后端服务，我们的前端代码，也应该融入这套体系之中。前端作为一个单独的服务部署。这样可以更好的解耦。</p>
 
       
     </div>
@@ -613,7 +640,7 @@ front-end   10.103.179.228   &lt;nodes&gt;       80:30001/TCP   1h
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖安装-amp-amp-代理设置"><span class="nav-number">2.</span> <span class="nav-text">依赖安装&&代理设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">3.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置环境变量"><span class="nav-number">4.</span> <span class="nav-text">设置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pod网络设置：weaver"><span class="nav-number">5.</span> <span class="nav-text">Pod网络设置：weaver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入Node"><span class="nav-number">6.</span> <span class="nav-text">加入Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例应用"><span class="nav-number">7.</span> <span class="nav-text">示例应用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖安装-amp-amp-代理设置"><span class="nav-number">2.</span> <span class="nav-text">依赖安装&&代理设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">3.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置环境变量"><span class="nav-number">4.</span> <span class="nav-text">设置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pod网络设置：weaver"><span class="nav-number">5.</span> <span class="nav-text">Pod网络设置：weaver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入Node"><span class="nav-number">6.</span> <span class="nav-text">加入Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例应用"><span class="nav-number">7.</span> <span class="nav-text">示例应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看和升级部署"><span class="nav-number">8.</span> <span class="nav-text">查看和升级部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些思考"><span class="nav-number">9.</span> <span class="nav-text">一些思考</span></a></li></ol></div>
             
 
           </div>
