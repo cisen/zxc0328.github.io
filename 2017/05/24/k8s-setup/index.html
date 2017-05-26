@@ -86,19 +86,16 @@
 
 
 
-<meta name="description" content="最近在思考团队里前端代码部署的问题，之前采用的方案是在本地构建，推到Github上一个专门放build后前端代码的仓库，然后Github的Webhook去触发后端的部署逻辑。代码就从这个仓库里拉取。
-这种方案看起来没什么大问题，但总觉得比较awkward。首先这套方案不够自动化，需要大量的人工操作。然后Github的Webhook其实并不是特别好用，如果后期要和我们内部的私有云平台对接起来，还要经">
+<meta name="description" content="本文介绍了如何用Kubeadm 1.6版在Ubuntu 16.04系统上快速部署一个Kubernetes集群。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于Travis CI和Github的前端云构建">
-<meta property="og:url" content="http://yoursite.com/2017/05/22/fe-cloud-building/index.html">
+<meta property="og:title" content="使用Kubeadm 1.6部署Kubernetes">
+<meta property="og:url" content="http://yoursite.com/2017/05/24/k8s-setup/index.html">
 <meta property="og:site_name" content="Zindex's blog">
-<meta property="og:description" content="最近在思考团队里前端代码部署的问题，之前采用的方案是在本地构建，推到Github上一个专门放build后前端代码的仓库，然后Github的Webhook去触发后端的部署逻辑。代码就从这个仓库里拉取。
-这种方案看起来没什么大问题，但总觉得比较awkward。首先这套方案不够自动化，需要大量的人工操作。然后Github的Webhook其实并不是特别好用，如果后期要和我们内部的私有云平台对接起来，还要经">
-<meta property="og:updated_time" content="2017-05-22T12:05:50.000Z">
+<meta property="og:description" content="本文介绍了如何用Kubeadm 1.6版在Ubuntu 16.04系统上快速部署一个Kubernetes集群。">
+<meta property="og:updated_time" content="2017-05-26T07:12:17.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于Travis CI和Github的前端云构建">
-<meta name="twitter:description" content="最近在思考团队里前端代码部署的问题，之前采用的方案是在本地构建，推到Github上一个专门放build后前端代码的仓库，然后Github的Webhook去触发后端的部署逻辑。代码就从这个仓库里拉取。
-这种方案看起来没什么大问题，但总觉得比较awkward。首先这套方案不够自动化，需要大量的人工操作。然后Github的Webhook其实并不是特别好用，如果后期要和我们内部的私有云平台对接起来，还要经">
+<meta name="twitter:title" content="使用Kubeadm 1.6部署Kubernetes">
+<meta name="twitter:description" content="本文介绍了如何用Kubeadm 1.6版在Ubuntu 16.04系统上快速部署一个Kubernetes集群。">
 
 
 
@@ -126,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/05/22/fe-cloud-building/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/24/k8s-setup/"/>
 
 
 
 
 
-  <title> 基于Travis CI和Github的前端云构建 | Zindex's blog </title>
+  <title> 使用Kubeadm 1.6部署Kubernetes | Zindex's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -253,7 +250,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/22/fe-cloud-building/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/24/k8s-setup/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Zindex">
@@ -277,7 +274,7 @@
             
             
               
-                基于Travis CI和Github的前端云构建
+                使用Kubeadm 1.6部署Kubernetes
               
             
           </h1>
@@ -290,8 +287,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-22T16:04:00+08:00">
-                2017-05-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-24T19:52:27+08:00">
+                2017-05-24
               </time>
             
 
@@ -326,26 +323,106 @@
       
 
       
-        <p>最近在思考团队里前端代码部署的问题，之前采用的方案是在本地构建，推到Github上一个专门放build后前端代码的仓库，然后Github的Webhook去触发后端的部署逻辑。代码就从这个仓库里拉取。</p>
-<p>这种方案看起来没什么大问题，但总觉得比较awkward。首先这套方案不够自动化，需要大量的人工操作。然后Github的Webhook其实并不是特别好用，如果后期要和我们内部的私有云平台对接起来，还要经过一些桥接才可以。</p>
-<p>本来呢，因为最近学了docker的缘故，我想写一个简单的Node服务，用来自动构建代码，然后通知服务端部署。每个应用就是一个单独的容器，这样环境就可以隔离。这个方案想来也不错。直到我仔细研究了一下Travis CI，才发现这个CI真是不简单。云端构建的任务用Travis CI就可以完美的实现。</p>
+        <p>本文介绍了如何用Kubeadm 1.6版在Ubuntu 16.04系统上快速部署一个Kubernetes集群。</p>
 <a id="more"></a>
-<h3 id="关于CI"><a href="#关于CI" class="headerlink" title="关于CI"></a>关于CI</h3><p>CI是持续集成的意思，持续集成里主要包括构建和测试代码。之前对Travis CI的印象是可以跑测试，仔细看了之后才发现Travis CI其实是一个云服务，提供了一个虚拟的Linux环境。你可以运行自定义的脚本。这个Linux环境的自由度还是非常大的。对于前端构建来说，Travis CI的网络环境可以快速安装npm包，这是一个非常大的优势。</p>
-<h3 id="travis-yml文件"><a href="#travis-yml文件" class="headerlink" title=".travis.yml文件"></a><code>.travis.yml</code>文件</h3><p>Travis CI的配置文件其实就是让你写几个生命周期hook，内容一般是shell命令。比如<code>install</code>这个hook里主要写一些安装依赖的逻辑，<code>script</code>这个hook里主要是写测试和构建的逻辑，<code>deploy</code>这个hook里是写部署的逻辑。另外这几个hook都有各自的<code>before</code>和<code>after</code>版本。总而言之自由度是很大的。</p>
-<p>一个示例<code>.travis.yml</code>文件。虽然我们不能直接<code>.travis.yml</code>中写逻辑，但我们可以运行任意的脚本，所以可以看出<code>.travis.yml</code>的能力基本等价于shell脚本。</p>
-<pre><code>language: node_js
-node_js:
-  - &quot;7&quot;
-install:
-  - npm install
-script:
-  - npm run build
-after_script:
-  - tar -cvf bundle.tar ./dist
-  - node deploy.js
-</code></pre><h3 id="云端构建"><a href="#云端构建" class="headerlink" title="云端构建"></a>云端构建</h3><p>在看过了上节的<code>.travis.yml</code>文件之后，云端构建的大致逻辑应该已经非常清楚了。我们在Travis CI的虚拟机中安装node依赖，build代码，压缩代码，然后运行一个js脚本。这个脚本的内容就是将代码上传到CDN。</p>
-<p><code>deploy.js</code>中还可以向后端的平台发送部署的请求，以达到自动部署的目的。如果后端是分布式的架构，向管理的节点发送请求即可。</p>
-<h3 id="一些展望"><a href="#一些展望" class="headerlink" title="一些展望"></a>一些展望</h3><p>Travis CI的能力取决于这个虚拟机里提供了怎样的环境。Travis CI支持docker，因此我们可以用Travis CI进行docker镜像的构建和上传。Travis CI支持Nodejs，因此我们可以在虚拟机中安装hexo，进行博客的云端构建和自动部署。云端的构建，由于保证环境的隔离，因此稳定性会比本地高。以上都是Travis CI可能的用途。Travis CI作为一个云服务，在运维方面，还有无限的可能性等我们去探索</p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>阿里云ECS 华南1 可用区A Ubuntu 16.04.2 LTS (GNU/Linux 4.4.0-63-generic x86_64) 专有网络</p>
+<table>
+<thead>
+<tr>
+<th>节点类型</th>
+<th style="text-align:center">配置</th>
+<th style="text-align:right">内网IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MASTER</td>
+<td style="text-align:center">1 CPU 1GB RAM</td>
+<td style="text-align:right">172.18.214.46</td>
+</tr>
+<tr>
+<td>Node</td>
+<td style="text-align:center">1 CPU 2GB RAM</td>
+<td style="text-align:right">172.18.214.47</td>
+</tr>
+</tbody>
+</table>
+<h3 id="依赖安装-amp-amp-代理设置"><a href="#依赖安装-amp-amp-代理设置" class="headerlink" title="依赖安装&amp;&amp;代理设置"></a>依赖安装&amp;&amp;代理设置</h3><p>首先要在两个节点都安装Docker和Kubernetes相关的组件。因为相关的镜像都在墙外，所以这里需要挂代理或者自行寻找墙内的源。笔者选择的是挂代理的方案，给Ubuntu配置HTTP代理可以参考<a href="http://dearmadman.com/2015/08/30/use-shadowsocks-in-ubuntu/" target="_blank" rel="external">这篇博客</a>。给Docker配置代理可以参考<a href="https://docs.docker.com/engine/admin/systemd/#httphttps-proxy" target="_blank" rel="external">官方文档</a></p>
+<p>安装的步骤是按照官网的文档<a href="https://kubernetes.io/docs/getting-started-guides/kubeadm/" target="_blank" rel="external">Installing Kubernetes on Linux with kubeadm</a>来的：</p>
+<pre><code># 升级包管理的镜像列表
+apt-get update &amp;&amp; apt-get install -y apt-transport-https
+# 将docker和kubernetes相关的镜像源加入列表
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+apt-get update
+# 安装docker和kubernetes相关组件
+apt-get install -y docker-engine
+apt-get install -y kubelet kubeadm kubectl kubernetes-cni
+</code></pre><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>在MASTER节点运行：</p>
+<p><code>kubeadm init</code></p>
+<p>如果一切正常，最后会有如下的输出：</p>
+<pre><code>Your Kubernetes master has initialized successfully!
+
+To start using your cluster, you need to run (as a regular user):
+
+  sudo cp /etc/kubernetes/admin.conf $HOME/
+  sudo chown $(id -u):$(id -g) $HOME/admin.conf
+  export KUBECONFIG=$HOME/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run &quot;kubectl apply -f [podnetwork].yaml&quot; with one of the options listed at:
+  http://kubernetes.io/docs/admin/addons/
+
+You can now join any number of machines by running the following on each node
+as root:
+
+  kubeadm join --token 67e1ac.eac65cabb7d2801c 172.18.214.46:6443
+</code></pre><h3 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h3><p>上一步中kubeadm会生成配置文件，输出的消息中要求我们设置环境变量<code>KUBECONFIG</code>为配置文件的路径。以便后续的使用。</p>
+<pre><code>sudo cp /etc/kubernetes/admin.conf $HOME/
+sudo chown $(id -u):$(id -g) $HOME/admin.conf
+export KUBECONFIG=$HOME/admin.conf
+</code></pre><h3 id="Pod网络设置：weaver"><a href="#Pod网络设置：weaver" class="headerlink" title="Pod网络设置：weaver"></a>Pod网络设置：weaver</h3><p>到这里，我们已经初始化了一个单节点的Kubernetes集群。要想在集群中加入真正负载应用的Node，我们需要初始化一个Overlay Network。</p>
+<p>Overlay Network的选择有很多，比如Flannel和Calico。但经过我个人的踩坑和<a href="http://tonybai.com/2016/12/30/install-kubernetes-on-ubuntu-with-kubeadm/" target="_blank" rel="external">参考博客</a>后，最终选择了weaver。</p>
+<p>在Master节点运行：</p>
+<pre><code>kubectl apply -f https://git.io/weave-kube-1.6
+</code></pre><p>稍候片刻，运行</p>
+<pre><code>kubectl get pods -o wide --all-namespaces
+</code></pre><p>查看pods的运行情况：</p>
+<pre><code>NAMESPACE     NAME                                              READY     STATUS    RESTARTS   AGE       IP              NODE
+kube-system   etcd-izwz9ap4sedl64wboiyh6cz                      1/1       Running   0          55m       172.18.214.46   izwz9ap4sedl64wboiyh6cz
+kube-system   kube-apiserver-izwz9ap4sedl64wboiyh6cz            1/1       Running   0          54m       172.18.214.46   izwz9ap4sedl64wboiyh6cz
+kube-system   kube-controller-manager-izwz9ap4sedl64wboiyh6cz   1/1       Running   0          55m       172.18.214.46   izwz9ap4sedl64wboiyh6cz
+kube-system   kube-dns-3913472980-l8ghd                         3/3       Running   0          55m       10.32.0.2       izwz9ap4sedl64wboiyh6cz
+kube-system   kube-proxy-n5332                                  1/1       Running   0          55m       172.18.214.46   izwz9ap4sedl64wboiyh6cz
+kube-system   kube-scheduler-izwz9ap4sedl64wboiyh6cz            1/1       Running   0          54m       172.18.214.46   izwz9ap4sedl64wboiyh6cz
+kube-system   weave-net-l86wx                                   2/2       Running   0          48m       172.18.214.46   izwz9ap4sedl64wboiyh6cz
+</code></pre><p>如果weave-net和kube-dns这两个pod都处于Running的状态。说明网络初始化成功。</p>
+<h3 id="加入Node"><a href="#加入Node" class="headerlink" title="加入Node"></a>加入Node</h3><p>在Node上运行之前Master上输出的：</p>
+<pre><code>kubeadm join --token 67e1ac.eac65cabb7d2801c 172.18.214.46:6443
+</code></pre><p>设置配置文件路径的环境变量：</p>
+<pre><code>export KUBECONFIG=/etc/kubernetes/kubelet.conf
+</code></pre><p>稍后，查看Node的运行情况：</p>
+<pre><code>kubectl get nodes
+
+NAME                      STATUS    AGE       VERSION
+izwz9972b5w4h8a4f1h9z7z   Ready     2h        v1.6.4
+izwz9ap4sedl64wboiyh6cz   Ready     4h        v1.6.4
+</code></pre><p>两个节点都显示Ready，说明加入成功。</p>
+<blockquote>
+<p>默认情况Master是不承担负载的，如果要Master节点也参与Pod调度，可以运行<code>kubectl taint nodes --all node-role.kubernetes.io/master-</code></p>
+</blockquote>
+<h3 id="示例应用"><a href="#示例应用" class="headerlink" title="示例应用"></a>示例应用</h3><p>节点部署就绪，我们来试着部署一个应用吧：</p>
+<pre><code>kubectl create namespace sock-shop
+kubectl apply -n sock-shop -f &quot;https://github.com/microservices-demo/microservices-demo/blob/master/deploy/kubernetes/complete-demo.yaml?raw=true&quot;
+</code></pre><p>这两行命令会部署sock-shop相关的deployment和service。这些service共同组成了一个逻辑上的袜子商店网站。</p>
+<p>等所有Pods都是Running状态了，我们可以运行：</p>
+<pre><code>kubectl -n sock-shop get svc front-end
+</code></pre><p>查看front-end服务的端口：</p>
+<pre><code>NAME        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+front-end   10.103.179.228   &lt;nodes&gt;       80:30001/TCP   1h
+</code></pre><p>端口是30001，然后我们就可以用<code>http://&lt;MASTER_IP&gt;:30001</code>来访问服务了。</p>
 
       
     </div>
@@ -372,8 +449,8 @@ after_script:
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/30/lip-notes/" rel="next" title="《编程语言实现模式》-阅读笔记">
-                <i class="fa fa-chevron-left"></i> 《编程语言实现模式》-阅读笔记
+              <a href="/2017/05/22/fe-cloud-building/" rel="next" title="基于Travis CI和Github的前端云构建">
+                <i class="fa fa-chevron-left"></i> 基于Travis CI和Github的前端云构建
               </a>
             
           </div>
@@ -381,10 +458,6 @@ after_script:
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/24/k8s-setup/" rel="prev" title="使用Kubeadm 1.6部署Kubernetes">
-                使用Kubeadm 1.6部署Kubernetes <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -540,7 +613,7 @@ after_script:
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于CI"><span class="nav-number">1.</span> <span class="nav-text">关于CI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#travis-yml文件"><span class="nav-number">2.</span> <span class="nav-text">.travis.yml文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#云端构建"><span class="nav-number">3.</span> <span class="nav-text">云端构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些展望"><span class="nav-number">4.</span> <span class="nav-text">一些展望</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#依赖安装-amp-amp-代理设置"><span class="nav-number">2.</span> <span class="nav-text">依赖安装&&代理设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">3.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置环境变量"><span class="nav-number">4.</span> <span class="nav-text">设置环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pod网络设置：weaver"><span class="nav-number">5.</span> <span class="nav-text">Pod网络设置：weaver</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入Node"><span class="nav-number">6.</span> <span class="nav-text">加入Node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例应用"><span class="nav-number">7.</span> <span class="nav-text">示例应用</span></a></li></ol></div>
             
 
           </div>
