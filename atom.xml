@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-26T07:32:17.000Z</updated>
+  <updated>2017-05-27T16:59:30.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,68 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>云端木犀-MAE初步构想</title>
+    <link href="http://yoursite.com/2017/05/27/mae/"/>
+    <id>http://yoursite.com/2017/05/27/mae/</id>
+    <published>2017-05-27T13:29:43.000Z</published>
+    <updated>2017-05-27T16:59:30.000Z</updated>
+    
+    <content type="html">&lt;p&gt;Muxi App Engine，简称MAE，是木犀是私有PaaS方案。是木犀云的重要组成部分。主要基于Docker和Kubernetes。MAE为木犀所有应用的构建、部署、监控和扩容提供了一个统一的入口，让我们能专注于服务本身的开发。同时MAE也为木犀提供了一套标准化的运维流程，使得团队开发中的工程化程度进一步提高。&lt;/p&gt;
+&lt;p&gt;说的这么厉害，那如果读者是一个技术小白，应该如何来解释MAE呢？&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;TD-LR&quot;&gt;&lt;a href=&quot;#TD-LR&quot; class=&quot;headerlink&quot; title=&quot;TD;LR&quot;&gt;&lt;/a&gt;TD;LR&lt;/h3&gt;&lt;p&gt;比如我们有一个应用，华师匣子。华师匣子是由很多的服务构成的，比如成绩服务，课表服务，图书馆服务等等。每个服务都实现了对应的接口。我们使用Docker来运行这些服务。Docker是一种容器技术。我们可以简单的理解为一种沙盒环境。这些容器的存在，已经很大程度上方便了我们的部署。因为容器可以实现系统资源的隔离，使得服务器上可以同时运行很多不同的服务，而相互不打扰。&lt;/p&gt;
+&lt;p&gt;但手动部署容器，还是太复杂了。我们要登录服务器手动部署容器。容器如果出现问题，我们也需要亲自去重启。如果我们需要横向拓展，部署多个相同的容器以应对高负载，也需要一个个去手动部署。这个时候就需要一个调度者来帮我们自动完成这个任务。&lt;/p&gt;
+&lt;p&gt;我们可以把MAE理解为容器的调度者。我们在MAE中新建一个应用和下属的服务，填写相关的信息。比如我们只要提供Docker镜像的地址，就可以一键部署。MAE会帮我们将容器部署到合适的服务器上。如果容器因为某些原因崩溃了，MAE会自动重启容器。如果我们需要横向拓展，那只要在控制台里填写一下需要拓展的数量就可以了。如果需要更新代码，我们只需要提供镜像的新版本号，MAE会自动终止旧版本的容器，新建新版本的容器。一切都是这么简单。可以自动化的事情，我们都会做到自动化。&lt;/p&gt;
+&lt;p&gt;MAE提供Web UI和CLI。Web UI主要用于日常的使用以及查看监控数据。CLI适合在shell脚本等自动化环境下使用。&lt;/p&gt;
+&lt;p&gt;MAE带来的最大变革是，今后我们的应用从一开始就应该按Cloud Native的思路去编写。要拥抱云计算，我们必须编写Cloud Native的应用，具体的说，使用微服务架构，写无状态的功能单元，容器技术，将数据库等等持久化的组件作为单独的部分等等，都是Cloud Native的体现。只有这样，我们的应用才能和目前公有云和私有云的基础设施完美结合。&lt;/p&gt;
+&lt;p&gt;下面就是纯粹的技术讨论了，请耐心阅读。&lt;/p&gt;
+&lt;h3 id=&quot;MAE的技术选型&quot;&gt;&lt;a href=&quot;#MAE的技术选型&quot; class=&quot;headerlink&quot; title=&quot;MAE的技术选型&quot;&gt;&lt;/a&gt;MAE的技术选型&lt;/h3&gt;&lt;p&gt;简单的说，就是Docker和Kubernetes。Docker是容器技术的实现，Kubernetes主要提供了容器编排管理的功能。上一节中说到的大部分自动化功能，都是Kubernetes实现的。MAE中需要我们研发的主要是MAE API服务、Web UI还有CLI程序。除了这些，还有就是在MAE中实现一套最适合我们的&lt;strong&gt;对应用的抽象&lt;/strong&gt;。这套抽象是非常重要的。Kubernetes的概念并不是所有人都可以理解的，也没有必要对使用者暴露最底层的概念。PaaS的用户是从是应用和服务这些逻辑上的概念去看待问题的。所以MAE就提供了针对应用和服务的抽象，并且和Kubernetes整合起来。&lt;/p&gt;
+&lt;h3 id=&quot;MAE的组成部分&quot;&gt;&lt;a href=&quot;#MAE的组成部分&quot; class=&quot;headerlink&quot; title=&quot;MAE的组成部分&quot;&gt;&lt;/a&gt;MAE的组成部分&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcly1fg0dnygziij212a0ue4e7.jpg&quot; alt=&quot;mae parts&quot;&gt;&lt;/p&gt;
+&lt;p&gt;MAE的组成，从上到下，大致有三层：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;MAE服务层&lt;/strong&gt; MAE服务层是暴露给用户的一些服务。MAE API Server是MAE是中枢。负责和底层的集群通信，保存应用配置等等。MAE Web UI提供了一个Web界面，用户可以通过Web UI对MAE发出指令，查看监控数据。MAE CLI是一个命令行程序，提供了从命令行和API Server通信的渠道。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;逻辑应用层&lt;/strong&gt; 这一层是抽象的应用层。也就是我们概念上的应用。因为实际的集群中是没有应用概念的（当然Kubernetes的Services+Namespace已经非常接近了），所以我们需要在这里提供对应的抽象。我们可以在MAE中新建应用，然后配置这个应用对应的服务。MAE中的服务（以后简称MAE服务，区别于Kubernetes Service），其实就对应一个微服务。一个应用由至少一个微服务构成。MAE服务是用户可以控制的部署的最小单元。我们可以对某个MAE服务单独进行拓展。比较特殊的MAE服务就是Nginx入口服务，这个服务为所有应用提供反向代理，同时也作为一个MAE下的服务，被MAE部署。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Kubernetes层&lt;/strong&gt; Kubernetes这层就是底层的实现层了。包括了Service，Deployment和Pods。其中Service和Deployment在上层共同支撑了MAE服务。Pods则属于最底层的调度单元。在MAE层是完全不可见的。一个Pod由至少一个容器构成。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;MAE的流量分发&quot;&gt;&lt;a href=&quot;#MAE的流量分发&quot; class=&quot;headerlink&quot; title=&quot;MAE的流量分发&quot;&gt;&lt;/a&gt;MAE的流量分发&lt;/h3&gt;&lt;p&gt;那么作为一个分布式系统，一个用户的请求究竟是经过怎样的路径，到达最底层的Kubernetes Pod的呢？&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx4.sinaimg.cn/large/64c45edcly1fg0etf4yg9j20ku0r4k1f.jpg&quot; alt=&quot;mae request&quot;&gt;&lt;/p&gt;
+&lt;p&gt;首先DNS把域名解析到Kubernetes的Master节点的公网IP上，然后部署在Master节点上的Nginx入口服务接管，Nginx根据MAE应用设置的域名和URL规则，将这个请求转发到对应应用的某个服务上。Kubernetes的服务都是可以通过&lt;master内网ip&gt;:&lt;service port=&quot;&quot;&gt;来进行访问的。然后Kubernetes的Service用iptable规则，将请求转发到某个节点上的Pod。&lt;/service&gt;&lt;/master内网ip&gt;&lt;/p&gt;
+&lt;p&gt;由于Kubernetes Service提供了均衡负载，我们不用再操心如何分配流量的问题。今后可以做的优化是，实现Kubernetes Master节点的高可用，也就是同时部署多个Master节点。这样的话就需要在Master节点之上实现一个均衡负载。&lt;/p&gt;
+&lt;h3 id=&quot;MAE的实现细节&quot;&gt;&lt;a href=&quot;#MAE的实现细节&quot; class=&quot;headerlink&quot; title=&quot;MAE的实现细节&quot;&gt;&lt;/a&gt;MAE的实现细节&lt;/h3&gt;&lt;p&gt;MAE做的抽象，一个是应用，应用之下是服务。对于这两个抽象，应该各自保存一些什么样的数据，这是MAE的实现细节。&lt;/p&gt;
+&lt;p&gt;每个应用需要的信息有，应用名，域名，Nginx转发规则，应用下属的服务列表。&lt;/p&gt;
+&lt;p&gt;每个服务需要的信息有：服务名，当前镜像版本，镜像仓库地址，Github仓库地址，Kubernetes Service和Deployment需要的全部信息，属于哪个应用，授权管理的用户列表。&lt;/p&gt;
+&lt;p&gt;因为服务是部署的最小单元，因此相对来说服务是MAE中比较核心的一个部分。MAE需要将数据库中保存的服务信息，自动转化为Kubernetes需要的yaml文件。将数据库中保存的应用信息，自动转化为nginx的配置文件。这是细节上比较关键的一个步骤。&lt;/p&gt;
+&lt;h3 id=&quot;MAE时代的部署工作流&quot;&gt;&lt;a href=&quot;#MAE时代的部署工作流&quot; class=&quot;headerlink&quot; title=&quot;MAE时代的部署工作流&quot;&gt;&lt;/a&gt;MAE时代的部署工作流&lt;/h3&gt;&lt;p&gt;部署服务之前，首先我们要构建镜像（构建之前可以引入CI）。给镜像打上版本号，然后发布到云端的镜像仓库。之后我们就可以在MAE中为某个服务新建一次部署了，写上新的版本号，点击部署，就可以部署了！得益于Kubernetes超强的部署能力，我们可以回滚、暂停、继续每一次部署。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx1.sinaimg.cn/large/64c45edcly1fg0era6a66j214q0mmwoc.jpg&quot; alt=&quot;mae deployment&quot;&gt;&lt;/p&gt;
+&lt;p&gt;MAE的API Server把服务目前的配置转换为yaml格式，向Kubernetes API Server发送请求。然后Kubernetes会进行相应的处理。和Service相关的就调整Service，和Deployment相关的就调整Deployment。最终服务更新到目标状态，部署完成。&lt;/p&gt;
+&lt;h3 id=&quot;MAE时代的前端服务化&quot;&gt;&lt;a href=&quot;#MAE时代的前端服务化&quot; class=&quot;headerlink&quot; title=&quot;MAE时代的前端服务化&quot;&gt;&lt;/a&gt;MAE时代的前端服务化&lt;/h3&gt;&lt;h3 id=&quot;MAE的主要API以及CLI工具命令&quot;&gt;&lt;a href=&quot;#MAE的主要API以及CLI工具命令&quot; class=&quot;headerlink&quot; title=&quot;MAE的主要API以及CLI工具命令&quot;&gt;&lt;/a&gt;MAE的主要API以及CLI工具命令&lt;/h3&gt;&lt;p&gt;API在Web UI框架确定之后就可以比较清楚的写成文档了，这里只列一下主要的API。&lt;/p&gt;
+&lt;p&gt;####应用层API&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;应用列表/信息&lt;/li&gt;
+&lt;li&gt;应用网络配置更新&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;####服务层API&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;服务列表/信息&lt;/li&gt;
+&lt;li&gt;部署服务新版本&lt;/li&gt;
+&lt;li&gt;横向拓展服务&lt;/li&gt;
+&lt;li&gt;回滚、暂停部署&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;####CLI&lt;/p&gt;
+&lt;p&gt;CLI提供了和主要API对应的命令。命令需要验证的话，可以通过&lt;code&gt;mae login&lt;/code&gt;这样的命令来进行。&lt;/p&gt;
+&lt;h3 id=&quot;木犀云的其他产品展望&quot;&gt;&lt;a href=&quot;#木犀云的其他产品展望&quot; class=&quot;headerlink&quot; title=&quot;木犀云的其他产品展望&quot;&gt;&lt;/a&gt;木犀云的其他产品展望&lt;/h3&gt;&lt;h4 id=&quot;Muxi-Database-Service-MDS&quot;&gt;&lt;a href=&quot;#Muxi-Database-Service-MDS&quot; class=&quot;headerlink&quot; title=&quot;Muxi Database Service(MDS)&quot;&gt;&lt;/a&gt;Muxi Database Service(MDS)&lt;/h4&gt;&lt;h4 id=&quot;Muxi-Storage-Service-MSS&quot;&gt;&lt;a href=&quot;#Muxi-Storage-Service-MSS&quot; class=&quot;headerlink&quot; title=&quot;Muxi Storage Service(MSS)&quot;&gt;&lt;/a&gt;Muxi Storage Service(MSS)&lt;/h4&gt;&lt;h4 id=&quot;鹊桥&quot;&gt;&lt;a href=&quot;#鹊桥&quot; class=&quot;headerlink&quot; title=&quot;鹊桥&quot;&gt;&lt;/a&gt;鹊桥&lt;/h4&gt;&lt;h4 id=&quot;Muxi-UI-MUI&quot;&gt;&lt;a href=&quot;#Muxi-UI-MUI&quot; class=&quot;headerlink&quot; title=&quot;Muxi UI(MUI)&quot;&gt;&lt;/a&gt;Muxi UI(MUI)&lt;/h4&gt;&lt;h3 id=&quot;写在最后-Why-Cloud&quot;&gt;&lt;a href=&quot;#写在最后-Why-Cloud&quot; class=&quot;headerlink&quot; title=&quot;写在最后: Why Cloud?&quot;&gt;&lt;/a&gt;写在最后: Why Cloud?&lt;/h3&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Muxi App Engine，简称MAE，是木犀是私有PaaS方案。是木犀云的重要组成部分。主要基于Docker和Kubernetes。MAE为木犀所有应用的构建、部署、监控和扩容提供了一个统一的入口，让我们能专注于服务本身的开发。同时MAE也为木犀提供了一套标准化的运维流程，使得团队开发中的工程化程度进一步提高。&lt;/p&gt;
+&lt;p&gt;说的这么厉害，那如果读者是一个技术小白，应该如何来解释MAE呢？&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>使用Kubeadm 1.6部署Kubernetes</title>
@@ -1623,32 +1685,6 @@ Banner.prototype.init = function(options) {
     <summary type="html">
     
       &lt;p&gt;《编码》这本书被列了入我们团队技术方向培养方案的必读书目，可见这本书的地位。因此，我觉得有必要来撰写一篇导读，来帮助大家看透一些问题，把这本书上的知识和课本中的知识对应起来，并且形成一个体系。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>2016 JSConf China见闻</title>
-    <link href="http://yoursite.com/2016/09/07/jsconf2016/"/>
-    <id>http://yoursite.com/2016/09/07/jsconf2016/</id>
-    <published>2016-09-07T03:29:53.000Z</published>
-    <updated>2016-09-07T06:48:26.000Z</updated>
-    
-    <content type="html">&lt;p&gt;今年9月3号-4号的JSConf是我第二次参加开发者大会。这次JSConf可以说是被我期待很久的。两天，十多个Topic，来自各大国外公司的大神，Vue、RxJS、WebVR等话题，让我非常期待。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;然而最终的结果只能说是差强人意。真正有干货的主要是Ben Lesh的&lt;a href=&quot;&quot;&gt;RxJS&lt;/a&gt;以及James Kyle的&lt;a href=&quot;&quot;&gt;How to build a complier&lt;/a&gt;，然而恰恰因为他们都是比较活跃的工程师，所以他们这两个演讲我都在youtube上看过了。至于Vue，并没有讲很多的干货，主要还是来圈粉的。&lt;/p&gt;
-&lt;p&gt;其他的talk里面，PM2作者的分享还是非常solid的，他当场开源了&lt;a href=&quot;&quot;&gt;grid control&lt;/a&gt;这个项目。朴灵的分享尽管主要是打广告，但是还是要我知道了Node性能调优里内存泄露、CPU占用和GC频繁三个方向。&lt;/p&gt;
-&lt;p&gt;WebVR和3D这些，说实话只能做到Demo级别的分享。这也是免不了的，外行只能看热闹。主要是给大家演示一下，如果能有启发就再好不过了。&lt;/p&gt;
-&lt;p&gt;不过这次大会上我的确看到了很多微博上关注的圈内人，等以后我在圈子里混熟了，水平更好了。那也许可以来参会和大家聊聊。&lt;/p&gt;
-&lt;p&gt;其实FEDay的质量明显要更高一些，尽管有翻译英文演讲这种笑话，但是干货明显更多，整体的技术气氛也更好一些。&lt;/p&gt;
-&lt;p&gt;总之，对于国内的技术大会，今后还是要慎重的选择。不然还不如在家看youtube上大神的分享呢。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今年9月3号-4号的JSConf是我第二次参加开发者大会。这次JSConf可以说是被我期待很久的。两天，十多个Topic，来自各大国外公司的大神，Vue、RxJS、WebVR等话题，让我非常期待。&lt;/p&gt;
     
     </summary>
     
