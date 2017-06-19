@@ -86,13 +86,16 @@
 
 
 
+<meta name="description" content="在前端，长期以来困扰我们的一个问题就是，如何分发部署我们的前端代码？之前我们的前端代码是放在后端容器中部署的，因此如果需要更新就需要后端工程师去重启容器，更新代码。现在我们采取的方法是，将前端作为一个单独的服务，使用容器来部署。这样前端代码的部署和其他的代码就没有区别了。前端工程师可以自由的控制前端代码的部署，整个部署流程也变的非常标准化。前端微服务让前端部署变成了一件让人享受的事情。下面就以木犀">
 <meta property="og:type" content="article">
-<meta property="og:title" content="fe-microservice">
+<meta property="og:title" content="前端微服务实践-以木犀通行证为例">
 <meta property="og:url" content="http://yoursite.com/2017/06/05/fe-microservice/index.html">
 <meta property="og:site_name" content="Zindex's blog">
-<meta property="og:updated_time" content="2017-06-05T07:01:58.000Z">
+<meta property="og:description" content="在前端，长期以来困扰我们的一个问题就是，如何分发部署我们的前端代码？之前我们的前端代码是放在后端容器中部署的，因此如果需要更新就需要后端工程师去重启容器，更新代码。现在我们采取的方法是，将前端作为一个单独的服务，使用容器来部署。这样前端代码的部署和其他的代码就没有区别了。前端工程师可以自由的控制前端代码的部署，整个部署流程也变的非常标准化。前端微服务让前端部署变成了一件让人享受的事情。下面就以木犀">
+<meta property="og:updated_time" content="2017-06-19T04:04:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fe-microservice">
+<meta name="twitter:title" content="前端微服务实践-以木犀通行证为例">
+<meta name="twitter:description" content="在前端，长期以来困扰我们的一个问题就是，如何分发部署我们的前端代码？之前我们的前端代码是放在后端容器中部署的，因此如果需要更新就需要后端工程师去重启容器，更新代码。现在我们采取的方法是，将前端作为一个单独的服务，使用容器来部署。这样前端代码的部署和其他的代码就没有区别了。前端工程师可以自由的控制前端代码的部署，整个部署流程也变的非常标准化。前端微服务让前端部署变成了一件让人享受的事情。下面就以木犀">
 
 
 
@@ -126,7 +129,7 @@
 
 
 
-  <title> fe-microservice | Zindex's blog </title>
+  <title> 前端微服务实践-以木犀通行证为例 | Zindex's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -271,7 +274,7 @@
             
             
               
-                fe-microservice
+                前端微服务实践-以木犀通行证为例
               
             
           </h1>
@@ -320,7 +323,71 @@
       
 
       
-        
+        <p>在前端，长期以来困扰我们的一个问题就是，如何分发部署我们的前端代码？之前我们的前端代码是放在后端容器中部署的，因此如果需要更新就需要后端工程师去重启容器，更新代码。现在我们采取的方法是，将前端作为一个单独的服务，使用容器来部署。这样前端代码的部署和其他的代码就没有区别了。前端工程师可以自由的控制前端代码的部署，整个部署流程也变的非常标准化。前端微服务让前端部署变成了一件让人享受的事情。下面就以<a href="https://github.com/Muxi-Studio/MuxiAuth-fe" target="_blank" rel="external">木犀通行证</a>为例来讲讲具体的实现。</p>
+<a id="more"></a>
+<h3 id="Nodejs服务"><a href="#Nodejs服务" class="headerlink" title="Nodejs服务"></a>Nodejs服务</h3><p>如果只是在容器中放一些前端的静态文件，那不能叫前端微服务。前端微服务是指用Nodejs实现的View层。包括了同步路由以及前端模板。静态文件可以放在前端容器中分发，也可以上传到CDN分发。</p>
+<p>Nodejs实现的这个View层（传统后端MVC中的View），主要负责渲染同步路由的模板。API服务则是由其他的服务提供，大家各司其职。前端接管View层有很多好处，前端渲染以及各种网络应用层的优化，都可以由前端自己来控制。目前Nodejs在大公司中早已频繁被用在服务最前端的那一层中了（后端一般是Java）。</p>
+<p>具体实现来说，我们选用koa2作为Web框架，大致实现是这样的：</p>
+<pre><code>const send = require(&#39;koa-send&#39;);
+const Koa = require(&#39;koa&#39;);
+const Router = require(&#39;koa-router&#39;);
+const userAgent = require(&#39;koa-useragent&#39;);
+const path = require(&#39;path&#39;)
+const swig = require(&#39;swig&#39;);
+const router = new Router();
+const app = new Koa();
+
+const templateRoot = path.join(__dirname, &quot;../dist/template/main&quot;)
+
+app.use(userAgent);
+
+router.get(&#39;/&#39;, function(ctx, next){
+    if (!ctx.userAgent.isMobile) {
+        let template = swig.compileFile(path.resolve(templateRoot, &quot;auth.html&quot;));
+        ctx.body = template({})
+    } else {
+        let template = swig.compileFile(path.resolve(templateRoot, &quot;auth_phone.html&quot;));
+        ctx.body = template({})
+    }
+});
+
+router.get(/^\/static(?:\/|$)/, async (ctx) =&gt; {
+     await send(ctx, ctx.path, {
+         root: path.join(__dirname, &quot;../dist&quot;)
+     });
+})
+
+app
+    .use(router.routes())
+    .use(router.allowedMethods());
+
+app.listen(3000);
+console.log(&#39;listening on port 3000&#39;);
+</code></pre><p>使用<code>koa-router</code>来写同步路由，路由中返回对应模板（这里的路由还对移动端或者桌面端流量进行了区分）。然后这里还对静态文件路由做了处理，如果用的是CDN分发静态文件，这里就不需要处理了。</p>
+<h3 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h3><p><code>Dockerfile</code>是Docker的配置文件。我们要把这个Nodejs服务build成Docker镜像进行部署，因此要写一个<code>Dockerfile</code>，大致是这样的：</p>
+<pre><code>FROM node:latest
+
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+
+# Build static file
+RUN npm install
+RUN npm run build
+
+WORKDIR /usr/src/app/server
+
+# Bundle app source
+EXPOSE 3000
+CMD [ &quot;npm&quot;, &quot;start&quot; ]
+</code></pre><p>Dockerfile具体的写法可以看官方文档和这篇博客。木犀通行证中的Dockerfile主要是，构建了静态文件，然后启动了node服务进程。这样只要在任何有Docker的环境下<code>docker run</code>这个镜像，就可以运行这个服务了。</p>
+<h3 id="在阿里云镜像仓库Build镜像"><a href="#在阿里云镜像仓库Build镜像" class="headerlink" title="在阿里云镜像仓库Build镜像"></a>在阿里云镜像仓库Build镜像</h3><p>镜像仓库类似是Github，是分发镜像的一个工具。阿里云的镜像仓库可以从Github仓库进行镜像构建，然后我们就可以拿到一个仓库的URL。在构建时我们可以指定版本号（和Git里的tag对应）。这样在部署时就可以部署这个镜像的某个版本。</p>
+<p>阿里云的镜像仓库的用法这里就不详细说了。可以自己去阿里云上尝试一下。</p>
+<h3 id="在Kubernetes部署"><a href="#在Kubernetes部署" class="headerlink" title="在Kubernetes部署"></a>在Kubernetes部署</h3><p><em>MAE发布后本节需要更新</em></p>
+<p>目前这一步是由专门的系统管理员来负责的。开发者只要将镜像仓库的地址和tag告诉系统管理员就可以了。管理员会在集群上更新并部署新版本。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这个新的部署流程和之前相比，不同的地方主要是现在需要写Nodejs，一个View层服务。需要写Dockerfile。最终交付部署的是Docker镜像。希望大家在实践的过程中能有自己的思考。同时也对云计算时代的软件分发和部署有更多的了解。</p>
+
       
     </div>
 
@@ -401,8 +468,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -491,6 +567,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nodejs服务"><span class="nav-number">1.</span> <span class="nav-text">Nodejs服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dockerfile"><span class="nav-number">2.</span> <span class="nav-text">Dockerfile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在阿里云镜像仓库Build镜像"><span class="nav-number">3.</span> <span class="nav-text">在阿里云镜像仓库Build镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在Kubernetes部署"><span class="nav-number">4.</span> <span class="nav-text">在Kubernetes部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>

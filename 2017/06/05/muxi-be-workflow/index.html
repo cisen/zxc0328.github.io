@@ -92,10 +92,12 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/05/muxi-be-workflow/index.html">
 <meta property="og:site_name" content="Zindex's blog">
 <meta property="og:description" content="木犀后端的技术经历了一个不断演进的过程，从最初的LNMP式的简单直接的部署方式，到Docker容器部署，到现在的Kubernetes集群部署。相比当年艰难的调试由于操作系统环境不同而导致的各种部署问题，现在的部署流程可以说是相当简单而且可靠的。这也要求我们有一套标准化的开发部署流程。">
-<meta property="og:updated_time" content="2017-06-19T02:49:36.000Z">
+<meta property="og:image" content="http://wx2.sinaimg.cn/large/64c45edcly1fgqdkad2a4j213u02mq37.jpg">
+<meta property="og:updated_time" content="2017-06-19T04:01:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="木犀后端开发工作流（2017年6月版）">
 <meta name="twitter:description" content="木犀后端的技术经历了一个不断演进的过程，从最初的LNMP式的简单直接的部署方式，到Docker容器部署，到现在的Kubernetes集群部署。相比当年艰难的调试由于操作系统环境不同而导致的各种部署问题，现在的部署流程可以说是相当简单而且可靠的。这也要求我们有一套标准化的开发部署流程。">
+<meta name="twitter:image" content="http://wx2.sinaimg.cn/large/64c45edcly1fgqdkad2a4j213u02mq37.jpg">
 
 
 
@@ -330,8 +332,8 @@
 <h3 id="开发分支与Pull-Request"><a href="#开发分支与Pull-Request" class="headerlink" title="开发分支与Pull Request"></a>开发分支与Pull Request</h3><p>本地开发其实没有太多的限制，一般就直接在本地运行代码进行开发。需要注意的是我们的仓库中一般有主分支和开发分支，这个开发分支可以是按版本号，每次新版本时从主分支checkout出来。或者是一个持续使用的开发分支。所有人都<strong>不能直接</strong>向主分支提交代码。但可以直接向开发分支提交代码。</p>
 <p>如果想讲开发分支中的代码合并到主分支，就要发起一个<strong>Pull Request</strong>。Pull Request在负责人code review（看情况）以及<strong>CI测试通过</strong>之后才能merge。</p>
 <h3 id="单元测试与CI"><a href="#单元测试与CI" class="headerlink" title="单元测试与CI"></a>单元测试与CI</h3><p>对于有明确输入输出的后端API来说，单元测试是必要的软件质量保障。也是协助开发的一个手段。</p>
-<p>大家在本地提交代码之前先自己跑过测试，通过之后再提交。Pull Request时还会跑一遍CI，来确保代码功能的正确。</p>
-<p>有一个CI通过的图</p>
+<p>大家在本地提交代码之前先自己跑过测试，通过之后再提交。Pull Request时还会跑一遍CI，来确保代码功能的正确。比如这样：</p>
+<p><img src="http://wx2.sinaimg.cn/large/64c45edcly1fgqdkad2a4j213u02mq37.jpg" alt="CI pass"></p>
 <p>Github上使用的比较多的是Travis CI。Docker based的项目可以参考<a href="https://github.com/Muxi-X/muxi_site/blob/dev-branch/.travis.yml" target="_blank" rel="external">这个CI配置</a>。</p>
 <blockquote>
 <p>这里简单介绍一下CI。CI指持续集成，我们说的CI一般是指云端的CI runner。Travis CI本质上其实就是一个云服务。提供了一个虚拟环境来运行你指定的脚本。Travis支持很多语言环境，但最近Travis支持了Docker，所以环境也就不是问题了。要注意我们写测试时要写清进程exit时的状态码，非0的状态码代表非正常退出。Travis就是根据这个来判断测试或者其他错误是否发生的。这决定了这次CI运行是否成功。</p>
@@ -344,7 +346,8 @@
 <pre><code>120.77.8.149 test.share.muxixyz.com
 </code></pre><p><strong>注意域名是<code>muxixyz.com</code>的子域名</strong>，因为阿里云会检测DNS解析的域名是否备案。如果随便写一个域名是不行的（当然理论上你用baidu.com或者其他知名的域名也行）。</p>
 <p>这个hosts文件的配置要写在Github文档中。Tower项目里最好也写一个操作指南文档给设计师和PM看。</p>
-<h3 id="上线"><a href="#上线" class="headerlink" title="上线"></a>上线</h3><p>上线一个版本，比如1.2版。首先在主分支打上这个tag。然后在阿里云的镜像仓库里build这个tag的镜像。</p>
+<h3 id="上线"><a href="#上线" class="headerlink" title="上线"></a>上线</h3><p><em>MAE发布后本节需要更新</em></p>
+<p>上线一个版本，比如1.2版。首先在主分支打上这个tag。然后在阿里云的镜像仓库里build这个tag的镜像。</p>
 <p>最后由负责部署的同学，SSH到集群更新Deployment配置文件中的image版本号。升级Deployment即可。</p>
 <p>这一步在将来会由开发应用的同学自行在MAE上操作完成。目前暂时还是需要有人在服务器上部署。开发的同学只要交付镜像就可以了。</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>相比于之前的工作流，目前的工作流不同的地方主要是，需要写单元测试，PR需要CI通过才能merge，大型的应用必须要部署测试环境并用本地DNS解析访问，进行部署时是用Docker镜像而不是在服务器build。这套工作流需要大家用<strong>微服务</strong>的观点去看待将来的开发。随着时间的推移，这套工作流也会不断的变化，大致还是朝Cloud Native的方向发展。</p>
@@ -384,8 +387,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/05/fe-microservice/" rel="prev" title="fe-microservice">
-                fe-microservice <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/05/fe-microservice/" rel="prev" title="前端微服务实践-以木犀通行证为例">
+                前端微服务实践-以木犀通行证为例 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

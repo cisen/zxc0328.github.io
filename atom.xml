@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-05T07:01:58.000Z</updated>
+  <updated>2017-06-19T04:04:00.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,15 +16,81 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>fe-microservice</title>
+    <title>前端微服务实践-以木犀通行证为例</title>
     <link href="http://yoursite.com/2017/06/05/fe-microservice/"/>
     <id>http://yoursite.com/2017/06/05/fe-microservice/</id>
     <published>2017-06-05T07:01:58.000Z</published>
-    <updated>2017-06-05T07:01:58.000Z</updated>
+    <updated>2017-06-19T04:04:00.000Z</updated>
     
-    <content type="html"></content>
+    <content type="html">&lt;p&gt;在前端，长期以来困扰我们的一个问题就是，如何分发部署我们的前端代码？之前我们的前端代码是放在后端容器中部署的，因此如果需要更新就需要后端工程师去重启容器，更新代码。现在我们采取的方法是，将前端作为一个单独的服务，使用容器来部署。这样前端代码的部署和其他的代码就没有区别了。前端工程师可以自由的控制前端代码的部署，整个部署流程也变的非常标准化。前端微服务让前端部署变成了一件让人享受的事情。下面就以&lt;a href=&quot;https://github.com/Muxi-Studio/MuxiAuth-fe&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;木犀通行证&lt;/a&gt;为例来讲讲具体的实现。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;Nodejs服务&quot;&gt;&lt;a href=&quot;#Nodejs服务&quot; class=&quot;headerlink&quot; title=&quot;Nodejs服务&quot;&gt;&lt;/a&gt;Nodejs服务&lt;/h3&gt;&lt;p&gt;如果只是在容器中放一些前端的静态文件，那不能叫前端微服务。前端微服务是指用Nodejs实现的View层。包括了同步路由以及前端模板。静态文件可以放在前端容器中分发，也可以上传到CDN分发。&lt;/p&gt;
+&lt;p&gt;Nodejs实现的这个View层（传统后端MVC中的View），主要负责渲染同步路由的模板。API服务则是由其他的服务提供，大家各司其职。前端接管View层有很多好处，前端渲染以及各种网络应用层的优化，都可以由前端自己来控制。目前Nodejs在大公司中早已频繁被用在服务最前端的那一层中了（后端一般是Java）。&lt;/p&gt;
+&lt;p&gt;具体实现来说，我们选用koa2作为Web框架，大致实现是这样的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const send = require(&amp;#39;koa-send&amp;#39;);
+const Koa = require(&amp;#39;koa&amp;#39;);
+const Router = require(&amp;#39;koa-router&amp;#39;);
+const userAgent = require(&amp;#39;koa-useragent&amp;#39;);
+const path = require(&amp;#39;path&amp;#39;)
+const swig = require(&amp;#39;swig&amp;#39;);
+const router = new Router();
+const app = new Koa();
+
+const templateRoot = path.join(__dirname, &amp;quot;../dist/template/main&amp;quot;)
+
+app.use(userAgent);
+
+router.get(&amp;#39;/&amp;#39;, function(ctx, next){
+    if (!ctx.userAgent.isMobile) {
+        let template = swig.compileFile(path.resolve(templateRoot, &amp;quot;auth.html&amp;quot;));
+        ctx.body = template({})
+    } else {
+        let template = swig.compileFile(path.resolve(templateRoot, &amp;quot;auth_phone.html&amp;quot;));
+        ctx.body = template({})
+    }
+});
+
+router.get(/^\/static(?:\/|$)/, async (ctx) =&amp;gt; {
+     await send(ctx, ctx.path, {
+         root: path.join(__dirname, &amp;quot;../dist&amp;quot;)
+     });
+})
+
+app
+    .use(router.routes())
+    .use(router.allowedMethods());
+
+app.listen(3000);
+console.log(&amp;#39;listening on port 3000&amp;#39;);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;使用&lt;code&gt;koa-router&lt;/code&gt;来写同步路由，路由中返回对应模板（这里的路由还对移动端或者桌面端流量进行了区分）。然后这里还对静态文件路由做了处理，如果用的是CDN分发静态文件，这里就不需要处理了。&lt;/p&gt;
+&lt;h3 id=&quot;Dockerfile&quot;&gt;&lt;a href=&quot;#Dockerfile&quot; class=&quot;headerlink&quot; title=&quot;Dockerfile&quot;&gt;&lt;/a&gt;Dockerfile&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Dockerfile&lt;/code&gt;是Docker的配置文件。我们要把这个Nodejs服务build成Docker镜像进行部署，因此要写一个&lt;code&gt;Dockerfile&lt;/code&gt;，大致是这样的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;FROM node:latest
+
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+
+# Build static file
+RUN npm install
+RUN npm run build
+
+WORKDIR /usr/src/app/server
+
+# Bundle app source
+EXPOSE 3000
+CMD [ &amp;quot;npm&amp;quot;, &amp;quot;start&amp;quot; ]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Dockerfile具体的写法可以看官方文档和这篇博客。木犀通行证中的Dockerfile主要是，构建了静态文件，然后启动了node服务进程。这样只要在任何有Docker的环境下&lt;code&gt;docker run&lt;/code&gt;这个镜像，就可以运行这个服务了。&lt;/p&gt;
+&lt;h3 id=&quot;在阿里云镜像仓库Build镜像&quot;&gt;&lt;a href=&quot;#在阿里云镜像仓库Build镜像&quot; class=&quot;headerlink&quot; title=&quot;在阿里云镜像仓库Build镜像&quot;&gt;&lt;/a&gt;在阿里云镜像仓库Build镜像&lt;/h3&gt;&lt;p&gt;镜像仓库类似是Github，是分发镜像的一个工具。阿里云的镜像仓库可以从Github仓库进行镜像构建，然后我们就可以拿到一个仓库的URL。在构建时我们可以指定版本号（和Git里的tag对应）。这样在部署时就可以部署这个镜像的某个版本。&lt;/p&gt;
+&lt;p&gt;阿里云的镜像仓库的用法这里就不详细说了。可以自己去阿里云上尝试一下。&lt;/p&gt;
+&lt;h3 id=&quot;在Kubernetes部署&quot;&gt;&lt;a href=&quot;#在Kubernetes部署&quot; class=&quot;headerlink&quot; title=&quot;在Kubernetes部署&quot;&gt;&lt;/a&gt;在Kubernetes部署&lt;/h3&gt;&lt;p&gt;&lt;em&gt;MAE发布后本节需要更新&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;目前这一步是由专门的系统管理员来负责的。开发者只要将镜像仓库的地址和tag告诉系统管理员就可以了。管理员会在集群上更新并部署新版本。&lt;/p&gt;
+&lt;h3 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h3&gt;&lt;p&gt;这个新的部署流程和之前相比，不同的地方主要是现在需要写Nodejs，一个View层服务。需要写Dockerfile。最终交付部署的是Docker镜像。希望大家在实践的过程中能有自己的思考。同时也对云计算时代的软件分发和部署有更多的了解。&lt;/p&gt;
+</content>
     
     <summary type="html">
+    
+      &lt;p&gt;在前端，长期以来困扰我们的一个问题就是，如何分发部署我们的前端代码？之前我们的前端代码是放在后端容器中部署的，因此如果需要更新就需要后端工程师去重启容器，更新代码。现在我们采取的方法是，将前端作为一个单独的服务，使用容器来部署。这样前端代码的部署和其他的代码就没有区别了。前端工程师可以自由的控制前端代码的部署，整个部署流程也变的非常标准化。前端微服务让前端部署变成了一件让人享受的事情。下面就以&lt;a href=&quot;https://github.com/Muxi-Studio/MuxiAuth-fe&quot;&gt;木犀通行证&lt;/a&gt;为例来讲讲具体的实现。&lt;/p&gt;
     
     </summary>
     
@@ -36,7 +102,7 @@
     <link href="http://yoursite.com/2017/06/05/muxi-be-workflow/"/>
     <id>http://yoursite.com/2017/06/05/muxi-be-workflow/</id>
     <published>2017-06-05T07:01:43.000Z</published>
-    <updated>2017-06-19T02:49:36.000Z</updated>
+    <updated>2017-06-19T04:01:09.000Z</updated>
     
     <content type="html">&lt;p&gt;木犀后端的技术经历了一个不断演进的过程，从最初的LNMP式的简单直接的部署方式，到Docker容器部署，到现在的Kubernetes集群部署。相比当年艰难的调试由于操作系统环境不同而导致的各种部署问题，现在的部署流程可以说是相当简单而且可靠的。这也要求我们有一套标准化的开发部署流程。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -45,8 +111,8 @@
 &lt;h3 id=&quot;开发分支与Pull-Request&quot;&gt;&lt;a href=&quot;#开发分支与Pull-Request&quot; class=&quot;headerlink&quot; title=&quot;开发分支与Pull Request&quot;&gt;&lt;/a&gt;开发分支与Pull Request&lt;/h3&gt;&lt;p&gt;本地开发其实没有太多的限制，一般就直接在本地运行代码进行开发。需要注意的是我们的仓库中一般有主分支和开发分支，这个开发分支可以是按版本号，每次新版本时从主分支checkout出来。或者是一个持续使用的开发分支。所有人都&lt;strong&gt;不能直接&lt;/strong&gt;向主分支提交代码。但可以直接向开发分支提交代码。&lt;/p&gt;
 &lt;p&gt;如果想讲开发分支中的代码合并到主分支，就要发起一个&lt;strong&gt;Pull Request&lt;/strong&gt;。Pull Request在负责人code review（看情况）以及&lt;strong&gt;CI测试通过&lt;/strong&gt;之后才能merge。&lt;/p&gt;
 &lt;h3 id=&quot;单元测试与CI&quot;&gt;&lt;a href=&quot;#单元测试与CI&quot; class=&quot;headerlink&quot; title=&quot;单元测试与CI&quot;&gt;&lt;/a&gt;单元测试与CI&lt;/h3&gt;&lt;p&gt;对于有明确输入输出的后端API来说，单元测试是必要的软件质量保障。也是协助开发的一个手段。&lt;/p&gt;
-&lt;p&gt;大家在本地提交代码之前先自己跑过测试，通过之后再提交。Pull Request时还会跑一遍CI，来确保代码功能的正确。&lt;/p&gt;
-&lt;p&gt;有一个CI通过的图&lt;/p&gt;
+&lt;p&gt;大家在本地提交代码之前先自己跑过测试，通过之后再提交。Pull Request时还会跑一遍CI，来确保代码功能的正确。比如这样：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcly1fgqdkad2a4j213u02mq37.jpg&quot; alt=&quot;CI pass&quot;&gt;&lt;/p&gt;
 &lt;p&gt;Github上使用的比较多的是Travis CI。Docker based的项目可以参考&lt;a href=&quot;https://github.com/Muxi-X/muxi_site/blob/dev-branch/.travis.yml&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这个CI配置&lt;/a&gt;。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;这里简单介绍一下CI。CI指持续集成，我们说的CI一般是指云端的CI runner。Travis CI本质上其实就是一个云服务。提供了一个虚拟环境来运行你指定的脚本。Travis支持很多语言环境，但最近Travis支持了Docker，所以环境也就不是问题了。要注意我们写测试时要写清进程exit时的状态码，非0的状态码代表非正常退出。Travis就是根据这个来判断测试或者其他错误是否发生的。这决定了这次CI运行是否成功。&lt;/p&gt;
@@ -59,7 +125,8 @@
 &lt;pre&gt;&lt;code&gt;120.77.8.149 test.share.muxixyz.com
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;注意域名是&lt;code&gt;muxixyz.com&lt;/code&gt;的子域名&lt;/strong&gt;，因为阿里云会检测DNS解析的域名是否备案。如果随便写一个域名是不行的（当然理论上你用baidu.com或者其他知名的域名也行）。&lt;/p&gt;
 &lt;p&gt;这个hosts文件的配置要写在Github文档中。Tower项目里最好也写一个操作指南文档给设计师和PM看。&lt;/p&gt;
-&lt;h3 id=&quot;上线&quot;&gt;&lt;a href=&quot;#上线&quot; class=&quot;headerlink&quot; title=&quot;上线&quot;&gt;&lt;/a&gt;上线&lt;/h3&gt;&lt;p&gt;上线一个版本，比如1.2版。首先在主分支打上这个tag。然后在阿里云的镜像仓库里build这个tag的镜像。&lt;/p&gt;
+&lt;h3 id=&quot;上线&quot;&gt;&lt;a href=&quot;#上线&quot; class=&quot;headerlink&quot; title=&quot;上线&quot;&gt;&lt;/a&gt;上线&lt;/h3&gt;&lt;p&gt;&lt;em&gt;MAE发布后本节需要更新&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;上线一个版本，比如1.2版。首先在主分支打上这个tag。然后在阿里云的镜像仓库里build这个tag的镜像。&lt;/p&gt;
 &lt;p&gt;最后由负责部署的同学，SSH到集群更新Deployment配置文件中的image版本号。升级Deployment即可。&lt;/p&gt;
 &lt;p&gt;这一步在将来会由开发应用的同学自行在MAE上操作完成。目前暂时还是需要有人在服务器上部署。开发的同学只要交付镜像就可以了。&lt;/p&gt;
 &lt;h3 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h3&gt;&lt;p&gt;相比于之前的工作流，目前的工作流不同的地方主要是，需要写单元测试，PR需要CI通过才能merge，大型的应用必须要部署测试环境并用本地DNS解析访问，进行部署时是用Docker镜像而不是在服务器build。这套工作流需要大家用&lt;strong&gt;微服务&lt;/strong&gt;的观点去看待将来的开发。随着时间的推移，这套工作流也会不断的变化，大致还是朝Cloud Native的方向发展。&lt;/p&gt;
