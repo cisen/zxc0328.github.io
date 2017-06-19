@@ -93,7 +93,7 @@
 <meta property="og:site_name" content="Zindex's blog">
 <meta property="og:description" content="本文介绍了如何用Kubeadm 1.6版在Ubuntu 16.04系统上快速部署一个Kubernetes集群。">
 <meta property="og:image" content="http://wx1.sinaimg.cn/large/64c45edcly1ffysdi2jjfj21kw0yhnpe.jpg">
-<meta property="og:updated_time" content="2017-05-26T07:32:17.000Z">
+<meta property="og:updated_time" content="2017-06-10T18:05:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Kubeadm 1.6部署Kubernetes">
 <meta name="twitter:description" content="本文介绍了如何用Kubeadm 1.6版在Ubuntu 16.04系统上快速部署一个Kubernetes集群。">
@@ -401,6 +401,9 @@ kube-system   kube-proxy-n5332                                  1/1       Runnin
 kube-system   kube-scheduler-izwz9ap4sedl64wboiyh6cz            1/1       Running   0          54m       172.18.214.46   izwz9ap4sedl64wboiyh6cz
 kube-system   weave-net-l86wx                                   2/2       Running   0          48m       172.18.214.46   izwz9ap4sedl64wboiyh6cz
 </code></pre><p>如果weave-net和kube-dns这两个pod都处于Running的状态。说明网络初始化成功。</p>
+<blockquote>
+<p>weave-net如果出现CrashLoopBackOff的错误，可以参考<a href="http://tonybai.com/2016/12/30/install-kubernetes-on-ubuntu-with-kubeadm-2/" target="_blank" rel="external">这里</a>的解决方案</p>
+</blockquote>
 <h3 id="加入Node"><a href="#加入Node" class="headerlink" title="加入Node"></a>加入Node</h3><p>在Node上运行之前Master上输出的：</p>
 <pre><code>kubeadm join --token 67e1ac.eac65cabb7d2801c 172.18.214.46:6443
 </code></pre><p>设置配置文件路径的环境变量：</p>
@@ -556,7 +559,7 @@ sock-shop     user-db        1         1         1            1           1h
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">42</span>
+              <span class="site-state-item-count">44</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-05-28T01:49:49.000Z</updated>
+  <updated>2017-06-05T07:01:58.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,65 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>fe-microservice</title>
+    <link href="http://yoursite.com/2017/06/05/fe-microservice/"/>
+    <id>http://yoursite.com/2017/06/05/fe-microservice/</id>
+    <published>2017-06-05T07:01:58.000Z</published>
+    <updated>2017-06-05T07:01:58.000Z</updated>
+    
+    <content type="html"></content>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>木犀后端开发工作流（2017年6月版）</title>
+    <link href="http://yoursite.com/2017/06/05/muxi-be-workflow/"/>
+    <id>http://yoursite.com/2017/06/05/muxi-be-workflow/</id>
+    <published>2017-06-05T07:01:43.000Z</published>
+    <updated>2017-06-19T02:49:36.000Z</updated>
+    
+    <content type="html">&lt;p&gt;木犀后端的技术经历了一个不断演进的过程，从最初的LNMP式的简单直接的部署方式，到Docker容器部署，到现在的Kubernetes集群部署。相比当年艰难的调试由于操作系统环境不同而导致的各种部署问题，现在的部署流程可以说是相当简单而且可靠的。这也要求我们有一套标准化的开发部署流程。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;三个环境&quot;&gt;&lt;a href=&quot;#三个环境&quot; class=&quot;headerlink&quot; title=&quot;三个环境&quot;&gt;&lt;/a&gt;三个环境&lt;/h3&gt;&lt;p&gt;在互联网公司，一个产品一般都部署了好几个版本，比如开发、测试、预发布等等。不同的版本对应开发周期不同时间点的产品状态。QA一般就是在部署好的这些环境中进行发布前测试的。&lt;/p&gt;
+&lt;p&gt;我们对环境的要求没有那么高，只要有本地、测试、线上三个环境就可以了。下面分别讲讲从本地开发，到部署测试版本，到新版本上线过程中一系列的标准流程。&lt;/p&gt;
+&lt;h3 id=&quot;开发分支与Pull-Request&quot;&gt;&lt;a href=&quot;#开发分支与Pull-Request&quot; class=&quot;headerlink&quot; title=&quot;开发分支与Pull Request&quot;&gt;&lt;/a&gt;开发分支与Pull Request&lt;/h3&gt;&lt;p&gt;本地开发其实没有太多的限制，一般就直接在本地运行代码进行开发。需要注意的是我们的仓库中一般有主分支和开发分支，这个开发分支可以是按版本号，每次新版本时从主分支checkout出来。或者是一个持续使用的开发分支。所有人都&lt;strong&gt;不能直接&lt;/strong&gt;向主分支提交代码。但可以直接向开发分支提交代码。&lt;/p&gt;
+&lt;p&gt;如果想讲开发分支中的代码合并到主分支，就要发起一个&lt;strong&gt;Pull Request&lt;/strong&gt;。Pull Request在负责人code review（看情况）以及&lt;strong&gt;CI测试通过&lt;/strong&gt;之后才能merge。&lt;/p&gt;
+&lt;h3 id=&quot;单元测试与CI&quot;&gt;&lt;a href=&quot;#单元测试与CI&quot; class=&quot;headerlink&quot; title=&quot;单元测试与CI&quot;&gt;&lt;/a&gt;单元测试与CI&lt;/h3&gt;&lt;p&gt;对于有明确输入输出的后端API来说，单元测试是必要的软件质量保障。也是协助开发的一个手段。&lt;/p&gt;
+&lt;p&gt;大家在本地提交代码之前先自己跑过测试，通过之后再提交。Pull Request时还会跑一遍CI，来确保代码功能的正确。&lt;/p&gt;
+&lt;p&gt;有一个CI通过的图&lt;/p&gt;
+&lt;p&gt;Github上使用的比较多的是Travis CI。Docker based的项目可以参考&lt;a href=&quot;https://github.com/Muxi-X/muxi_site/blob/dev-branch/.travis.yml&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这个CI配置&lt;/a&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这里简单介绍一下CI。CI指持续集成，我们说的CI一般是指云端的CI runner。Travis CI本质上其实就是一个云服务。提供了一个虚拟环境来运行你指定的脚本。Travis支持很多语言环境，但最近Travis支持了Docker，所以环境也就不是问题了。要注意我们写测试时要写清进程exit时的状态码，非0的状态码代表非正常退出。Travis就是根据这个来判断测试或者其他错误是否发生的。这决定了这次CI运行是否成功。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;测试环境的具体配置&quot;&gt;&lt;a href=&quot;#测试环境的具体配置&quot; class=&quot;headerlink&quot; title=&quot;测试环境的具体配置&quot;&gt;&lt;/a&gt;测试环境的具体配置&lt;/h3&gt;&lt;p&gt;在开发基本完成，代码merge到主分支之后，我们就可以尝试部署一个测试版本了。测试环境和线上的环境差别不大。测试环境部署在我们的测试集群（几台专有网络阿里云学生机）。&lt;/p&gt;
+&lt;p&gt;大家可以随意选一台机器然后部署。部署的时候，除了数据库之外的一般都用Docker部署。如果有多个容器需要部署，我们一般用Docker-compose来一键build&amp;amp;run。&lt;/p&gt;
+&lt;p&gt;数据库一般就使用某台机器上直接安装的数据库。在初次部署时大家要记得在容器中执行初始化数据库和用户角色命令（当然也可以写成脚本）。&lt;/p&gt;
+&lt;p&gt;测试环境有几个用处，首先是给前端提供联调的API。然后是给产品经理和设计师提供一个线上版本来进行初步测试。因此我们需要给测试环境配置一个域名。但如果直接在DnsPod等等线上解析，要解析的域名数量会很大，很不方便。所以我们采用修改本地hosts文件的办法。&lt;/p&gt;
+&lt;p&gt;比如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;120.77.8.149 test.share.muxixyz.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;注意域名是&lt;code&gt;muxixyz.com&lt;/code&gt;的子域名&lt;/strong&gt;，因为阿里云会检测DNS解析的域名是否备案。如果随便写一个域名是不行的（当然理论上你用baidu.com或者其他知名的域名也行）。&lt;/p&gt;
+&lt;p&gt;这个hosts文件的配置要写在Github文档中。Tower项目里最好也写一个操作指南文档给设计师和PM看。&lt;/p&gt;
+&lt;h3 id=&quot;上线&quot;&gt;&lt;a href=&quot;#上线&quot; class=&quot;headerlink&quot; title=&quot;上线&quot;&gt;&lt;/a&gt;上线&lt;/h3&gt;&lt;p&gt;上线一个版本，比如1.2版。首先在主分支打上这个tag。然后在阿里云的镜像仓库里build这个tag的镜像。&lt;/p&gt;
+&lt;p&gt;最后由负责部署的同学，SSH到集群更新Deployment配置文件中的image版本号。升级Deployment即可。&lt;/p&gt;
+&lt;p&gt;这一步在将来会由开发应用的同学自行在MAE上操作完成。目前暂时还是需要有人在服务器上部署。开发的同学只要交付镜像就可以了。&lt;/p&gt;
+&lt;h3 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h3&gt;&lt;p&gt;相比于之前的工作流，目前的工作流不同的地方主要是，需要写单元测试，PR需要CI通过才能merge，大型的应用必须要部署测试环境并用本地DNS解析访问，进行部署时是用Docker镜像而不是在服务器build。这套工作流需要大家用&lt;strong&gt;微服务&lt;/strong&gt;的观点去看待将来的开发。随着时间的推移，这套工作流也会不断的变化，大致还是朝Cloud Native的方向发展。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;木犀后端的技术经历了一个不断演进的过程，从最初的LNMP式的简单直接的部署方式，到Docker容器部署，到现在的Kubernetes集群部署。相比当年艰难的调试由于操作系统环境不同而导致的各种部署问题，现在的部署流程可以说是相当简单而且可靠的。这也要求我们有一套标准化的开发部署流程。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>云端木犀-MAE初步构想</title>
@@ -100,7 +159,7 @@
     <link href="http://yoursite.com/2017/05/24/k8s-setup/"/>
     <id>http://yoursite.com/2017/05/24/k8s-setup/</id>
     <published>2017-05-24T11:52:27.000Z</published>
-    <updated>2017-05-26T07:32:17.000Z</updated>
+    <updated>2017-06-10T18:05:54.000Z</updated>
     
     <content type="html">&lt;p&gt;本文介绍了如何用Kubeadm 1.6版在Ubuntu 16.04系统上快速部署一个Kubernetes集群。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -178,6 +237,9 @@ kube-system   kube-proxy-n5332                                  1/1       Runnin
 kube-system   kube-scheduler-izwz9ap4sedl64wboiyh6cz            1/1       Running   0          54m       172.18.214.46   izwz9ap4sedl64wboiyh6cz
 kube-system   weave-net-l86wx                                   2/2       Running   0          48m       172.18.214.46   izwz9ap4sedl64wboiyh6cz
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果weave-net和kube-dns这两个pod都处于Running的状态。说明网络初始化成功。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;weave-net如果出现CrashLoopBackOff的错误，可以参考&lt;a href=&quot;http://tonybai.com/2016/12/30/install-kubernetes-on-ubuntu-with-kubeadm-2/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这里&lt;/a&gt;的解决方案&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h3 id=&quot;加入Node&quot;&gt;&lt;a href=&quot;#加入Node&quot; class=&quot;headerlink&quot; title=&quot;加入Node&quot;&gt;&lt;/a&gt;加入Node&lt;/h3&gt;&lt;p&gt;在Node上运行之前Master上输出的：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;kubeadm join --token 67e1ac.eac65cabb7d2801c 172.18.214.46:6443
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;设置配置文件路径的环境变量：&lt;/p&gt;
@@ -1335,374 +1397,6 @@ var banner = new Banner({
     
       &lt;p&gt;上一篇中我们实现了一个通用的组件模型。但这个模型在前端这种用户交互密集的应用场景下，会遇到更多的挑战。&lt;/p&gt;
 &lt;h3 id=&quot;数据驱动&quot;&gt;&lt;a href=&quot;#数据驱动&quot; class=&quot;headerlink&quot; title=&quot;数据驱动&quot;&gt;&lt;/a&gt;数据驱动&lt;/h3&gt;&lt;p&gt;你接到了这样一个需求，要在banner上加几个指示的圆点（indicator），当前页面是第几个页面，第几个圆点就会高亮。你想着这个需求很简单啊，刷刷刷就写好了。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>一个组件的诞生(上)</title>
-    <link href="http://yoursite.com/2016/09/29/let-s-make-a-component/"/>
-    <id>http://yoursite.com/2016/09/29/let-s-make-a-component/</id>
-    <published>2016-09-29T02:24:27.000Z</published>
-    <updated>2016-09-30T08:00:43.000Z</updated>
-    
-    <content type="html">&lt;p&gt;你是一个新手前端工程师，今天你接到了一个需求，写一个banner。banner嘛，大家都知道，就是一个用来展示图片的东西，不同的图片可以滚动切换。&lt;/p&gt;
-&lt;p&gt;你心想着这很简单啊，于是刷刷刷写了一个。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;&lt;strong&gt;JS&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;var banner = {
-    init: function() {
-        this.addEvent();
-    },
-    addEvent: function() {
-        var buttonLeft = document.querySelector(&amp;quot;.button-left&amp;quot;);
-        var buttonRight = document.querySelector(&amp;quot;.button-right&amp;quot;);
-        buttonLeft.addEventListener(&amp;quot;click&amp;quot;, function() {
-            this.switchClassName(1)
-        })
-        buttonRight.addEventListener(&amp;quot;click&amp;quot;, function() {
-            this.switchClassName(-1)
-        })
-
-    },
-    switchClassName: function(direction) {
-        // 切换Class类名
-    }
-}
-
-banner.init();
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;HTML&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&amp;quot;banner&amp;quot;&amp;gt;
-    &amp;lt;li&amp;gt;
-        &amp;lt;img src=&amp;quot;1.jpg&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;
-    &amp;lt;/li&amp;gt;
-    &amp;lt;li&amp;gt;
-        &amp;lt;img src=&amp;quot;2.jpg&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;
-    &amp;lt;/li&amp;gt;
-    &amp;lt;li&amp;gt;
-        &amp;lt;img src=&amp;quot;3.jpg&amp;quot;&amp;gt;&amp;lt;/img&amp;gt;
-    &amp;lt;/li&amp;gt;
-    &amp;lt;div class=&amp;quot;button-left&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
-    &amp;lt;div class=&amp;quot;button-right&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img src=&quot;http://www.troll.me/images/monocle-guy/jolly-god-old-chap-thumb.jpg&quot; alt=&quot;old chap&quot;&gt;&lt;/p&gt;
-&lt;p&gt;正当你觉得自己可以刷知乎的时候，主管把你叫到一边，告诉你：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;如果你这个页面上需要有两个banner，怎么办呢？复制粘贴吗?&lt;/li&gt;
-&lt;li&gt;如果在需要在某个时间点从页面上移除banner，怎么办呢？手动remove节点吗，销毁对象吗？&lt;/li&gt;
-&lt;li&gt;如果banner中图片的URL是从服务端API请求到的动态的数据，难道要用一个个用修改图片的src的方法来显示这些数据吗？&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;听到这里，你的内心是崩溃的。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://www.troll.me/images/y-u-no/css-floats-y-u-no-clear-yourself-thumb.jpg&quot; alt=&quot;y no &quot;&gt;&lt;/p&gt;
-&lt;h3 id=&quot;面向对象大法&quot;&gt;&lt;a href=&quot;#面向对象大法&quot; class=&quot;headerlink&quot; title=&quot;面向对象大法&quot;&gt;&lt;/a&gt;面向对象大法&lt;/h3&gt;&lt;p&gt;这时，你想起了大学时学过的面向对象。你把你的组件改成了这样：&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;JS&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-var Banner = function(options) {
-}
-
-Banner.prototype.init = function() {
-    this.addEvent();
-}
-
-Banner.prototype.addEvent = function() {
-    var buttonLeft = document.querySelector(&amp;quot;.button-left&amp;quot;);
-    var buttonRight = document.querySelector(&amp;quot;.button-right&amp;quot;);
-    buttonLeft.addEventListener(&amp;quot;click&amp;quot;, function() {
-        this.switchClassName(1);
-    })
-    buttonRight.addEventListener(&amp;quot;click&amp;quot;, function() {
-        this.switchClassName(-1);
-    })
-}
-
-Banner.prototype.switchClassName = function(direction) {
-    // 切换Class类名
-}
-
-Banner.prototype.destroy = function() {
-    //todo:解绑事件
-}
-
-//初始化
-var banner1 = new Banner();
-var banner2 = new Banner();
-
-//销毁
-banner1.destroy();
-banner2.destroy();
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;棒，这样就可以轻松的使用多个banner，并通过调用&lt;code&gt;init&lt;/code&gt;和&lt;code&gt;destroy&lt;/code&gt;等生命周期方法来初始化和销毁组件了。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;生命周期&lt;br&gt;这是组件开发中的一个术语。如果把组件比作一个生物，我们设计的API，比如&lt;code&gt;init&lt;/code&gt;和&lt;code&gt;destroy&lt;/code&gt;就相当于这个生物的出生和死亡。一个组件从&lt;code&gt;init&lt;/code&gt;被调用时被初始化，渲染到页面上，然后和用户发生交互，这时调用的方法也属于生命周期的一部分。用户界面随着用户的交互而发生变化，所以组件也不是一成不变的。生命周期方法其实就是在组件的某个阶段会被调用的方法。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;模板和渲染&quot;&gt;&lt;a href=&quot;#模板和渲染&quot; class=&quot;headerlink&quot; title=&quot;模板和渲染&quot;&gt;&lt;/a&gt;模板和渲染&lt;/h3&gt;&lt;p&gt;还有一个问题没有解决，那就是如何轻松的将数据填充到DOM节点中呢？&lt;/p&gt;
-&lt;h4 id=&quot;字符串拼接大法&quot;&gt;&lt;a href=&quot;#字符串拼接大法&quot; class=&quot;headerlink&quot; title=&quot;字符串拼接大法&quot;&gt;&lt;/a&gt;字符串拼接大法&lt;/h4&gt;&lt;p&gt;你首先想出了一个比较笨的办法：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;var url = &amp;quot;/images/1.png&amp;quot;
-var template = funtion(url) {
-    return &amp;quot;&amp;lt;img src=&amp;#39;&amp;quot; + url + &amp;quot;&amp;#39;/&amp;gt;&amp;quot;;
-}
-
-template(url); // &amp;quot;&amp;lt;img src=&amp;#39;/images/1.png&amp;#39;/&amp;gt;&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这就是传说中的字符串拼接大法。一种非常原始的“模板”。简单的说就是把HTML中不变的部分原样写成字符串，中间的变化的部分，我们叫模板的变量，会被作为参数输入到模板函数中。然后这些变量和字符串拼接起来，就生成了目标HTML字符串。&lt;/p&gt;
-&lt;p&gt;上例中的&lt;code&gt;template&lt;/code&gt;函数做的事情，我们叫做“编译”模板。当然这个函数非常简单，只是拼接了一下字符串。一个成熟的模板引擎的编译函数做的事情，要更接近于传统意义上的“编译”。&lt;/p&gt;
-&lt;h4 id=&quot;DOM-based模板&quot;&gt;&lt;a href=&quot;#DOM-based模板&quot; class=&quot;headerlink&quot; title=&quot;DOM based模板&quot;&gt;&lt;/a&gt;DOM based模板&lt;/h4&gt;&lt;p&gt;字符串拼接大法的问题，相信大家都看到了，就是写起来非常的麻烦，各种单引号和双引号。如果要换行还必须用&lt;code&gt;+&lt;/code&gt;号拼接。&lt;/p&gt;
-&lt;p&gt;于是我们就想到了，如果我们把模板作为普通的HTML，那就会方便很多。我们只要像写HTML那样把模板写在HTML文件中，比如:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;HTML&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-&amp;lt;body&amp;gt;
-    &amp;lt;div id=&amp;quot;template&amp;quot;&amp;gt;
-        &amp;lt;img src=&amp;quot;{{ url1 }}&amp;quot;&amp;gt;
-        &amp;lt;img src=&amp;quot;{{ url2 }}&amp;quot;&amp;gt;
-    &amp;lt;/div&amp;gt;
-&amp;lt;/body&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们要向获取模板的内容，只需要这样：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;var templateString = document.querySelector(&amp;quot;#template&amp;quot;).innerHTML&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;返回的就是这个模板的字符串了。&lt;/p&gt;
-&lt;p&gt;假设我们写了一个模板引擎，它的作用就是将&lt;code&gt;&lt;/code&gt;花括号内的表达式，在模板的context下面解析，并返回值。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;context，就是指一个特定的作用域。里面有当前作用域下面的变量（标识符）和对应的值之间的映射。模板的context就是指一个有模板中相关变量的作用域。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;这个模板引擎是这样使用的:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import &amp;#39;complie&amp;#39; from &amp;#39;templateEngine&amp;#39;
-
-var templateString = document.querySelector(&amp;quot;#template&amp;quot;).innerHTML
-var data = {
-    url1: &amp;quot;/images/1/png&amp;quot;,
-    url2: &amp;quot;/images/1/png&amp;quot;
-}
-var HTMLString = compile(templateString, data)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;当&lt;code&gt;compile&lt;/code&gt;函数遇到变量时，就会从&lt;code&gt;data&lt;/code&gt;中去找。&lt;code&gt;data&lt;/code&gt;在这个例子就是context。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;插一句，被大家吐槽的&lt;code&gt;eval&lt;/code&gt;函数可以用来做在特定context下求值的事情，这正是这种模板引擎所需要做的。所以你可以用&lt;code&gt;eval&lt;/code&gt;来实现一个简单的模板引擎。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;那这段模板&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div id=&amp;quot;template&amp;quot;&amp;gt;
-    &amp;lt;img src=&amp;quot;{{ url1 }}&amp;quot;/&amp;gt;
-    &amp;lt;img src=&amp;quot;{{ url2 }}&amp;quot;/&amp;gt;
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;会被解析为&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div id=&amp;quot;template&amp;quot;&amp;gt;
-    &amp;lt;img src=&amp;quot;/images/1.png&amp;quot;/&amp;gt;
-    &amp;lt;img src=&amp;quot;/images/2.png&amp;quot;/&amp;gt;
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;因为这个花括号中可以是任意合法的JavaScript表达式，所以你也可以这样玩&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;JS&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;//其他省略
-var data = {
-    displayFlag: false,
-    url1: &amp;quot;/images/1/png&amp;quot;,
-    url2: &amp;quot;/images/1/png&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;那这段模板&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div id=&amp;quot;template&amp;quot; style=&amp;quot;{{ displayFlag ? &#39;display:block&#39;:&#39;display:none&#39;}}&amp;quot;&amp;gt;
-    &amp;lt;img src=&amp;quot;{{ url1 }}&amp;quot;/&amp;gt;
-    &amp;lt;img src=&amp;quot;{{ url2 }}&amp;quot;/&amp;gt;
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;会被解析为&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div id=&amp;quot;template&amp;quot; style=&amp;quot;display:none&amp;quot;&amp;gt;
-    &amp;lt;img src=&amp;quot;/images/1.png&amp;quot;/&amp;gt;
-    &amp;lt;img src=&amp;quot;/images/2.png&amp;quot;/&amp;gt;
-&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;很神奇，不是吗?&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://www.ricardomartins.com.br/wp-content/uploads/2015/05/Magic_meme.gif&quot; alt=&quot;magic&quot;&gt;&lt;/p&gt;
-&lt;h4 id=&quot;render生命周期方法&quot;&gt;&lt;a href=&quot;#render生命周期方法&quot; class=&quot;headerlink&quot; title=&quot;render生命周期方法&quot;&gt;&lt;/a&gt;&lt;code&gt;render&lt;/code&gt;生命周期方法&lt;/h4&gt;&lt;p&gt;因为现在我们的组件不再使用静态的HTML字符串了，我们需要一个函数来输出HTML字符串。所以我们需要在组件上增加一个叫&lt;code&gt;render&lt;/code&gt;的生命周期函数。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Banner.prototype.render = function() {
-    this.el.innerHTML = compile(this.el.innerHTML, this.data);
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里的&lt;code&gt;el&lt;/code&gt;是这个组件的一个配置项，代表这个组件的根节点。组件的模板来自根节点的内容。模板编译之后输出的HTML字符串又会替换根节点中的模板，从而渲染这个组件。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;当然，模板所在的节点和渲染组件的节点可以不是同一个，这个是和具体的组件框架实现相关的。只要模板可以以字符串的形式被引入，就可以达到目的了。是否放在HTML的DOM节点中并不是问题的关键。我们可以写单独的模板文件并用webpack等打包工具引入。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;初始化配置&quot;&gt;&lt;a href=&quot;#初始化配置&quot; class=&quot;headerlink&quot; title=&quot;初始化配置&quot;&gt;&lt;/a&gt;初始化配置&lt;/h3&gt;&lt;p&gt;一个组件中，比如模板根节点，组件某个节点的事件和handler的Map，事件的handler，以及组件的&lt;code&gt;data&lt;/code&gt;这样的数据，应该在组件实例化的时候，作为配置被传入构造函数中。&lt;/p&gt;
-&lt;p&gt;所以，让我们改造一下Banner构造函数和&lt;code&gt;init&lt;/code&gt;方法：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-var Banner = function(options) {
-    this.data = options.data || {};
-    this.el = options.el || document.querySelector(&amp;quot;body&amp;quot;);
-    this.events = options.events;
-}
-
-Banner.prototype.init = function(options) {
-    this.render();//渲染模板
-    this.addEvent(this.events);//根据events这个Map来绑定事件
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;此时，如果你这样再初始化一个组件：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;var banner = new Banner({
-    el: document.querySelector(&amp;quot;template&amp;quot;),
-    data: {
-        url1: &amp;quot;/somewhere/1.jpg&amp;quot;,
-        url2: &amp;quot;/somewhere/2.jpg&amp;quot;
-    },
-    events: {
-        &amp;quot;.left-button.click&amp;quot;: this.onSwitch.bind(this, 1),
-        &amp;quot;.right-button.click&amp;quot;: this.onSwitch.bind(this, -1)
-    },
-    methods: {
-        onSwitch: function(event, direction) {
-            // 切换banner逻辑        
-        }
-    }
-})
-&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
-&lt;p&gt;这里我们新增了events和methods两个对象，这其实就是将之前写死在组件内部逻辑里的事件绑定和回调函数拿出来，在初始化时传入，由组件内部根据这个配置自动绑定。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;并调用&lt;code&gt;init&lt;/code&gt;方法：&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;banner.init()&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;这时你的页面上就出现了一个banner！大功告成！&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/zindex/pp.png&quot; alt=&quot;pp&quot;&gt;&lt;/p&gt;
-&lt;h3 id=&quot;API设计和抽象&quot;&gt;&lt;a href=&quot;#API设计和抽象&quot; class=&quot;headerlink&quot; title=&quot;API设计和抽象&quot;&gt;&lt;/a&gt;API设计和抽象&lt;/h3&gt;&lt;p&gt;到这里，我们的组件之旅就达到了一个阶段。我们对比一下就可以发现，传统的Backbone和jQuery UI的组件就是类似这种模式的。&lt;/p&gt;
-&lt;p&gt;具体的说，首先你的组件是一个构造函数，你通过传入不同的配置来实例化不同的组件。不知道大家有没有发现，我们的组件以及&lt;strong&gt;不仅仅是一个Banner&lt;/strong&gt;了，而是一个&lt;strong&gt;通用&lt;/strong&gt;的组件。你通过传入不同的模板、数据、事件和回调来实例化不同的组件。可以是一个Banner，也可以是一个评论框等等。&lt;/p&gt;
-&lt;p&gt;传统前端组件有着相似的生命周期API设计。比如初始化、渲染、销毁等。这个和前端组件的特点有关，就算是React或者Vue这样最新的技术，它的生命周期API也不外乎这几种，再加上一些和自己这个库运行流程相关的特有的API而已。&lt;/p&gt;
-&lt;p&gt;模板是一种对DOM的封装。模板把我们从手动操纵DOM中解放出来。我们在传统的HTML基础上加入表达式和分支逻辑，让模板可以根据输入的数据渲染出相应的HTML字符串。这实际上就是将HTML作为底层的细节封装起来。模板作为一种&lt;strong&gt;中间形态&lt;/strong&gt;存在，是&lt;strong&gt;一种抽象&lt;/strong&gt;。抽象，是计算机最&lt;strong&gt;本质&lt;/strong&gt;的一种属性。我们在平时的API设计和编码时应该牢记这一点，培养自己的抽象思维。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://zxc0328.github.io/2016/09/30/let-s-build-a-component-2/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;下一篇&lt;/a&gt;会讲到如何将我们的组件改造成数据驱动的模式，并将这个组件和Vue进行对比。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;你是一个新手前端工程师，今天你接到了一个需求，写一个banner。banner嘛，大家都知道，就是一个用来展示图片的东西，不同的图片可以滚动切换。&lt;/p&gt;
-&lt;p&gt;你心想着这很简单啊，于是刷刷刷写了一个。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《编码》导读</title>
-    <link href="http://yoursite.com/2016/09/15/read-code/"/>
-    <id>http://yoursite.com/2016/09/15/read-code/</id>
-    <published>2016-09-15T10:32:05.000Z</published>
-    <updated>2016-10-25T15:19:44.000Z</updated>
-    
-    <content type="html">&lt;p&gt;《编码》这本书被列了入我们团队技术方向培养方案的必读书目，可见这本书的地位。因此，我觉得有必要来撰写一篇导读，来帮助大家看透一些问题，把这本书上的知识和课本中的知识对应起来，并且形成一个体系。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;《编码》讲的是什么呢？笼统的说，就是用自底向上的角度一层层的解析计算机的原理。比如第一章到第三章将的是编码的本质——信息和符号的对应。第四章到第六章讲的是电信号可以用来表示一种编码，从而传递信息。第七章到第九章介绍了二进制，也就是计算机系统中最基本的编码形式。第十章：逻辑与开关和第十一章：门，介绍了布尔代数，以及如何使用门电路进行布尔代数的运算。第十二章和第十三章介绍了二进制加法器和减法器，加法器已然是现代CPU中运算单元的雏形了。第十四章介绍的反馈与触发器是实现计算机中储存芯片的基础。第十五章字节与十六进制是为理解后续的存储器数据格式而准备的。第十六章讲了存储器的组织，这便是现代计算机系统中存储系统的原理。第十七章，是全书最难的一章，讲了如何制作一个CPU。CPU本质上就是一个可以编程的运算器。第十八章介绍了从算盘到机械结构到电子管再到晶体管的技术革命，晶体管、超大规模集成电路使得现代CPU的出现成为了可能。第十九章介绍了Intel 8080CPU的指令集。第二十章介绍了字符的存储格式，这可以帮助你理解计算机是如何存储文本的。第二十一章：总线，介绍了计算机系统中CPU、内存和I/O设备如何通信。第二十二章是一个简短的操作系统简史，注意到从这里我们涉及了软件层面的内容。第二十三章定点数和浮点数比较独立，主要讲了计算机是如何存储浮点数的。第二十四章和第二十五章则介绍了编程语言和图形学基础。&lt;/p&gt;
-&lt;p&gt;我们可以清晰的看到从硬件到软件，从具体到抽象，从底层到顶层的一个脉络。&lt;/p&gt;
-&lt;p&gt;这本书其实包含了我们计算机专业中《数字逻辑》、《计算机组成原理》、《微机系统与接口原理》三门课的主干内容。作者没有试图灌输大量的理论知识，而是试图将这些知识串联起来，包括最后的操作系统和编程语言，其实和计算机硬件是有着不可分割的关系的。在《编码》这本书中你就可以很自然的在章节的推进中体会到这种联系。&lt;/p&gt;
-&lt;p&gt;下面我会对一些章节进行详细的解读。主要是解释难点，拓展一些知识，并且写清这一章节的知识对应我们的哪门专业课，而专业课和这本书的要求有何不同等等。&lt;/p&gt;
-&lt;p&gt;我希望这本书可以让大家看清计算机的本质，计算机的本质其实就是一个处理信息的机器。你输入数据，计算机输出数据。首先我们需要一套编码系统来表示这些数据，而二进制的编码正好与半导体的性质相吻合，我们可以用布尔代数来对现实问题进行建模，通过门电路来表示这个布尔代数，从而制造出可以进行某种运算的电路。而如果这个电路可编程，再加上输入输出接口，那就是一个CPU了。至于是半导体和二进制之间孰先孰后呢，你可以做进一步的研究（从书中来看，第一台计算机ENIAC是采用十进制的，所以看来应该是半导体在先，二进制在后）（所以今后如果计算机的物理介质有了更新，我们也许就会换一种新的编码方案了）。&lt;/p&gt;
-&lt;p&gt;在书中大量讲到的门电路、继电器等等属于实现层面，大家了解一下就好。我们不是电气工程师，我们是软件工程师。当然理解硬件层面细节对于写好代码是很有帮助的。这主要解释的是一个“为什么”的问题。&lt;/p&gt;
-&lt;p&gt;你了解了CPU的指令集，和CPU的工作方式，你就理解为什么我们在程序运行时需要“栈”这个数据结构。&lt;/p&gt;
-&lt;p&gt;你了解了字符的编码以及浮点数的编码，你就不会奇怪于为什么&lt;code&gt;0.1+0.2&lt;/code&gt;不等于&lt;code&gt;0.3&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;我们要关注的主要是如何用编码来抽象问题。比如用二进制来表示数据，进行运算。比如用指令来对CPU进行编程。比如&lt;/p&gt;
-&lt;h3 id=&quot;第一章：至亲密友、第二章：编码与组合和第三章：布莱叶盲文与二进制码&quot;&gt;&lt;a href=&quot;#第一章：至亲密友、第二章：编码与组合和第三章：布莱叶盲文与二进制码&quot; class=&quot;headerlink&quot; title=&quot;第一章：至亲密友、第二章：编码与组合和第三章：布莱叶盲文与二进制码&quot;&gt;&lt;/a&gt;第一章：至亲密友、第二章：编码与组合和第三章：布莱叶盲文与二进制码&lt;/h3&gt;&lt;p&gt;前几章就举了几个编码的例子，让你知道——编码可以用来传递信息。然后布莱叶盲文是一种二进制的编码，因为和计算机的二进制特点符合，所以被拉出来讲了。接下去几章就是铺垫一些电学基础，让你知道我们可以用开关的开和闭，来表示1和0的编码。这样后面就可以借助这个特性，拿开关和电线来组装计算机了。&lt;/p&gt;
-&lt;h3 id=&quot;第四章：手电筒的剖析、第五章：绕过拐角的通信&quot;&gt;&lt;a href=&quot;#第四章：手电筒的剖析、第五章：绕过拐角的通信&quot; class=&quot;headerlink&quot; title=&quot;第四章：手电筒的剖析、第五章：绕过拐角的通信&quot;&gt;&lt;/a&gt;第四章：手电筒的剖析、第五章：绕过拐角的通信&lt;/h3&gt;&lt;p&gt;第五章里最重要的概念就是接地。大地电阻很大，但大地是导体。电子只要流动就能形成电能，电子是哪里来的？是不是一个环路？这个不重要。接地处电子往大地那里移动，电势就低。电池那边的电子就可以往接地处移动了。&lt;br&gt;有人说，那我一个电路，中间拿掉一个导线，为什么不能接通？因为空气的电阻太大了··· 电子没法移动到空气中。&lt;/p&gt;
-&lt;h3 id=&quot;第十章：逻辑与开关与第十一章：门&quot;&gt;&lt;a href=&quot;#第十章：逻辑与开关与第十一章：门&quot; class=&quot;headerlink&quot; title=&quot;第十章：逻辑与开关与第十一章：门&quot;&gt;&lt;/a&gt;第十章：逻辑与开关与第十一章：门&lt;/h3&gt;&lt;p&gt;第十章首先介绍的内容是：布尔代数。&lt;/p&gt;
-&lt;p&gt;布尔代数，其实在我们的《离散数学》课里就接触过。&lt;em&gt;注：如果没学过离散数学，可以买《离散数学及其应用》这本书学习，这里说到的形式逻辑主要指命题逻辑&lt;/em&gt;《离散数学》里一开始讲的逻辑，比如这种形式的：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://wikimedia.org/api/rest_v1/media/math/render/svg/3ad862b103437f908a58b008703464bea93a1ef2&quot; alt=&quot;命题逻辑&quot;&gt;&lt;/p&gt;
-&lt;p&gt;我们知道一个命题可能是真（T），也可能是假（F）。那如果我们把T和F换成1和0，然后将命题逻辑中的合取，析取，否定等关系换了一种表示形式，这就成了布尔代数。&lt;/p&gt;
-&lt;p&gt;布尔代数中每个变量都是一个&lt;code&gt;{0,1}&lt;/code&gt;的集合。命题逻辑中的合取在布尔代数中用&lt;code&gt;·&lt;/code&gt;或者AND表示，而析取则用&lt;code&gt;+&lt;/code&gt;或者OR表示。否定则用表示。&lt;/p&gt;
-&lt;p&gt;在第十一章中，有一个布尔表达式：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;(M·N·(W+T)+(F·N·(1-W))+B)&lt;/em&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;我们代入每个变量之中，运用布尔代数运算符的规则，就可以计算出这布尔表达式的值是True或者是False。&lt;/p&gt;
-&lt;p&gt;这就是问题的关键了，布尔代数是一个&lt;strong&gt;抽象的计算模型&lt;/strong&gt;。我们可以将现实世界的问题，抽象成布尔表达式（当然这个最终是因为我们可以用命题逻辑来表示现实世界的问题）。&lt;/p&gt;
-&lt;p&gt;讲到这里，似乎和计算机没有什么关系。但最精彩的部分就在下面，我们可以&lt;strong&gt;用布尔代数设计电路&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;一个机械开关，有开启和闭合两种状态，可以用来表示0或者1。这个是《编码》前几章大力铺垫的一个事实。既然这样，那我们就可以用两个开关的并联或者串联来表示AND和OR逻辑。更进一步，我们可以用开关和电线表示任何布尔表达式。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;值得注意的是，&lt;strong&gt;用布尔代数可以用某种电路来等价的表示&lt;/strong&gt;这个事实。从在19世纪50年代乔治·布尔发明布尔代数开始，一直到20世纪30年代才被信息论之父香农发现。尽管逻辑电路所需的开关和电线在19世纪都已经存在了。可见这种等价关系的革命性意义。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;当然，反过来，布尔表达式也可以指导我们设计电路。事实上这个是目前所有逻辑电路设计的理论基础。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;《数字逻辑》这门课讲布尔代数，主要是作为设计电路的一种工具。假如我们要设计电路，解决这个现实问题。这个问题被抽象成几个输入和输出。这些输入和输出是可能是0或者1。我们知道不同变量输入时对应的输出，也就是所谓的真值表。利用真值表，我们可以写出一个布尔表达式。但这个布尔表达式可以化简。我们可以用卡诺图等方式进行化简，化简的目的是简化电路。最终，化简的电路可以转化为门电路。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;《编码》里只是简单的介绍了布尔代数和门电路，没有深入的介绍电路的设计。这是比较明智的，因为如何设计电路不是我们要关心的话题。《数字逻辑》中在电路设计这块涉及的还有功能表到布尔表达式的转换，布尔表达式的化简等等。有兴趣的同学可以了解一下。&lt;/p&gt;
-&lt;p&gt;总结一下，这两章对我们最大的启发就是：逻辑电路设计的理论基础是布尔代数。布尔代数可以用逻辑电路进行等价表示。而逻辑电路则是计算机所有硬件的基础。&lt;/p&gt;
-&lt;h3 id=&quot;第十二章：二进制加法器&quot;&gt;&lt;a href=&quot;#第十二章：二进制加法器&quot; class=&quot;headerlink&quot; title=&quot;第十二章：二进制加法器&quot;&gt;&lt;/a&gt;第十二章：二进制加法器&lt;/h3&gt;&lt;p&gt;这章一开始说：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;如果我们可以造出加法器，同样地，就可以利用加法来实现减法、乘法和除法，计算按揭付款，引导火箭飞到火星、下棋，以及填写我们的话费账单&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;大家可能觉得这是夸张的说法，但其实加法器的确就是CPU中最重要的部分。实现了加法器，再加上存储系统，和控制器，就是一个基本的计算机了。&lt;/p&gt;
-&lt;p&gt;所以这章内容可以说是《编码》这本书介绍的如何制造一台计算机中的第一次飞跃（第二次飞跃是第十七章，自动操作）。&lt;/p&gt;
-&lt;p&gt;说的很神奇，其实加法器就是由简单的门电路构成的一个电路而已。&lt;/p&gt;
-&lt;p&gt;我们已经知道了各种门电路的输入输出，那问题就是，如何来利用门电路，设计一个相对复杂的电路呢？&lt;/p&gt;
-&lt;p&gt;这部分的知识对应的是大学中的《数字逻辑》课程。电路的设计有一套成熟的方法，当然我们先不考虑那么多，先来看看《编码》的作者是如何设计这个加法器电路的。&lt;/p&gt;
-&lt;p&gt;对于一个电路，我们&lt;strong&gt;首先&lt;/strong&gt;要确定输入和输出，并写出一个真值表。&lt;/p&gt;
-&lt;p&gt;我们进行二进制数的相加时，会分别相加两个二进制数的每一位，如果有进位，则将进位加入下一位二进制数的相加中。&lt;/p&gt;
-&lt;p&gt;这样，我们就可以将两个二进制数的加法，转化为多次的一位二进制数加法。一位二进制数加法的输入是两个个加数。输出是一位的二进制数，以及一个进位数。比如输入是1加1，输出结果是0，进位位是1。&lt;/p&gt;
-&lt;p&gt;现在我们就可以列出两个真值表，一个是加法的真值表，一个是进位的真值表。&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;&lt;strong&gt;+加法&lt;/strong&gt;&lt;/th&gt;
-&lt;th&gt;&lt;strong&gt;0&lt;/strong&gt;&lt;/th&gt;
-&lt;th&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;0&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;0&lt;/td&gt;
-&lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;0&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;&lt;strong&gt;+进位&lt;/strong&gt;&lt;/th&gt;
-&lt;th&gt;&lt;strong&gt;0&lt;/strong&gt;&lt;/th&gt;
-&lt;th&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;0&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;0&lt;/td&gt;
-&lt;td&gt;0&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;1&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;0&lt;/td&gt;
-&lt;td&gt;1&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;好了，现在我们可以进入第二步，根据真值表，设计电路。&lt;/p&gt;
-&lt;p&gt;我们要设计这样一个电路，输入A和B，都是一位二进制数，输出结果C和进位数D，也是都是一位二进制数。&lt;/p&gt;
-&lt;p&gt;我们&lt;strong&gt;观察真值表的输入和输出&lt;/strong&gt;，发现进位表的真值和与门是一样的。而加法表的真值和异或门是一样的。&lt;/p&gt;
-&lt;p&gt;P141页的半加器，就是简单地将一个异或门和一个与门连到相同的输入端。异或门输出的就是加法结果，与门输出的则是进位的结果。&lt;/p&gt;
-&lt;p&gt;为什么这个叫半加器呢，因为这个半加器还无法完成真正的加法，因为它的输入中没有考虑进位。真正的一位加法器，输入有两个加数，以及进位位，输出结果和进位位。&lt;/p&gt;
-&lt;p&gt;P142页顶部的图就是全加器。它的原理就是级联两个半加器，将第一个半加器的结果和输入的进位位相加，对于两个半加器输出的进位位，则用一个或门来处理。或门在这里其实也是起一个加法器的作用，只不过两个级联的半加器的进位输出不会同时为1&lt;em&gt;（如果前一个半加器产生进位，那结果必然是0，那后一个半加器就不可能产生进位了）&lt;/em&gt;，因此不用考虑输入都为1的情况。&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;P144页&lt;/em&gt;底部的图，讲8个全加器连接起来，前一个全加器的进位位输出是后一个全加器的进位位输入，第一个全加器的进位输入是0。这样我们就得到了一个8位加法器。&lt;/p&gt;
-&lt;p&gt;这个加法器用开关的开和闭表示1或者0的输入，用灯泡的亮和灭表示1或者0的输出。这种方式很原始，但从原理上来说和现代的晶体管电路和LED显示器没有太大的不同。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;这种加法器有一个问题，也就是书中P146页讲到的，在时间上必须串行工作，即后一个全机器要等前一个完成运算之后才能进行运算，而不是并行的工作。解决这个问题，可以用前置进位等方法来提高运算的速度。这个会在《数字逻辑》课中讲到。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;我们要知道的一点是，这里的电路是比较naive的。因此作者可以一眼看穿真值表对应的电路。而实际中电子工程师设计的电路是非常复杂的。用专门的方法和设计语言。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;《数字逻辑》课程中，有一套非常sophisticated的设计电路的方法。从真值表中得出布尔代数表达式，用卡诺图等工具对这个表达式化简，最后用基本的门电路来实现。我们作为软件工程师，对这套方法有着基本的掌握就可以了。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;这章的意义重大。我们用19世纪就被发明出来的电子器件，开关，灯泡和继电器，搭建了一个加法器。这可是一个能做&lt;strong&gt;加法&lt;/strong&gt;的机器，这意味着我们可以用机器来做&lt;strong&gt;通用计算&lt;/strong&gt;，而不是之前设计的只能帮你选择猫咪的死板电路（当然我觉得那个电路也很神奇），这在构建可编程计算机的道路上无疑是一个里程碑。&lt;/p&gt;
-&lt;p&gt;回首这个过程，最重要的理论上的突破，无疑是布尔代数的发明，以及香农将代数和电路对应起来，用电路实现布尔代数的发现。&lt;/p&gt;
-&lt;h3 id=&quot;第十八章：从算盘到芯片&quot;&gt;&lt;a href=&quot;#第十八章：从算盘到芯片&quot; class=&quot;headerlink&quot; title=&quot;第十八章：从算盘到芯片&quot;&gt;&lt;/a&gt;第十八章：从算盘到芯片&lt;/h3&gt;&lt;h3 id=&quot;第二十五章：图形化革命&quot;&gt;&lt;a href=&quot;#第二十五章：图形化革命&quot; class=&quot;headerlink&quot; title=&quot;第二十五章：图形化革命&quot;&gt;&lt;/a&gt;第二十五章：图形化革命&lt;/h3&gt;&lt;p&gt;这章与其说是在讲图形化革命，不如说是PC多媒体方向的发展史。&lt;/p&gt;
-&lt;h4 id=&quot;从电传打字机到视频显示器&quot;&gt;&lt;a href=&quot;#从电传打字机到视频显示器&quot; class=&quot;headerlink&quot; title=&quot;从电传打字机到视频显示器&quot;&gt;&lt;/a&gt;从电传打字机到视频显示器&lt;/h4&gt;&lt;p&gt;当然首先提到的还是图形化革命。这里有一个很重要的概念就是人机交互界面（GUI）。在打孔机时代，人机交互的实现主要是，通过纸带或者各种开关进行输入，然后经过计算机批处理之后输出。这个输入-处理-输出的循环，就是一个人机交互的过程。&lt;/p&gt;
-&lt;p&gt;20世纪60年代，流行的时分操作系统，输入和输出设备是打字机。这就比较接近于现代计算机的交互了。&lt;/p&gt;
-&lt;p&gt;早期的显示器，其实就是“玻璃屏幕电传打字机”。这样的显示设备仅仅只能一行一行的输出字符，和打字机没有太大区别。想要显示图形，那就只能使用ASCII Art了。这种类似打字机的界面，比较接近于我们现在使用的终端。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;C语言的标准I/O里的输出函数为什么叫&lt;code&gt;print&lt;/code&gt;呢？这就和当年的输出设备是打字机有关系了。在当时看来，这个函数就是在纸上打印字符，所以叫&lt;code&gt;print&lt;/code&gt;是很贴切的。&lt;br&gt;Linux中的一些命令，也和早期计算机的输入输出有关。比如早期计算机使用磁带作为存储设备。大家有兴趣的可以了解一下。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;接下去就是一个关键的分界线了。首先，我们要知道显示设备的原理。光栅显示器的原理就是，用一个像素点矩阵来组成图像。比如分辨率是1920*1080，那就意味着你看到的图像由2073600个像素点组成。&lt;/p&gt;
-&lt;p&gt;我们知道红、绿、蓝。三原色可以混合出所有的颜色。那我们就可以通过某种编码来表示显示器像素的颜色。&lt;br&gt;做客户端的同学，会知道代码中有很多表示颜色的方法，比如&lt;code&gt;rgb(255,255,255)&lt;/code&gt;或者&lt;code&gt;#FFFFFF&lt;/code&gt;。这两种其实是一样的。都是用分别用8位二进制数来表示红、绿、蓝三原色的深度。范围是0-255，数值越大，表示这种颜色越深。&lt;/p&gt;
-&lt;p&gt;这种编码叫256色，可以表示256的三次方种颜色。这样的显示器已经足够一般人使用了。&lt;/p&gt;
-&lt;p&gt;那我们就可以用三个字节来表示一个像素点的颜色。给每个像素点都写入颜色信息，那显示器就可以用这个信息来绘制图像。&lt;/p&gt;
-&lt;p&gt;问题就来了，这些信息要放在哪呢（一个1920*1080的矩阵，每个项目占三个字节）。最自然的当然是放在内存中，但内存和显卡直接的通信成本比较高，因此我们可以在显卡上设置一个专用的存储器，也就是我们常说的显存。显存主要的作用就是存放图像渲染的信息。&lt;/p&gt;
-&lt;h4 id=&quot;施乐和Mac&quot;&gt;&lt;a href=&quot;#施乐和Mac&quot; class=&quot;headerlink&quot; title=&quot;施乐和Mac&quot;&gt;&lt;/a&gt;施乐和Mac&lt;/h4&gt;&lt;h4 id=&quot;OOP和图形界面&quot;&gt;&lt;a href=&quot;#OOP和图形界面&quot; class=&quot;headerlink&quot; title=&quot;OOP和图形界面&quot;&gt;&lt;/a&gt;OOP和图形界面&lt;/h4&gt;&lt;h4 id=&quot;图像格式与压缩算法&quot;&gt;&lt;a href=&quot;#图像格式与压缩算法&quot; class=&quot;headerlink&quot; title=&quot;图像格式与压缩算法&quot;&gt;&lt;/a&gt;图像格式与压缩算法&lt;/h4&gt;&lt;h4 id=&quot;模拟-数字转换和多媒体&quot;&gt;&lt;a href=&quot;#模拟-数字转换和多媒体&quot; class=&quot;headerlink&quot; title=&quot;模拟/数字转换和多媒体&quot;&gt;&lt;/a&gt;模拟/数字转换和多媒体&lt;/h4&gt;&lt;h4 id=&quot;互联网&quot;&gt;&lt;a href=&quot;#互联网&quot; class=&quot;headerlink&quot; title=&quot;互联网&quot;&gt;&lt;/a&gt;互联网&lt;/h4&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;《编码》这本书被列了入我们团队技术方向培养方案的必读书目，可见这本书的地位。因此，我觉得有必要来撰写一篇导读，来帮助大家看透一些问题，把这本书上的知识和课本中的知识对应起来，并且形成一个体系。&lt;/p&gt;
     
     </summary>
     
