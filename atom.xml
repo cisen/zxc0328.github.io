@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-09-19T07:02:08.000Z</updated>
+  <updated>2018-02-12T03:17:52.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,745 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Headless Chrome long image capture issue</title>
+    <link href="http://yoursite.com/2018/02/12/hdchrome-long-capture/"/>
+    <id>http://yoursite.com/2018/02/12/hdchrome-long-capture/</id>
+    <published>2018-02-12T03:16:21.000Z</published>
+    <updated>2018-02-12T03:17:52.000Z</updated>
+    
+    <content type="html">&lt;h3 id=&quot;The-problem&quot;&gt;&lt;a href=&quot;#The-problem&quot; class=&quot;headerlink&quot; title=&quot;The problem&quot;&gt;&lt;/a&gt;The problem&lt;/h3&gt;&lt;p&gt;Recently I had received complaint about my capture service not export complete image. It seems that this problem only occurs when the page’s is extremely long.&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;The broken image is like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/zxc0328/huihuihui-h5/master/Screen%20Shot%202017-12-19%20at%2010.30.21%20AM.png&quot; alt=&quot;broken&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Chromium’s-limit&quot;&gt;&lt;a href=&quot;#Chromium’s-limit&quot; class=&quot;headerlink&quot; title=&quot;Chromium’s limit&quot;&gt;&lt;/a&gt;Chromium’s limit&lt;/h3&gt;&lt;p&gt;So I Googled for the problem and I found &lt;a href=&quot;https://github.com/GoogleChrome/puppeteer/issues/477&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;a lot issues&lt;/a&gt; on Github that target the same problem. When reading throught &lt;a href=&quot;https://github.com/GoogleChrome/puppeteer/pull/937&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;this issue&lt;/a&gt;, I got the fact that this problem is caused by Chromium’s limit.&lt;/p&gt;
+&lt;p&gt;Since normal server don’t have a GPU inside, Headless Chrome had to use software renderer, that is, using CPU to calculate the pixels. &lt;/p&gt;
+&lt;p&gt;Chromium’s compositor has a maximum texture size when using software GL backend, this limit is 16384px. So large image will not be renderer completely.&lt;/p&gt;
+&lt;h3 id=&quot;How-to-solve-it&quot;&gt;&lt;a href=&quot;#How-to-solve-it&quot; class=&quot;headerlink&quot; title=&quot;How to solve it&quot;&gt;&lt;/a&gt;How to solve it&lt;/h3&gt;&lt;p&gt;The solve for this problem is simple. Cut the page into pieces, capture these fragments in order, and composite those pieces into a whole image.&lt;/p&gt;
+&lt;p&gt;The code below use Puppeteer’s API, it’s fine to replace it with other library like CDP.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;await page.setViewport({ width: 1440, height: 1024});
+const {contentSize} = await page._client.send(&amp;#39;Page.getLayoutMetrics&amp;#39;);
+// MAGIC NUMBER, DO NOT MODIFIY THIS OR YOU WILL BE FIRED
+const maxScreenshotHeight = 7000;
+          if (contentSize.height &amp;gt;= maxScreenshotHeight) {
+
+            let image;
+            let lastBuffer;
+
+            for (let ypos = 0; ypos &amp;lt; contentSize.height; ypos += maxScreenshotHeight) {
+              const height = Math.min(contentSize.height - ypos, maxScreenshotHeight);
+              let buffer = await page.screenshot({
+                clip: {
+                  x: 0,
+                  y: ypos,
+                  width: contentSize.width,
+                  height
+                }
+              });
+              if (ypos === 0) {
+                image = sharp(buffer);
+                lastBuffer = await image.toBuffer();
+              }else {
+                image = sharp(lastBuffer);
+                image = image.extend({top: 0, bottom: height, left: 0, right: 0})
+                image = image.overlayWith(buffer, {top: ypos, left:0})
+                lastBuffer = await image.toBuffer();
+              }
+            }
+            fileData = lastBuffer;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;I use &lt;a href=&quot;https://github.com/lovell/sharp&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;sharp&lt;/a&gt; for image processing, bacause it’s recommended on Github issue.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The magic number here should be around 16000 by default, but I had noticed that the height for each piece should be reduced when the width increased. The width I use for my capture is 1440px, you should start from 16000 and reduce this number if the image exported is still incomplete.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;Future&quot;&gt;&lt;a href=&quot;#Future&quot; class=&quot;headerlink&quot; title=&quot;Future&quot;&gt;&lt;/a&gt;Future&lt;/h3&gt;&lt;p&gt;The approach may not be necessary accroding to this &lt;a href=&quot;https://bugs.chromium.org/p/chromium/issues/detail?id=770769&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Chromium issue&lt;/a&gt;.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;The-problem&quot;&gt;&lt;a href=&quot;#The-problem&quot; class=&quot;headerlink&quot; title=&quot;The problem&quot;&gt;&lt;/a&gt;The problem&lt;/h3&gt;&lt;p&gt;Recently I had received complaint about my capture service not export complete image. It seems that this problem only occurs when the page’s is extremely long.&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Liso源码阅读笔记</title>
+    <link href="http://yoursite.com/2018/02/12/liso/"/>
+    <id>http://yoursite.com/2018/02/12/liso/</id>
+    <published>2018-02-12T03:16:05.000Z</published>
+    <updated>2018-02-12T03:19:59.000Z</updated>
+    
+    <content type="html">&lt;p&gt;本文介绍了CMU 15-441的课程项目&lt;a href=&quot;https://www.cs.cmu.edu/~prs/15-441-F16/project1/project1.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Liso&lt;/a&gt;的一个实现。主要介绍了请求流程、Client状态机模型、Dynamic Buffer数据结构等等。SSL相关的部分没有涉及。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;实现&quot;&gt;&lt;a href=&quot;#实现&quot; class=&quot;headerlink&quot; title=&quot;实现&quot;&gt;&lt;/a&gt;实现&lt;/h3&gt;&lt;p&gt;我看的是这位同学的&lt;a href=&quot;https://github.com/zhuansunxt/Liso&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;实现&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;一个HTTP静态文件请求的流程&quot;&gt;&lt;a href=&quot;#一个HTTP静态文件请求的流程&quot; class=&quot;headerlink&quot; title=&quot;一个HTTP静态文件请求的流程&quot;&gt;&lt;/a&gt;一个HTTP静态文件请求的流程&lt;/h3&gt;&lt;p&gt;首先我们拿一个简单的静态文件请求来梳理一下Liso的流程。在&lt;code&gt;liso.c&lt;/code&gt;的&lt;code&gt;main&lt;/code&gt;函数中，有这个服务器的主循环，这个循环每次做的事情就是用&lt;code&gt;select&lt;/code&gt;来查询I/O事件。&lt;code&gt;select&lt;/code&gt;之后，我们首先做的是查看&lt;code&gt;listenfd&lt;/code&gt;是不是有read事件，如果有就&lt;code&gt;accept&lt;/code&gt;这个连接。然后把连接加入到连接池里。一个连接的初始状态是&lt;code&gt;READY_FOR_READ&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;listenfd&lt;/code&gt;是连接池中的第一个item，也是一直存在于连接池中的一个描述符。&lt;/p&gt;
+&lt;p&gt;在循环的最后，我们会调用&lt;code&gt;handle_clients&lt;/code&gt;对连接池中可读和可写的描述符依次进行处理。具体的方式就是遍历连接池，如果一个连接是可读的，并且状态是&lt;code&gt;READY_FOR_READ&lt;/code&gt;，我们就读取这个连接中的数据。&lt;/p&gt;
+&lt;p&gt;每次从每个连接读取的数据是固定的长度，比如4KB。这是为了控制I/O的粒度，不让server在一个连接上花太多时间，使得新的连接请求被阻塞。&lt;/p&gt;
+&lt;p&gt;我们把收到的数据，放到&lt;code&gt;client_buffer&lt;/code&gt;里面。然后看一下HTTP的Header是不是已经读取完全了（调用&lt;code&gt;handle_recv_header&lt;/code&gt;判断读取到的数据中是否有&lt;code&gt;&amp;quot;\r\n\r\n&amp;quot;&lt;/code&gt;）。如果HTTP的header还没有读取完全，那就继续留在&lt;code&gt;READY_FOR_READ&lt;/code&gt;状态，等待下一次循环。&lt;/p&gt;
+&lt;p&gt;如果Header已经读取完全了，我们就调用&lt;code&gt;handle_http_request&lt;/code&gt;处理请求，在处理请求时，我们把要返回的数据写在&lt;code&gt;client_buffer&lt;/code&gt;里，然后调整这个client的state到&lt;code&gt;READY_FOR_WRITE&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;handle_clients&lt;/code&gt;的循环中，如果我们发现一个client的状态是&lt;code&gt;READY_FOR_WRITE&lt;/code&gt;，我们就会把&lt;code&gt;client_buffer&lt;/code&gt;里相关的数据写到客户端，然后根据这个连接的&lt;code&gt;Connection&lt;/code&gt;Header选择关闭或者保留这个连接。&lt;/p&gt;
+&lt;p&gt;这就是一个简单的HTTP静态文件请求的流程。&lt;/p&gt;
+&lt;h3 id=&quot;连接池的数据结构&quot;&gt;&lt;a href=&quot;#连接池的数据结构&quot; class=&quot;headerlink&quot; title=&quot;连接池的数据结构&quot;&gt;&lt;/a&gt;连接池的数据结构&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;typedef struct {
+  /* Client pool global data */
+  fd_set master;              /* all descritors */
+  fd_set read_fds;            /* all ready-to-read descriptors */
+  fd_set write_fds;           /* all ready-to_write descriptors */
+  int maxfd;                  /* maximum value of all descriptors */
+  int nready;                 /* number of ready descriptors */
+  int maxi;                   /* maximum index of available slot */
+
+  /* Client specific data */
+  int client_fd[FD_SETSIZE];  /* client slots */
+  dynamic_buffer * client_buffer[FD_SETSIZE];   /* client&amp;#39;s dynamic-size buffer */
+  dynamic_buffer * back_up_buffer[FD_SETSIZE];  /* store historical pending request */
+  size_t received_header[FD_SETSIZE];           /* store header ending&amp;#39;s offset */
+  char should_be_close[FD_SETSIZE];             /* whether client should be closed when checked */
+  client_state state[FD_SETSIZE];               /* client&amp;#39;s state */
+  char *remote_addr[FD_SETSIZE];                /* client&amp;#39;s remote address */
+
+  /* SSL related */
+  client_type type[FD_SETSIZE];                 /* client&amp;#39;s type: HTTP or HTTPS */
+  SSL * context[FD_SETSIZE];                    /* set if client&amp;#39;s type is HTTPS */
+
+  /* CGI related */
+  int cgi_client[FD_SETSIZE];
+} client_pool;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;每个socket连接在建立之后都会被放到&lt;code&gt;client_pool&lt;/code&gt;里面。连接池在概念上就是一个大的数组。实现的时候，我们把每个连接相关的属性各自设置为一个相同大小的数组。每个item的属性就是属性数组中相应index的值。比如我们可以通过&lt;code&gt;client_pool-&amp;gt;client_fd[i]&lt;/code&gt;拿到第i个请求的fd。其他属性也是类似的。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;FD_SETSIZE&lt;/code&gt;这个常量是这个server并发连接的最大值，这个常量的大小一般是1024。这个值是操作系统设置的。这个连接池里除了各个连接相关信息的数组之外，还有几个&lt;code&gt;fd_set&lt;/code&gt;类型的全局属性，其中&lt;code&gt;master&lt;/code&gt;里保存了整个连接池的描述符。这也就是我们&lt;code&gt;select&lt;/code&gt;循环时监听的目标。需要注意的是CGI连接在建立之后，也会被放到这个连接池中（&lt;code&gt;client_fd&lt;/code&gt;指向发起CGI请求的客户端，&lt;code&gt;cgi_client&lt;/code&gt;指向CGI连接，这个连接在CGI处理完后会被我们从连接池中清除）。这样我们就可以利用&lt;code&gt;select&lt;/code&gt;对CGI请求进行事件驱动的异步处理。&lt;/p&gt;
+&lt;h3 id=&quot;client的状态机模型&quot;&gt;&lt;a href=&quot;#client的状态机模型&quot; class=&quot;headerlink&quot; title=&quot;client的状态机模型&quot;&gt;&lt;/a&gt;client的状态机模型&lt;/h3&gt;&lt;p&gt;我们知道有限状态机由一组状态和一组转移组成，在Liso里，一个client的状态有以下几种：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;typedef enum client_state {
+    INVALID,
+    READY_FOR_READ,
+    READY_FOR_WRITE,
+    WAITING_FOR_CGI,
+    CGI_FOR_READ,
+    CGI_FOR_WRITE
+} client_state;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在讲具体的状态模型之前，我们要把连接池中的连接分为两种，一种是客户端的连接描述符，一种是CGI连接。这两种连接的在连接池中的数据结构是相同的。&lt;/p&gt;
+&lt;p&gt;在处理HTTP请求时，如果一个请求是CGI请求，我们就会fork一个进程，获取CGI的文件描述符，然后调用&lt;code&gt;add_cgi_fd_to_pool&lt;/code&gt;函数将这个描述符加入到连接池中。加入操作的核心代码是：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/* Update client data */
+p-&amp;gt;client_fd[i] = cgi_fd;
+p-&amp;gt;state[i] = state;
+
+/* CGI */
+p-&amp;gt;cgi_client[i] = clientfd;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;所以这个连接和普通的连接一样，都有&lt;code&gt;client_fd&lt;/code&gt;属性，不同的是这个连接有一个&lt;code&gt;cgi_client&lt;/code&gt;属性，指向CGI连接的文件描述符。所以在处理CGI请求的时候，一个连接在连接池中有客户端连接和CGI连接两个item。CGI连接的状态仅仅只是在&lt;code&gt;CGI_FOR_READ&lt;/code&gt;和&lt;code&gt;CGI_FOR_WRITE&lt;/code&gt;之间转换。在CGI连接可读，并被写到客户端之后，我们会从连接池中清除这个CGI的item。所以客户端连接和CGI连接的状态机模型应该分开讲述。&lt;/p&gt;
+&lt;h4 id=&quot;客户端连接状态机模型&quot;&gt;&lt;a href=&quot;#客户端连接状态机模型&quot; class=&quot;headerlink&quot; title=&quot;客户端连接状态机模型&quot;&gt;&lt;/a&gt;客户端连接状态机模型&lt;/h4&gt;&lt;p&gt;&lt;img src=&quot;https://wx1.sinaimg.cn/mw1024/64c45edcgy1flgj3kbvxjj20vu0g0adc.jpg&quot; alt=&quot;static fsm&quot;&gt;&lt;/p&gt;
+&lt;p&gt;客户端连接，如果是CGI连接，会比静态资源请求多一个&lt;code&gt;WAITING_FOR_CGI&lt;/code&gt;的状态。这里我们需要注意的是，我们在读取一个连接的数据时，如果是一个POST请求，一般会分很多次。如果读取之后数据不够，这个连接的状态就会停留在&lt;code&gt;READY_FOR_READ&lt;/code&gt;，等待下一次&lt;code&gt;select&lt;/code&gt;循环。直到读取到足够的数据（根据Header里的&lt;code&gt;content-length&lt;/code&gt;）之后，才把这个请求的状态转移到&lt;code&gt;READY_FOR_WRITE&lt;/code&gt;。&lt;/p&gt;
+&lt;h4 id=&quot;CGI连接状态机模型&quot;&gt;&lt;a href=&quot;#CGI连接状态机模型&quot; class=&quot;headerlink&quot; title=&quot;CGI连接状态机模型&quot;&gt;&lt;/a&gt;CGI连接状态机模型&lt;/h4&gt;&lt;p&gt;&lt;img src=&quot;https://wx2.sinaimg.cn/mw1024/64c45edcgy1flgj3k7yopj20uc0dwacw.jpg&quot; alt=&quot;cgi fsm&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;长连接&quot;&gt;&lt;a href=&quot;#长连接&quot; class=&quot;headerlink&quot; title=&quot;长连接&quot;&gt;&lt;/a&gt;长连接&lt;/h3&gt;&lt;p&gt;我们知道HTTP的Header中有一个Connection字段。如果这个字段的值为close，在&lt;code&gt;READY_FOR_WRITE&lt;/code&gt;状态时，如果我们写完了当前请求所请求的数据，我们就关闭连接。如果这个字段的值为&lt;code&gt;keep-alive&lt;/code&gt;，连接会经过&lt;code&gt;Persist&lt;/code&gt;转移，重新进入&lt;code&gt;READY_FOR_WRITE&lt;/code&gt;状态。&lt;/p&gt;
+&lt;p&gt;在写完数据之后依然保持&lt;code&gt;READY_FOR_WRITE&lt;/code&gt;状态，不关闭连接，这就是我们常说的HTTP&lt;code&gt;keep-alive&lt;/code&gt;长连接。在这种情况下，server假定的是在未来的某个时间节点，这个客户端上还有数据可以读取，所以我们暂时不关闭连接。&lt;/p&gt;
+&lt;p&gt;举例说一下HTTP长连接的用途：如果一个域下有多个资源需要请求，浏览器会复用同一个TCP连接。也就是说服务器可以在一个TCP连接上进行多次HTTP请求。这样有利于减少网络延迟和服务器的并发压力。&lt;/p&gt;
+&lt;h3 id=&quot;Dynamic-Buffer数据结构&quot;&gt;&lt;a href=&quot;#Dynamic-Buffer数据结构&quot; class=&quot;headerlink&quot; title=&quot;Dynamic Buffer数据结构&quot;&gt;&lt;/a&gt;Dynamic Buffer数据结构&lt;/h3&gt;&lt;p&gt;Dynamic Buffer数据结构是对普通buffer的封装。为了应对HTTP请求中长度不一定的二进制数据，我们需要一个封装良好的buffer结构，让我们方向的使用，不用担心内存管理问题。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;typedef struct dynamic_buffer{
+  char *buffer;
+  size_t offset;
+  size_t capacity;
+  size_t send_offset;
+} dynamic_buffer;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;dynamic_buffer&lt;/code&gt;类型用struct封装了一个新的类型，&lt;code&gt;buffer&lt;/code&gt;指向实际存储数据的buffer。另外还有&lt;code&gt;offset&lt;/code&gt;、&lt;code&gt;capacity&lt;/code&gt;和&lt;code&gt;send_offset&lt;/code&gt;这些属性来辅助内存管理。&lt;code&gt;offset&lt;/code&gt;让我们掌握目前buffer的实际容量是多少。&lt;code&gt;capacity&lt;/code&gt;让我们可以掌握buffer占用的内存大小，方便动态的扩容。作者说这个设计是模仿的C++ vector STL。&lt;/p&gt;
+&lt;h3 id=&quot;CGI相关&quot;&gt;&lt;a href=&quot;#CGI相关&quot; class=&quot;headerlink&quot; title=&quot;CGI相关&quot;&gt;&lt;/a&gt;CGI相关&lt;/h3&gt;&lt;p&gt;Liso中用来描述一个CGI执行进程的数据结构是这样的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;typedef struct CGI_executor {
+  int clientfd;
+  int stdin_pipe[2];    /* { write data --&amp;gt; stdin_pipe[1] } -&amp;gt; { stdin_pipe[0] --&amp;gt; stdin } */
+  int stdout_pipe[2];   /* { read data &amp;lt;--  stdout_pipe[0] } &amp;lt;-- {stdout_pipe[1] &amp;lt;-- stdout } */
+  dynamic_buffer* cgi_buffer;
+  CGI_param* cgi_parameter;
+} CGI_executor;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;里面主要的成员除了&lt;code&gt;cgi_buffer&lt;/code&gt;和用于传入环境变量的&lt;code&gt;cgi_parameter&lt;/code&gt;之外，&lt;code&gt;stdin_pipe&lt;/code&gt;和&lt;code&gt;stdout_pipe&lt;/code&gt;两个成员值得注意。&lt;/p&gt;
+&lt;h4 id=&quot;pipe&quot;&gt;&lt;a href=&quot;#pipe&quot; class=&quot;headerlink&quot; title=&quot;pipe&quot;&gt;&lt;/a&gt;pipe&lt;/h4&gt;&lt;p&gt;&lt;code&gt;stdin_pipe&lt;/code&gt;和&lt;code&gt;stdout_pipe&lt;/code&gt;两个成员代表了两个pipe。pipe是Linux中的一种通信机制。一个pipe有两个fd组成，第一个代表read端，第二个代表write端。写入的数据会缓存在内核中，在读取时被取出。我们可以用pipe函数来创建一个pipe，pipe中的两个文件描述符在fork时也会被复制。所以pipe可以被作为一种进程间通信的手段。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;关于pipe的更多信息请参考&lt;em&gt;The Linux Programming Interface&lt;/em&gt; Chapter 44&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们的server主进程要和CGI进程通信，就是通过pipe做到的。&lt;/p&gt;
+&lt;p&gt;在CGI进程中的代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;close(cgi_pool-&amp;gt;executors[slot]-&amp;gt;stdout_pipe[0]);
+close(cgi_pool-&amp;gt;executors[slot]-&amp;gt;stdin_pipe[1]);
+dup2(cgi_pool-&amp;gt;executors[slot]-&amp;gt;stdout_pipe[1], fileno(stdout));
+dup2(cgi_pool-&amp;gt;executors[slot]-&amp;gt;stdin_pipe[0], fileno(stdin));
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们关闭了CGI进程中&lt;code&gt;stdout_pipe&lt;/code&gt;的read端，把write端重定向到CGI进程的stdout，因为主进程要从这个pipe读取CGI进程的输出。&lt;/p&gt;
+&lt;p&gt;我们关闭了CGI进程中&lt;code&gt;stdin_pipe&lt;/code&gt;的write端，把read端重定向到CGI进程的stdin，因为主进程要向CGI进程中写入一些信息，比如POST请求的body。&lt;/p&gt;
+&lt;p&gt;在主进程中，我们关闭用不到的两个fd，分别是&lt;code&gt;stdout_pipe&lt;/code&gt;的write端和&lt;code&gt;stdin_pipe&lt;/code&gt;的read端。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;close(cgi_pool-&amp;gt;executors[slot]-&amp;gt;stdout_pipe[1]);
+close(cgi_pool-&amp;gt;executors[slot]-&amp;gt;stdin_pipe[0]);
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&quot;select-CGI&quot;&gt;&lt;a href=&quot;#select-CGI&quot; class=&quot;headerlink&quot; title=&quot;select + CGI&quot;&gt;&lt;/a&gt;select + CGI&lt;/h4&gt;&lt;p&gt;在CGI进程被创建之后，我们调用&lt;code&gt;add_cgi_fd_to_pool&lt;/code&gt;函数把这个clientfd和CGI的fd一起加入到监听的连接池里面。CGI的fd是什么呢？没错，就是&lt;code&gt;stdin_pipe[1]&lt;/code&gt;和&lt;code&gt;stdout_pipe[0]&lt;/code&gt;，&lt;code&gt;stdin_pipe[1]&lt;/code&gt;代表着CGI进程的输入，当这个fd为可写时，我们可以向CGI进程写入数据。&lt;code&gt;stdout_pipe[0]&lt;/code&gt;代表着CGI进程的输出，当这个fd为可读时，我们可以从CGI进程中读取数据。加入到连接池中意味着我们可以通过select来监听CGI进程的I/O事件。所以在select的&lt;code&gt;handle_clients&lt;/code&gt;里，除了客户端可写和客户端可读之外，我们需要处理CGI可写和CGI可读两种情况。&lt;/p&gt;
+&lt;p&gt;由此我们便可以在select中根据事件，来对客户端进行处理，转移它们的状态。一个非阻塞的事件驱动Server设计已经有了雏形。&lt;/p&gt;
+&lt;h3 id=&quot;如何加强Liso&quot;&gt;&lt;a href=&quot;#如何加强Liso&quot; class=&quot;headerlink&quot; title=&quot;如何加强Liso&quot;&gt;&lt;/a&gt;如何加强Liso&lt;/h3&gt;&lt;p&gt;Liso距离一个工业级的Server还有很大的差距，我们可以做的改进有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将静态文件I/O改造为基于线程池的设计。&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;epoll&lt;/code&gt;代替&lt;code&gt;select&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;支持使用DSL对服务器进行配置。&lt;/li&gt;
+&lt;li&gt;支持Gzip。&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文介绍了CMU 15-441的课程项目&lt;a href=&quot;https://www.cs.cmu.edu/~prs/15-441-F16/project1/project1.pdf&quot;&gt;Liso&lt;/a&gt;的一个实现。主要介绍了请求流程、Client状态机模型、Dynamic Buffer数据结构等等。SSL相关的部分没有涉及。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernete安装不完全指南</title>
+    <link href="http://yoursite.com/2017/10/26/k8s-setup-1-7/"/>
+    <id>http://yoursite.com/2017/10/26/k8s-setup-1-7/</id>
+    <published>2017-10-26T11:21:26.000Z</published>
+    <updated>2018-02-12T03:14:52.000Z</updated>
+    
+    <content type="html">&lt;p&gt;安装Kubernetes向来不是一件容易的事情。之前在集群上部署好的K8s突然出了问题，于是需要重新安装。这次没有之前那次那么顺利了，出现了很多奇怪的问题。但经过一番实践和总结，总算是得出了Kubernetes国内安装的一个不完全指南。这个指南理论上适用于任意版本的K8s。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;Master节点的安装过程主要可以参考&lt;a href=&quot;https://blog.jsjs.org/?p=414&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;strong&gt;《使用kubeadm安装kubernetes1.7》&lt;/strong&gt;&lt;/a&gt;。主要的流程是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;安装Docker&lt;/li&gt;
+&lt;li&gt;安装Kubernetes相关组件&lt;/li&gt;
+&lt;li&gt;Kubeadm init Master节点&lt;/li&gt;
+&lt;li&gt;安装Overlay Network&lt;/li&gt;
+&lt;li&gt;Join Node节点&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;下面主要说一些关于如何确定软件版本、如何制作软件镜像源等等细微但是很要命的问题。&lt;/p&gt;
+&lt;h3 id=&quot;关于Docker&quot;&gt;&lt;a href=&quot;#关于Docker&quot; class=&quot;headerlink&quot; title=&quot;关于Docker&quot;&gt;&lt;/a&gt;关于Docker&lt;/h3&gt;&lt;p&gt;目前使用&lt;strong&gt;Docker 1.12&lt;/strong&gt;版本是比较稳定的。Docker这种基础设施软件没有必要追最新的。在阿里云的CentOS只要直接&lt;code&gt;yum install docker&lt;/code&gt;就可以安装这个版本了。&lt;/p&gt;
+&lt;h3 id=&quot;关于操作系统&quot;&gt;&lt;a href=&quot;#关于操作系统&quot; class=&quot;headerlink&quot; title=&quot;关于操作系统&quot;&gt;&lt;/a&gt;关于操作系统&lt;/h3&gt;&lt;p&gt;本文讲的是在&lt;strong&gt;CentOS 7&lt;/strong&gt;上安装Kubernetes。理由是Kubernetes对CentOS支持比较好，网上资料比较多。当然Ubuntu的支持应该也是没问题的。&lt;/p&gt;
+&lt;h3 id=&quot;关于K8s源&quot;&gt;&lt;a href=&quot;#关于K8s源&quot; class=&quot;headerlink&quot; title=&quot;关于K8s源&quot;&gt;&lt;/a&gt;关于K8s源&lt;/h3&gt;&lt;p&gt;因为国内的网络环境，我们在服务上明显是不能直接访问国外的镜像源的。所以我们找掌握寻找镜像源，以及在必要的时候自己制作镜像源的技能（因为云服务商的镜像源不一定同步了最新的版本）。&lt;/p&gt;
+&lt;p&gt;所以我们可以直接用阿里云的源，比如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cat &amp;gt;&amp;gt; /etc/yum.repos.d/kubernetes.repo &amp;lt;&amp;lt;EOF
+[kubernetes]
+name=Kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+enabled=1
+gpgcheck=0
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;目前阿里云的源是1.7.5的，Kubernetes目前的稳定版本是1.8.x，1.9.x马上要发布了。可见过国内的源虽然可以用，但版本上不会特别新。&lt;/p&gt;
+&lt;p&gt;第二种办法是在国外服务器上下载镜像然后上传到国内服务器。&lt;strong&gt;这样的好处是可以任意选择自己想要的版本&lt;/strong&gt;。具体可以参考使用上文中的《kubeadm安装kubernetes1.7》。&lt;/p&gt;
+&lt;h3 id=&quot;关于镜像&quot;&gt;&lt;a href=&quot;#关于镜像&quot; class=&quot;headerlink&quot; title=&quot;关于镜像&quot;&gt;&lt;/a&gt;关于镜像&lt;/h3&gt;&lt;p&gt;Kubernetes安装过程中一个很大的问题，在于相关组件的镜像都是托管在Google Container Registry上的。国内的镜像加速一般针对的是Dockerhub上的镜像。所以国内的服务器是没法直接安装GCR上的镜像的。&lt;/p&gt;
+&lt;p&gt;这个问题其实很好解决，首先我们可以&lt;strong&gt;自己在本地翻墙拉到镜像，并把镜像push到阿里云的镜像仓库&lt;/strong&gt;。拉镜像上传的脚本如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#!/bin/bash
+set -o errexit
+set -o nounset
+set -o pipefail
+
+KUBE_VERSION=v1.7.5
+KUBE_PAUSE_VERSION=3.0
+ETCD_VERSION=3.0.17
+DNS_VERSION=1.14.4
+
+GCR_URL=gcr.io/google_containers
+ALIYUN_URL=registry.cn-hangzhou.aliyuncs.com/muxi
+
+images=(kube-proxy-amd64:${KUBE_VERSION}
+kube-scheduler-amd64:${KUBE_VERSION}
+kube-controller-manager-amd64:${KUBE_VERSION}
+kube-apiserver-amd64:${KUBE_VERSION}
+pause-amd64:${KUBE_PAUSE_VERSION}
+etcd-amd64:${ETCD_VERSION}
+k8s-dns-sidecar-amd64:${DNS_VERSION}
+k8s-dns-kube-dns-amd64:${DNS_VERSION}
+k8s-dns-dnsmasq-nanny-amd64:${DNS_VERSION})
+
+
+for imageName in ${images[@]} ; do
+  docker pull $GCR_URL/$imageName
+  docker tag $GCR_URL/$imageName $ALIYUN_URL/$imageName
+  docker login
+  docker push $ALIYUN_URL/$imageName
+  docker rmi $ALIYUN_URL/$imageName
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;K8s每个版本需要的镜像版本号在&lt;a href=&quot;https://kubernetes.io/docs/admin/kubeadm/#custom-images&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;kubeadm Setup Tool Reference Guide&lt;/a&gt;这个文档的的Running kubeadm without an internet connection一节里有写。所以可以根据安装的实际版本来跳帧这个脚本的参数。&lt;strong&gt;注意把上面的镜像地址换成自己的。muxi是你创建的一个namespace，而不是仓库名&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;而Kubernetes也提供了镜像地址相关的配置项，一共有三个：&lt;/p&gt;
+&lt;p&gt;一个配置文件：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cat &amp;gt; /etc/systemd/system/kubelet.service.d/20-pod-infra-image.conf &amp;lt;&amp;lt;EOF
+[Service]
+Environment=&amp;quot;KUBELET_EXTRA_ARGS=--pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/muxi/pause-amd64:3.0&amp;quot;
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;两个环境变量：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export KUBE_REPO_PREFIX=&amp;quot;registry.cn-hangzhou.aliyuncs.com/muxi&amp;quot;
+export KUBE_ETCD_IMAGE=&amp;quot;registry.cn-hangzhou.aliyuncs.com/muxi/etcd-amd64:3.0.17&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;Trouble-Shooting&quot;&gt;&lt;a href=&quot;#Trouble-Shooting&quot; class=&quot;headerlink&quot; title=&quot;Trouble Shooting&quot;&gt;&lt;/a&gt;Trouble Shooting&lt;/h3&gt;&lt;p&gt;解决了获取镜像的问题之后，K8s集群的搭建应该就问题不大了。我们可以通过：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl get pods --all-namepaces
+
+kubectl get nodes 
+
+kubectl get cs
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这几个命令来看集群的运行情况。&lt;/p&gt;
+&lt;p&gt;但有一些特殊的问题还是会存在，所以接下来我们就看看如何解决这些问题：&lt;/p&gt;
+&lt;h4 id=&quot;Kubeadm-init卡住&quot;&gt;&lt;a href=&quot;#Kubeadm-init卡住&quot; class=&quot;headerlink&quot; title=&quot;Kubeadm init卡住&quot;&gt;&lt;/a&gt;Kubeadm init卡住&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;systemctl status kubelet
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;首先中断初始化，查看kubelet的状态。如果出现cgroupfs相关问题，那就需要同步Docker和kubelet的cgroupfs设置。将两者设置为一样的。具体可以看&lt;a href=&quot;https://github.com/kubernetes/kubernetes/issues/43805#issuecomment-320965626&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这里&lt;/a&gt;。笔者用的Docker 1.12和Kubernetes 1.7的cgroupfs默认都是systemd，所以没有问题。&lt;/p&gt;
+&lt;h4 id=&quot;Flannel下Pod不能访问网络问题&quot;&gt;&lt;a href=&quot;#Flannel下Pod不能访问网络问题&quot; class=&quot;headerlink&quot; title=&quot;Flannel下Pod不能访问网络问题&quot;&gt;&lt;/a&gt;Flannel下Pod不能访问网络问题&lt;/h4&gt;&lt;p&gt;之前遇到过k8s+flannel这个组合下Pod不能访问外网的问题。解决方案如下：&lt;/p&gt;
+&lt;p&gt;在Master节点创建一个busybox Pod：&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;busybox.yaml&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  namespace: default
+spec:
+  containers:
+  - image: busybox
+    command:
+      - sleep
+      - &amp;quot;3600&amp;quot;
+    imagePullPolicy: IfNotPresent
+    name: busybox
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后运行&lt;code&gt;kubectl create -f busybox.yaml&lt;/code&gt;创建这个Pod。&lt;/p&gt;
+&lt;p&gt;在Master节点运行&lt;code&gt;ping 8.8.8.8&lt;/code&gt;，或者ping另外的公网IP。如果没有成功，则用&lt;code&gt;traceroute&lt;/code&gt;查看请求的路由列表。一般来说路由列表到容器的网关之后就断了。我们记下这个网关的IP。在镜像中运行&lt;code&gt;kubectl exec busybox -- ifconfig&lt;/code&gt;，查看eth0设备的IP，这个IP应该就是之前traceroute得到的IP。所以问题出在这个网卡上。&lt;/p&gt;
+&lt;p&gt;在Master节点运行&lt;code&gt;ifconfig&lt;/code&gt;，我们看到cni0网卡的IP和之前Pod里的默认网卡的网段是重叠的。所以Pod中的请求就会走这个设备。&lt;/p&gt;
+&lt;p&gt;Pod访问公网应该走的是节点上的Docker0设备。cni0是Flannel的虚拟网卡，这个网络自然是不通外网的。为了解决这个问题，我们运行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/sbin/iptables -t nat -I POSTROUTING -s 10.24.1.0/24 -j MASQUERADE
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;其中10.24.1.0/24就是cni0设备的IP。&lt;/p&gt;
+&lt;h3 id=&quot;Links&quot;&gt;&lt;a href=&quot;#Links&quot; class=&quot;headerlink&quot; title=&quot;Links&quot;&gt;&lt;/a&gt;Links&lt;/h3&gt;&lt;p&gt;几个不错的社区和博客。大家遇到问题的时候可以去浏览一下看看。说不定会有解决方案。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://tonybai.com/articles/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Tonybai的博客&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.kubernetes.org.cn/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;K8s中文社区&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://dockone.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Docker.io&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;安装Kubernetes向来不是一件容易的事情。之前在集群上部署好的K8s突然出了问题，于是需要重新安装。这次没有之前那次那么顺利了，出现了很多奇怪的问题。但经过一番实践和总结，总算是得出了Kubernetes国内安装的一个不完全指南。这个指南理论上适用于任意版本的K8s。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>React 16 Fiber源码速览</title>
+    <link href="http://yoursite.com/2017/09/28/react-16-source/"/>
+    <id>http://yoursite.com/2017/09/28/react-16-source/</id>
+    <published>2017-09-28T14:50:36.000Z</published>
+    <updated>2017-10-28T08:14:13.000Z</updated>
+    
+    <content type="html">&lt;p&gt;React 16在近期发布了。除了将备受争议的BSD+Patents协议改为MIT协议之外，React 16还带来了许多新特性，比如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;允许在render函数中返回节点数组和字符串。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;render() {
+  // 再也不用在外面套一个父节点了
+  return [
+    // 别忘了加上key
+    &amp;lt;li key=&amp;quot;A&amp;quot;&amp;gt;First item&amp;lt;/li&amp;gt;,
+    &amp;lt;li key=&amp;quot;B&amp;quot;&amp;gt;Second item&amp;lt;/li&amp;gt;,
+    &amp;lt;li key=&amp;quot;C&amp;quot;&amp;gt;Third item&amp;lt;/li&amp;gt;,
+  ];
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;提供更好的错误处理。&lt;/li&gt;
+&lt;li&gt;支持自定义DOM属性。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;但最关键的一点还是：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcgy1fjzoreufb4j20xm0kcjwa.jpg&quot; alt=&quot;twitter&quot;&gt;&lt;/p&gt;
+&lt;p&gt;没错，React 16是一次&lt;strong&gt;重写&lt;/strong&gt;，在保持API不变的情况下，将核心架构改为了代号为Fiber的异步渲染架构。新架构带来了的变化有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;体积减小&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx1.sinaimg.cn/large/64c45edcgy1fjzoretq6dj210q0bu776.jpg&quot; alt=&quot;file size&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://medium.com/@aickin/whats-new-with-server-side-rendering-in-react-16-9b0d78585d67&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;服务端渲染速度大幅提升&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;更responsive的界面&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;一次预谋已久的重写&quot;&gt;&lt;a href=&quot;#一次预谋已久的重写&quot; class=&quot;headerlink&quot; title=&quot;一次预谋已久的重写&quot;&gt;&lt;/a&gt;一次预谋已久的重写&lt;/h3&gt;&lt;p&gt;Fiber这个架构并不是突然冒出来的。Facebook的工程师在设计React之初就设想未来的UI渲染会是异步的。从&lt;code&gt;setState()&lt;/code&gt;的设计和React内部的事务机制可以看出这点。&lt;/p&gt;
+&lt;p&gt;在去年，React的开发者&lt;a href=&quot;https://github.com/acdlite&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Andrew Clark&lt;/a&gt;在社区中放出了Fiber架构的一个&lt;a href=&quot;https://github.com/acdlite/react-fiber-architecture&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;文档&lt;/a&gt;。描述了Fiber架构的基本信息。同时表示Facebook的工程师正在实现这个新架构。今年3月的React Conf 2017上，Lin Clark做了&lt;a href=&quot;https://www.youtube.com/watch?v=ZCuYPiUIONs&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;A Cartoon Intro to Fiber&lt;/a&gt;这个分享，介绍了Fiber架构的工作原理。今年9月，Fiber架构随着React 16正式发布。Fiber架构的代码放在原来的React仓库之中，并且可以通过运行时的判断来切换新老架构，方便测试和部署。因此Fiber的开发是一个渐进的过程。&lt;a href=&quot;http://isfiberreadyyet.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这个网站&lt;/a&gt;实时展示了Fiber通过的测试用例，随着所有用例的通过，Fiber也正式发布了。有趣的是，在React 16发布之前，Fiber架构的React就已经运行在Facebook的产品中了。FB的工程师表示看到新架构在线上产品运行起来，是很激动人心的。具体的情况可以看这篇博客：&lt;a href=&quot;https://code.facebook.com/posts/1716776591680069/react-16-a-look-inside-an-api-compatible-rewrite-of-our-frontend-ui-library/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;React 16: A look inside an API-compatible rewrite of our frontend UI library&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;Fiber概念简介&quot;&gt;&lt;a href=&quot;#Fiber概念简介&quot; class=&quot;headerlink&quot; title=&quot;Fiber概念简介&quot;&gt;&lt;/a&gt;Fiber概念简介&lt;/h3&gt;&lt;p&gt;本文的题目是React 16 Fiber源码速览，所以关注的主要是Fiber相关的代码。在分析源码之前，首先介绍一些基本概念。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;推荐看上文中提到的&lt;a href=&quot;https://www.youtube.com/watch?v=ZCuYPiUIONs&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;A Cartoon Intro to Fiber&lt;/a&gt;。这个分享比较系统和形象解释了Fiber架构的工程流程，并且使用了React源码中的术语。有助于理解Fiber的概念和源码。下文中的配图也来自这个分享。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;reconciler-VS-renderer&quot;&gt;&lt;a href=&quot;#reconciler-VS-renderer&quot; class=&quot;headerlink&quot; title=&quot;reconciler VS renderer&quot;&gt;&lt;/a&gt;reconciler VS renderer&lt;/h4&gt;&lt;p&gt;&lt;img src=&quot;http://wx1.sinaimg.cn/large/64c45edcgy1fk0jck2eo4j20gk09a76l.jpg&quot; alt=&quot;Reconciler VS Renderer&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Reconciler就是我们所说的Virtul DOM，用于计算新老View的差异。React 16之前的reconciler叫Stack reconciler。Fiber是React的新reconciler。Renderer则是和平台相关的代码，负责将View的变化渲染到不同的平台上，DOM、Canvas、Native、VR、WebGL等等平台都有自己的renderer。我们可以看出reconciler是React的核心代码，是各个平台共用的。因此这次React的reconciler更新到Fiber架构是一次重量级的核心架构的更换。&lt;/p&gt;
+&lt;p&gt;由reconciler和renderer两个概念引出的是phase的概念。Phase指的是React组件渲染时的阶段。第一阶段是reconciliation，这一阶段做的是Fiber的update，然后产出的是effect list（可以想象成将老的View更新到新的状态所需要做的DOM操作的列表）。这一个阶段是没有副作用的，因此这个过程可以被打断，然后恢复执行。第二阶段是commit阶段。Reconciliation产生的effect list只有在commit之后才会生效，也就是真正应用到DOM中。这一阶段往往不会执行太长时间，因此是同步的，这样也避免了组件内视图层结构和DOM不一致。&lt;/p&gt;
+&lt;h4 id=&quot;Fiber是什么&quot;&gt;&lt;a href=&quot;#Fiber是什么&quot; class=&quot;headerlink&quot; title=&quot;Fiber是什么&quot;&gt;&lt;/a&gt;Fiber是什么&lt;/h4&gt;&lt;p&gt;React源码中的注释说：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A Fiber is work on a Component that needs to be done or was done. There can be more than one per component.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;简单的说，一个Fiber就是一个POJO对象，代表了组件上需要做的工作。一个React Element可以对应一个或多个Fiber节点。&lt;/p&gt;
+&lt;p&gt;在render函数中创建的React Element树在第一次渲染的时候会创建一颗结构一模一样的Fiber节点树。不同的React Element类型对应不同的Fiber节点类型。一个React Element的工作就由它对应的Fiber节点来负责。我们如果在console中打印React 16的组件实例，会发现有一个&lt;code&gt;_reactInternalFiber&lt;/code&gt;属性指向它对应的Fiber实例。&lt;/p&gt;
+&lt;p&gt;虽然React的代码中其实没有明确的Virtul DOM概念，但Fiber和我们概念中的Virtul DOM树是等价的。&lt;/p&gt;
+&lt;p&gt;Fiber带来了一个给React的渲染带来了重要的变化。React内部有事务的概念。之前React渲染相关的事务是连续的，一旦开始就会run to completion。现在React的事务则是由一系列Fiber的更新组成的，因此React可以在多个帧中断断续续的更新Fiber，最后commit变化。&lt;/p&gt;
+&lt;p&gt;那为什么说一个React Element可以对应不止一个Fiber呢？因为Fiber在update的时候，会从原来的Fiber（我们称为current）clone出一个新的Fiber（我们称为alternate）。两个Fiber diff出的变化（side effect）记录在alternate上。所以一个组件在更新时最多会有两个Fiber与其对应，在更新结束后alternate会取代之前的current的成为新的current节点。&lt;/p&gt;
+&lt;h4 id=&quot;Fiber节点的数据结构&quot;&gt;&lt;a href=&quot;#Fiber节点的数据结构&quot; class=&quot;headerlink&quot; title=&quot;Fiber节点的数据结构&quot;&gt;&lt;/a&gt;Fiber节点的数据结构&lt;/h4&gt;&lt;p&gt;下面介绍Fiber类型的重要属性：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    tag: TypeOfWork, // fiber的类型，下一节会介绍
+    alternate: Fiber|null, // 在fiber更新时克隆出的镜像fiber，对fiber的修改会标记在这个fiber上
+
+    return: Fiber|null, // 指向fiber树中的父节点
+
+    child: Fiber|null, // 指向第一个子节点
+    sibling: Fiber|null, // 指向兄弟节点
+
+    effectTag: TypeOfSideEffect, // side effect类型，下文会介绍
+    nextEffect: Fiber | null, // 单链表结构，方便遍历fiber树上有副作用的节点
+    pendingWorkPriority: PriorityLevel, // 标记子树上待更新任务的优先级
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在实际的渲染过程中，Fiber节点构成了一颗树。这棵树在数据结构上是通过单链表的形式构成的，Fiber节点上的&lt;code&gt;chlid&lt;/code&gt;和&lt;code&gt;sibling&lt;/code&gt;属性分别指向了这个节点的第一个子节点和相邻的兄弟节点。这样就可以遍历整个Fiber树了。&lt;/p&gt;
+&lt;p&gt;Fiber树的图示如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx3.sinaimg.cn/large/64c45edcgy1fkc8x8n8x2j20fa0co428.jpg&quot; alt=&quot;fiber tree&quot;&gt;&lt;/p&gt;
+&lt;h4 id=&quot;TypeOfWork&quot;&gt;&lt;a href=&quot;#TypeOfWork&quot; class=&quot;headerlink&quot; title=&quot;TypeOfWork&quot;&gt;&lt;/a&gt;TypeOfWork&lt;/h4&gt;&lt;p&gt;这是源码中的typeOfWork，代表React中不同类型的fiber节点。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  IndeterminateComponent: 0, // Before we know whether it is functional or class
+  FunctionalComponent: 1,
+  ClassComponent: 2,
+  HostRoot: 3, // Root of a host tree. Could be nested inside another node.
+  HostPortal: 4, // A subtree. Could be an entry point to a different renderer.
+  HostComponent: 5,
+  HostText: 6,
+  CoroutineComponent: 7,
+  CoroutineHandlerPhase: 8,
+  YieldComponent: 9,
+  Fragment: 10,
+}s
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;对几个常用的类型作一下解释：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ClassComponent&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;就是应用层面的React组件。ClassComponent是一个继承自React.Component的类的实例。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;HostRoot&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;ReactDOM.render()时的根节点。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;HostComponent&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;React中最常见的抽象节点，是ClassComponent的组成部分。具体的实现取决于React运行的平台。在浏览器环境下就代表DOM节点，可以理解为所谓的虚拟DOM节点。HostComponent中的Host就代码这种组件的具体操作逻辑是由Host环境注入的。&lt;/p&gt;
+&lt;h4 id=&quot;TypeOfSideEffect&quot;&gt;&lt;a href=&quot;#TypeOfSideEffect&quot; class=&quot;headerlink&quot; title=&quot;TypeOfSideEffect&quot;&gt;&lt;/a&gt;TypeOfSideEffect&lt;/h4&gt;&lt;blockquote&gt;
+&lt;p&gt;说一下这是以二进制位表示的。可以多个叠加。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;{
+  NoEffect: 0,          
+  PerformedWork: 1,   
+  Placement: 2, // 插入         
+  Update: 4, // 更新           
+  PlacementAndUpdate: 6, 
+  Deletion: 8, // 删除   
+  ContentReset: 16,  
+  Callback: 32,      
+  Err: 64,         
+  Ref: 128,          
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&quot;Priority&quot;&gt;&lt;a href=&quot;#Priority&quot; class=&quot;headerlink&quot; title=&quot;Priority&quot;&gt;&lt;/a&gt;Priority&lt;/h4&gt;&lt;p&gt;Priority指的是Fiber中一个work的优先级。这是React源码中的对Priority类型的定义：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  NoWork: 0, // No work is pending.
+  SynchronousPriority: 1, // For controlled text inputs. Synchronous side-effects.
+  TaskPriority: 2, // Completes at the end of the current tick.
+  HighPriority: 3, // Interaction that needs to complete pretty soon to feel responsive.
+  LowPriority: 4, // Data fetching, or result from updating stores.
+  OffscreenPriority: 5, // Won&amp;#39;t be visible but do the work in case it becomes visible.
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们可以把Priority分为同步和异步两个类别，同步优先级的任务会在当前帧完成，包括SynchronousPriority和TaskPriority。异步优先级的任务则可能在接下来的几个帧中被完成，包括HighPriority、LowPriority以及OffscreenPriority。&lt;/p&gt;
+&lt;h3 id=&quot;React-16-Fiber源码目录结构&quot;&gt;&lt;a href=&quot;#React-16-Fiber源码目录结构&quot; class=&quot;headerlink&quot; title=&quot;React 16 Fiber源码目录结构&quot;&gt;&lt;/a&gt;React 16 Fiber源码目录结构&lt;/h3&gt;&lt;p&gt;React库的入口、组件的基类&lt;code&gt;ReactComponent&lt;/code&gt;、&lt;code&gt;ReactElement.createElement&lt;/code&gt;函数等等所有平台公用的代码位于&lt;code&gt;src/isomorphic&lt;/code&gt;下。&lt;/p&gt;
+&lt;p&gt;我们关注的Fiber代码位于&lt;code&gt;src/renderers/shared/fiber&lt;/code&gt;下。我们先来看看&lt;code&gt;src/renderers&lt;/code&gt;下面有什么：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcgy1fk1ka90rh0j20s109xacl.jpg&quot; alt=&quot;renderers&quot;&gt;&lt;/p&gt;
+&lt;p&gt;可以看到&lt;code&gt;src/renderers&lt;/code&gt;下的代码就是上文介绍的renderer，分dom、native、art等等平台。那我们再看看&lt;code&gt;src/renderers/shared&lt;/code&gt;目录下有什么：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcgy1fk1kj1kekxj20s10ezq6q.jpg&quot; alt=&quot;renderers/shared&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;src/renderers/shared&lt;/code&gt;其实就是reconciler相关的代码了。可以看到里面有fiber和stack新老两大reconciler（在笔者发文时，Stack reconciler已经完成了它的使命，相关的代码已经被移除了）。&lt;/p&gt;
+&lt;p&gt;最后让我们来看看&lt;code&gt;src/renderers/shared/fiber&lt;/code&gt;下的代码：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcgy1fk1m7cifluj20sh0pk10v.jpg&quot; alt=&quot;fiber&quot;&gt;&lt;/p&gt;
+&lt;p&gt;这些就是React fiber的核心代码了。Fiber节点的定义在&lt;code&gt;ReactFiber.js&lt;/code&gt;中，Fiber的reconciler构造函数在&lt;code&gt;ReactFiberReconciler.js&lt;/code&gt;中，Fiber节点的工作流程由&lt;code&gt;ReactFiberBeginWork.js&lt;/code&gt;、&lt;code&gt;ReactFiberCommitWork.js&lt;/code&gt;和&lt;code&gt;ReactFiberCompleteWork.js&lt;/code&gt;组成。Fiber的子节点reconcile逻辑在&lt;code&gt;ReactChildFiber.js&lt;/code&gt;中，&lt;code&gt;ReactFiberScheduler.js&lt;/code&gt;则是调度相关的逻辑。接下来就让我们通过具体的场景，来分析React 16的源码吧！&lt;/p&gt;
+&lt;h3 id=&quot;阅读React源码须知&quot;&gt;&lt;a href=&quot;#阅读React源码须知&quot; class=&quot;headerlink&quot; title=&quot;阅读React源码须知&quot;&gt;&lt;/a&gt;阅读React源码须知&lt;/h3&gt;&lt;p&gt;下面简单介绍一下在React源码中，起辅助作用的代码。以免大家在看源码时被这些代码所迷惑。&lt;/p&gt;
+&lt;h4 id=&quot;flow-type&quot;&gt;&lt;a href=&quot;#flow-type&quot; class=&quot;headerlink&quot; title=&quot;flow type&quot;&gt;&lt;/a&gt;flow type&lt;/h4&gt;&lt;p&gt;React使用了flow作为静态类型检查工具。所以React源码中都是带有类型声明的。这对熟悉Java或者C++这些静态类型语言的同学应该不陌生。&lt;strong&gt;类型声明对于快速理解源码也是有很大帮助的&lt;/strong&gt;。&lt;/p&gt;
+&lt;h4 id=&quot;if-DEV&quot;&gt;&lt;a href=&quot;#if-DEV&quot; class=&quot;headerlink&quot; title=&quot;if (__DEV__)&quot;&gt;&lt;/a&gt;&lt;code&gt;if (__DEV__)&lt;/code&gt;&lt;/h4&gt;&lt;p&gt;React源码中常常有&lt;code&gt;if (__DEV__)&lt;/code&gt;这样的代码，比如：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if (__DEV__) {
+    warning(
+      shouldUpdate !== undefined,
+      &amp;#39;%s.shouldComponentUpdate(): Returned undefined instead of a &amp;#39; +
+        &amp;#39;boolean value. Make sure to return true or false.&amp;#39;,
+      getComponentName(workInProgress) || &amp;#39;Unknown&amp;#39;,
+    );
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这些代码是为了更好的开发者体验而编写的。React中的友好的报错，render性能测试等等代码都是写在&lt;code&gt;if (__DEV__)&lt;/code&gt;中的。在production build的时候，这些代码不会被打包。因此我们可以毫无顾虑的提供专为开发者服务的代码。React的最佳实践之一就是在开发时使用development build，在生产环境使用production build。&lt;/p&gt;
+&lt;p&gt;大家在刚开始接触源码时可以跳过&lt;code&gt;if (__DEV__)&lt;/code&gt;中的代码，专注于理解核心的部分。&lt;/p&gt;
+&lt;h4 id=&quot;源码阅读小技巧&quot;&gt;&lt;a href=&quot;#源码阅读小技巧&quot; class=&quot;headerlink&quot; title=&quot;源码阅读小技巧&quot;&gt;&lt;/a&gt;源码阅读小技巧&lt;/h4&gt;&lt;p&gt;如果读者想在阅读文本之后打算自己深入探索React源码，我可以给出一些阅读源码的小技巧。如果对于React中某个方法的调用过程感兴趣，可以在本地用create-react-app新建一下小demo项目，然后直接在node_modules中的react-dom.development.js和react.development.js两个文件里的对应方法&lt;strong&gt;打断点&lt;/strong&gt;。这样在中断的时候就可以看到整个&lt;strong&gt;调用栈&lt;/strong&gt;了，Chrome种可以通过点击调用栈切换到其中任何一帧的状态。如果发现调用过程中有自己感兴趣的函数，可以clone React的整个仓库，用编辑器对想要查看的函数进行&lt;strong&gt;全局搜索&lt;/strong&gt;，找到那个函数的源码进行阅读。此外还有一个小tip，如果对某个特性的实现感兴趣，可以去&lt;strong&gt;搜索React的pull request和issue列表&lt;/strong&gt;，说不定可以找到当初实现这个特性时候提的PR，PR中一般会写实现时的一些考虑。另外React源码的注释也是非常详尽的，有些已经等于简单的文档了，所以&lt;strong&gt;仔细的阅读注释&lt;/strong&gt;也是理解源码的捷径之一。&lt;/p&gt;
+&lt;h4 id=&quot;本文源码的时效性&quot;&gt;&lt;a href=&quot;#本文源码的时效性&quot; class=&quot;headerlink&quot; title=&quot;本文源码的时效性&quot;&gt;&lt;/a&gt;本文源码的时效性&lt;/h4&gt;&lt;p&gt;React 16.0发布后，新架构的很多特性还没有完全开放，因此React这段时间还在一个积极的开发过程中，源码变动会比较大。本文是分析的源码是React v16.0的源码。大家在阅读时Github上的React源码时要注意，目前的master分支的React源码和本文中的源码会有一些差异。比如在本文发布时，React的目录结构就进行了调整，源码从src中转移到了packages目录下，按react、react-reconciler、react-dom等等NPM模块的方式划分。还有一些fiber的实现也在进行一些小的重构。比如在performWork相关的代码中加入performWorkOnRoot和renderRoot这几个函数，通过准确的命名让函数的作用更清晰。又比如Priority的概念直接被expirationTime取代了，workLoop中直接根据expirationTime来判断任务的执行时机。所以&lt;strong&gt;推荐大家阅读master分支下的最新代码&lt;/strong&gt;，因为React 16在代码质量上的确还处于一个未完成的状态，随着进一步的开发，源码的可读性会更高。&lt;/p&gt;
+&lt;h3 id=&quot;确定源码分析的入口&quot;&gt;&lt;a href=&quot;#确定源码分析的入口&quot; class=&quot;headerlink&quot; title=&quot;确定源码分析的入口&quot;&gt;&lt;/a&gt;确定源码分析的入口&lt;/h3&gt;&lt;h3 id=&quot;React-16组件源码分析：用户触发的setState开启的一次渲染&quot;&gt;&lt;a href=&quot;#React-16组件源码分析：用户触发的setState开启的一次渲染&quot; class=&quot;headerlink&quot; title=&quot;React 16组件源码分析：用户触发的setState开启的一次渲染&quot;&gt;&lt;/a&gt;React 16组件源码分析：用户触发的&lt;code&gt;setState&lt;/code&gt;开启的一次渲染&lt;/h3&gt;&lt;p&gt;我们知道，React的渲染是由&lt;code&gt;setState&lt;/code&gt;触发的，所以就让我们从&lt;code&gt;setState&lt;/code&gt;入手，来分析React 16的组件渲染流程。&lt;/p&gt;
+&lt;h4 id=&quot;setState&quot;&gt;&lt;a href=&quot;#setState&quot; class=&quot;headerlink&quot; title=&quot;setState&quot;&gt;&lt;/a&gt;setState&lt;/h4&gt;&lt;p&gt;&lt;code&gt;setState&lt;/code&gt;方法是React基类上的一个方法。因此位于&lt;code&gt;src/isomorphic&lt;/code&gt;下的&lt;code&gt;modern/class/ReactBaseClasses.js&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcgy1fk1m7bwt6vj20fd05pdgr.jpg&quot; alt=&quot;setState&quot;&gt;&lt;/p&gt;
+&lt;p&gt;我们看到&lt;code&gt;setState&lt;/code&gt;调用了&lt;code&gt;this.updater.enqueueSetState&lt;/code&gt;。updater是renderer在渲染的时候注入的对象，这个对象由reconciler提供。具体的逻辑可以看&lt;code&gt;ReactDOM.render&lt;/code&gt;相关的代码，这里就不展开了。&lt;/p&gt;
+&lt;h4 id=&quot;enqueueSetState&quot;&gt;&lt;a href=&quot;#enqueueSetState&quot; class=&quot;headerlink&quot; title=&quot;enqueueSetState&quot;&gt;&lt;/a&gt;enqueueSetState&lt;/h4&gt;&lt;p&gt;既然updater是reconciler提供的，那我们就可以在fiber的代码中找到它。updater就位于&lt;code&gt;src/renderers/shared/fiberReactFiberCompleteWork.js&lt;/code&gt;中。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx3.sinaimg.cn/large/64c45edcgy1fk1m7by675j20ch06tjsg.jpg&quot; alt=&quot;enqueueSetState&quot;&gt;&lt;/p&gt;
+&lt;p&gt;这里只截取了一部分的updater代码，可以看到updater提供了&lt;code&gt;enqueueSetState&lt;/code&gt;方法，这个方法首先从全局拿到React组件实例对应的fiber，然后拿到了fiber的优先级。最后调用了&lt;code&gt;addUpdate&lt;/code&gt;向队列中推入需要更新的fiber，并调用&lt;code&gt;scheduleUpdate&lt;/code&gt;触发调度器调度一次新的更新。&lt;/p&gt;
+&lt;p&gt;熟悉React源码的朋友应该知道，&lt;code&gt;setState&lt;/code&gt;的流程到这里为止，和React 15的流程基本是一样的。从下面开始，我们就可以看到Fiber架构的不同之处了。&lt;/p&gt;
+&lt;h4 id=&quot;addUpdate&quot;&gt;&lt;a href=&quot;#addUpdate&quot; class=&quot;headerlink&quot; title=&quot;addUpdate&quot;&gt;&lt;/a&gt;addUpdate&lt;/h4&gt;&lt;p&gt;我们首先来看&lt;code&gt;addUpdate&lt;/code&gt;函数，这个函数向Fiber的更新队列里加入一次更新：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function addUpdate(
+  fiber: Fiber,
+  partialState: PartialState&amp;lt;any, any&amp;gt; | null,
+  callback: mixed,
+  priorityLevel: PriorityLevel,
+): void {
+  const update = {
+    priorityLevel,
+    partialState,
+    callback,
+    isReplace: false,
+    isForced: false,
+    isTopLevelUnmount: false,
+    next: null,
+  };
+  insertUpdate(fiber, update);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;addUpdate&lt;/code&gt;函数组装了一个update，然后将fiber和update传入了insertUpdate函数中。我们先来看一下这里用到的两个类型，Update和UpdateQueue：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;type UpdateQueue = {
+  first: Update | null,
+  last: Update | null,
+  hasForceUpdate: boolean,
+  callbackList: null | Array&amp;lt;Callback&amp;gt;,
+
+  // Dev only
+  isProcessing?: boolean,
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;type Update = {
+  priorityLevel: PriorityLevel,
+  partialState: PartialState&amp;lt;any, any&amp;gt;,
+  callback: Callback | null,
+  isReplace: boolean,
+  isForced: boolean,
+  isTopLevelUnmount: boolean,
+  next: Update | null,
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们可以看到，UpdateQueue是一个单向链表，有first和last指针指向链表的头部和尾部。其中的每一个Update都有一个next属性指向下一个Update。这样的数据结构在React 16中是很常见的。&lt;/p&gt;
+&lt;p&gt;之前说到，在更新时，一个React element会有一个current fiber和一个alternate fiber。我们又把alternate fiber叫working in progress fiber。这两个fiber都有一个Update Queue。这两个Queue里面的item的引用是相同的，也就是所谓的persistent structure。区别在于，working in progress fiber会在更新完一个队列项之后将其从队列中移除。所以working in progress update queue永远是current queue的一个子集。在更新完成之后，working in progress fiber取代current fiber成为新的current fiber。如果更新中断（有更高优先级的更新插入），current fiber的update queue就可以作为备份，使得之前中断的更新可以重新开始。&lt;/p&gt;
+&lt;p&gt;再看&lt;code&gt;insertUpdate&lt;/code&gt;，这个函数处理了将一个update插入到current queue和work-in-progress queue两个队列中的逻辑：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx4.sinaimg.cn/large/64c45edcgy1fkbtqzlproj21eq210nik.jpg&quot; alt=&quot;insertUpdate&quot;&gt;&lt;/p&gt;
+&lt;h4 id=&quot;scheduleUpdate&quot;&gt;&lt;a href=&quot;#scheduleUpdate&quot; class=&quot;headerlink&quot; title=&quot;scheduleUpdate&quot;&gt;&lt;/a&gt;scheduleUpdate&lt;/h4&gt;&lt;p&gt;看完了&lt;code&gt;addUpdate&lt;/code&gt;相关的逻辑，我们再来看&lt;code&gt;scheduleUpdate&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx4.sinaimg.cn/large/64c45edcgy1fkbz4oej2tj21do3c91kx.jpg&quot; alt=&quot;scheduleUpdate&quot;&gt;&lt;/p&gt;
+&lt;h4 id=&quot;performWork&quot;&gt;&lt;a href=&quot;#performWork&quot; class=&quot;headerlink&quot; title=&quot;performWork&quot;&gt;&lt;/a&gt;performWork&lt;/h4&gt;&lt;p&gt;performWork的作用就是“刷新”待更新队列，执行待更新的事务：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcgy1fkc077e5vgj20g2244gun.jpg&quot; alt=&quot;performWork&quot;&gt;&lt;/p&gt;
+&lt;p&gt;performWork的代码很长，其中很大一部分是错误处理代码，这些代码和React16中的新特性有关，官方博客的介绍如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Previously, runtime errors during rendering could put React in a broken state, producing cryptic error messages and requiring a page refresh to recover. To address this problem, React 16 uses a more resilient error-handling strategy. By default, if an error is thrown inside a component’s render or lifecycle methods, the whole component tree is unmounted from the root. This prevents the display of corrupted data. However, it’s probably not the ideal user experience.&lt;br&gt;Instead of unmounting the whole app every time there’s an error, you can use error boundaries. Error boundaries are special components that capture errors inside their subtree and display a fallback UI in its place. Think of error boundaries like try-catch statements, but for React components.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们需要关注的函数，一个是&lt;code&gt;workLoop&lt;/code&gt;，这个函数是React更新pendingWork队列的主循环。一个是&lt;code&gt;scheduleDeferredCallback&lt;/code&gt;，这个函数会在未来安排一次更新，来处理&lt;code&gt;workLoop&lt;/code&gt;中没有做完的事务。&lt;/p&gt;
+&lt;h4 id=&quot;workLoop&quot;&gt;&lt;a href=&quot;#workLoop&quot; class=&quot;headerlink&quot; title=&quot;workLoop&quot;&gt;&lt;/a&gt;workLoop&lt;/h4&gt;&lt;p&gt;&lt;em&gt;图片注释还需要打磨&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;我们来看&lt;code&gt;workLoop&lt;/code&gt;的代码：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx4.sinaimg.cn/large/64c45edcgy1fkc0p3sx5fj21e93z97wh.jpg&quot; alt=&quot;workLoop&quot;&gt;&lt;/p&gt;
+&lt;p&gt;除了图中所注释的，&lt;code&gt;workLoop&lt;/code&gt;中有一个值得注意的细节。我们看到，loop中首先判断nextUnitOfWork的优先级是不是高于或等于TaskPriority。如果不是，则进入另一个分支，这个分支和前一个在对nextUnitOfWork的处理上有着微妙的区别。之前在介绍Priority的时候我们说到过，TaskPriority以及更高的优先级属于同步优先级，这些更新会在nextTick之前完成。所以loop中的两个分支其实就是对同步和异步的任务做了不同的处理。两个分支的区别主要是第二个分支使用了deadline.timeRemaining()来判断是否还有时间继续处理任务。&lt;/p&gt;
+&lt;p&gt;在之前的分析中，我们没有关注deadline这个参数，workLoop中的这个参数是从performWork中传入的，而performWork中的deadline参数是由scheduleUpdateImpl传入的。scheduleUpdateImpl给同步优先级的任务的deadline参数传入的是null。这是符合常理的，因为同步优先级的任务会一定会在一次workLoop中执行完毕。scheduleUpdateImpl中的异步优先级的任务在scheduleDeferredCallback中处理，我们看这个函数的类型：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;scheduleDeferredCallback(
+    callback: (deadline: Deadline) =&amp;gt; void,
+  ): number | void,
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;deadline出现了！所以异步任务的deadline是在被scheduleDeferredCallback调用时传入的。&lt;/p&gt;
+&lt;h4 id=&quot;scheduleDeferredCallback&quot;&gt;&lt;a href=&quot;#scheduleDeferredCallback&quot; class=&quot;headerlink&quot; title=&quot;scheduleDeferredCallback&quot;&gt;&lt;/a&gt;scheduleDeferredCallback&lt;/h4&gt;&lt;p&gt;让我们来看看&lt;code&gt;scheduleDeferredCallback&lt;/code&gt;这个函数。全局搜索一番，我们发现这个函数是在renderer初始化时被注入的。&lt;/p&gt;
+&lt;p&gt;React 16抽象出了一个叫&lt;code&gt;ReactFiberReconciler&lt;/code&gt;的工厂函数。这个函数接收一个&lt;code&gt;HostConfig&lt;/code&gt;类型的参数，返回一个Reconciler。每个renderer初始化时需要传入当前平台相关的配置，也就是一个&lt;code&gt;HostConfig&lt;/code&gt;实例，才能拿到一个自定义的Reconciler。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这里说一点题外话，React抽象出这个工厂函数意味着React标准化了自定义Renderer的接口。Renderer通过&lt;code&gt;ReactFiberReconciler&lt;/code&gt;这个API就可以将自定义Renderer接入FiberReconciler。&lt;a href=&quot;https://github.com/nitin42/Making-a-custom-React-renderer&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Making-a-custom-React-renderer&lt;/a&gt;就利用了这个函数来打造自定义Renderer。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;HostConfig&lt;/code&gt;的类型签名是这样的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export type HostConfig&amp;lt;T, P, I, TI, PI, C, CX, PL&amp;gt; = {
+  getRootHostContext(rootContainerInstance: C): CX,
+  getChildHostContext(parentHostContext: CX, type: T, instance: C): CX,
+  getPublicInstance(instance: I | TI): PI,
+
+  createInstance(
+    type: T,
+    props: P,
+    rootContainerInstance: C,
+    hostContext: CX,
+    internalInstanceHandle: OpaqueHandle,
+  ): I,
+  appendInitialChild(parentInstance: I, child: I | TI): void,
+  finalizeInitialChildren(
+    parentInstance: I,
+    type: T,
+    props: P,
+    rootContainerInstance: C,
+  ): boolean,
+
+  prepareUpdate(
+    instance: I,
+    type: T,
+    oldProps: P,
+    newProps: P,
+    rootContainerInstance: C,
+    hostContext: CX,
+  ): null | PL,
+  commitUpdate(
+    instance: I,
+    updatePayload: PL,
+    type: T,
+    oldProps: P,
+    newProps: P,
+    internalInstanceHandle: OpaqueHandle,
+  ): void,
+  commitMount(
+    instance: I,
+    type: T,
+    newProps: P,
+    internalInstanceHandle: OpaqueHandle,
+  ): void,
+
+  shouldSetTextContent(type: T, props: P): boolean,
+  resetTextContent(instance: I): void,
+  shouldDeprioritizeSubtree(type: T, props: P): boolean,
+
+  createTextInstance(
+    text: string,
+    rootContainerInstance: C,
+    hostContext: CX,
+    internalInstanceHandle: OpaqueHandle,
+  ): TI,
+  commitTextUpdate(textInstance: TI, oldText: string, newText: string): void,
+
+  appendChild(parentInstance: I, child: I | TI): void,
+  appendChildToContainer(container: C, child: I | TI): void,
+  insertBefore(parentInstance: I, child: I | TI, beforeChild: I | TI): void,
+  insertInContainerBefore(
+    container: C,
+    child: I | TI,
+    beforeChild: I | TI,
+  ): void,
+  removeChild(parentInstance: I, child: I | TI): void,
+  removeChildFromContainer(container: C, child: I | TI): void,
+
+  scheduleDeferredCallback(
+    callback: (deadline: Deadline) =&amp;gt; void,
+  ): number | void,
+
+  prepareForCommit(): void,
+  resetAfterCommit(): void,
+
+  // Optional hydration
+  canHydrateInstance?: (instance: I | TI, type: T, props: P) =&amp;gt; boolean,
+  canHydrateTextInstance?: (instance: I | TI, text: string) =&amp;gt; boolean,
+  getNextHydratableSibling?: (instance: I | TI) =&amp;gt; null | I | TI,
+  getFirstHydratableChild?: (parentInstance: I | C) =&amp;gt; null | I | TI,
+  hydrateInstance?: (
+    instance: I,
+    type: T,
+    props: P,
+    rootContainerInstance: C,
+    hostContext: CX,
+    internalInstanceHandle: OpaqueHandle,
+  ) =&amp;gt; null | PL,
+  hydrateTextInstance?: (
+    textInstance: TI,
+    text: string,
+    internalInstanceHandle: OpaqueHandle,
+  ) =&amp;gt; boolean,
+  didNotHydrateInstance?: (parentInstance: I | C, instance: I | TI) =&amp;gt; void,
+  didNotFindHydratableInstance?: (
+    parentInstance: I | C,
+    type: T,
+    props: P,
+  ) =&amp;gt; void,
+  didNotFindHydratableTextInstance?: (
+    parentInstance: I | C,
+    text: string,
+  ) =&amp;gt; void,
+
+  useSyncScheduling?: boolean,
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里主要包括一些平台相关的代码，比如节点的操作（&lt;code&gt;insertBefore&lt;/code&gt;和&lt;code&gt;appendChild&lt;/code&gt;等等），还有一些配置项，比如&lt;code&gt;useSyncScheduling&lt;/code&gt;。我们看到&lt;code&gt;scheduleDeferredCallback&lt;/code&gt;就在其中。我们来看看renderer初始化的代码：&lt;/p&gt;
+&lt;p&gt;在React DOM的入口中：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;scheduleDeferredCallback: ReactDOMFrameScheduling.rIC,
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在React Native的入口中：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;scheduleDeferredCallback: global.requestIdleCallback,
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们可以看到&lt;code&gt;scheduleDeferredCallback&lt;/code&gt;的实现和平台相关。在Native环境下，它是React Native的js runtime提供的&lt;code&gt;global.requestIdleCallback&lt;/code&gt;，在浏览器环境下，它是&lt;code&gt;ReactDOMFrameScheduling.rIC&lt;/code&gt;。&lt;/p&gt;
+&lt;h4 id=&quot;Cooperative-Scheduling-amp-amp-requestIdleCallback&quot;&gt;&lt;a href=&quot;#Cooperative-Scheduling-amp-amp-requestIdleCallback&quot; class=&quot;headerlink&quot; title=&quot;Cooperative Scheduling &amp;amp;&amp;amp; requestIdleCallback&quot;&gt;&lt;/a&gt;Cooperative Scheduling &amp;amp;&amp;amp; requestIdleCallback&lt;/h4&gt;&lt;p&gt;&lt;code&gt;window.requestIdleCallback&lt;/code&gt;的函数签名和&lt;code&gt;scheduleDeferredCallback&lt;/code&gt;是一模一样的。requestIdleCallback的callback接收一个&lt;code&gt;IdleDeadline&lt;/code&gt;类型的参数。这个&lt;code&gt;IdleDeadline&lt;/code&gt;和React中的&lt;code&gt;deadline&lt;/code&gt;都有一个&lt;code&gt;timeRemaining&lt;/code&gt;方法。&lt;/p&gt;
+&lt;p&gt;requestIdleCallback的W3C规范叫Cooperative Scheduling of Background Tasks。React官方在介绍fiber时也提到了Cooperative Scheduling这种技术。从源码来看，React主要利用了浏览器提供的requestIdleCallback API来实现这一特性。&lt;/p&gt;
+&lt;p&gt;相比于利用setTimout这样的API实现task scheduling，requestIdleCallback带来的Cooperative Scheduling让开发者让浏览器在空闲时间调用callback，并且在callback中可以获取到当前帧剩余的时间。利用这个信息我们可以合理的安排当前帧需要做的工作，如果工作太多而时间不够，就再调用requestIdleCallback来做剩余的工作。&lt;/p&gt;
+&lt;p&gt;requestIdleCallback的回调具体执行的时间点是在一帧开始，JavaScript执行完，浏览器执行渲染流程之后，到这帧结束之前。图示如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx1.sinaimg.cn/large/64c45edcgy1fkc7kiv42qj20kh03vq3a.jpg&quot; alt=&quot;idleCallback&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;deadline&lt;/code&gt;中的&lt;code&gt;timeRemaining&lt;/code&gt;的最大值是50ms，以免浏览器长期空闲时，callback的任务一直执行，使得UI不能及时响应用户输入。&lt;/p&gt;
+&lt;h4 id=&quot;ReactDOMFrameScheduling-rIC&quot;&gt;&lt;a href=&quot;#ReactDOMFrameScheduling-rIC&quot; class=&quot;headerlink&quot; title=&quot;ReactDOMFrameScheduling.rIC&quot;&gt;&lt;/a&gt;ReactDOMFrameScheduling.rIC&lt;/h4&gt;&lt;p&gt;&lt;code&gt;ReactDOMFrameScheduling.rIC&lt;/code&gt;的逻辑是，如果浏览器实现了requestIdleCallback，就返回原生API。如果没有实现，就返回一个polyfill。这个polyfill的实现非常有趣，可以学到很多有意思的黑科技。&lt;/p&gt;
+&lt;p&gt;我们来看看&lt;code&gt;ReactDOMFrameScheduling.rIC&lt;/code&gt;的实现：&lt;/p&gt;
+&lt;p&gt;虽然Chrome和Firefox都已经实现了requestIdleCallback，但某些浏览器还是需要polyfill，所以我们重点关注一下requestIdleCallback的polyfill的实现。&lt;/p&gt;
+&lt;p&gt;预估一个比较低的frame rate。requestAnimationFrame获取一帧开始，时间戳，触发一个message事件，postMessage在layout paint和composite之后被调用。deadline通过frame rate - rafTime可以得到&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;| frame start time                                      deadline |
+[requestAnimationFrame] [layout] [paint] [composite] [postMessage]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;通过requestAnimationFrame直接的时间差获取过去两帧的准确frame rate，动态调整当前帧的frame rate。&lt;/p&gt;
+&lt;h4 id=&quot;默认优先级&quot;&gt;&lt;a href=&quot;#默认优先级&quot; class=&quot;headerlink&quot; title=&quot;默认优先级&quot;&gt;&lt;/a&gt;默认优先级&lt;/h4&gt;&lt;p&gt;既然一次更新是同步还是异步是由优先级决定的，那我们在用户代码中通过&lt;code&gt;setState&lt;/code&gt;来schedule的一次update的优先级是多少呢？&lt;/p&gt;
+&lt;p&gt;我们回顾一下&lt;code&gt;enqueueSetState&lt;/code&gt;的代码：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx3.sinaimg.cn/large/64c45edcgy1fk1m7by675j20ch06tjsg.jpg&quot; alt=&quot;enqueueSetState&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;addUpdate&lt;/code&gt;和&lt;code&gt;scheduleUpdate&lt;/code&gt;的&lt;code&gt;priorityLevel&lt;/code&gt;是通过&lt;code&gt;getPriorityContext(fiber, false)&lt;/code&gt;获取的。&lt;/p&gt;
+&lt;p&gt;我们来看看&lt;code&gt;getPriorityContext&lt;/code&gt;的实现：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx3.sinaimg.cn/large/64c45edcgy1fkd4vrvbycj20ox0ian05.jpg&quot; alt=&quot;getPriorityContext&quot;&gt;&lt;/p&gt;
+&lt;p&gt;所以我们得出了一个重要的结论。在React 16中，&lt;strong&gt;异步渲染默认是关闭的&lt;/strong&gt;。用户代码的优先级是同步的。&lt;/p&gt;
+&lt;h4 id=&quot;performUnitOfWork&quot;&gt;&lt;a href=&quot;#performUnitOfWork&quot; class=&quot;headerlink&quot; title=&quot;performUnitOfWork&quot;&gt;&lt;/a&gt;performUnitOfWork&lt;/h4&gt;&lt;p&gt;讲完了deadline对象的由来，我们回到workLoop，看看React是的reconcilation是如何进行的。我们可以看到首先被调用的是performUnitOfWork，这个函数做的就是所谓的reconcilation阶段的工作了。然后React将调用commitAllWork进入commit阶段，将reconcilation结果真正应用到DOM中。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx4.sinaimg.cn/large/64c45edcgy1fkc84mx1vij20fa0gq7af.jpg&quot; alt=&quot;performUnitOfWork&quot;&gt;&lt;/p&gt;
+&lt;p&gt;React 16保持了之前版本的事务风格，一个“work”会被分解为begin和complete两个阶段来完成。我们先关注beginWork&lt;/p&gt;
+&lt;h4 id=&quot;beginWork&quot;&gt;&lt;a href=&quot;#beginWork&quot; class=&quot;headerlink&quot; title=&quot;beginWork&quot;&gt;&lt;/a&gt;beginWork&lt;/h4&gt;&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcgy1fk6jdy25scj20wq1kvqdw.jpg&quot; alt=&quot;beginWOrk&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;beginWork&lt;/code&gt;函数根据fiber节点不同的tag，调用对应的update方法。可以说是一个入口函数。真正的逻辑要看update开头的这一些了函数。&lt;/p&gt;
+&lt;h4 id=&quot;updateClassComponent-amp-amp-updateHostComponent&quot;&gt;&lt;a href=&quot;#updateClassComponent-amp-amp-updateHostComponent&quot; class=&quot;headerlink&quot; title=&quot;updateClassComponent &amp;amp;&amp;amp; updateHostComponent&quot;&gt;&lt;/a&gt;updateClassComponent &amp;amp;&amp;amp; updateHostComponent&lt;/h4&gt;&lt;p&gt;上一节中讲到，&lt;code&gt;beginWork&lt;/code&gt;中不同tag的元素有不同的update系列方法，我们重点关注的是对ClassComponent和HostComponent两种component的更新方法。ClassComponent对应的是React组件实例，HostComponent对应的是一个视图层节点，在浏览器环境中就等于DOM节点。&lt;/p&gt;
+&lt;p&gt;我们先关注&lt;code&gt;updateClassComponent&lt;/code&gt;函数：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcgy1fkq4dx9ljkj20ox0jyn2j.jpg&quot; alt=&quot;updateClassComponent&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;updateHostComponent&lt;/code&gt;这里就不再详细分析了。因此HostComponent没有生命周期钩子需要处理，这个函数主要做的就是调用&lt;code&gt;reconcileChildren&lt;/code&gt;对子节点进行diff。&lt;/p&gt;
+&lt;h4 id=&quot;reconcileChildren&quot;&gt;&lt;a href=&quot;#reconcileChildren&quot; class=&quot;headerlink&quot; title=&quot;reconcileChildren&quot;&gt;&lt;/a&gt;reconcileChildren&lt;/h4&gt;&lt;p&gt;&lt;code&gt;reconcileChildren&lt;/code&gt;实现的就是江湖上广为流传的Virtul DOM diff。这年头人人都看过一两个Virtul DOM diff的实现，那React 16的diff是如何实现的呢？&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx4.sinaimg.cn/large/64c45edcgy1fkurhf1dgwj20p60sy44v.jpg&quot; alt=&quot;reconcileChildren&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;reconcileChildren&lt;/code&gt;这个函数里调用了三个功能相似的函数：&lt;code&gt;mountChildFibersInPlace&lt;/code&gt;、&lt;code&gt;reconcileChildFibers&lt;/code&gt;和&lt;code&gt;reconcileChildFibersInPlace&lt;/code&gt;。在源码中我们发现，这三个函数其实是同一个函数，通过传入不同的参数“重载”而来的。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;exports.reconcileChildFibers = ChildReconciler(true, true);
+
+exports.reconcileChildFibersInPlace = ChildReconciler(false, true);
+
+exports.mountChildFibersInPlace = ChildReconciler(false, false);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;ChildReconciler是一个工厂函数，它接收shouldClone, shouldTrackSideEffects两个参数。reconcileChildFibers函数的目的是产出effect list，所以shouldClone, shouldTrackSideEffects两个参数都是true。mountChildFibersInPlace是组件初始化时用的，所以不用clone fiber来diff，也不用产出effect list。reconcileChildFibersInPlace是在之前reconcile被中断的fiber树上继续工作，因此shouldClone参数为false。&lt;/p&gt;
+&lt;p&gt;ChildReconciler内部有很多helper函数，最终返回的函数叫reconcileChildFibers，这个函数实现了对子fiber节点的reconciliation。下面我们关注reconcileChildFibers函数的实现。&lt;/p&gt;
+&lt;h4 id=&quot;reconcileChildFibers&quot;&gt;&lt;a href=&quot;#reconcileChildFibers&quot; class=&quot;headerlink&quot; title=&quot;reconcileChildFibers&quot;&gt;&lt;/a&gt;reconcileChildFibers&lt;/h4&gt;&lt;p&gt;图的注释：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;总的，这个函数根据newChild的类型调用不同的方法。newChild可能是一个元素，也可能是一个数组（React16新特性）&lt;/li&gt;
+&lt;li&gt;如果是reconcile单个元素，以reconcileSingleElement为例比较key和type，如果相同，复用fiber，删除多余的元素（currentFirstChild的sibling），如果不同，调用createFiberFromElement，返回新创建的。&lt;/li&gt;
+&lt;li&gt;如果是string，reconcileSingleTextNode&lt;/li&gt;
+&lt;li&gt;如果是array，reconcileChildrenArray&lt;/li&gt;
+&lt;li&gt;如果是空，deleteRemainingChildren删除老的子元素&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;React的reconcile算法采用的是层次遍历，这种算法是建立在一个节点的插入、删除、移动等操作都是在&lt;strong&gt;节点树的同一层级中进行&lt;/strong&gt;这个假设下的。所以reconcile算法的核心就是如何diff两个子节点数组。&lt;/p&gt;
+&lt;h4 id=&quot;reconcileChildrenArray&quot;&gt;&lt;a href=&quot;#reconcileChildrenArray&quot; class=&quot;headerlink&quot; title=&quot;reconcileChildrenArray&quot;&gt;&lt;/a&gt;reconcileChildrenArray&lt;/h4&gt;&lt;p&gt;React16的diff算法采用和来自社区的两端同时比较法同样结构的算法。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;关于diff算法演化历史可以看司徒正美的&lt;a href=&quot;https://segmentfault.com/a/1190000011235844&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这篇博客&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;因为fiber树是单链表结构，没有子节点数组这样的数据结构。也就没有可以供两端同时比较的尾部游标。所以React的这个算法是一个简化的两端比较法，只从头部开始比较。&lt;/p&gt;
+&lt;p&gt;下面我们来看一下代码：&lt;/p&gt;
+&lt;p&gt;图片&lt;/p&gt;
+&lt;p&gt;从头部遍历。第一次遍历新数组，对上了，新老index都++，比较新老数组哪些元素是一样的，（通过updateSlot，比较key），如果是同样的就update。第一次遍历玩了，如果新数组遍历完了，那就可以把老数组中剩余的fiber删除了。&lt;/p&gt;
+&lt;p&gt;如果老数组完了新数组还没完，那就把新数组剩下的都插入。&lt;/p&gt;
+&lt;p&gt;如果这些情况都不是，就把所有老数组元素按key放map里，然后遍历新数组，插入老数组的元素，这是移动的情况。&lt;/p&gt;
+&lt;p&gt;最后再删除没有被上述情况涉及的元素（也就是老数组中有新数组中无的元素，上面的删除只是fast path，特殊情况）&lt;/p&gt;
+&lt;h4 id=&quot;completeUnitOfWork&quot;&gt;&lt;a href=&quot;#completeUnitOfWork&quot; class=&quot;headerlink&quot; title=&quot;completeUnitOfWork&quot;&gt;&lt;/a&gt;completeUnitOfWork&lt;/h4&gt;&lt;blockquote&gt;
+&lt;p&gt;注：这里effect list链表插入的想法只是猜测，需要进一步确认。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;completeUnitOfWork&lt;/code&gt;是complete阶段的入口。complete阶段的作用就是在一个节点diff完成之后，对它进行一些收尾工作，主要是更新props和调用生命周期方法等等。&lt;code&gt;completeUnitOfWork&lt;/code&gt;主要的逻辑是调用&lt;code&gt;completeWork&lt;/code&gt;完成收尾，然后将当前子树的effect list插入到HostRoot的effect list中。具体的让我们来看代码：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx4.sinaimg.cn/large/64c45edcgy1fks860npkqj20p41foalg.jpg&quot; alt=&quot;completeUnitOfWork&quot;&gt;&lt;/p&gt;
+&lt;h4 id=&quot;completeWork&quot;&gt;&lt;a href=&quot;#completeWork&quot; class=&quot;headerlink&quot; title=&quot;completeWork&quot;&gt;&lt;/a&gt;completeWork&lt;/h4&gt;&lt;p&gt;complete阶段主要工作都是在&lt;code&gt;completeWork&lt;/code&gt;中完成的。这个函数很长，需要仔细梳理。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx3.sinaimg.cn/large/64c45edcgy1fkurhf2r9jj20ou3c9x1u.jpg&quot; alt=&quot;completeWork&quot;&gt;&lt;/p&gt;
+&lt;p&gt;可见completeWork主要是完成reconciliation阶段的扫尾工作，重点是对HostComponent的props进行diff，并标记更新。&lt;/p&gt;
+&lt;p&gt;到这里，我们就讲完了reconciliation阶段。这个阶段主要负责产出effect list。所以可以说reconcile的过程相当于是一个纯函数，输入是fiber节点，输出一个effect list。side-effects是在commit阶段被应用到UI中的，这样就将side-effects从reconciliation中隔离开了。因为纯函数的可预测性，让我们可以随时中断reconciliation阶段的执行，而不用担心side-effects给让组件状态和实际UI产生不一致。&lt;/p&gt;
+&lt;p&gt;commit这个阶段有点像Git的commit概念。在缓冲区中的代码改动只有在commit之后才会被添加到Git的Object store中。&lt;/p&gt;
+&lt;p&gt;下面我们就来关注commit阶段的实现。看看effect list是如何被“提交”到UI中的。&lt;/p&gt;
+&lt;h4 id=&quot;commitAllWork&quot;&gt;&lt;a href=&quot;#commitAllWork&quot; class=&quot;headerlink&quot; title=&quot;commitAllWork&quot;&gt;&lt;/a&gt;commitAllWork&lt;/h4&gt;&lt;p&gt;reconciliation阶段结束之后，我们需要将effect list更新到UI中。这就是commit节点的工作。commit阶段的入口是&lt;code&gt;commitAllWork&lt;/code&gt;函数，我们来看看它的实现：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx1.sinaimg.cn/large/64c45edcgy1fkorwi0836j20oz2f71b8.jpg&quot; alt=&quot;commitAllWork&quot;&gt;&lt;/p&gt;
+&lt;p&gt;这里需要注意的是，React 16中的生命周期方法是在reconciliation和commit两个阶段中被调用的，commit阶段的&lt;code&gt;commitAllLifeCycles&lt;/code&gt;函数中的生命周期方法包括&lt;code&gt;componentDidMount&lt;/code&gt;、&lt;code&gt;componentDidUpdate&lt;/code&gt;和&lt;code&gt;componentWillUnmount&lt;/code&gt;三个。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcgy1fknn7fnubmj20eb08wjt7.jpg&quot; alt=&quot;lifeCycle&quot;&gt;&lt;/p&gt;
+&lt;h4 id=&quot;reconciliation-commit流程总结&quot;&gt;&lt;a href=&quot;#reconciliation-commit流程总结&quot; class=&quot;headerlink&quot; title=&quot;reconciliation+commit流程总结&quot;&gt;&lt;/a&gt;reconciliation+commit流程总结&lt;/h4&gt;&lt;p&gt;经过上述对reconciliation和commit两个阶段的源码分析，是不是觉得有些混乱？我总结了一张reconciliation+commit过程中的函数调用图，希望可以帮助你理清这两个阶段的函数调用流程。从图中我们可以看出，&lt;code&gt;workLoop&lt;/code&gt;中调用了&lt;code&gt;performUnitOfWork&lt;/code&gt;和&lt;code&gt;commitAllWork&lt;/code&gt;，分别作为reconciliation和commit两个阶段的入口。&lt;code&gt;performUnitOfWork&lt;/code&gt;中又分为begin和complete两个阶段来处理。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx4.sinaimg.cn/large/64c45edcgy1fkota00kyhj20o402ydg3.jpg&quot; alt=&quot;callStack&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;展望-amp-amp-结语&quot;&gt;&lt;a href=&quot;#展望-amp-amp-结语&quot; class=&quot;headerlink&quot; title=&quot;展望&amp;amp;&amp;amp;结语&quot;&gt;&lt;/a&gt;展望&amp;amp;&amp;amp;结语&lt;/h3&gt;&lt;h4 id=&quot;潜伏的大招——异步渲染&quot;&gt;&lt;a href=&quot;#潜伏的大招——异步渲染&quot; class=&quot;headerlink&quot; title=&quot;潜伏的大招——异步渲染&quot;&gt;&lt;/a&gt;潜伏的大招——异步渲染&lt;/h4&gt;&lt;p&gt;在上文中，我们知道，React 16中默认没有开启异步渲染。用户的setState都是和React 15一样，在一个tick内完成的。fiber可以解决的问题，比如将优先级低的任务分散在多个帧中完成，在每一帧中留足够的时间给响应用户输入和渲染这样优先级高的任务。在默认不开启异步渲染的情况下，是不能做到的。因此我们期待未来版本的React可以开启这个杀手特性。&lt;/p&gt;
+&lt;p&gt;我们在阅读源码的过程中，看到了一些没有被文档记录的组件类型，比如CoroutineComponent和YieldComponent。这也许意味着未来React会把渲染的时机掌控权交给用户。我们可以定义一个CoroutineComponent，在reconcile完成后交出控制权给用户。由用户主动调用commit来让组件继续渲染。因为React将组件的渲染分为reconcile和commit两个阶段，reconcile又是没有副作用的，由多个院子操作组成。因此这样的设想是完全可行的。以上只是笔者的推测，丢一个A Clark的链接。&lt;/p&gt;
+&lt;h4 id=&quot;React-16的设计给前端框架带来的思考&quot;&gt;&lt;a href=&quot;#React-16的设计给前端框架带来的思考&quot; class=&quot;headerlink&quot; title=&quot;React 16的设计给前端框架带来的思考&quot;&gt;&lt;/a&gt;React 16的设计给前端框架带来的思考&lt;/h4&gt;&lt;p&gt;这次React更新核心架构，让我们看到Facebook的工程师再次用技术推进了用户体验的极限。淘宝FED的口号是用技术为体验提供无限可能，笔者觉得这句话用来形容React也是很合适的。在React上，我们看到了一些借鉴自操作系统中的设计。Fiber可以被比作是一个轻量级线程。有自己的数据，也有优先级的分别。React的作用就是调度fiber，使得优先级高的任务优先执行，同时也保证低优先级的任务会在未来一段时间执行完毕。在diff算法的设计上，React借鉴了社区的经验，这是对社区的一种认可。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;React 16在近期发布了。除了将备受争议的BSD+Patents协议改为MIT协议之外，React 16还带来了许多新特性，比如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;允许在render函数中返回节点数组和字符串。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;render() {
+  // 再也不用在外面套一个父节点了
+  return [
+    // 别忘了加上key
+    &amp;lt;li key=&amp;quot;A&amp;quot;&amp;gt;First item&amp;lt;/li&amp;gt;,
+    &amp;lt;li key=&amp;quot;B&amp;quot;&amp;gt;Second item&amp;lt;/li&amp;gt;,
+    &amp;lt;li key=&amp;quot;C&amp;quot;&amp;gt;Third item&amp;lt;/li&amp;gt;,
+  ];
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;提供更好的错误处理。&lt;/li&gt;
+&lt;li&gt;支持自定义DOM属性。&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Table组件中slot内容的跨级传递</title>
@@ -74,6 +813,484 @@
       &lt;p&gt;在开发MUI的&lt;a href=&quot;https://github.com/Muxi-Studio/MUI/tree/dev/src/components/table&quot;&gt;Table组件&lt;/a&gt;时，我们遇到了一个问题。用户在顶层组件中嵌套的内容，需要被保存到组件的数据中，并且在表格内部渲染出来。&lt;/p&gt;
 &lt;p&gt;通常，Vue内嵌内容是使用slot进行渲染的。在父组件的模板中，在子组件的标签中嵌入模板，然后在子组件的内部，使用&lt;code&gt;&amp;lt;slot/&amp;gt;&lt;/code&gt;标签进行渲染。但现在我们的需求是非父子组件的slot渲染，这就要求我们换一种思路去保存和调用slot。&lt;/p&gt;
 &lt;p&gt;要理解以下的内容，&lt;strong&gt;请确保你阅读了&lt;a href=&quot;https://vuejs.org/v2/guide/render-function.html&quot;&gt;Render Functions &amp;amp; JSX&lt;/a&gt;，理解了Vue的VNode、render function、模板等概念以及这些概念之间的关系&lt;/strong&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>简单的前端网络层Service封装</title>
+    <link href="http://yoursite.com/2017/08/16/fe-model-service/"/>
+    <id>http://yoursite.com/2017/08/16/fe-model-service/</id>
+    <published>2017-08-16T06:01:31.000Z</published>
+    <updated>2017-09-06T07:42:12.000Z</updated>
+    
+    <content type="html">&lt;p&gt;我们编写前端组件时，常常需要拉取数据。最原始的办法就是在组件中调用网络库去请求数据。但这样有一些问题：发送请求的一些代码需要&lt;strong&gt;重复的编写&lt;/strong&gt;。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;比如fetch的&lt;code&gt;json()&lt;/code&gt;方法，拿到返回数据之后进行错误处理的代码。一个典型的使用场景是这样的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;fetch(&amp;#39;/api/v2.0&amp;#39; + this.Url + &amp;#39;/?page=&amp;#39; + this.page_num)
+  .then(res =&amp;gt; {
+    return res.json()
+  })
+  .then(res =&amp;gt; {
+    if (res.code === 200) {
+      this.items = res.blogs
+      this.pages_count = res.pages_count
+      this.page_num = res.page
+      this.blog_num = res.blog_num
+    }else {
+      util.message(&amp;quot;Error:&amp;quot;, res.message)
+    }
+  })
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;而且在发送请求这个操作中，带有请求的URL等等和组件业务逻辑无关系不大的数据，我们希望可以集中管理这些请求的路由，并且集中处理错误。&lt;/p&gt;
+&lt;p&gt;下面就介绍一种最简单的前端网络层封装，我将其称为Service。&lt;/p&gt;
+&lt;h3 id=&quot;简单的Fetch封装&quot;&gt;&lt;a href=&quot;#简单的Fetch封装&quot; class=&quot;headerlink&quot; title=&quot;简单的Fetch封装&quot;&gt;&lt;/a&gt;简单的Fetch封装&lt;/h3&gt;&lt;p&gt;为了避免在每次调用fetch时都要设置各种header和参数，我们可以对fetch做一个简单的封装：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function Fetch(url, opt = {}) { 
+
+ // 设置请求方法
+ opt.method = opt.method || &amp;#39;GET&amp;#39;;
+
+ // 处理要发送的数据
+ if (opt.data) {
+    if (/GET/i.test(opt.method)) {
+      url = `${url}&amp;amp;${obj2query(opt.data)}`;
+    } else {
+      opt.headers = {
+        &amp;#39;Accept&amp;#39;: &amp;#39;application/json&amp;#39;,
+        &amp;#39;Content-Type&amp;#39;: &amp;#39;application/json&amp;#39;,
+      };
+      opt.body = JSON.stringify(opt.data);
+    }
+  }
+
+  return fetch(url, opt)
+    .then(response =&amp;gt; {  
+      return response.json();
+    })
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;使用示例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Fetch(&amp;#39;/api/dash/message/list&amp;#39;, {
+   method: &amp;#39;GET&amp;#39;,
+   data
+})
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;上面演示的封装只处理了json格式的body和URL参数。在平时的开发中，我们会遇到更复杂的情况，比如需要特殊的header，或者是需要上传文件等等。我们可以通过给&lt;code&gt;Fetch&lt;/code&gt;函数传入不同的&lt;code&gt;opt.type&lt;/code&gt;来达到差异化的处理。有同学会说，在这个函数里根据不同的type写死业务逻辑，是不是不够解耦？其实不是，&lt;code&gt;Fetch&lt;/code&gt;在这里已经是一个业务逻辑的封装了。&lt;/p&gt;
+&lt;h3 id=&quot;错误处理&quot;&gt;&lt;a href=&quot;#错误处理&quot; class=&quot;headerlink&quot; title=&quot;错误处理&quot;&gt;&lt;/a&gt;错误处理&lt;/h3&gt;&lt;p&gt;API请求的错误处理是一个很重要的话题，我们希望在服务端返回错误代码时，前端应用可以优雅的提示这个错误，而不是让应用直接报错。换句话说，我们希望catch这个错误，并且进行处理。&lt;/p&gt;
+&lt;p&gt;这个错误处理的逻辑如果写在每个&lt;code&gt;Fetch&lt;/code&gt;请求返回的Promise后面，无疑是不现实的。因为这样会造成大量代码的重复。所以进行错误处理的最佳场所就是刚才我们封装的&lt;code&gt;Fetch&lt;/code&gt;函数了。&lt;/p&gt;
+&lt;p&gt;我们在拿到&lt;code&gt;response&lt;/code&gt;之后先进行判断，然后再返回结果：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// Fetch的json返回时，对状态码进行判断，做不同的处理。
+// 比如在服务端错误时使用alert或者notification组件进行全局提示。
+return response.json().then((json) =&amp;gt; { 
+  switch (json.code) {
+    case 200:
+      return json.result;
+    case 502:
+      util.message(json.message, &amp;#39;err&amp;#39;);
+      throw json.message;
+  }
+}）
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;Service层封装&quot;&gt;&lt;a href=&quot;#Service层封装&quot; class=&quot;headerlink&quot; title=&quot;Service层封装&quot;&gt;&lt;/a&gt;Service层封装&lt;/h3&gt;&lt;p&gt;&lt;code&gt;Fetch&lt;/code&gt;其实还是一个比较底层的封装，Service才是前端组件之间调用的逻辑。这个Service类似传统MVC架构中的Model。提供接口并返回数据。一个Service是一组相关业务逻辑接口的集合。&lt;/p&gt;
+&lt;p&gt;比如一个新闻应用，那首页的feed流是一个Service。单篇文章相关的接口可以放到一个Service。用户相关的接口可以放到一个Serivce。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;let service = {
+  getNews(nid) {
+        return fetch(`/api/news/`, {
+            method: &amp;#39;GET&amp;#39;,
+            data: {
+                id: nid,
+            }
+        });
+  },
+
+  getNewsList() {
+        return fetch(`/api/news/all/`, {
+            method: &amp;#39;GET&amp;#39;
+        });
+  },
+
+  getComment( nid ) {
+        return fetch(`/api/news/${nid}/comment/`, {
+            method: &amp;#39;GET&amp;#39;
+        })
+    },
+
+  sendComment( data ) {
+      return fetch(`/api/news/${data.nid}/comment/`, {
+          method: &amp;#39;POST&amp;#39;,
+          data: data
+      })
+  },
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在组件代码中调用Service（如果应用引入了单独的Model层，那就可以在Model层中调用Service）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import NewsService from &amp;#39;../services/news&amp;#39;
+
+module.export = {
+  mounted() {
+    NewsService.getNews(this.id)
+      .then( (result) =&amp;gt; {
+        this.news = result;
+      })
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我们编写前端组件时，常常需要拉取数据。最原始的办法就是在组件中调用网络库去请求数据。但这样有一些问题：发送请求的一些代码需要&lt;strong&gt;重复的编写&lt;/strong&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>现代前端MVVM组件开发的基本理论</title>
+    <link href="http://yoursite.com/2017/08/16/i-have-a-theory/"/>
+    <id>http://yoursite.com/2017/08/16/i-have-a-theory/</id>
+    <published>2017-08-16T01:54:53.000Z</published>
+    <updated>2017-09-11T13:09:08.000Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;此文在写作中。这篇文章意在整理自己目前对MVVM组件开发的理解。在写作过程中我发现，我自以为已经形成了对组件开发的一套理论，但其实这套理论还有很多不完善的地方。最近又翻到了波神分享-&lt;em&gt;漫谈Web前端的『组件化』&lt;/em&gt;的&lt;a href=&quot;http://leeluolee.github.io/fequan-netease/#/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;PPT&lt;/a&gt;，深感要形成理论，还是需要数年的积累才行。所以这篇文章就作为我阶段性的成果，不具有太大的参考价值。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;如果要给前端开发下一个定义，那就是在浏览器环境下面向对象的GUI客户端程序开发。&lt;/p&gt;
+&lt;p&gt;既然是基于面向对象的，那就要有类和对象。在Web前端开发中，最基本的类就是组件的基类（比如Vue和React的构造函数），所有的组件都是基类的一个实例。基类有属性和方法，同时还有一些生命周期钩子函数（其实就是基类上定义的一些方法，会在基类初始化的特定时刻被调用，并且允许实例重载这个方法）。&lt;/p&gt;
+&lt;p&gt;既然是GUI客户端程序开发，那Web开发中自然有着MVC之类的分层。MVC、MVP、MVVM都是经典的GUI客户端程序的设计模式&lt;a href=&quot;https://github.com/livoras/blog/issues/11&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;[1]&lt;/a&gt;。目前Web开发中最流行的架构就是MVVM，MVVM已经成为了Web前端开发的一个事实标准。&lt;/p&gt;
+&lt;p&gt;谈到事实标准，客户端的开发，比如Android、iOS和Windows，都需要使用系统自带的原生UI组件为基础，配合相关的库，进行开发。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx2.sinaimg.cn/large/64c45edcgy1fj9wd4ul2mj21kw17n4ch.jpg&quot; alt=&quot;iOS丰富的组件&quot;&gt;&lt;br&gt;&lt;em&gt;iOS丰富的原生组件&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;在GUI开发领域，&lt;strong&gt;组件&lt;/strong&gt;是一种独立的、可复用的交互元素的封装。&lt;/p&gt;
+&lt;p&gt;Web开发最大的特点就是，因为历史原因，Web前端当初是作为展示文档的一种渠道来设计的，所以Web前端只有非常少数的几个原生组件，比如表单组件，可以使用。其他的组件都是需要开发者自行封装的。历史上出现过基于jQuery和Backbone等等框架/库的组件。这些组件在当时起到了很重要的作用。在Web标准大幅发展的今天，Web平台（浏览器）有没有提供标准的组件API呢？&lt;/p&gt;
+&lt;p&gt;答案是肯定的。目前Web前端组件的官方标准就是&lt;strong&gt;Web Components&lt;/strong&gt;。Web Components标准由Custom Elements、HTML Templates、Shadow DOM和HTML Imports四部分组成。Web Components解决了&lt;strong&gt;组件的封装、组合以及复用&lt;/strong&gt;问题。&lt;/p&gt;
+&lt;p&gt;但在组件的逻辑编写上，随着Web应用越来越复杂，jQuery为代表的命令式编程范式已经不能满足开发的需要。Knockout、ember、angular等MVVM框架出现后，使得声明式的编程范式成为可能。这些框架也渐渐成为了前端开发中的主流。&lt;/p&gt;
+&lt;p&gt;Web Components解决了组件的封装和复用问题，但Web Components的逻辑依然是命令式的。而且Web Components目前的浏览器兼容性还不太好，不能直接用于生产。&lt;/p&gt;
+&lt;p&gt;当前主流的Web前端框架/库Vue、React和Angular在某种程度上都提供了&lt;strong&gt;组件封装&lt;/strong&gt;和&lt;strong&gt;声明式编程范式&lt;/strong&gt;两个重要特性。这些框架都有自己的组件封装标准，都遵循数据驱动的范式。值得注意的是Web Components标准在某种程度上对这些框架的组件封装和组合方式有一定的影响，特别是Vuejs，在很多地方参考了Web Components，并实现了Web Components中的slot特性。在未来Web Components标准真正落地时，这些框架都可以和Web Components实现无缝的整合。&lt;/p&gt;
+&lt;p&gt;因此我们可以说，实现了声明式编程范式和组件封装、复用和组合的现代MVVM组件框架，就是目前Web前端开发的&lt;strong&gt;事实标准&lt;/strong&gt;。并且这个标准在未来很长一段时间内都会持续保持稳定。&lt;/p&gt;
+&lt;p&gt;Web前端没有一套官方的原生UI组件（这里指的是官方提供的组件实现，比如日期选择组件、ListView组件等待，不是指Web Components这样的底层标准），以后也不会有，因为Web是一个开放的平台，不像其他的客户端程序的操作系统由一家公司所控制。但目前在我们的开发中，已经可以总结出一套成熟的组件。比如&lt;a href=&quot;https://ant.design/docs/react/introduce&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Ant Design&lt;/a&gt;中的众多组件。这些组件都是基于MVVM前端框架开发的。&lt;/p&gt;
+&lt;p&gt;前端这么多年的发展，到现在已经进入了一个比较成熟的时期了。有了成熟的模块标准和包管理系统，也有了通用的组件模型。所以假设Web也有一个官方的组件标准，那融合了Web Components和声明式编程的MVVM组件已经非常接近了。一个技术想要被称为工业级，只有形成统一的标准。Web前端的组件，虽然不会有统一的标准，但如果在MVVM组件作为事实的标准的前提下去开发，会减少很多不必要的麻烦。&lt;/p&gt;
+&lt;p&gt;写这篇博客，也是因为想总结一下目前这个时期的Web开发中的一些事实标准。相比于客户端，前端的门槛其实要更高一些，因为我们要使用堪称刀耕火种的方式去应对日益复杂的业务场景。但在当下，对于刚刚进入前端领域的同学来说，可以把一些范式作为前端的标准来学习，形成对现代前端开发的理解。在现在这个时间点进入前端行业的同学，已经没有必要再了解jQuery时代的开发范式了。&lt;/p&gt;
+&lt;p&gt;本文的题目是&lt;em&gt;现代前端MVVM组件开发的基本理论&lt;/em&gt;，下面就分别介绍MVVM组件开发中几个关键的理论。&lt;/p&gt;
+&lt;h2 id=&quot;MVVM&quot;&gt;&lt;a href=&quot;#MVVM&quot; class=&quot;headerlink&quot; title=&quot;MVVM&quot;&gt;&lt;/a&gt;MVVM&lt;/h2&gt;&lt;p&gt;Web Components并没有规定开发者应该如何去给一个组件的逻辑分层。一个组件里可能包含数据、表现（UI）和业务逻辑。在编写组件时，这些部分都需要被严格的解耦，并且规定各个部分之间的通信方式。&lt;/p&gt;
+&lt;p&gt;MVVM下，组件由如下部分构成：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;组件 = 视图 + 数据 + 业务逻辑&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;MVVM分为View、Model和ViewModel三个部分。分别对应视图、数据和业务逻辑三部分。拿Vue举例，Vue的模板和样式属于View层。Vue的组件实例属于ViewModel，Vue的Model层，在没有引入全局Model层的情况下，就是Vue的data属性中的内容。如果开发者引入了全局的Model层，比如Redux或者MobX，那Model就是一个和Vue组件脱离的对象。&lt;/p&gt;
+&lt;p&gt;MVVM中，各个部分的关系是这样的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx3.sinaimg.cn/large/64c45edcgy1fjfvsl1r13j20es08074q.jpg&quot; alt=&quot;mvvm&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;组件的生命周期&quot;&gt;&lt;a href=&quot;#组件的生命周期&quot; class=&quot;headerlink&quot; title=&quot;组件的生命周期&quot;&gt;&lt;/a&gt;组件的生命周期&lt;/h2&gt;&lt;p&gt;客户端的组件会有生命周期函数，比如iOS的ViewController就有&lt;code&gt;viewDidLoad&lt;/code&gt;、&lt;code&gt;viewWillDisappear&lt;/code&gt;等等声明周期钩子。前端组件和客户端的的组件一样，都有着生命周期。一个前端组件在应用中，会首先初始化（创建一个新的组件实例），接着加载数据并首次渲染，然后进入一个响应数据变化并重新渲染的循环，最后如果这个组件要从应用中移除，那么组件就会被销毁。&lt;/p&gt;
+&lt;p&gt;组件在各个生命周期阶段会调用一些钩子函数，开发者如果想在组件特定的时刻执行一些逻辑，就可以在组件中实现这些钩子函数。&lt;/p&gt;
+&lt;p&gt;接下去总结一下MVVM通常都会有的生命周期。&lt;br&gt;首先，组件进入&lt;strong&gt;初始化阶段&lt;/strong&gt;，在这个阶段主要就是创建组件实例，并调用init钩子函数。&lt;/p&gt;
+&lt;p&gt;然后进入&lt;strong&gt;初始化数据并首次渲染阶段&lt;/strong&gt;，这个阶段，如果是Push类型的框架（关于Push和Pull在后文会提到），比如Vue，就需要对数据进行处理（对data进行递归遍历，修改getter和setter，然后调用Render Function进行依赖搜集），然后首次渲染（Vriual DOM patch）。如果是Pull类型的框架，Angular和Regular需要遍历View的AST，然后生成Watcher列表，然后进行首次的脏检查，随后View就被渲染到页面。React就启动一次渲染流程，包括调用Render Function和一次patch。最终达到的效果就是组件首次渲染到页面中。一般在此时也会有一个钩子函数被调用，开发者可以在此时执行一些需要确保UI已经渲染作为前提的逻辑。&lt;/p&gt;
+&lt;p&gt;接着进入&lt;strong&gt;响应数据变化并渲染阶段&lt;/strong&gt;，这个阶段中，组件已经首次渲染了，接下来如果数据发生变化，那组件就会重新渲染，保持组件的UI和组件的状态保持同步。&lt;/p&gt;
+&lt;p&gt;如果组件的销毁方法被调用，组件就进入&lt;strong&gt;销毁阶段&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;之所以要先说明这几个阶段，是因为理解组件的生命周期对于理解后文讲的数据侦测、渲染、模板等有着密不可分的关系。&lt;/p&gt;
+&lt;h2 id=&quot;组合&quot;&gt;&lt;a href=&quot;#组合&quot; class=&quot;headerlink&quot; title=&quot;组合&quot;&gt;&lt;/a&gt;组合&lt;/h2&gt;&lt;p&gt;Composition over inheritence&lt;a href=&quot;&quot;&gt;[x]&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;在UI的开发中我们常常会复用一些代码。&lt;/p&gt;
+&lt;h4 id=&quot;内嵌组件&quot;&gt;&lt;a href=&quot;#内嵌组件&quot; class=&quot;headerlink&quot; title=&quot;内嵌组件&quot;&gt;&lt;/a&gt;内嵌组件&lt;/h4&gt;&lt;h4 id=&quot;Mixin&quot;&gt;&lt;a href=&quot;#Mixin&quot; class=&quot;headerlink&quot; title=&quot;Mixin&quot;&gt;&lt;/a&gt;Mixin&lt;/h4&gt;&lt;h2 id=&quot;数据驱动&quot;&gt;&lt;a href=&quot;#数据驱动&quot; class=&quot;headerlink&quot; title=&quot;数据驱动&quot;&gt;&lt;/a&gt;数据驱动&lt;/h2&gt;&lt;p&gt;这里有必要解释一下这套MVVM中，各模块之间数据的流动。View不能直接通知Model更新，而是通知ViewModel用户的交互，由ViewModel来修改Model中的数据。Model的数据变化之后，会直接触发View的更新。&lt;/p&gt;
+&lt;p&gt;此处应该有图。&lt;/p&gt;
+&lt;p&gt;最关键的一点就是，&lt;strong&gt;ViewModel不应该直接对View进行操作，而是应该通过修改Model中的数据，让Model驱动View进行更新&lt;/strong&gt;。所以我们不提倡在ViewModel中进行DOM操作，因为DOM操作其实就是直接更新View层。并不是DOM操作有多低效。主要是因为既然我们采用了MVVM的范式，就应该去遵守这个范式，才能发挥出这个范式的威力。&lt;/p&gt;
+&lt;h2 id=&quot;数据变化侦测机制：Pull-vs-Push&quot;&gt;&lt;a href=&quot;#数据变化侦测机制：Pull-vs-Push&quot; class=&quot;headerlink&quot; title=&quot;数据变化侦测机制：Pull vs Push&quot;&gt;&lt;/a&gt;数据变化侦测机制：Pull vs Push&lt;/h2&gt;&lt;p&gt;这部分的内容我个人认为是非常精辟的。用Pull和Push两种方式准确的分类了现在主流的几个前端框架使用的数据变化侦测机制。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这部分的内容我第一次是听波神和我讲的，后来看了尤雨溪dotJS的演讲，也有类似的内容。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;Pull类：脏检查&quot;&gt;&lt;a href=&quot;#Pull类：脏检查&quot; class=&quot;headerlink&quot; title=&quot;Pull类：脏检查&quot;&gt;&lt;/a&gt;Pull类：脏检查&lt;/h4&gt;&lt;p&gt;Angular和Regular的数据变化侦测机制属于是数据层的脏检查，React则是View层脏检查。&lt;/p&gt;
+&lt;h4 id=&quot;Push类：依赖搜集&quot;&gt;&lt;a href=&quot;#Push类：依赖搜集&quot; class=&quot;headerlink&quot; title=&quot;Push类：依赖搜集&quot;&gt;&lt;/a&gt;Push类：依赖搜集&lt;/h4&gt;&lt;p&gt;Vue的Model记录了各个数据和不同部分View的对应关系。在ViewModel修改Model之后，Model会自动通知需要更新的View进行更新。&lt;/p&gt;
+&lt;h4 id=&quot;Pull和Push的理解&quot;&gt;&lt;a href=&quot;#Pull和Push的理解&quot; class=&quot;headerlink&quot; title=&quot;Pull和Push的理解&quot;&gt;&lt;/a&gt;Pull和Push的理解&lt;/h4&gt;&lt;p&gt;至于Pull和Push的形象理解，Pull可以理解为从需要更新的整个组件树中&lt;strong&gt;拉取&lt;/strong&gt;所有的状态，和旧状态进行比对，然后去更新。Push可以理解为，框架已经知道了变化的数据，然后将更新的信号&lt;strong&gt;推送&lt;/strong&gt;给需要更新的组件。&lt;/p&gt;
+&lt;p&gt;也不用太纠结Pull和Push的字面意思，总之数据变化侦测机制的区别就在于脏检查机制不知道哪些数据变了，所以需要进行数据的对比。而依赖搜集机制在数据变化那一刻就知道哪些数据变化了，也知道哪些组件依赖这些数据。&lt;/p&gt;
+&lt;h3 id=&quot;模板技术&quot;&gt;&lt;a href=&quot;#模板技术&quot; class=&quot;headerlink&quot; title=&quot;模板技术&quot;&gt;&lt;/a&gt;模板技术&lt;/h3&gt;&lt;p&gt;波神对模板技术有一篇很全面的总结&lt;a href=&quot;http://leeluolee.github.io/2014/10/10/template-engine/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;[x]&lt;/a&gt;。模板的表达能力来看，可以分为基于DSL（包括HTML）的，或者基于JavaScript的。Regular的模板是自己的DSL。Vue和React最终都是使用Render Function来生成View的AST的。也就是说Vue和React可以让开发者直接编写View结构的AST。Vue在Render Function之外提供了基于HTML的模板。这个模板的表达能力和传统的DOM based的模板是一样的。可以说是Render Function能力的一个子集。Vue让开发者自行选择使用何种技术。React的JSX因为是直接写在Render Function中的，所以很难称为是模板，只能说是一种语法糖。React只允许开发者直接编写Render Function。&lt;/p&gt;
+&lt;h3 id=&quot;渲染&quot;&gt;&lt;a href=&quot;#渲染&quot; class=&quot;headerlink&quot; title=&quot;渲染&quot;&gt;&lt;/a&gt;渲染&lt;/h3&gt;&lt;p&gt;在Web开发中，UI一般是用DOM或者Canvas这样的底层机制来实现的。组件的View层，实际上就是一个树结构，里面的节点是对View中元素的抽象表示。一个节点可能代表一个DOM节点，也可能代表一个组件的根节点。如果组件的View是由自定义的DSL表示的，那可能还会有其他带有语义的元素，比如if和list等等流程控制节点。&lt;/p&gt;
+&lt;p&gt;现在最流行的抽象方式是将View的结构表示为Virtual DOM树。Virtual DOM是对DOM节点的轻量级抽象表示。Render Function中可能会有一些逻辑，Virtual DOM将组件的状态传入Render Function后得到的一个树结构。所以我们就得到了那个著名的等式：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;UI = f(state)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;这里的UI就可以类比为Virtual DOM，函数f就是Render Function。&lt;/p&gt;
+&lt;h3 id=&quot;组件通信方式&quot;&gt;&lt;a href=&quot;#组件通信方式&quot; class=&quot;headerlink&quot; title=&quot;组件通信方式&quot;&gt;&lt;/a&gt;组件通信方式&lt;/h3&gt;&lt;h4 id=&quot;父子组件通信&quot;&gt;&lt;a href=&quot;#父子组件通信&quot; class=&quot;headerlink&quot; title=&quot;父子组件通信&quot;&gt;&lt;/a&gt;父子组件通信&lt;/h4&gt;&lt;p&gt;父组件到子组件 props&lt;br&gt;子组件到父组件，emit event或者父组件传callback到子组件。&lt;/p&gt;
+&lt;h4 id=&quot;非相邻组件通信&quot;&gt;&lt;a href=&quot;#非相邻组件通信&quot; class=&quot;headerlink&quot; title=&quot;非相邻组件通信&quot;&gt;&lt;/a&gt;非相邻组件通信&lt;/h4&gt;&lt;p&gt;使用一个event bus。&lt;/p&gt;
+&lt;h2 id=&quot;数据层解决方案&quot;&gt;&lt;a href=&quot;#数据层解决方案&quot; class=&quot;headerlink&quot; title=&quot;数据层解决方案&quot;&gt;&lt;/a&gt;数据层解决方案&lt;/h2&gt;&lt;h2 id=&quot;路由&quot;&gt;&lt;a href=&quot;#路由&quot; class=&quot;headerlink&quot; title=&quot;路由&quot;&gt;&lt;/a&gt;路由&lt;/h2&gt;&lt;p&gt;// todo &lt;/p&gt;
+&lt;h2 id=&quot;提问时间&quot;&gt;&lt;a href=&quot;#提问时间&quot; class=&quot;headerlink&quot; title=&quot;提问时间&quot;&gt;&lt;/a&gt;提问时间&lt;/h2&gt;&lt;p&gt;在这篇文章中，我主要是讲了现代前端MVVM组件开发中一些重要的话题，并且对于每个话题我都对当前几个主流框架在这些方面的实现做了分类。我认为，这些可以说是目前前端开发的一个事实标准了。有了这方面的系统的知识，我们就可以回答下面的问题。我个人觉得，问一些对比类型的问题，更可以看出一个人是否有思考过自己使用的技术方案。对于市场上各个技术方案的对比和总结，就是得出一个技术体系的方法。&lt;/p&gt;
+&lt;p&gt;Q：Web Components解决了什么问题？和现代的前端框架相比有什么不同？&lt;/p&gt;
+&lt;p&gt;A:&lt;/p&gt;
+&lt;p&gt;Q：如何实现一个基于脏检查的数据绑定方案？&lt;/p&gt;
+&lt;p&gt;A：&lt;a href=&quot;https://zhuanlan.zhihu.com/p/24990192&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;双向绑定的简单实现——基于“脏检测”
+&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Q：如何实现一个Virtul DOM算法？&lt;/p&gt;
+&lt;p&gt;A：&lt;a href=&quot;https://github.com/livoras/blog/issues/13&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;深度剖析：如何实现一个 Virtual DOM 算法&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Q：如何实现一个基于依赖搜集的数据绑定方案？&lt;/p&gt;
+&lt;p&gt;A： &lt;a href=&quot;https://zhuanlan.zhihu.com/p/24475845&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;250行实现一个简单的MVVM&lt;/a&gt;和&lt;a href=&quot;https://zhuanlan.zhihu.com/p/25003235&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;数据动态绑定的简单实现——基于ES5对象的getter/setter机制&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Q：Vue的模板有哪些局限？如何解决？&lt;/p&gt;
+&lt;p&gt;A：HTML模板的表达能力不足，可以手写Render Function&lt;a href=&quot;&quot;&gt;[x]&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;Q：React-Redux这样的connector具体实现了什么？&lt;/p&gt;
+&lt;p&gt;A：订阅store变化，注册回调，回调中调用mapState函数。&lt;/p&gt;
+&lt;p&gt;Q：如何实现两个不相邻组件的通信？&lt;/p&gt;
+&lt;p&gt;A：&lt;/p&gt;
+&lt;p&gt;Q：JSX是模板技术吗？它和传统模板技术的区别是什么？&lt;/p&gt;
+&lt;p&gt;A：&lt;/p&gt;
+&lt;p&gt;Q：Vue和React的区别在什么地方？&lt;/p&gt;
+&lt;p&gt;A：&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;此文在写作中。这篇文章意在整理自己目前对MVVM组件开发的理解。在写作过程中我发现，我自以为已经形成了对组件开发的一套理论，但其实这套理论还有很多不完善的地方。最近又翻到了波神分享-&lt;em&gt;漫谈Web前端的『组件化』&lt;/em&gt;的&lt;a href=&quot;http://leeluolee.github.io/fequan-netease/#/&quot;&gt;PPT&lt;/a&gt;，深感要形成理论，还是需要数年的积累才行。所以这篇文章就作为我阶段性的成果，不具有太大的参考价值。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>聊聊UI组件设计-Modal</title>
+    <link href="http://yoursite.com/2017/08/14/component-talk-modal/"/>
+    <id>http://yoursite.com/2017/08/14/component-talk-modal/</id>
+    <published>2017-08-14T11:23:20.000Z</published>
+    <updated>2017-08-30T14:46:24.000Z</updated>
+    
+    <content type="html">&lt;p&gt;在人机交互中，有一个概念叫做&lt;a href=&quot;https://en.wikipedia.org/wiki/Modality_(human–computer_interaction&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Modality&lt;/a&gt;)，中文叫模态。模态，顾名思义，就是模拟。计算机可以模拟人通过各种通道接收的信息，比如视觉、听觉、触觉等等通道。视觉就通过显示器输出，听觉通过音响、触觉通过振动。同理，人也可以模拟计算机接收到的电信号，人可以通过键盘、触摸板等待设备来模拟0/1信号。&lt;/p&gt;
+&lt;p&gt;模态可以是但通道的，也可以是多通道的（比如玩游戏时有声音、视觉、和振动反馈）。今天我们要将的计算机软件中的Modal组件，就是计算机向人建立的单通道信息交互方式。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;Modal在交互设计中的作用&quot;&gt;&lt;a href=&quot;#Modal在交互设计中的作用&quot; class=&quot;headerlink&quot; title=&quot;Modal在交互设计中的作用&quot;&gt;&lt;/a&gt;Modal在交互设计中的作用&lt;/h3&gt;&lt;p&gt;具体到产品的交互设计中（交互设计和人机交互不是一回事，准确的说两者有交叉），Modal这个组件是很常用的，那么Modal在交互上的意义是什么呢？&lt;/p&gt;
+&lt;p&gt;Modal的弹出，其实就是计算机和人之间建立了一个信息传递的通道，这个通道是独占的，在关闭这个通道之前，不能进行其他的交互。计算机程序建立这个通道，为的是传递一些信息。但传递信息有很多的方式，为什么要使用独占通道的Modal来传达呢？&lt;/p&gt;
+&lt;p&gt;因为Modal传递的信息，是为了让用户&lt;strong&gt;提供关键信息&lt;/strong&gt;，这个信息的回复（Modal的输入）可以是是一个true or false的选择，也可以是较为复杂的数据结构。Modal是一个浮层，所以用户在Modal弹出时，不能再点击应用的其他部分。用户必须要做出决定，是输入信息，或者取消（关闭Modal）。因此，Modal会中断用户当前的工作流。&lt;/p&gt;
+&lt;h3 id=&quot;实现：Modal组件的特点&quot;&gt;&lt;a href=&quot;#实现：Modal组件的特点&quot; class=&quot;headerlink&quot; title=&quot;实现：Modal组件的特点&quot;&gt;&lt;/a&gt;实现：Modal组件的特点&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;全局一般只能显示一个Modal，因为Modal显示时会需要用户做出决定后再消失（点击取消也是一种决定，即为对操作的否定）。&lt;/li&gt;
+&lt;li&gt;Modal一般提供确定和取消两个按钮。&lt;/li&gt;
+&lt;li&gt;Modal中标题和底部按钮直接的内容，一般是可以自由组合的。一种特殊情况是Modal中组合了input，那这种Modal类型被称为prompt。&lt;/li&gt;
+&lt;li&gt;Modal如果涉及异步的操作，则需要有一个confirm loading状态。这个状态下用户不能再次点击confirm。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这里推荐一篇很好的总结文章&lt;a href=&quot;http://www.ui.cn/detail/224467.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;覆盖层设计(上)-对话框&amp;amp;浮层&lt;/a&gt;来自网易UEDC。系统的总结了交互设计中浮层相关的设计。&lt;/p&gt;
+&lt;h3 id=&quot;不同UI库的Modal设计&quot;&gt;&lt;a href=&quot;#不同UI库的Modal设计&quot; class=&quot;headerlink&quot; title=&quot;不同UI库的Modal设计&quot;&gt;&lt;/a&gt;不同UI库的Modal设计&lt;/h3&gt;&lt;p&gt;下面讲讲正题，Modal作为一个Web前端组件的设计方式。&lt;/p&gt;
+&lt;p&gt;根据Modal在前端代码中的调用方式，可以分为声明式和命令式两种。Modal的声明式使用是指在前端模板中声明Modal。命令式则是在前端代码中调用一个函数，来显式的调用Modal。&lt;/p&gt;
+&lt;h4 id=&quot;声明式&quot;&gt;&lt;a href=&quot;#声明式&quot; class=&quot;headerlink&quot; title=&quot;声明式&quot;&gt;&lt;/a&gt;声明式&lt;/h4&gt;&lt;p&gt;Ant Design中的&lt;a href=&quot;https://ant.design/components/modal/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Modal&lt;/a&gt;是典型的声明式组件。Modal被声明在模板中，在父组件初始化之时便存在了。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;render() {
+    return (
+      &amp;lt;div&amp;gt;
+        &amp;lt;Modal
+          title=&amp;quot;Basic Modal&amp;quot;
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        &amp;gt;
+          &amp;lt;p&amp;gt;Some contents...&amp;lt;/p&amp;gt;
+          &amp;lt;p&amp;gt;Some contents...&amp;lt;/p&amp;gt;
+          &amp;lt;p&amp;gt;Some contents...&amp;lt;/p&amp;gt;
+        &amp;lt;/Modal&amp;gt;
+      &amp;lt;/div&amp;gt;
+    );
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Modal出现时只是visible这个flag被设置为&lt;code&gt;true&lt;/code&gt;。而不是在那个时候初始化Modal组件。要在Modal中组合内嵌内容，只要在模板中的Modal标签中组合内容即可。在用户点击Modal的取消时，只要将visible设为&lt;code&gt;false&lt;/code&gt;。所以这里不涉及Modal的销毁问题。Modal的回收是和父组件一起的。&lt;/p&gt;
+&lt;h4 id=&quot;命令式&quot;&gt;&lt;a href=&quot;#命令式&quot; class=&quot;headerlink&quot; title=&quot;命令式&quot;&gt;&lt;/a&gt;命令式&lt;/h4&gt;&lt;p&gt;Ant Design中的Modal组件也提供了几个静态的方法，用于在组件中手动初始化一个Modal，并且提供了&lt;code&gt;destroy&lt;/code&gt;方法来手动销毁。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; const modal = Modal.success({
+    title: &amp;#39;This is a notification message&amp;#39;,
+    content: &amp;#39;This modal will be destroyed after 1 second&amp;#39;,
+ });
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Element UI中的Modal组件的API则是标准的命令式。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;this.$prompt(&amp;#39;请输入邮箱&amp;#39;, &amp;#39;提示&amp;#39;, {
+          confirmButtonText: &amp;#39;确定&amp;#39;,
+          cancelButtonText: &amp;#39;取消&amp;#39;,
+          inputPattern: /[\w!#$%&amp;amp;&amp;#39;*+/=?^_`{|}~-]+(?:\.[\w!#$%&amp;amp;&amp;#39;*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+          inputErrorMessage: &amp;#39;邮箱格式不正确&amp;#39;
+        }).then(({ value }) =&amp;gt; {
+          this.$message({
+            type: &amp;#39;success&amp;#39;,
+            message: &amp;#39;你的邮箱是: &amp;#39; + value
+          });
+        }).catch(() =&amp;gt; {
+          this.$message({
+            type: &amp;#39;info&amp;#39;,
+            message: &amp;#39;取消输入&amp;#39;
+          });       
+        });
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Element UI的Modal API设计很有特色，首先调用创建Modal的方法后返回的是一个Promise。如果用户点击确定，那Promise就resolve。如果用户点击取消，那Promise就reject。我们可以在创建Modal的API调用之后链式的编写逻辑。&lt;/p&gt;
+&lt;h4 id=&quot;自定义属性&quot;&gt;&lt;a href=&quot;#自定义属性&quot; class=&quot;headerlink&quot; title=&quot;自定义属性&quot;&gt;&lt;/a&gt;自定义属性&lt;/h4&gt;&lt;p&gt;Modal的属性中比较重要的就是内嵌的内容。在声明式定义的Modal的内嵌内容可以声明式的写在模板中。命令式的Modal则需要将内嵌内容作为初始化的属性传入。相比之下声明式的要更自然一些。&lt;/p&gt;
+&lt;p&gt;至于Modal另一组重要的属性，确认回调和取消回调。命令式的API在这方面更自然一些。特别是Element UI的基于Promise的调用。声明式的API则是在模板中声明属性，在View Controller中声明方法。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在人机交互中，有一个概念叫做&lt;a href=&quot;https://en.wikipedia.org/wiki/Modality_(human–computer_interaction&quot;&gt;Modality&lt;/a&gt;)，中文叫模态。模态，顾名思义，就是模拟。计算机可以模拟人通过各种通道接收的信息，比如视觉、听觉、触觉等等通道。视觉就通过显示器输出，听觉通过音响、触觉通过振动。同理，人也可以模拟计算机接收到的电信号，人可以通过键盘、触摸板等待设备来模拟0/1信号。&lt;/p&gt;
+&lt;p&gt;模态可以是但通道的，也可以是多通道的（比如玩游戏时有声音、视觉、和振动反馈）。今天我们要将的计算机软件中的Modal组件，就是计算机向人建立的单通道信息交互方式。&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Headless Chrome截图服务实战</title>
+    <link href="http://yoursite.com/2017/08/03/headlesschrome/"/>
+    <id>http://yoursite.com/2017/08/03/headlesschrome/</id>
+    <published>2017-08-03T01:26:25.000Z</published>
+    <updated>2017-08-03T06:59:21.000Z</updated>
+    
+    <content type="html">&lt;h3 id=&quot;TL-DR&quot;&gt;&lt;a href=&quot;#TL-DR&quot; class=&quot;headerlink&quot; title=&quot;TL;DR&quot;&gt;&lt;/a&gt;TL;DR&lt;/h3&gt;&lt;p&gt;给太长不看同学的内容速览：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Headless是Chrome 59中加入的一种新的运行模式&lt;/li&gt;
+&lt;li&gt;Headless Chrome可以替代PhantomJS，并且更加强大&lt;/li&gt;
+&lt;li&gt;可以通过Chrome DevTools Protocol这个协议对远程的Chrome浏览器进行调试&lt;/li&gt;
+&lt;li&gt;chrome-remote-interface是Nodejs下Chrome DevTools Protocol的封装&lt;/li&gt;
+&lt;li&gt;可以使用&lt;code&gt;Emulation.setVisibleSize&lt;/code&gt;对&lt;strong&gt;整个页面&lt;/strong&gt;进行截屏&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h3 id=&quot;PhantomJS的问题&quot;&gt;&lt;a href=&quot;#PhantomJS的问题&quot; class=&quot;headerlink&quot; title=&quot;PhantomJS的问题&quot;&gt;&lt;/a&gt;PhantomJS的问题&lt;/h3&gt;&lt;p&gt;之前有数报表的导出图片功能是用PhantomJS做的。PhantomJS有两个很大的问题：第一是，它的渲染引擎和JavaScript引擎基于Qt5，版本不是很高，所以渲染的时候会有一些兼容问题，而且JavaScript引擎也相对比较古老（最新的PhantomJS release是2.1版，这个版本基于Qt5.5。Qt5.5使用的Chromium内核版本是40，Chromium现在最新版本是62）。第二，PhantomJS现在已经处于一种维护不多的状态（Github上有1901个open issues）。&lt;/p&gt;
+&lt;p&gt;作为一个个人项目，PhantomJS在各种自动化测试以及页面自动化操作中被广泛使用，达到了很高的高度。但因为以上两个缺点，使用PhantomJS将不会是长久之计。&lt;/p&gt;
+&lt;h3 id=&quot;Chrome的Headless模式&quot;&gt;&lt;a href=&quot;#Chrome的Headless模式&quot; class=&quot;headerlink&quot; title=&quot;Chrome的Headless模式&quot;&gt;&lt;/a&gt;Chrome的Headless模式&lt;/h3&gt;&lt;p&gt;Headless Chrome其实不是一个全新的工具，而是普通的Chrome浏览器的headless模式。headless就是指Chrome的UI部分是不运行的。&lt;/p&gt;
+&lt;p&gt;所以只要你的机器上安装了Chrome 59+，你就可以使用Headless Chrome。相比之前&lt;code&gt;npm install&lt;/code&gt;时经常要从bitbucket下载PhantomJS binary的麻烦事，Headless Chrome要方便不少，毕竟Web开发者一般都安装了Chrome。&lt;/p&gt;
+&lt;p&gt;你可以在命令行中用headless模式启动Chrome：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;chrome \
+  --headless \                   # Runs Chrome in headless mode.
+  --disable-gpu \                # Temporarily needed for now.
+  --remote-debugging-port=9222 \
+  https://www.chromestatus.com   # URL to open. Defaults to about:blank.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们可以直接在Chrome的CLI中进行一些操作，比如截屏：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;chrome --headless --disable-gpu --screenshot --window-size=1280,1696 https://www.chromestatus.com/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;但一般我们很少会这样直接使用Headless Chrome。对这部分有兴趣的同学可以看&lt;a href=&quot;https://developers.google.com/web/updates/2017/04/headless-chrome&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官方文档&lt;/a&gt;，这里就不多说了。&lt;/p&gt;
+&lt;p&gt;Headless Chrome的最大的优点就是，它就是Chrome，所以可以保持Evergreen，也就是持续的更新。并且我们可以在Headless模式使用Chrome带来的所有的现代Web平台的特性。所以Headless Chrome就成为了PhantomJS的完美升级版替代品。&lt;/p&gt;
+&lt;h3 id=&quot;强大的Chrome-DevTools-Protocol&quot;&gt;&lt;a href=&quot;#强大的Chrome-DevTools-Protocol&quot; class=&quot;headerlink&quot; title=&quot;强大的Chrome DevTools Protocol&quot;&gt;&lt;/a&gt;强大的Chrome DevTools Protocol&lt;/h3&gt;&lt;p&gt;要在脚本中和Chrome进行交互，需要用Chrome DevTools Protocol这个协议。所以这里首先介绍一下这个协议。&lt;/p&gt;
+&lt;p&gt;简单的说，我们可以在启动Chrome的时候开启一个用于远程调试的端口。然后我们可以在浏览器或者其他客户端中和Chrome建立socket连接，并使用Chrome DevTools Protocol进行通信。&lt;/p&gt;
+&lt;p&gt;Chrome DevTools Protocol通信的格式是JSON。比如我们想截屏，就可以发一个消息：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    id:30,
+    method:&amp;quot;Page.captureScreenshot&amp;quot;,
+    params: {
+        format:&amp;quot;png&amp;quot;,
+        quality:100
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;返回的消息：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    id:30,
+    data:&amp;quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIA...&amp;quot;    
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;具体的API可以参考&lt;a href=&quot;https://chromedevtools.github.io/devtools-protocol/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;文档&lt;/a&gt;，我们从文档里可以看到，Chrome DevTools Protocol包含的范围非常广。简单的说，我们平时在Chrome DevTool里面可以做到的事情，能获取的数据，我们使用Chrome DevTools Protocol都可以做到。因为Chrome DevTool其实就是基于这个协议进行开发的一个B/S架构的工具。当然这个协议也应该是随着Chrome DevTool的开发，被标准化。现在不仅仅是Chrome，其他浏览器也支持部分Chrome DevTools Protocol。&lt;/p&gt;
+&lt;p&gt;我们在Chrome的拓展里也可以调用这一套API。所以Chrome拓展的潜力是很大的。可以通过合理使用Chrome DevTools Protocol获得更接近自带DevTool的debug体验。也可以对内存、DOM、渲染等数据进行二次的分析和利用。&lt;/p&gt;
+&lt;h3 id=&quot;Nodejs服务&quot;&gt;&lt;a href=&quot;#Nodejs服务&quot; class=&quot;headerlink&quot; title=&quot;Nodejs服务&quot;&gt;&lt;/a&gt;Nodejs服务&lt;/h3&gt;&lt;p&gt;直接使用Chrome DevTools Protocol还是比较麻烦的。社区已经有了封装好的Nodejs包&lt;a href=&quot;https://github.com/cyrus-and/chrome-remote-interface&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;chrome-remote-interface&lt;/a&gt;可以直接使用。我们可以直接像调用JavaScript API那样来和Chrome进行通信。&lt;/p&gt;
+&lt;p&gt;下面就演示一下如何在Node中进行Chrome的截屏：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const CDP = require(&amp;#39;chrome-remote-interface&amp;#39;);
+const Koa = require(&amp;#39;koa&amp;#39;);
+const app = new Koa();
+
+const viewportWidth = 1440;
+const viewportHeight = 900;
+const delay = 500;
+
+app.use(async ctx =&amp;gt; {
+  ctx.body = await capture(ctx.request.query.url);
+});
+
+app.listen(3000);
+
+const capture = function (url) {
+  return new Promise((resolve, reject) =&amp;gt; {
+    CDP.New().then((target) =&amp;gt; {
+      return CDP({ target });
+    }).then(async (client) =&amp;gt; {
+
+      const { Page } = client;
+      await Page.enable();
+      await Page.navigate({ url: url });
+
+      Page.loadEventFired(() =&amp;gt; {
+        setTimeout(async () =&amp;gt; {
+          const { data } = await Page.captureScreenshot();
+          resolve(Buffer.from(data, &amp;#39;base64&amp;#39;));
+          const id = client.target.id;
+          client.close();
+          CDP.Close({ id });
+        }, delay);
+      });
+    }).catch((err) =&amp;gt; {
+      console.error(err);
+    });
+  })
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;chrome-remote-interface将一个socket通信的来回封装成了一个异步的函数调用，返回一个Promise。在Node7.8+的环境，我们可以用async/await来轻松的进行流程控制。这里是具体的&lt;a href=&quot;https://github.com/cyrus-and/chrome-remote-interface/wiki&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Demo&lt;/a&gt;和&lt;a href=&quot;https://github.com/cyrus-and/chrome-remote-interface#api&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;API文档&lt;/a&gt;，基本和Chrome DevTools Protocol里的接口是一一对应的。&lt;/p&gt;
+&lt;p&gt;这个服务监听3000端口，在请求中拿到url参数，调用&lt;code&gt;capture&lt;/code&gt;函数截屏。我们这里默认Chrome的调试端口是127.0.0.1:9222。如果需要调整，可以在初始化CDP实例的时候传入参数。&lt;/p&gt;
+&lt;p&gt;我们调用&lt;code&gt;CDP.New()&lt;/code&gt;初始化一个新的Tab，等待Page加载完成，打开url，然后等待页面的加载事件触发之后执行回调，在回调里调用截屏API并且获取数据。最后我们关闭这个Tab。整个截图的流程就是这样。&lt;/p&gt;
+&lt;h3 id=&quot;Tip：截取整个页面&quot;&gt;&lt;a href=&quot;#Tip：截取整个页面&quot; class=&quot;headerlink&quot; title=&quot;Tip：截取整个页面&quot;&gt;&lt;/a&gt;Tip：截取整个页面&lt;/h3&gt;&lt;p&gt;我遇到的一个很大的问题就是，页面比较长，我希望截取的图片的高度就是页面的高度，也就是说我希望给整个页面截屏。&lt;/p&gt;
+&lt;p&gt;一开始我截屏的结果是这样的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx3.sinaimg.cn/large/64c45edcgy1fi6ilca424j20ct08y0t3.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;这和想象的不一样啊，下面的大半截都没有了 &lt;img src=&quot;http://wx1.sinaimg.cn/large/64c45edcgy1fi6if8s30uj203d023q2q.jpg&quot; alt=&quot;xiaohuangji&quot;&gt;&lt;/p&gt;
+&lt;p&gt;所以要如何截取整个页面的呢？我在chrome-remote-interface的wiki里看到了一篇&lt;a href=&quot;https://medium.com/@dschnr/using-headless-chrome-as-an-automated-screenshot-tool-4b07dffba79a?1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;文章&lt;/a&gt;。然而截屏的时候报错，说&lt;code&gt;Emulation.forceViewport&lt;/code&gt;不存在.原来这个API已经在新版的Chrome中被废弃了。&lt;/p&gt;
+&lt;p&gt;最终我找到了一篇&lt;a href=&quot;https://jonathanmh.com/taking-full-page-screenshots-headless-chrome/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;神奇的博客&lt;/a&gt;，完美的解决了我的问题，核心代码是这样的：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Page.loadEventFired(async() =&amp;gt; {
+    if (fullPage) {
+      const {root: {nodeId: documentNodeId}} = await DOM.getDocument();
+      const {nodeId: bodyNodeId} = await DOM.querySelector({
+        selector: &amp;#39;body&amp;#39;,
+        nodeId: documentNodeId,
+      });
+
+      const {model: {height}} = await DOM.getBoxModel({nodeId: bodyNodeId});
+      await Emulation.setVisibleSize({width: device.width, height: height});
+      await Emulation.setDeviceMetricsOverride({width: device.width, height:height, screenWidth: device.width, screenHeight: height, deviceScaleFactor: 1, fitWindow: false, mobile: false});
+      await Emulation.setPageScaleFactor({pageScaleFactor:1});
+    }
+  });
+
+  setTimeout(async function() {
+    const screenshot = await Page.captureScreenshot({format: &amp;quot;png&amp;quot;, fromSurface: true});
+    const buffer = new Buffer(screenshot.data, &amp;#39;base64&amp;#39;);
+    fs.writeFile(&amp;#39;desktop.png&amp;#39;, buffer, &amp;#39;base64&amp;#39;, function(err) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(&amp;#39;Screenshot saved&amp;#39;);
+      }
+    });
+      client.close();
+  }, screenshotDelay);
+
+}).on(&amp;#39;error&amp;#39;, err =&amp;gt; {
+  console.error(&amp;#39;Cannot connect to browser:&amp;#39;, err);
+});
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;原理就是用Emulation这个API，去调整页面的一些属性。其中核心的方法是&lt;code&gt;Emulation.setVisibleSize&lt;/code&gt;，文档里对这个方法的说明是：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Resizes the frame/viewport of the page. Note that this does not affect the frame’s container (e.g. browser window). Can be used to produce screenshots of the specified size.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后我们就可以愉快的给整个页面截屏了，比如这样：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx1.sinaimg.cn/large/64c45edcgy1fi6i22r84kj21402hdjux.jpg&quot; alt=&quot;full image&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Docker镜像&quot;&gt;&lt;a href=&quot;#Docker镜像&quot; class=&quot;headerlink&quot; title=&quot;Docker镜像&quot;&gt;&lt;/a&gt;Docker镜像&lt;/h3&gt;&lt;p&gt;最后我们需要部署这两个服务，社区里有自制的Headless Chrome的Docker镜像，比如&lt;a href=&quot;https://github.com/yukinying/chrome-headless-browser-docker&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;yukinying/chrome-headless-browser-docker&lt;/a&gt;。注意如果我们需要调整Chrome的默认window大小，可以修改&lt;a href=&quot;https://github.com/yukinying/chrome-headless-browser-docker/blob/master/chrome/Dockerfile&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Dockerfile&lt;/a&gt;然后自行build镜像。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ENTRYPOINT [&amp;quot;/usr/bin/dumb-init&amp;quot;, &amp;quot;--&amp;quot;, \
+            &amp;quot;/usr/bin/google-chrome-unstable&amp;quot;, \
+            &amp;quot;--disable-gpu&amp;quot;, \
+            &amp;quot;--window-size=1440,900&amp;quot;  # 在ENTRYPOINT命令参数中加上window-size
+            &amp;quot;--headless&amp;quot;, \
+            &amp;quot;--remote-debugging-address=0.0.0.0&amp;quot;, \
+            &amp;quot;--remote-debugging-port=9222&amp;quot;, \
+            &amp;quot;--user-data-dir=/data&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Node服务的镜像就比较简单了：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;FROM node:latest
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+
+RUN npm install koa chrome-remote-interface
+EXPOSE 3000
+CMD [ &amp;quot;node&amp;quot;, &amp;quot;index.js&amp;quot; ]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;生产中应该用pm2这样的Process Manager来保持进程的运行。依赖也应该写在package.json里。&lt;/p&gt;
+&lt;p&gt;服务之间的关系如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://wx3.sinaimg.cn/large/64c45edcgy1fi6j3jqs0cj20fj07saaf.jpg&quot; alt=&quot;service&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Links&quot;&gt;&lt;a href=&quot;#Links&quot; class=&quot;headerlink&quot; title=&quot;Links&quot;&gt;&lt;/a&gt;Links&lt;/h3&gt;&lt;p&gt;如果大家想使用Headless Chrome的话，最好还是去浏览一下相关的文档，因为这些内容都属于比较新的东西，变化也比较快。本文主要是简单的介绍一下这方面实现的可行性。下面是相关的链接：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://developers.google.com/web/updates/2017/04/headless-chrome&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Getting Started with Headless Chrome&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://chromedevtools.github.io/devtools-protocol/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Chrome DevTools Protocol Viewer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/cyrus-and/chrome-remote-interface&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;chrome-remote-interface&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://jonathanmh.com/taking-full-page-screenshots-headless-chrome/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Taking Full Page Screenshots with Headless Chrome&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;TL-DR&quot;&gt;&lt;a href=&quot;#TL-DR&quot; class=&quot;headerlink&quot; title=&quot;TL;DR&quot;&gt;&lt;/a&gt;TL;DR&lt;/h3&gt;&lt;p&gt;给太长不看同学的内容速览：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Headless是Chrome 59中加入的一种新的运行模式&lt;/li&gt;
+&lt;li&gt;Headless Chrome可以替代PhantomJS，并且更加强大&lt;/li&gt;
+&lt;li&gt;可以通过Chrome DevTools Protocol这个协议对远程的Chrome浏览器进行调试&lt;/li&gt;
+&lt;li&gt;chrome-remote-interface是Nodejs下Chrome DevTools Protocol的封装&lt;/li&gt;
+&lt;li&gt;可以使用&lt;code&gt;Emulation.setVisibleSize&lt;/code&gt;对&lt;strong&gt;整个页面&lt;/strong&gt;进行截屏&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
@@ -802,588 +2019,6 @@ git config --global https.proxy http://localhost:8123
     
       &lt;p&gt;2016对我来说当然是很神奇也很重要的一年。团队的进步很快，华师匣子终于上线。我也顺利的找到的工作。&lt;/p&gt;
 &lt;p&gt;回想这一年，对于上半年的事情，现在只残存着一些依稀的回忆了。这一年我对前端的理解，有了很大的变化，这其实是一个日积月累的过程。所以Tower里的进度，对于我来说，就是一个非常好的备忘录。自己的学习的历程，在里面可以看到一个很清晰的脉络。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>从0到1：我和木犀的故事</title>
-    <link href="http://yoursite.com/2016/12/19/muxi-story/"/>
-    <id>http://yoursite.com/2016/12/19/muxi-story/</id>
-    <published>2016-12-19T03:28:47.000Z</published>
-    <updated>2016-12-23T07:12:39.000Z</updated>
-    
-    <content type="html">&lt;h3 id=&quot;缘起：华大桂声技术部&quot;&gt;&lt;a href=&quot;#缘起：华大桂声技术部&quot; class=&quot;headerlink&quot; title=&quot;缘起：华大桂声技术部&quot;&gt;&lt;/a&gt;缘起：华大桂声技术部&lt;/h3&gt;&lt;p&gt;2013年10月我加入华大桂声技术部。其实一开始我加的是华大青年，但因为那里没有专门的技术部，面试的时候也没有做技术的人面我，所以我在得知桂声招新的情况下，放弃了华青那边的录取。&lt;/p&gt;
-&lt;p&gt;于是就开始了在桂声技术部的日子。那个时候其实i华大已经建立了，但桂声还是比较强势一些。那段时间主要就是在一个2011级学姐的带领下做桂声的专题和网站。我记得我来的那年之前做了110周年校庆专题和迎新网，都很不错。桂声的专题是很有特色的，现在我们也试图去捡起这个传统。&lt;/p&gt;
-&lt;p&gt;我接到的第一个任务是做一个恽代英专题，在炳权学长的指导下，顺利的做出来了。关于这个我记得比较清楚的细节，一个是熄灯了之后搬个凳子去走廊里做，还有一个是上线了之后很兴奋，发给很多人看。&lt;/p&gt;
-&lt;p&gt;接下来就是下半学期开始的桂声改版，我写了一部分的主页。那个时候，我其实压根就不会写真正的代码，如果要用到JS，比如轮播图，我就去网站下一个功能差不多的插件，然后修改一下。这个过程其实是很痛苦的，因为你心里并没有底。所以每次把插件改好都像是一场战役。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;一个人的i华大技术中心&quot;&gt;&lt;a href=&quot;#一个人的i华大技术中心&quot; class=&quot;headerlink&quot; title=&quot;一个人的i华大技术中心&quot;&gt;&lt;/a&gt;一个人的i华大技术中心&lt;/h3&gt;&lt;p&gt;2014年开始，虽然我们还是习惯说自己是技术部的，但名义上已经是i华大技术中心了。底下分技术研发部和视觉设计部。&lt;/p&gt;
-&lt;p&gt;说一个人，我指的是技术方面，设计那边还是很强大的。除了做主任的学姐和炳权学长，其他人并不会技术，然后之前的主任学姐三四月份就跑路了，炳权学长也很早就在名义上退出了。因此这个技术部就只有我一个人了。&lt;/p&gt;
-&lt;p&gt;然后就是2014年四月份，技术中心春招。我依稀记得那个时候来了有大概三四十号人。然后我在306做培训，其实就是教他们切页面。&lt;/p&gt;
-&lt;p&gt;那个时候也没想着要做一个技术团队，就想要把技术中心做好吧。当时我自己其实也是小白，也教不了他们什么。这三四十号人也并不是完全合适，因此最后待的比较久的，就只有龚红霞一个人。&lt;/p&gt;
-&lt;p&gt;2014年的上半年还发生了一件事情，就是桂声10周年庆，请了很多高校的团队来交流，有武大和理工人的来了。当时我们的技术实力几乎为0，然而却在PPT上写了我们用Node，现在想起来还是觉得脸红。我听他们讲JSON，API这些，完全不懂。想来这应该就是我想打造一个技术团队的最初来源吧。&lt;/p&gt;
-&lt;h3 id=&quot;木犀&quot;&gt;&lt;a href=&quot;#木犀&quot; class=&quot;headerlink&quot; title=&quot;木犀!&quot;&gt;&lt;/a&gt;木犀!&lt;/h3&gt;&lt;p&gt;木犀这个名字，想来应该就是14年下半年提出的。之所以叫木犀，是因为华师的桂花很出名，但直接叫桂花又太俗。我偶然得知木犀是桂花的学名，于是就选用了这个名字。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;这里有个插曲，炳权曾经提议说我们可以叫handle，现在想起来还是觉得很搞笑。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;2014年的秋招，来了很多人，胡薇、韩伟、老王、王露晨、梁晓怡，这都是之后设计组的核心，想来之后那段时间也是设计组的黄金时代。小桂漫画，壁纸，表情，都是那段时间做的。&lt;/p&gt;
-&lt;p&gt;还有一个人，那就是朱承浩。&lt;/p&gt;
-&lt;p&gt;对我建设团队帮助最大的还是炳权，因为炳权那个时候已经在冰岩了（虽然我到15年上半年才知道），他会给我们很多建议，我也拓宽了很多视野。&lt;/p&gt;
-&lt;p&gt;2014年下半年我们开始学Python，决定用Python做后端的语言。但那个时候还没有能力去完成一个网站的后台。那段时间我主要是用Drupal这个CMS来做学而的第一版。&lt;/p&gt;
-&lt;p&gt;学而第一版其实反响还是很不错的，现在数据库里都还有那个时候的评论。这对我来说是一个鼓励，说明产品是有需求的。然后Drupal这个东西，开发难度很大，这坚定了我们自己学后台的决心。&lt;/p&gt;
-&lt;p&gt;2015年的到来，是一切奇迹的开始。放弃Drupal和各种前端插件，真正的踏入Web开发的大门，就是从哪个时候开始的。所以说木犀的成长史，也是技术的成长史。&lt;/p&gt;
-&lt;p&gt;首先我们在15年2月全面使用了Tower（这个时间点之前设计组好像就已经在用了）。大家看我和承浩的进度都是从15年2月开始的。至于Tower，对，没错，是炳权告诉我的，因为冰岩在用。&lt;/p&gt;
-&lt;p&gt;之后就是承浩的时间了。他学了Flask，我们用Flask搭的第一个网站是什么，我已经忘了。我只记得那个时候，光部署网站，就要花好几天，因为书上讲的是AWS这种云服务的部署。手动的部署还是有一些门槛的。那个时候，因为了解的层次比较低，会觉得很多东西是玄学。&lt;/p&gt;
-&lt;p&gt;3月我们去了联创交流，具体可以参见我的&lt;a href=&quot;http://zxc0328.github.io/2015/03/27/联创交流行/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这个博客&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;5月份和6月份其实还有一次转折。5月份的时候，理工的token团队办了十五周年庆，我们去参加了技术交流会。这次是我们第一次以木犀团队的名义出去交流。也是从2015年上半年开始，我们慢慢习惯以木犀团队的身份出现在所有人的眼中。这次交流会上，我们依然没有太多的干货，相比于其他团队，我们感受到了我们还太年轻。&lt;/p&gt;
-&lt;p&gt;6月联创Hackday。我们主要是去感受了一下气氛。3月和6月两次去启明，对于我和承浩两个做技术的人来说，这个冲击不亚于工业文明对封建社会的冲击。首先是感受到了华科那边浓厚的技术气氛，其次是感到了一些压力，因为我们团队是如此的弱小，而华师的技术氛围又不想。当然是压力也是动力，不管如何，从2015上半年之后，我们团队在技术上便开始了不断的进步。&lt;/p&gt;
-&lt;p&gt;联创Hackday&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7xj431.com1.z0.glb.clouddn.com/20150606_230735.jpg&quot; alt=&quot;hackday&quot;&gt;&lt;/p&gt;
-&lt;p&gt;暑假承浩买了Mac，从此就一发不可收拾。那个暑假我在极验实习。其他人进行了我们第一次的夏令营（夏令营这个想法也是炳权提供的）。那个夏令营还是很愉快的，我们做出了第一版的内网，对于Flask的掌握已经好很多了。&lt;/p&gt;
-&lt;p&gt;夏令营照片：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://ww4.sinaimg.cn/mw690/0067HQaegw1ew2zdt5kfvj318g0xc7kh.jpg&quot; alt=&quot;xialy&quot;&gt;&lt;/p&gt;
-&lt;p&gt;夏令营最后去落雁岛玩的照片：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://ww2.sinaimg.cn/mw690/64c45edcjw1fb0mmjzukkj21ci0ya4qp.jpg&quot; alt=&quot;lyd&quot;&gt;&lt;/p&gt;
-&lt;p&gt;2015年9月，团队已经初具规模了。后面的事情，15级的同学应该都清楚了。&lt;/p&gt;
-&lt;p&gt;接下来的事情就是2015年下半年开发的学而的第二版，完全用Flask写，有同步的路由和REST API组成，前端移动版是一个SPA，用了Webpack和React。这就是我们第一个工程化的产品。&lt;/p&gt;
-&lt;p&gt;技术团队的成长，其实就是我的成长，承浩的成长，已经后面14级其他同学和15级同学的成长，每次有一个人成长为核心成员，团队就变的更加的强大。&lt;/p&gt;
-&lt;h3 id=&quot;番外：304-306-502&quot;&gt;&lt;a href=&quot;#番外：304-306-502&quot; class=&quot;headerlink&quot; title=&quot;番外：304-306-502&quot;&gt;&lt;/a&gt;番外：304-306-502&lt;/h3&gt;&lt;p&gt;一开始，i华大技术中心的办公地点是在304。那时候我们还是非常自由的，304可以随意的改造。经历过那段时刻的同学应该知道，那段时间是很有归属感的一段时间：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://ww3.sinaimg.cn/mw690/0067HQaegw1ew2zdsct9bj30hs0hsgpb.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7xj431.com1.z0.glb.clouddn.com/20150402_202558.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;直到今年5月份，304和306装修。我仓皇中去合租了一间房子，在教工宿舍，作为我们的临时工作室：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://7xj431.com1.z0.glb.clouddn.com/IMG20160622155941.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;那段时光是难忘的，也是别扭的，痛苦的。那只狗，上门的邻居，狭小的空间，和我自己当时的各种压力混合在一起。&lt;/p&gt;
-&lt;p&gt;现在我们主要在306活动，也在304。虽然归属感没有以前这么强了，但因为大家更熟悉了，核心成员也更多了，所以团队的气氛要更好一些。&lt;/p&gt;
-&lt;p&gt;我还是希望我们能有一间独立的工作室。我们要时刻保持危机感，来应对未来的无限的可能。&lt;/p&gt;
-&lt;h3 id=&quot;前端之路&quot;&gt;&lt;a href=&quot;#前端之路&quot; class=&quot;headerlink&quot; title=&quot;前端之路&quot;&gt;&lt;/a&gt;前端之路&lt;/h3&gt;&lt;p&gt;我个人的前端之路，其实也是木犀从0到1的一个很好的注脚。&lt;/p&gt;
-&lt;p&gt;我其实在15年的上半年才开始正式学计算机。那个学期在武大开始辅修，然后在团队开始学Flask和Python。5月的时候，我的前端水平是只会写简单的Banner，相比之前Banner都要用插件的水平来说，算是好一些。那个时候是标准的过程式的编程。&lt;/p&gt;
-&lt;p&gt;5月的时候看了一本单页应用开发的书，里面讲到了IIFE，闭包等等。我如获至宝，写个什么组件（其实我当时并没有组件的意识）就用IIFE，其实这算是最初的模块化，工程化意识吧。只不过我那个时候并不清楚模块化和工程化，也不知道正常的编程语言都是自带模块的。&lt;/p&gt;
-&lt;p&gt;7月和8月我主要在极验实习，切了不少的页面，里面有一些用jQuery做的组件。这个时候我写展示型的页面以及比较熟练了，CSS也掌握的不错（毕竟在写桂声那些主要就是CSS）。但对于前端的那些Grunt什么的工具，其实我并不是很清楚为什么要用。&lt;/p&gt;
-&lt;p&gt;所以对于模块的理解，对我来说是一道坎。真正理解模块和工程，还有闭包，大概是今年的事情了。&lt;/p&gt;
-&lt;p&gt;9月回学校之后我看了React，后来就开始用Backbone写学而。那个时候我对MVC了解的还是比较多的，因为之前后端用的就是MVC。写React的时候比较初步的理解了组件化。之后对于Webpack之类的工具也用的很顺手了。&lt;/p&gt;
-&lt;p&gt;这个学期对面向对象也略有了解。但对于View和Model的分层，以及组件的抽象，还没有到能手写的地步。那个时候我看Backbone源码，并没有太多感觉。而现在我回头看，就觉得抽象非常的清晰了。&lt;/p&gt;
-&lt;p&gt;那个时候我对很多事情的理解都比较的浅薄。对于React Native很崇拜，觉得Web的目标就是取代原生应用。觉得Web就是要做单页应用。也没有很深入的理解前端工具为什么存在，以及组件化的发展史。&lt;/p&gt;
-&lt;p&gt;现在来看，其实Web有Web的特点，需要动态化、快速上线、展示型的东西都可以用Web来做，这只是一个简单的技术选型的问题。&lt;/p&gt;
-&lt;p&gt;总得来说，这是一个&lt;strong&gt;技术视野&lt;/strong&gt;的问题。如果你用过很多别的语言，那你就应该很容易的理解模块的存在。如果你开发过原生应用，那你就应该很好的理解为什么Web开发的UI应该是组件化的。&lt;/p&gt;
-&lt;p&gt;今年开始，我把兴趣移到了函数式，编程语言，还有计算机基础上面。对于前端，我主要在开发工具解决我们自己的工作流中的问题，还有就是研究框架和工具的源码，进一步深入。&lt;/p&gt;
-&lt;p&gt;现在回过头来看，我就能发现前端学习的一个最佳的路径，DOM可以不用花很多心思，但组件一定要自己去手动实现。模块可以直接用标准的模块。前端无非是普通的客户端软件开发，从这个视角去看的话，事情就清楚多了。&lt;/p&gt;
-&lt;p&gt;计算机基础加上足量的工程经验，应该就可以成就一个好的工程师了。我的前端之路还算顺利，大家的学习道路，在我们这些先行者的踩坑之后，肯定会更加顺利。但有一点是肯定的，要把一样事情学好，需要你的热情，时间，和精力。&lt;/p&gt;
-&lt;p&gt;还有一点，就是你的视野是随着你的经验而增长的，视野对你理解一些技术是非常有帮助的。平时我们在安排学习路线时也会特意的去安排背景阅读材料，或者是讲一些思想和Lab结合起来，努力让大家能够尽快的熟悉那些方法论层面的东西。同时，你自己的思考也是离不开的。我经常会思考，踱步。好的书常看常新，经典的思想，也是需要反复的思忖才能领悟的。&lt;/p&gt;
-&lt;h3 id=&quot;我们在路上，前方不会太远&quot;&gt;&lt;a href=&quot;#我们在路上，前方不会太远&quot; class=&quot;headerlink&quot; title=&quot;我们在路上，前方不会太远&quot;&gt;&lt;/a&gt;我们在路上，前方不会太远&lt;/h3&gt;&lt;p&gt;2016年，团队最大的新闻当然就是华师匣子的上线。这个是我们的第一款移动应用，也是将来一切产品的推广基础。&lt;/p&gt;
-&lt;p&gt;在我看来，团队最大的成长，一个是技术团队在工程化上慢慢摸索，有了自己的方向。我们的方向就是&lt;strong&gt;通过造轮子来深入原理，积极的实践最新的技术，写完善的文档，在社区中争取拥有一定的影响力&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;在团队的管理上，确立了早读制度，试行了导师制度，管理工作组共同管理团队，成功的进行了秋游，招新算是顺利，团队管理层平滑更换。这些都是一个团队平稳运行的基石。如果说这个大框架搭好了，我们就可以把精力投入到具体的产品和新人培养中去了。&lt;/p&gt;
-&lt;p&gt;在接下里的日子里，我们要把产品的汇报制度完善，项目组的气氛要更好，全员大会要常态化，组内技术积累要抓紧，新人双轨培养的计算机基础方向需要花很大的力气建设，UED部门要重新上路。&lt;/p&gt;
-&lt;p&gt;对于团队的期望，我不想说太多，我只能说，作为一个木犀人，你就算毕业了，也依然要参与到团队的建设中去，只是不在第一线了而已。只有这样才能慢慢的把事情做好。我们追求的是理想中的团队，可能我们永远都无法到达那个理想中的境界，但一直在成长，一直在进步的话，大家开开心心的，就挺好。&lt;/p&gt;
-&lt;p&gt;我们在路上，前方不会太远。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;缘起：华大桂声技术部&quot;&gt;&lt;a href=&quot;#缘起：华大桂声技术部&quot; class=&quot;headerlink&quot; title=&quot;缘起：华大桂声技术部&quot;&gt;&lt;/a&gt;缘起：华大桂声技术部&lt;/h3&gt;&lt;p&gt;2013年10月我加入华大桂声技术部。其实一开始我加的是华大青年，但因为那里没有专门的技术部，面试的时候也没有做技术的人面我，所以我在得知桂声招新的情况下，放弃了华青那边的录取。&lt;/p&gt;
-&lt;p&gt;于是就开始了在桂声技术部的日子。那个时候其实i华大已经建立了，但桂声还是比较强势一些。那段时间主要就是在一个2011级学姐的带领下做桂声的专题和网站。我记得我来的那年之前做了110周年校庆专题和迎新网，都很不错。桂声的专题是很有特色的，现在我们也试图去捡起这个传统。&lt;/p&gt;
-&lt;p&gt;我接到的第一个任务是做一个恽代英专题，在炳权学长的指导下，顺利的做出来了。关于这个我记得比较清楚的细节，一个是熄灯了之后搬个凳子去走廊里做，还有一个是上线了之后很兴奋，发给很多人看。&lt;/p&gt;
-&lt;p&gt;接下来就是下半学期开始的桂声改版，我写了一部分的主页。那个时候，我其实压根就不会写真正的代码，如果要用到JS，比如轮播图，我就去网站下一个功能差不多的插件，然后修改一下。这个过程其实是很痛苦的，因为你心里并没有底。所以每次把插件改好都像是一场战役。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>华师匣子iOS版开发记</title>
-    <link href="http://yoursite.com/2016/12/19/ios-story/"/>
-    <id>http://yoursite.com/2016/12/19/ios-story/</id>
-    <published>2016-12-19T03:28:35.000Z</published>
-    <updated>2016-12-21T12:44:19.000Z</updated>
-    
-    <content type="html">&lt;p&gt;这个月华师匣子的iOS版终于上线，历时四个多月的开发告一段落。我达成了从客户端开发0基础到App Store的成就。四个多月，99次提交，10个内测版本，两次App Store发布，这实在是一个值得纪念的时刻。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;这是匣子iOS的Github提交图表：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/Screen%20Shot%202016-12-21%20at%208.39.43%20PM.png&quot; alt=&quot;iOS Github&quot;&gt;&lt;/p&gt;
-&lt;p&gt;上个学期我接下iOS版开发的任务时，其实我心里是没底的。没学过iOS是一方面，关键是我也没有任何客户端开发的经验。当时我对客户端开发的了解几乎为0。之前有接触过一点安卓。但iOS这边玄学的StoryBoard和新语言Swift都让我比较没底。&lt;/p&gt;
-&lt;h3 id=&quot;起步&quot;&gt;&lt;a href=&quot;#起步&quot; class=&quot;headerlink&quot; title=&quot;起步&quot;&gt;&lt;/a&gt;起步&lt;/h3&gt;&lt;p&gt;我首先看了斯坦福的&lt;a href=&quot;http://web.stanford.edu/class/cs193p/cgi-bin/drupal/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;iOS开发课程&lt;/a&gt;。这个课程是一个非常不错的课程。里面实现一个计算器，代码的结构非常的合理，也充分发挥了Swift的特性。当时我的感觉就是，写APP或者其他业务并不是会调API就好，如果想要写漂亮的代码，那还是需要扎实的计算机基础。&lt;/p&gt;
-&lt;p&gt;我看着课程，但我并没有跟着写，因为时间不多了。我在了解了基本的MVC架构、StoryBoard中拖控件、拖Outlet和Action、Auto Layout之后，就开始写匣子的几个界面。&lt;/p&gt;
-&lt;p&gt;当时写了界面之后，就有所感触了。首先Auto Layout的确是一个非常好的布局方式，让我不再怀念CSS。然后，原生APP中首先所有的组件都是有与之对应的对象实例的，这是顺理成章的事情。但在Web这边，组件需要自己抽象，而且在Web Component没有普及之前，没有原生级别的支持。写iOS的过程中我越发明白，DOM其实只是Web界面UI的实现细节。我们要用某种方式去封装DOM，在UI抽象层编写代码。iOS就完全符合这种方式。想来客户端软件理应是这样的。只不过Web技术从一开始并不是为客户端软件打造的，因此这几年前端走的路，基本就是补上之前落下的课。&lt;/p&gt;
-&lt;p&gt;当然Web前端数据驱动，双向绑定这些，在我看来已经是最前沿的东西了。iOS这边肯定也有。但因为我对前端更了解一些，所以觉得前端要更优雅一些。&lt;/p&gt;
-&lt;p&gt;最开始做图书馆，于是就遇到了输入框键盘如何收起的问题。点击return，点击屏幕的其他地方都会收起键盘。这里要提到一点，就是这次0基础做iOS，是我第一次在全英文的环境下从头开始学一门技术。这次我全程一行中文都没有看。回头想想，很难想象如何在中文社区解决这些问题。&lt;/p&gt;
-&lt;h3 id=&quot;深入&quot;&gt;&lt;a href=&quot;#深入&quot; class=&quot;headerlink&quot; title=&quot;深入&quot;&gt;&lt;/a&gt;深入&lt;/h3&gt;&lt;p&gt;接下来就是各个技术点的学习了。数据持久化要用Core Data，其实就是一个本地的SQLite数据库。这个我基本是当Key Value存储来用了。对数据库还是不是很了解。然后有触摸事件的处理等等。网络请求用Alamofire和SwiftyJSON。学用iOS的Cocoapad装依赖。&lt;/p&gt;
-&lt;p&gt;学习的过程中，说起来只有一个比较理论的知识，就是delegate、protocol、extension这些。&lt;/p&gt;
-&lt;p&gt;之前在看斯坦福课程的时候还不是很了解。后来用UITableView以及需要不同VC直接通信的时候，就慢慢了解了delegate。我对delegate的了解就是一种委托的模式。任意一个实现了对应接口的对象都可以作为委托的对象。后来在安卓那边了解了一下，大致有同样的实现。&lt;/p&gt;
-&lt;p&gt;UITableView实在是一种很经典的接口设计。除了那几个delegate方法之外，UITableView会对Table Cell进行回收的做法，也让我明白了之前面试时问我的长列表优化问题的答案。在Web端我们也可以控制列表只保留可视区域的DOM元素，来做优化。这样不管列表有多少元素，都可以顺利的渲染。&lt;/p&gt;
-&lt;h3 id=&quot;课程表&quot;&gt;&lt;a href=&quot;#课程表&quot; class=&quot;headerlink&quot; title=&quot;课程表&quot;&gt;&lt;/a&gt;课程表&lt;/h3&gt;&lt;p&gt;课程表一度是我迟迟不愿意动手的一个模块。其实匣子里大部分模块的逻辑都是简单的查询和拉取数据。课程表也不例外，但课程表的View相对来说比较复杂。我咨询了安卓的同学之后才知道要自己画View，自己handle触摸事件。于是就写了一个双向的滑动，在触摸事件中修改View的偏移。&lt;/p&gt;
-&lt;p&gt;画课表的格子也花了我一段时间，最后算是解决了。后期还要再完善。课程表的实现让我得以一窥iOS开发的常态———自定义View。实际上大部分的控件应该还是需要自己来写的，毕竟大家的APP看上去都很Unique。&lt;/p&gt;
-&lt;p&gt;iOS的View可以自定义drawRect方法。这应该就是暴露了底层的2D绘图API，类似于Web中的Canvas。&lt;/p&gt;
-&lt;h3 id=&quot;收尾&quot;&gt;&lt;a href=&quot;#收尾&quot; class=&quot;headerlink&quot; title=&quot;收尾&quot;&gt;&lt;/a&gt;收尾&lt;/h3&gt;&lt;p&gt;其他大大小小的问题还有很多，比如我一度纠结于如何取消Navigation bar上面返回按钮的文字，结果发现在Story Board里面的Back Button打一个空格就行了。踩了很多坑，有一个很大的坑就是我一度用中文做了包名，导致后来数据迁移一直报错。&lt;/p&gt;
-&lt;p&gt;Banner的话，最后是用原生的UIPageView实现的。之前一度以为要自己实现一个。想来自己的水平还是不够的。&lt;/p&gt;
-&lt;p&gt;后期陆续完成了数据迁移，远程推送，本地推送，闪屏处理，还有和后端元信息API的整合。&lt;/p&gt;
-&lt;p&gt;上线的时候，担心我们的服务器不支持IPv6，担心不会过审。不过最后很顺利的过审核了。苹果的工作效率没有想象中的那么低。&lt;/p&gt;
-&lt;p&gt;苹果要求HTTPS和IPv6，Safari10支持全部ES6属性。这意味着苹果一直走在时代的最前沿。在这一点上我要给苹果点赞。&lt;/p&gt;
-&lt;p&gt;这次iOS的开发算是让我获得了iOS的初级开发经验，点亮了客户端开发的技能点。为后续我的Hybrid研究开了一个好头。&lt;/p&gt;
-&lt;h3 id=&quot;关于Swift&quot;&gt;&lt;a href=&quot;#关于Swift&quot; class=&quot;headerlink&quot; title=&quot;关于Swift&quot;&gt;&lt;/a&gt;关于Swift&lt;/h3&gt;&lt;p&gt;Swift给我的印象还是很不错的。静态类型，经典的面向对象，外加和JS类似的函数式特性，我用起来觉得很顺手。OC看起来太恐怖了，如果不是有Swift，想来我也不会鼓起勇气去写iOS。Swift未来还会进军服务端，虽然是Apple自家的东西，但开源了，想来发展应该会是不错的。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这个月华师匣子的iOS版终于上线，历时四个多月的开发告一段落。我达成了从客户端开发0基础到App Store的成就。四个多月，99次提交，10个内测版本，两次App Store发布，这实在是一个值得纪念的时刻。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Build your own Vuejs Chapter1 Vue Overview</title>
-    <link href="http://yoursite.com/2016/12/12/build-your-own-vuejs-1/"/>
-    <id>http://yoursite.com/2016/12/12/build-your-own-vuejs-1/</id>
-    <published>2016-12-12T09:11:50.000Z</published>
-    <updated>2016-12-12T09:17:47.000Z</updated>
-    
-    <content type="html">&lt;p&gt;In the book Build your own Vuejs, we will build a Vuejs from scratch. And you will learn how Vuejs works internally, which helps a lot for your daily development with vue.&lt;/p&gt;
-&lt;p&gt;Inspired by the amazing book Build your own Angularjs, the code of Build your own Vuejs will be developed in a test-driven way.&lt;/p&gt;
-&lt;p&gt;We’ll focus on Vuejs 2.0. And we assume our reader have played around with Vuejs once and know basics about Vuejs APIs.&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h2 id=&quot;Chapter1-Vuejs-Overview&quot;&gt;&lt;a href=&quot;#Chapter1-Vuejs-Overview&quot; class=&quot;headerlink&quot; title=&quot;Chapter1: Vuejs Overview&quot;&gt;&lt;/a&gt;Chapter1: Vuejs Overview&lt;/h2&gt;&lt;p&gt;Vuejs is a simple yet powerful MVVM library. It helps us to build a modern user interface for the web.&lt;/p&gt;
-&lt;p&gt;By the time of writing, Vuejs has 36,312 stars on Github. And 230,250 monthly downloads on npm. Vuejs 2.0 brings in a lightweight virtual DOM implementation for render layer. This unlock more possibilities like server-side rendering and native component rendering.&lt;/p&gt;
-&lt;p&gt;Vuejs claims to be a progressive JavaScript framework. Though the core library of Vuejs is quite small. Vuejs has many accompanying tools &amp;amp; supporting libraries. So you can build large-scale application using the Vuejs ecosystem.&lt;/p&gt;
-&lt;h3 id=&quot;Components-of-Vuejs-internals&quot;&gt;&lt;a href=&quot;#Components-of-Vuejs-internals&quot; class=&quot;headerlink&quot; title=&quot;Components of Vuejs internals&quot;&gt;&lt;/a&gt;Components of Vuejs internals&lt;/h3&gt;&lt;p&gt;Let’s get acquaintance with the core components of Vuejs internals. Vue internals falls into serval parts:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/Vue%20source%20overview.png&quot; alt=&quot;Vue internal&quot;&gt;&lt;/p&gt;
-&lt;h4 id=&quot;Instance-lifecycle&quot;&gt;&lt;a href=&quot;#Instance-lifecycle&quot; class=&quot;headerlink&quot; title=&quot;Instance lifecycle&quot;&gt;&lt;/a&gt;Instance lifecycle&lt;/h4&gt;&lt;p&gt;A new Vue instance will go through several phases. Such as observing data, initializing events, compiling the template, and render. And you can register  lifecycle hooks that will be called in the specific phase.&lt;/p&gt;
-&lt;h4 id=&quot;Reactivity-system&quot;&gt;&lt;a href=&quot;#Reactivity-system&quot; class=&quot;headerlink&quot; title=&quot;Reactivity system&quot;&gt;&lt;/a&gt;Reactivity system&lt;/h4&gt;&lt;p&gt;The so called &lt;em&gt;reactivity system&lt;/em&gt; is where vue’s data-view binding magic comes from. When you set vue instance’s data, the view updated accordingly, and vice versa. &lt;/p&gt;
-&lt;p&gt;Vue use &lt;code&gt;Object.defineProperty&lt;/code&gt; to make data object’s property reactive. Along with the famous &lt;em&gt;Observer Pattern&lt;/em&gt; to link data change and view render together.&lt;/p&gt;
-&lt;h4 id=&quot;Virtual-DOM&quot;&gt;&lt;a href=&quot;#Virtual-DOM&quot; class=&quot;headerlink&quot; title=&quot;Virtual DOM&quot;&gt;&lt;/a&gt;Virtual DOM&lt;/h4&gt;&lt;p&gt;Virtual DOM is the tree representation of the actual DOM tree that lives in the memory as JavaScript Objects. &lt;/p&gt;
-&lt;p&gt;When data changes, vue will render a brand new virtual DOM tree, and keep the old one. The virtual DOM module diff two trees and patch the change into the actual DOM tree.&lt;/p&gt;
-&lt;p&gt;Vue use &lt;a href=&quot;https://github.com/snabbdom/snabbdom&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;snabbdom&lt;/a&gt; as the base of its virtual DOM implementation. And modify a bit to make it work with Vue’s other component.&lt;/p&gt;
-&lt;h4 id=&quot;Compiler&quot;&gt;&lt;a href=&quot;#Compiler&quot; class=&quot;headerlink&quot; title=&quot;Compiler&quot;&gt;&lt;/a&gt;Compiler&lt;/h4&gt;&lt;p&gt;The job of the compiler is to compile template into render functions(ASTs). It parses HTML along with Vue directives (Vue directives are just plain HTML attribute) and other entities into a tree. It also detects the maximum static sub trees (sub trees with no dynamic bindings) and hoists them out of the render. The HTML parser Vue uses is originally written by &lt;a href=&quot;http://ejohn.org&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;John Resig&lt;/a&gt;.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;We will not cover the implementation detail of the Compiler in this book. Since we can use build tools to compile vue template into render functions in build time, Compiler is not a part of vue runtime. And we can even write render functions directly, so Compiler is not an essential part to understand vue internals.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;Set-up-development-environment&quot;&gt;&lt;a href=&quot;#Set-up-development-environment&quot; class=&quot;headerlink&quot; title=&quot;Set up development environment&quot;&gt;&lt;/a&gt;Set up development environment&lt;/h3&gt;&lt;p&gt;Before we can start building our own Vue.js, we need to set up a few things. Including module bundler and testing tools, since we will use a test-driven workflow.&lt;/p&gt;
-&lt;p&gt;Since this is a JavaScript project, and we’gonna use some fancy tools, the first thing to do is run &lt;code&gt;npm init&lt;/code&gt; and set up some information about this project. &lt;/p&gt;
-&lt;h4 id=&quot;Set-up-Rollup-for-module-bundling&quot;&gt;&lt;a href=&quot;#Set-up-Rollup-for-module-bundling&quot; class=&quot;headerlink&quot; title=&quot;Set up Rollup for module bundling&quot;&gt;&lt;/a&gt;Set up Rollup for module bundling&lt;/h4&gt;&lt;p&gt;We will use Rollup for module bundling. &lt;a href=&quot;http://rollupjs.org&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Rollup&lt;/a&gt; is a JavaScript module bundler. It allows you to write your application or library as a set of modules – using modern ES2015 import/export syntax. And Vuejs use Rollup for module bundling too.&lt;/p&gt;
-&lt;p&gt;We gotta write a configuration for Rollup to make it work. Under root directory, touch &lt;code&gt;rollup.conf.js&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;export default {
-  entry: &amp;#39;src/instance/index.js&amp;#39;,
-  format: &amp;#39;umd&amp;#39;,
-  moduleName: &amp;#39;Vue&amp;#39;,
-  dest: &amp;#39;dist/vue.js&amp;#39; 
-};
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And don’t forget to run &lt;code&gt;npm install rollup rollup-watch --save-dev&lt;/code&gt;.&lt;/p&gt;
-&lt;h4 id=&quot;Set-up-Karma-and-Jasmine-for-testing&quot;&gt;&lt;a href=&quot;#Set-up-Karma-and-Jasmine-for-testing&quot; class=&quot;headerlink&quot; title=&quot;Set up Karma and Jasmine for testing&quot;&gt;&lt;/a&gt;Set up Karma and Jasmine for testing&lt;/h4&gt;&lt;p&gt;Testing will require quite a few packages, run:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;npm install karma jasmine karma-jasmine karma-chrome-launcher
- karma-rollup-plugin --save-dev
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Under root directory, touch &lt;code&gt;karma.conf.js&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;module.exports = function(config) {
-  config.set({
-    frameworks: [&amp;#39;jasmine&amp;#39;],
-    files: [
-      &amp;#39;./test/**/*.js&amp;#39;
-    ],
-    browsers: [&amp;#39;Chrome&amp;#39;],
-    preprocessors: {
-     &amp;#39;./test/**/*.js&amp;#39;: [&amp;#39;rollup&amp;#39;]
-    },
-    rollupPreprocessor: {
-      format: &amp;#39;iife&amp;#39;,
-      sourceMap: &amp;#39;inline&amp;#39;
-    }
-  })
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&quot;Directory-structure&quot;&gt;&lt;a href=&quot;#Directory-structure&quot; class=&quot;headerlink&quot; title=&quot;Directory structure&quot;&gt;&lt;/a&gt;Directory structure&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;- package.json
-- rollup.conf.js
-- node_modules
-- dist
-- test
-- src
-    - observer
-    - instance
-    - util
-    - vdom
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;Bootstrapping&quot;&gt;&lt;a href=&quot;#Bootstrapping&quot; class=&quot;headerlink&quot; title=&quot;Bootstrapping&quot;&gt;&lt;/a&gt;Bootstrapping&lt;/h3&gt;&lt;p&gt;We’ll add some npm script for convenience. &lt;/p&gt;
-&lt;p&gt;&lt;em&gt;package.json&lt;/em&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;quot;scripts&amp;quot;: {
-   &amp;quot;build&amp;quot;: &amp;quot;rollup -c&amp;quot;,
-   &amp;quot;watch&amp;quot;: &amp;quot;rollup -c -w&amp;quot;,
-   &amp;quot;test&amp;quot;: &amp;quot;karma start&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To bootstrap our own Vuejs, let’s write our first test case.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;test/options/options.spec.js&lt;/em&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import Vue from &amp;quot;../src/instance/index&amp;quot;;
-
-describe(&amp;#39;Proxy test&amp;#39;, function() {
-  it(&amp;#39;should proxy vm._data.a = vm.a&amp;#39;, function() {
-      var vm = new Vue({
-          data:{
-              a:2
-          }
-      })
-    expect(vm.a).toEqual(2);
-  });
-});
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This test case tests whether props on vm’s data like &lt;code&gt;vm._data.a&lt;/code&gt; are proxied to vm itself, like &lt;code&gt;vm.a&lt;/code&gt;. This is one of Vue’s little tricks.&lt;/p&gt;
-&lt;p&gt;So we can write our first line of real code now, in &lt;/p&gt;
-&lt;p&gt;&lt;em&gt;src/instance/index.js&lt;/em&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import { initMixin } from &amp;#39;./init&amp;#39;
-
-function Vue (options) {
-  this._init(options)
-}
-
-initMixin(Vue)
-
-export default Vue
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is nothing exciting, just Vue constructor calling &lt;code&gt;this._init&lt;/code&gt;. So let’s find out how the &lt;code&gt;initMixin&lt;/code&gt; fucntion work:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;src/instance/init.js&lt;/em&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;import { initState } from &amp;#39;./state&amp;#39;
-
-export function initMixin (Vue) {
-  Vue.prototype._init = function (options) {
-      var vm = this
-      vm.$options = options
-      initState(vm)
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The instance method of Vue Class are injected using a mixin pattern. We’ll find this mixin pattern quite common when writing Vuejs’s instance method later. Mixin is just a function that takes a constructor, add some methods to its prototype, and return the constructor.&lt;/p&gt;
-&lt;p&gt;So &lt;code&gt;initMixin&lt;/code&gt; add &lt;code&gt;_init&lt;/code&gt; method to &lt;code&gt;Vue.prototype&lt;/code&gt;. And this method calls &lt;code&gt;initState&lt;/code&gt; from &lt;code&gt;state.js&lt;/code&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;src/instance/state.js&lt;/em&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-export function initState(vm) {
-  initData(vm)
-}
-
-function initData(vm) {
-  var data = vm.$options.data
-  vm._data = data
-  // proxy data on instance
-  var keys = Object.keys(data)
-
-  var i = keys.length
-  while (i--) {
-    proxy(vm, keys[i])
-  }
-}
-
-function proxy(vm, key) {
-    Object.defineProperty(vm, key, {
-      configurable: true,
-      enumerable: true,
-      get: function proxyGetter() {
-        return vm._data[key]
-      },
-      set: function proxySetter(val) {
-        vm._data[key] = val
-      }
-    })
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Finally, we got to the place where proxy takes place. &lt;code&gt;initState&lt;/code&gt; calls &lt;code&gt;initData&lt;/code&gt;, and &lt;code&gt;initData&lt;/code&gt; iterates all keys of &lt;code&gt;vm._data&lt;/code&gt;, calls &lt;code&gt;proxy&lt;/code&gt; on each value.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;proxy&lt;/code&gt; define a property on &lt;code&gt;vm&lt;/code&gt; using the same key, and this property has both getter and setter, which actually get/set data from &lt;code&gt;vm._data&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;So that’s how &lt;code&gt;vm.a&lt;/code&gt; is proxied to &lt;code&gt;vm._data.a&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Run &lt;code&gt;npm run build&lt;/code&gt; and &lt;code&gt;npm run test&lt;/code&gt;. You should see something like this:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;http://cdn4.snapgram.co/images/2016/12/11/ScreenShot2016-12-12at2.02.17AM.png&quot; alt=&quot;success&quot;&gt;&lt;/p&gt;
-&lt;p&gt;Bravo! You successfully bootstrapped your own Vuejs! Keep working!&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;In the book Build your own Vuejs, we will build a Vuejs from scratch. And you will learn how Vuejs works internally, which helps a lot for your daily development with vue.&lt;/p&gt;
-&lt;p&gt;Inspired by the amazing book Build your own Angularjs, the code of Build your own Vuejs will be developed in a test-driven way.&lt;/p&gt;
-&lt;p&gt;We’ll focus on Vuejs 2.0. And we assume our reader have played around with Vuejs once and know basics about Vuejs APIs.&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>聊聊Chrome Devtools的Timeline</title>
-    <link href="http://yoursite.com/2016/11/29/timeline/"/>
-    <id>http://yoursite.com/2016/11/29/timeline/</id>
-    <published>2016-11-29T12:15:49.000Z</published>
-    <updated>2016-11-30T08:46:41.000Z</updated>
-    
-    <content type="html">&lt;p&gt;最近在进行移动端Web页面的性能调优时用到了Chrome Devtools的Timeline。Timeline主要是针对浏览器渲染引擎的相关数据进行记录。关于Timeline的介绍可以看&lt;a href=&quot;https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/timeline-tool&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官方文档&lt;/a&gt;。下面主要说说实际应用时如何来分析Timeline的数据，然后优化页面。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;Timeline的使用场景&quot;&gt;&lt;a href=&quot;#Timeline的使用场景&quot; class=&quot;headerlink&quot; title=&quot;Timeline的使用场景&quot;&gt;&lt;/a&gt;Timeline的使用场景&lt;/h3&gt;&lt;p&gt;Timeline的使用场景一个是在页面发生明显的卡顿时，比如CSS动画或者页面滚动时，用来分析卡顿的原因。还有一个场景便是进行页面渲染性能的评估，看页面渲染性能是否有优化的空间，或者通过截图观察页面渲染的过程，优化&lt;a href=&quot;https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Speed Index&lt;/a&gt;来提升用户体验。&lt;/p&gt;
-&lt;h3 id=&quot;关于渲染&quot;&gt;&lt;a href=&quot;#关于渲染&quot; class=&quot;headerlink&quot; title=&quot;关于渲染&quot;&gt;&lt;/a&gt;关于渲染&lt;/h3&gt;&lt;p&gt;我们知道，如果以每秒16-24帧的速度连续播放图片，那人就会产生动画的幻觉。在UI动画中，因为目前主流显示设备的刷新率达到了60Hz，我们追求的的帧率是60fps。那理想情况下，每一帧的时间应该是&lt;code&gt;1/60=16.67ms&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;又因为JavaScript是单线程事件驱动的模型。所以浏览器在一帧之内要完成JavaScript脚本的运行，然后计算，合成这帧画面，并渲染。&lt;/p&gt;
-&lt;h3 id=&quot;Long-Frame&quot;&gt;&lt;a href=&quot;#Long-Frame&quot; class=&quot;headerlink&quot; title=&quot;Long Frame&quot;&gt;&lt;/a&gt;Long Frame&lt;/h3&gt;&lt;p&gt;所谓的Long Frame，也就是我们在Timeline的FPS中被标注为红色（如下图）的那些帧，便是用时超过正常标准的那些帧。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/longframe.png&quot; alt=&quot;longframe&quot;&gt;&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;long frame&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Long Frame往往意味着卡顿，因为帧率低于60fps，甚至30fps。我们会通过查看这帧中的JS运行情况，浏览器渲染情况，以及浏览器用户触发事件的情况来分析卡顿的原因。&lt;/p&gt;
-&lt;h3 id=&quot;Timeline中有价值的数据&quot;&gt;&lt;a href=&quot;#Timeline中有价值的数据&quot; class=&quot;headerlink&quot; title=&quot;Timeline中有价值的数据&quot;&gt;&lt;/a&gt;Timeline中有价值的数据&lt;/h3&gt;&lt;h4 id=&quot;JS调用栈&quot;&gt;&lt;a href=&quot;#JS调用栈&quot; class=&quot;headerlink&quot; title=&quot;JS调用栈&quot;&gt;&lt;/a&gt;JS调用栈&lt;/h4&gt;&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/jsstack.png&quot; alt=&quot;jscallstack&quot;&gt;&lt;br&gt;&lt;em&gt;JS Call Stack&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;如果是JS运行时间过长，比如超过10ms，那我们就有必要检查这个JS的调用栈，可以通过查看Details一栏中的Bottom-up选项卡来看到自顶向下的调用信息。分析那个函数调用占用了过多的时间，并加以解决。&lt;/p&gt;
-&lt;h4 id=&quot;浏览器渲染信息&quot;&gt;&lt;a href=&quot;#浏览器渲染信息&quot; class=&quot;headerlink&quot; title=&quot;浏览器渲染信息&quot;&gt;&lt;/a&gt;浏览器渲染信息&lt;/h4&gt;&lt;p&gt;浏览器渲染每一帧画面，需要经过这些阶段。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/frame-full.jpg&quot; alt=&quot;render&quot;&gt;&lt;br&gt;&lt;em&gt;render pipeline&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;其中我们需要避免的主要就是Layout，如果触发了Layout的重新计算，那就意味着你的页面需要重绘，这是一个非常expensive的任务。如果我们在CSS动画时使用了GPU加速，那这些动画就不会造成重绘，而是作为一个单独的层在Compose阶段进行组合。&lt;/p&gt;
-&lt;p&gt;如果是浏览器渲染用时过多，我们就需要检查代码中是否触发了不必要的浏览器重绘。这方面的优化主要是针对CSS的优化，是一个专门的专题。一般的措施是采用CSS3 transform进行动画，开启硬件加速来避免浏览器重绘。&lt;/p&gt;
-&lt;h4 id=&quot;事件输入&quot;&gt;&lt;a href=&quot;#事件输入&quot; class=&quot;headerlink&quot; title=&quot;事件输入&quot;&gt;&lt;/a&gt;事件输入&lt;/h4&gt;&lt;p&gt;我们可以在Flame Chart的Interaction部分看到浏览器在这段时间触发的事件。&lt;/p&gt;
-&lt;p&gt;用户注册的事件，都有对应的回调函数。因此如果这个回调函数包含大量的逻辑，并且这个事件触发非常频繁的话，比如scroll或者touchmove，那我们就需要对事件触发的频率进行限制。在防止回调函数频繁触发层面，对应的办法有JS层面的节流函数。在限制事件注册的数量层面，我们可以使用事件代理，尽量避免在一个DOM元素上注册多个触发频繁的事件。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;题外话：在调试移动端页面时，我发现Chrome在Timeline里标出了pinch这样的事件。说明浏览器的渲染层是支持这样的高级事件的。但在DOM的标准中没有找到这样的事件。需要大家用touch事件来合成。Chrome的这个做法不知道应该理解成浏览器面向未来的支持，还是浏览器私有的实现。当然，在移动端的操作系统层面，识别pinch应该不是一个难事。DOM的touch event中没有支持pinch，swipe等事件，这个问题值得思考。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h4 id=&quot;其他数据&quot;&gt;&lt;a href=&quot;#其他数据&quot; class=&quot;headerlink&quot; title=&quot;其他数据&quot;&gt;&lt;/a&gt;其他数据&lt;/h4&gt;&lt;p&gt;Timeline中还有很多有价值的数据，比如CPU占有率，JS的Heap大小（可以简单的理解成JS的内存占用情况），DOM节点的数量，事件监听器的数量等等。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近在进行移动端Web页面的性能调优时用到了Chrome Devtools的Timeline。Timeline主要是针对浏览器渲染引擎的相关数据进行记录。关于Timeline的介绍可以看&lt;a href=&quot;https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/timeline-tool&quot;&gt;官方文档&lt;/a&gt;。下面主要说说实际应用时如何来分析Timeline的数据，然后优化页面。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Unix·Talk 聊聊工程</title>
-    <link href="http://yoursite.com/2016/11/19/unix-talk-engineering/"/>
-    <id>http://yoursite.com/2016/11/19/unix-talk-engineering/</id>
-    <published>2016-11-19T02:43:14.000Z</published>
-    <updated>2016-11-29T14:50:59.000Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt; Unix·Talk是今年开始实行的木犀团队系列技术分享，面向的是团队内所有的技术同学，尤其是新人。在这个系列分享里，我们会聊聊计算机硬件，工程化实践，互联网文化，当然也会聊聊和Unix操作系统有关的一切。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;工程是什么&quot;&gt;&lt;a href=&quot;#工程是什么&quot; class=&quot;headerlink&quot; title=&quot;工程是什么&quot;&gt;&lt;/a&gt;工程是什么&lt;/h3&gt;&lt;p&gt;首先请大家观察这两张图：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/Screen%20Shot%202016-11-27%20at%207.00.59%20PM.png&quot; alt=&quot;vs&quot;&gt;&lt;/p&gt;
-&lt;p&gt;如果说左边的小草房是课程作业的话，那右边的高楼大厦，就是我们所说的工程。&lt;/p&gt;
-&lt;p&gt;大家可以思考一下，建造两者的过程有何不同。建左边的小房子也许不需要太多的材料，也不需要对材料进行深度的加工。在设计上，只要有基本的构想即可，不需要精准的蓝图。在施工上也相对随性一些。&lt;/p&gt;
-&lt;p&gt;而右边的高楼大厦，需要钢筋混凝土这种深度加工的材料去构建，需要严密的蓝图和施工周期。同时也需要数百倍于左图的人力去建造。&lt;/p&gt;
-&lt;p&gt;从产出的规模和流程的复杂度来说，软件工程师和建筑工程师或者电气工程师一样，都在一套成熟的流程和体系下，打造大规模的产品。&lt;/p&gt;
-&lt;p&gt;所以，在互联网行业，工程就是一套完整的产品研发方法论。同时也包括项目开发周期中的项目管理，前期估算，后期测试等流程。&lt;/p&gt;
-&lt;p&gt;那为什么我们需要这套方法论呢？很简单。如果没有这套方法论指导，我们就无法顺利的开发出大型的软件，或者，我们的开发效率会很低。我们需要用工具来加速我们的开发，自动化一些无聊的工作。我们需要用设计模式来解耦我们的代码，让代码的可维护性更高。我们也需要项目管理，来让不同分工的工程师协同工作，顺利完工。&lt;/p&gt;
-&lt;p&gt;而这套方法论，学校里是很少有讲到的。这也是因为，工程相关的方法论需要工程师在项目开发的过程中不断的实践总结，毕竟纸上得来终觉浅，而工程这种和实际问题特别相关的方向，则更需要在实际的项目才能有更深入的理解。&lt;/p&gt;
-&lt;h3 id=&quot;工程的几个关键词&quot;&gt;&lt;a href=&quot;#工程的几个关键词&quot; class=&quot;headerlink&quot; title=&quot;工程的几个关键词&quot;&gt;&lt;/a&gt;工程的几个关键词&lt;/h3&gt;&lt;h4 id=&quot;工具&quot;&gt;&lt;a href=&quot;#工具&quot; class=&quot;headerlink&quot; title=&quot;工具&quot;&gt;&lt;/a&gt;工具&lt;/h4&gt;&lt;p&gt;俗话说，没有金刚钻，就不揽瓷器活。无论是客户端还是服务端，大家都有专属的神兵利器。&lt;/p&gt;
-&lt;p&gt;其中大家使用频率最高的便是编辑器或者IDE。前端有Sublime，安卓有Android Studio，iOS有Xcode，后端有Vim。强大的IDE往往&lt;br&gt;包含了从代码提示到编译打包的一条路服务。而Sublime这样的轻量级编辑器，需要我们进行各种DIY，打造成自己想要的样子。好用的编辑器往往会提高开发的效率，带来生产力的提高。&lt;/p&gt;
-&lt;p&gt;在客户端开发中，打包构建工具也是一个重要的类别。好用的打包工具不仅仅可以降低打包的时间，在前端等领域，好用的打包工具甚至代表了一种工具生态，串联起了一个完整的工具链。&lt;/p&gt;
-&lt;p&gt;开发中用到的工具还有很多。很多小工具的诞生，往往是为了解决某一个具体问题的。程序员往往希望一切机械的事务都可以自动化。并且也喜欢将繁杂的数据可视化。这两个动机驱动了很多小工具的诞生。&lt;/p&gt;
-&lt;p&gt;趁手的工具代表了先进的生产力。这也是构建大型工程时必须借助的垫脚石。工程化程度高的技术团队，往往都有着自己的先进工具。&lt;/p&gt;
-&lt;h4 id=&quot;编码规范&quot;&gt;&lt;a href=&quot;#编码规范&quot; class=&quot;headerlink&quot; title=&quot;编码规范&quot;&gt;&lt;/a&gt;编码规范&lt;/h4&gt;&lt;p&gt;编码规范包括代码风格，目录结构等等。这些编码规范的存在，一方面是约束团队成员的代码质量，使得一些低级错误和语言中的bad practice得到提醒和控制。一方面，代码规范中的一些代码风格相关的部分，是为了让团队成员的代码风格统一，这样有利于后期代码库的维护和迭代。&lt;/p&gt;
-&lt;p&gt;我们可以使用一些Lint工具和持续集成等技术来将编码规范落地。一个团队的编码规范应该被写在一个单独的仓库或者文档里，以供团队成员参考。&lt;/p&gt;
-&lt;h4 id=&quot;设计模式&quot;&gt;&lt;a href=&quot;#设计模式&quot; class=&quot;headerlink&quot; title=&quot;设计模式&quot;&gt;&lt;/a&gt;设计模式&lt;/h4&gt;&lt;p&gt;设计模式有很多，从常见的工厂模式，单例模式，观察者模式，装饰器模式等到应用架构层面的MVC，MVVM等。&lt;/p&gt;
-&lt;p&gt;设计模式主要帮我们将一个大型的系统解耦成不同的层次。比如将数据层和视图层分离，并用一个中间层将二者联系起来。&lt;/p&gt;
-&lt;p&gt;因为大型的系统的模块数量众多，不同模块之间关系复杂。我们要用设计模式来将不同的模块划入不同的层次。&lt;/p&gt;
-&lt;p&gt;而观察者模式这样的设计模式主要是为了使模块之间可以实现松耦合下的通信。虽然模块之间有着各种的依赖和调用关系，但我们并不打算让不同模块直接相互调用，而是实现一套接口，并借助中间人通信。这样如果某个模块被替换，只要新的模块实现了相同的接口，整个系统依然可以正常运行。&lt;/p&gt;
-&lt;p&gt;在开发软件时，我们一般都遵循一套成熟的模式，在此基础上，完成业务代码的编写。设计模式也是大型软件的基石。&lt;/p&gt;
-&lt;p&gt;对于设计模式，关键点往往不是你能说出几个设计模式，而是你懂得在什么情况下使用合适的设计模式。&lt;/p&gt;
-&lt;h4 id=&quot;版本控制&quot;&gt;&lt;a href=&quot;#版本控制&quot; class=&quot;headerlink&quot; title=&quot;版本控制&quot;&gt;&lt;/a&gt;版本控制&lt;/h4&gt;&lt;p&gt;现在主流的版本控制工具是Git。Git主要的作用是版本控制，同时也帮助我们进行多人的协作。&lt;/p&gt;
-&lt;p&gt;没有Git的话，如果我们需要保留多个不同版本的代码，就需要手动保存。在多人协作时，没有Git也是无法想象的。比如用FTP进行协作，每次都覆盖式的保存，这样的的代码管理无疑是非常原始的。&lt;/p&gt;
-&lt;p&gt;事实上Git的Branch以及Github的pull request等等机制造就了一套独特的Git工作流。这套工作流无疑是团队协作的最佳选择之一。&lt;/p&gt;
-&lt;h4 id=&quot;抽象&quot;&gt;&lt;a href=&quot;#抽象&quot; class=&quot;headerlink&quot; title=&quot;抽象&quot;&gt;&lt;/a&gt;抽象&lt;/h4&gt;&lt;p&gt;其实编程的精华便在于对过程（precedure）以及数据的抽象。这是一种编程的内功。通过对过程的抽象，我们可以将程序中可复用的模块提取成单独的函数，然后进行组合，这样可以大大增强程序的表现力。通过对数据的抽象，我们可以封装数据的细节，从一个更通用的维度来对数据进行操作。&lt;/p&gt;
-&lt;p&gt;对于抽象，推荐大家看《计算机程序的构造与解释》这本书。当然抽象要合理才行，过度的抽象也会使代码的易读性受损。&lt;/p&gt;
-&lt;h4 id=&quot;测试&quot;&gt;&lt;a href=&quot;#测试&quot; class=&quot;headerlink&quot; title=&quot;测试&quot;&gt;&lt;/a&gt;测试&lt;/h4&gt;&lt;p&gt;测试主要是为了保证软件的质量。在软件被开发完成之后，会进行一系列的测试，以保证软件的高可用性。一般团队会有专门的测试工程师。负责测试用例的编写。&lt;/p&gt;
-&lt;p&gt;对于后端这样主要负责数据处理的逻辑，我们可以编写自动化的单元测试，并且进行持续集成。单元测试以一个模块为单元进行测试，这样我们在错误发生时，可以准确的定位到具体的模块。单元测试也被用在测试驱动的开发中，测试驱动的开发就是先写测试用例，然后编写可以通过这个测试用例的代码。&lt;/p&gt;
-&lt;p&gt;对于客户端代码来说，因为UI复杂多变。所以自动化的单元测试只有在对框架/库的代码进行测试时比较实际，在业务逻辑层面，比如视图层，我们一般采用人工测试。当然现在也有自动化的UI测试方案。&lt;/p&gt;
-&lt;h4 id=&quot;项目管理&quot;&gt;&lt;a href=&quot;#项目管理&quot; class=&quot;headerlink&quot; title=&quot;项目管理&quot;&gt;&lt;/a&gt;项目管理&lt;/h4&gt;&lt;p&gt;项目管理，是学校软件工程课程中主要涉及的。这个主要涉及传统软件的开发流程。从需求分析，成本估算，开发流程到最后的测试。&lt;/p&gt;
-&lt;p&gt;互联网的开发模型上主要还是比较敏捷的迭代。通常以一个月甚至几周的周期进行迭代。其中Web应用的特点便是可以随时发布更新，所以在这方面显得更突出一些。&lt;/p&gt;
-&lt;p&gt;关于项目管理或者软件工程，大家可以去看《人月神话》，《构建之法》等书。虽然这些书主要针对的是传统软件工程，但我们在互联网产品的开发中还是可以从中汲取一些经验的。&lt;/p&gt;
-&lt;h3 id=&quot;适合我们团队的一套工程化流程&quot;&gt;&lt;a href=&quot;#适合我们团队的一套工程化流程&quot; class=&quot;headerlink&quot; title=&quot;适合我们团队的一套工程化流程&quot;&gt;&lt;/a&gt;适合我们团队的一套工程化流程&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;技术选型&lt;/strong&gt;-选用最合适的技术栈，当然为了把玩新技术而选用比较新的技术栈也是可以的。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;合适的工具&lt;/strong&gt;-鼓励大家，没有在开源社区找到符合自己要求的工具时，打造自己专属的工具。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Git协作&lt;/strong&gt;-Git工作流&lt;/li&gt;
-&lt;li&gt;代码规范&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;项目架构&lt;/strong&gt;-合适的抽象，不仅仅是MVC等架构，也包括其他可以复用的组件和Utility模块。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;代码审查&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;单元测试（后端）&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;人肉或自动测试（客户端）&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt; Unix·Talk是今年开始实行的木犀团队系列技术分享，面向的是团队内所有的技术同学，尤其是新人。在这个系列分享里，我们会聊聊计算机硬件，工程化实践，互联网文化，当然也会聊聊和Unix操作系统有关的一切。&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>自制Vue插件</title>
-    <link href="http://yoursite.com/2016/11/13/vue-finger/"/>
-    <id>http://yoursite.com/2016/11/13/vue-finger/</id>
-    <published>2016-11-13T08:21:56.000Z</published>
-    <updated>2016-11-30T08:48:07.000Z</updated>
-    
-    <content type="html">&lt;h3 id=&quot;Vue的插件化机制&quot;&gt;&lt;a href=&quot;#Vue的插件化机制&quot; class=&quot;headerlink&quot; title=&quot;Vue的插件化机制&quot;&gt;&lt;/a&gt;Vue的插件化机制&lt;/h3&gt;&lt;h3 id=&quot;Vue-finger，一个插件的诞生&quot;&gt;&lt;a href=&quot;#Vue-finger，一个插件的诞生&quot; class=&quot;headerlink&quot; title=&quot;Vue-finger，一个插件的诞生&quot;&gt;&lt;/a&gt;Vue-finger，一个插件的诞生&lt;/h3&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;Vue的插件化机制&quot;&gt;&lt;a href=&quot;#Vue的插件化机制&quot; class=&quot;headerlink&quot; title=&quot;Vue的插件化机制&quot;&gt;&lt;/a&gt;Vue的插件化机制&lt;/h3&gt;&lt;h3 id=&quot;Vue-finger，一个插件的诞生&quot;&gt;&lt;a href=&quot;#Vue-fin
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>聊聊CSS Modules</title>
-    <link href="http://yoursite.com/2016/11/12/css-modules/"/>
-    <id>http://yoursite.com/2016/11/12/css-modules/</id>
-    <published>2016-11-12T12:02:32.000Z</published>
-    <updated>2016-11-13T09:22:46.000Z</updated>
-    
-    <content type="html">&lt;h3 id=&quot;CSS在工程化上的一些问题&quot;&gt;&lt;a href=&quot;#CSS在工程化上的一些问题&quot; class=&quot;headerlink&quot; title=&quot;CSS在工程化上的一些问题&quot;&gt;&lt;/a&gt;CSS在工程化上的一些问题&lt;/h3&gt;&lt;p&gt;关于React的CSS in JS，有一个&lt;a href=&quot;https://speakerdeck.com/vjeux/react-css-in-js&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;著名的talk&lt;/a&gt;，由Facebook的工程师&lt;a href=&quot;https://github.com/vjeux&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;vjeux&lt;/a&gt;带来。&lt;/p&gt;
-&lt;p&gt;里面最有名的一张slide是这样的：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/zindex/Screen%20Shot%202016-11-13%20at%204.28.31%20PM.png&quot; alt=&quot;css in js&quot;&gt;&lt;/p&gt;
-&lt;p&gt;里面列举了CSS的一些问题。其中，Dead Code Elimination，Minification，和Sharing Constants这些问题我们已经通过在我们的工作流中加入SASS和PostCSS这样的CSS预处理器解决了。&lt;/p&gt;
-&lt;p&gt;然而还有一些问题没有解决，比如全局命名空间。同一个document下的所有CSS的类名，都是在同一个“作用域”下的，因此我们常常要考虑如何避免命名冲突问题。现有的解决办法主要是靠BEM这样的命名惯例，或者是用多层CSS父子选择器来模拟命名空间。然而这样的办法对工程师有许多的限制。多级选择器有比较高的优先级，不容易维护。&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;h3 id=&quot;解决全局作用域：Webpack-css-loader&quot;&gt;&lt;a href=&quot;#解决全局作用域：Webpack-css-loader&quot; class=&quot;headerlink&quot; title=&quot;解决全局作用域：Webpack css-loader&quot;&gt;&lt;/a&gt;解决全局作用域：Webpack css-loader&lt;/h3&gt;&lt;p&gt;Webpack的css-loader首先做出了解决全局作用域的尝试。解决办法就是在写CSS类名时加入&lt;code&gt;:local(...)&lt;/code&gt;这样的标记。&lt;/p&gt;
-&lt;p&gt;比如：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;:local(.className) { background: red; }
-:local .className { color: green; }
-:local(.className .subClass) { color: green; }
-:local .className .subClass :global(.global-class-name) { color: blue; }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;会被转化为：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;._23_aKvs-b8bW2Vg3fwHozO { background: red; }
-._23_aKvs-b8bW2Vg3fwHozO { color: green; }
-._23_aKvs-b8bW2Vg3fwHozO ._13LGdX8RMStbBE9w-t0gZ1 { color: green; }
-._23_aKvs-b8bW2Vg3fwHozO ._13LGdX8RMStbBE9w-t0gZ1 .global-class-name { color: blue; }
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里的办法就是把CSS类名转化为hash字符串，这样就可以保证每个类名都是独一无二的，自然也就不用在意命名冲突的问题了。只要在类名在当前模块内不会相互冲突就可以了。&lt;/p&gt;
-&lt;h3 id=&quot;CSS-Modules&quot;&gt;&lt;a href=&quot;#CSS-Modules&quot; class=&quot;headerlink&quot; title=&quot;CSS Modules&quot;&gt;&lt;/a&gt;CSS Modules&lt;/h3&gt;&lt;p&gt;上述的办法，还是有一些不便。大多数情况下，比如在JavaScript中，变量都默认是局部变量。你想要声明一个全局变量，只能去全局作用域声明，或者把变量挂到local上（非严格模式下，不写var声明的是全局变量这种坑就不说了）。&lt;/p&gt;
-&lt;p&gt;Webpack的开发者之后将css-loader中的local变成了默认设定，于是CSS Modules这个规范就呼之欲出了。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/css-modules/css-modules&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CSS Modules规范&lt;/a&gt;。我们可以通过&lt;code&gt;css-loader?modules&lt;/code&gt;这个参数来开启CSS Modules。&lt;/p&gt;
-&lt;p&gt;CSS Modules中的类名默认就是local的，如果你想要声明全局类名，可以加上&lt;code&gt;:global(...)&lt;/code&gt;这个标记。&lt;/p&gt;
-&lt;h3 id=&quot;Single-Responsibility-Principle&quot;&gt;&lt;a href=&quot;#Single-Responsibility-Principle&quot; class=&quot;headerlink&quot; title=&quot;Single Responsibility Principle&quot;&gt;&lt;/a&gt;Single Responsibility Principle&lt;/h3&gt;&lt;p&gt;讲CSS Modules的下一个特性之前。我们先聊点其他的，我们知道设计模式中有一条叫做Single Responsibility Principle。&lt;/p&gt;
-&lt;p&gt;比如我们有一个button：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;.button {
-    display:inline-block;
-    padding:2em;
-    background-color:red;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;与其把这些属性写在一个class里，我们可以把它拆分成多个单独的class：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;.button {
-    display:inline-block;
-}
-.button--large{
-    padding:2em;
-}
-.button--warnning{
-    background-color:red;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后在HTML中组合使用就可以了。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;button class=&amp;quot;button button--large button--warnning&amp;quot;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这样的好处是什么呢？我们的UI中，一个组件往往有很多不同的状态。如果我们将每一个class写成只专注于一个属性，做好一件事，那就可以用这些class组合成所有我们想要的不同状态的组件。相比给每个状态的组件写一个单独的class，代码要更优雅简洁一些。&lt;/p&gt;
-&lt;p&gt;比如我们想要一个small尺寸的普通button，只要加两个class:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;.button {
-    display:inline-block;
-}
-.button--small{
-    padding:1em;
-}
-.button--large{
-    padding:2em;
-}
-.button--normal{
-    background-color:blue;
-}
-.button--warnning{
-    background-color:red;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后组合就可以了：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;button class=&amp;quot;button button--small button--normal&amp;quot;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;CSS-Classes-Composing&quot;&gt;&lt;a href=&quot;#CSS-Classes-Composing&quot; class=&quot;headerlink&quot; title=&quot;CSS Classes Composing&quot;&gt;&lt;/a&gt;CSS Classes Composing&lt;/h3&gt;&lt;p&gt;要想实现上述的这种组合，可以使用SASS的Mixin，但Mixin主要是提供了源代码中的抽象，最后生成的代码，和手写不同状态class的代码量，是一样的。&lt;/p&gt;
-&lt;p&gt;CSS Modules提供的Classes Composing则刚好可以满足我们的需求。&lt;/p&gt;
-&lt;p&gt;比如我们想渲染一段文字：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;.text{
-  font-size: 20px;
-  composes: red from &amp;quot;./common/color.css&amp;quot;;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;color.css里是这样的&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;.red{
-    color: red;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;最后渲染出的class是这样的&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&amp;quot;App-text-2AEnE_0 color-red-3ag3h_0&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;composes&lt;/code&gt;引入的类被作为一个单独的class引入，而不是和text类合在一起。&lt;/p&gt;
-&lt;h3 id=&quot;CSS-Modules和Vue工作流的整合&quot;&gt;&lt;a href=&quot;#CSS-Modules和Vue工作流的整合&quot; class=&quot;headerlink&quot; title=&quot;CSS Modules和Vue工作流的整合&quot;&gt;&lt;/a&gt;CSS Modules和Vue工作流的整合&lt;/h3&gt;&lt;p&gt;Vue-loader在v9.8.0之后加入了对CSS Modules的支持。&lt;/p&gt;
-&lt;p&gt;我们只要在&lt;code&gt;.vue&lt;/code&gt;文件的&lt;code&gt;&amp;lt;style&amp;gt;&lt;/code&gt;处加一个&lt;code&gt;module&lt;/code&gt;就行&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;style lang=&amp;quot;sass&amp;quot; module&amp;gt;
-.text{
-  font-size: 20px;
-  composes: red from &amp;quot;sass!./common/color.scss&amp;quot;;
-}
-&amp;lt;/style&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这里有一点要注意，就是&lt;code&gt;composes&lt;/code&gt;引入的如果是需要预处理器处理的，要在前面加上预处理器的标记，比如SASS用户就加上&lt;code&gt;sass!&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;如果需要对CSS Modules进行一些配置（其实这个是对Webpack的css-loader的配置，所以配置时可以参考&lt;a href=&quot;https://github.com/webpack/css-loader&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;css-loader的文档&lt;/a&gt;），写在vue-loader的配置的&lt;code&gt;cssModules&lt;/code&gt;属性里即可&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;loader: &amp;#39;vue&amp;#39;,
-options: {
-    cssModules: {
-        localIdentName: &amp;#39;[name]-[local]-[hash:base64:5]&amp;#39;,
-        camelCase: true
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;vue-loader会自动将一个&lt;code&gt;$style&lt;/code&gt;属性注入到对应的Vue实例中。在模板中用class binding语法写就可以了。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;lt;template&amp;gt;
-  &amp;lt;div :class=&amp;quot;$style.app&amp;quot;&amp;gt;
-    &amp;lt;div :class=&amp;quot;$style.text&amp;quot;&amp;gt;
-      some text
-    &amp;lt;/div&amp;gt;
-    &amp;lt;main-text&amp;gt;&amp;lt;/main-text&amp;gt;
-  &amp;lt;/div&amp;gt;
-&amp;lt;/template&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;code&gt;$style&lt;/code&gt;其实是一个原class名和处理之后class名的hash，像这样：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;{
-  app: &amp;quot;App-app-3cl75_0&amp;quot;,
-  text: &amp;quot;App-text-2AEnE_0 color-red-3ag3h_0&amp;quot;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我写一了一个简单的&lt;a href=&quot;https://github.com/zxc0328/css-modules-demo&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DEMO仓库&lt;/a&gt;，可以供参考。&lt;/p&gt;
-&lt;h3 id=&quot;结语&quot;&gt;&lt;a href=&quot;#结语&quot; class=&quot;headerlink&quot; title=&quot;结语&quot;&gt;&lt;/a&gt;结语&lt;/h3&gt;&lt;p&gt;CSS Modules可以解决全局作用域和Class组合两个问题，加上SASS等预处理器，着实让我们在写CSS时的工程化程度大大提高了。&lt;/p&gt;
-&lt;p&gt;对于使用Vue的同学来说，vue-loader可以使CSS Modules可以轻松的整合到已有的工作流中。如果你正在使用Vue，可以试试使用CSS Modules。&lt;/p&gt;
-&lt;h3 id=&quot;Links&quot;&gt;&lt;a href=&quot;#Links&quot; class=&quot;headerlink&quot; title=&quot;Links&quot;&gt;&lt;/a&gt;Links&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://glenmaddern.com/articles/css-modules&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CSS Modules Welcome to the Future&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=zR1lOuyQEt8&amp;amp;index=29&amp;amp;list=LLHdx8Qwo6uxw0fj3gQ5yeTg&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;The case for CSS modules - Mark Dalgleish&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://speakerdeck.com/vjeux/react-css-in-js&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;React: CSS in JS by vjeux&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;CSS在工程化上的一些问题&quot;&gt;&lt;a href=&quot;#CSS在工程化上的一些问题&quot; class=&quot;headerlink&quot; title=&quot;CSS在工程化上的一些问题&quot;&gt;&lt;/a&gt;CSS在工程化上的一些问题&lt;/h3&gt;&lt;p&gt;关于React的CSS in JS，有一个&lt;a href=&quot;https://speakerdeck.com/vjeux/react-css-in-js&quot;&gt;著名的talk&lt;/a&gt;，由Facebook的工程师&lt;a href=&quot;https://github.com/vjeux&quot;&gt;vjeux&lt;/a&gt;带来。&lt;/p&gt;
-&lt;p&gt;里面最有名的一张slide是这样的：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/zindex/Screen%20Shot%202016-11-13%20at%204.28.31%20PM.png&quot; alt=&quot;css in js&quot;&gt;&lt;/p&gt;
-&lt;p&gt;里面列举了CSS的一些问题。其中，Dead Code Elimination，Minification，和Sharing Constants这些问题我们已经通过在我们的工作流中加入SASS和PostCSS这样的CSS预处理器解决了。&lt;/p&gt;
-&lt;p&gt;然而还有一些问题没有解决，比如全局命名空间。同一个document下的所有CSS的类名，都是在同一个“作用域”下的，因此我们常常要考虑如何避免命名冲突问题。现有的解决办法主要是靠BEM这样的命名惯例，或者是用多层CSS父子选择器来模拟命名空间。然而这样的办法对工程师有许多的限制。多级选择器有比较高的优先级，不容易维护。&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>猪场实习感受-项目管理</title>
-    <link href="http://yoursite.com/2016/10/03/project-management-in-netease/"/>
-    <id>http://yoursite.com/2016/10/03/project-management-in-netease/</id>
-    <published>2016-10-03T07:39:01.000Z</published>
-    <updated>2016-10-03T08:08:53.000Z</updated>
-    
-    <content type="html">&lt;p&gt;这次实习，我主要学到的倒不是前端方面的东西，而主要是关于一个产品的迭代的流程。&lt;/p&gt;
-&lt;p&gt;一个产品迭代的流程大致是这样的：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/zindex/10031.png&quot; alt=&quot;产品流程&quot;&gt;&lt;/p&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;总的来说就是PM提出需求，交互出交互稿，然后这时研发和视觉可以同时开始进行。最后进行测试，测试通过后上线。这就是一个互联网产品版本迭代的过程。&lt;/p&gt;
-&lt;h3 id=&quot;时间规划&quot;&gt;&lt;a href=&quot;#时间规划&quot; class=&quot;headerlink&quot; title=&quot;时间规划&quot;&gt;&lt;/a&gt;时间规划&lt;/h3&gt;&lt;p&gt;在上一个版本的开发过程中，PM和各个负责人就可以开始讨论下一个版本的需求，然后项目经理和大家一起确定这个版本的研发、测试和上线的时间节点。这个时间一旦确定，就必须严格执行，如果有需求无法完成要移到下一个版本做，必须经各个负责人确认后向大家发邮件说明。&lt;/p&gt;
-&lt;h3 id=&quot;评审&quot;&gt;&lt;a href=&quot;#评审&quot; class=&quot;headerlink&quot; title=&quot;评审&quot;&gt;&lt;/a&gt;评审&lt;/h3&gt;&lt;p&gt;在我实习时，我作为开发，主要参加的就是交互的评审。这个评审的时间点在即将进入研发之前。其实主要就是交互设计师讲解交互稿，相关的开发人员提出自己的疑问，完善交互的可行性。&lt;/p&gt;
-&lt;p&gt;按理来说应该还有需求评审、设计评审和代码评审。这些在实习时，比如代码评审因为时间的原因，没有做。在木犀的项目实践中，我觉得我们可以加入这些评审。时间的节点在视觉和开发完成，即将进入测试之前。&lt;/p&gt;
-&lt;h3 id=&quot;JIRA&quot;&gt;&lt;a href=&quot;#JIRA&quot; class=&quot;headerlink&quot; title=&quot;JIRA&quot;&gt;&lt;/a&gt;JIRA&lt;/h3&gt;&lt;p&gt;JIRA是一款很有名的项目管理工具。在公司，我们一般是按需求创建Story，然后把交互、视觉和开发等任务关联到这个需求上。JIRA还有一个作用就是用来管理Bug。发现Bug的人可以提交Bug并指派给相关的责任人。JIRA有各种面板和筛选，可以方便的管理项目。&lt;/p&gt;
-&lt;p&gt;我们暂时可以用Tower的任务来发挥JIRA的作用。&lt;/p&gt;
-&lt;h3 id=&quot;测试&quot;&gt;&lt;a href=&quot;#测试&quot; class=&quot;headerlink&quot; title=&quot;测试&quot;&gt;&lt;/a&gt;测试&lt;/h3&gt;&lt;p&gt;测试主要是由专职的测试进行。测试负责编写测试用例，以及进行测试。&lt;/p&gt;
-&lt;p&gt;当然，开发人员自己的自测是第一道防线。在开发完全之后，会进行冒烟测试，由测试提供用例，开发自行测试。用例主要和这一个版本的需求有关，主要就是检测一下需求中的功能是否被实现。只有冒烟测试通过了，才能进入真正的测试阶段。&lt;/p&gt;
-&lt;p&gt;在测试人员进行测试的阶段。开发人员往往还要配合进行若干次的回归测试。同时要及时解决测试提出的Bug。&lt;/p&gt;
-&lt;p&gt;首先测试开发环境下的项目，然后是测试环境，最后是预发布环境。预发布环境测试通过且Bug都解决的情况下，就可以上线了。&lt;/p&gt;
-&lt;p&gt;对于我们这样的小团队来说，专职的测试是不太可能有的。主要就是在项目组中加入一位兼职的同学担任测试这个角色，然后各个模块的同学做到充分的自测。视觉、产品和交互进行走查（就是以用户的角度使用产品，来看是否有问题）。这样就可以保证较好的产品质量。&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这次实习，我主要学到的倒不是前端方面的东西，而主要是关于一个产品的迭代的流程。&lt;/p&gt;
-&lt;p&gt;一个产品迭代的流程大致是这样的：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;https://occc3ev3l.qnssl.com/zindex/10031.png&quot; alt=&quot;产品流程&quot;&gt;&lt;/p&gt;
     
     </summary>
     
